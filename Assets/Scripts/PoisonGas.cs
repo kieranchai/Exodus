@@ -7,6 +7,10 @@ public class PoisonGas : MonoBehaviour
     public static PoisonGas instance { get; private set; }
 
     public float expandSpeed;
+    public float damage;
+
+    private float savedTimer = 0f;
+    private float damageInterval = 1f;
 
     void Awake()
     {
@@ -25,6 +29,13 @@ public class PoisonGas : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if((Time.time - savedTimer) > damageInterval)
+            {
+                savedTimer = Time.time;
+                collision.GetComponent<PlayerScript>().TakeDamage(damage);
+            }
+        }
     }
 }

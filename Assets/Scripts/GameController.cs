@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance { get; private set; }
 
-    private enum GAME_STATE
+    public enum GAME_STATE
     {
         PAUSED,
         PLAYING,
@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
         WIN
     }
 
-    GAME_STATE currentState = GAME_STATE.PLAYING;
+    public GAME_STATE currentState = GAME_STATE.PLAYING;
 
     [SerializeField]
     private GameObject pauseScreen;
@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour
             case GAME_STATE.TUTORIAL:
                 break;
             case GAME_STATE.DEAD:
+                Debug.Log("U r Dead");
                 break;
             case GAME_STATE.WIN:
                 break;
@@ -79,7 +80,9 @@ public class GameController : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Escape)) currentState = GAME_STATE.PAUSED;
-        if (Input.GetMouseButton(0) && PlayerScript.instance.equippedWeapon) PlayerScript.instance.weaponSlot.TryAttack();
+        if (Input.GetMouseButton(0)) PlayerScript.instance.weaponSlot.TryAttack();
         if (Input.GetKeyDown(KeyCode.Tab)) PlayerScript.instance.ToggleInventoryView();
+        if (Input.GetKeyDown(KeyCode.E)) PlayerScript.instance.ToggleShopView();
+
     }
 }

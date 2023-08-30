@@ -57,7 +57,9 @@ public class WeaponScript : MonoBehaviour
     }
     public void TryAttack()
     {
-        if (!limitAttack && PlayerScript.instance.equippedWeapon)
+        if (!PlayerScript.instance.equippedWeapon) return;
+
+        if (!limitAttack)
         {
             if (!isReloading)
             {

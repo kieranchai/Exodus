@@ -14,6 +14,7 @@ public class PlayerScript : MonoBehaviour
     public float maxHealth;
     public float movementSpeed;
     public float currentHealth;
+    public float cash;
 
     public ContactFilter2D movementFilter;
     private List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
@@ -36,7 +37,10 @@ public class PlayerScript : MonoBehaviour
 
     [SerializeField] private GameObject playerPanel;
     [SerializeField] private GameObject inventoryWeaponPrefab;
+
     private bool CanSeeInventory = false;
+    public bool CanSeeShop = false;
+    public bool isInShop = false;
 
     void Awake()
     {
@@ -54,7 +58,7 @@ public class PlayerScript : MonoBehaviour
     private void Start()
     {
         SetPlayerData(_data);
-        AddWeapon(_weaponData);
+        EquipWeapon(_weaponData);
     }
 
     private void Update()
@@ -69,6 +73,15 @@ public class PlayerScript : MonoBehaviour
         this.maxHealth = playerData.health;
         this.movementSpeed = playerData.movementSpeed;
         this.currentHealth = this.maxHealth;
+        this.cash = 400;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (GameController.instance.currentState == GameController.GAME_STATE.DEAD) return;
+
+        currentHealth -= damage;
+        if (currentHealth <= 0) GameController.instance.currentState = GameController.GAME_STATE.DEAD;
     }
 
     public void EquipWeapon(Weapon weaponData)
@@ -94,17 +107,9 @@ public class PlayerScript : MonoBehaviour
 
     public void AddWeapon(Weapon weaponData)
     {
-        if (equippedWeapon)
-        {
-            inventory.Add(weaponData);
-            GameObject inventoryWeapon = Instantiate(inventoryWeaponPrefab, playerPanel.transform.GetChild(1).GetChild(0));
-            inventoryWeapon.GetComponent<InventoryWeapon>().Initialise(weaponData);
-        } else
-        {
-            equippedWeapon = weaponData;
-            weaponSlot.SetWeaponData(weaponData);
-            RefreshUI();
-        }
+        inventory.Add(weaponData);
+        GameObject inventoryWeapon = Instantiate(inventoryWeaponPrefab, playerPanel.transform.GetChild(1).GetChild(0));
+        inventoryWeapon.GetComponent<InventoryWeapon>().Initialise(weaponData);
     }
 
     public void RemoveFromInventory(Weapon weaponData)
@@ -120,9 +125,19 @@ public class PlayerScript : MonoBehaviour
 
     public void ToggleInventoryView()
     {
+        if (CanSeeShop) ToggleShopView();
+
         CanSeeInventory = !CanSeeInventory;
         playerPanel.transform.GetChild(1).gameObject.SetActive(CanSeeInventory);
         playerPanel.transform.GetChild(0).GetChild(1).gameObject.SetActive(CanSeeInventory);
+    }
+
+    public void ToggleShopView()
+    {
+        if (!isInShop) return;
+
+        if (CanSeeInventory) ToggleInventoryView();
+        CanSeeShop = !CanSeeShop;
     }
 
     public void LookAtMouse()
