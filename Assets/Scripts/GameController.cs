@@ -80,6 +80,6 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape)) currentState = GAME_STATE.PAUSED;
         if (Input.GetMouseButton(0) && PlayerScript.instance.equippedWeapon) PlayerScript.instance.weaponSlot.TryAttack();
-
+        if (Input.GetKeyDown(KeyCode.Tab)) PlayerScript.instance.ToggleInventoryView();
     }
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -20,13 +22,21 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     private Player _data;
 
+    //test
     [SerializeField]
     private Weapon _weaponData;
+    [SerializeField]
+    private Weapon _weaponData2;
+    //
 
     public WeaponScript weaponSlot;
     public Weapon equippedWeapon;
 
-    public List<Weapon> inventory = new(4);
+    public List<Weapon> inventory = new(5);
+
+    [SerializeField] private GameObject playerPanel;
+    [SerializeField] private GameObject inventoryWeaponPrefab;
+    private bool CanSeeInventory = false;
 
     void Awake()
     {
@@ -47,6 +57,12 @@ public class PlayerScript : MonoBehaviour
         AddWeapon(_weaponData);
     }
 
+    private void Update()
+    {
+        //test
+        if (Input.GetKeyDown(KeyCode.M)) AddWeapon(_weaponData2);
+    }
+
     public void SetPlayerData(Player playerData)
     {
         this.playerName = playerData.playerName;
@@ -64,6 +80,7 @@ public class PlayerScript : MonoBehaviour
         //Set equipped weapon to the weapon I want to equip
         equippedWeapon = weaponData;
         weaponSlot.SetWeaponData(weaponData);
+        RefreshUI();
     }
 
     public void SwapWeapon(Weapon weaponData)
@@ -80,16 +97,32 @@ public class PlayerScript : MonoBehaviour
         if (equippedWeapon)
         {
             inventory.Add(weaponData);
+            GameObject inventoryWeapon = Instantiate(inventoryWeaponPrefab, playerPanel.transform.GetChild(1).GetChild(0));
+            inventoryWeapon.GetComponent<InventoryWeapon>().Initialise(weaponData);
         } else
         {
             equippedWeapon = weaponData;
             weaponSlot.SetWeaponData(weaponData);
+            RefreshUI();
         }
     }
 
     public void RemoveFromInventory(Weapon weaponData)
     {
         inventory.Remove(weaponData);
+    }
+
+    public void RefreshUI()
+    {
+        playerPanel.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = equippedWeapon.weaponName;
+        playerPanel.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(equippedWeapon.thumbnailPath);
+    }
+
+    public void ToggleInventoryView()
+    {
+        CanSeeInventory = !CanSeeInventory;
+        playerPanel.transform.GetChild(1).gameObject.SetActive(CanSeeInventory);
+        playerPanel.transform.GetChild(0).GetChild(1).gameObject.SetActive(CanSeeInventory);
     }
 
     public void LookAtMouse()
