@@ -13,6 +13,7 @@ public class PlayerScript : MonoBehaviour
     public string playerName;
     public float maxHealth;
     public float movementSpeed;
+
     public float currentHealth;
     public float cash;
 
@@ -26,8 +27,6 @@ public class PlayerScript : MonoBehaviour
     //test
     [SerializeField]
     private Weapon _weaponData;
-    [SerializeField]
-    private Weapon _weaponData2;
     //
 
     public WeaponScript weaponSlot;
@@ -41,6 +40,9 @@ public class PlayerScript : MonoBehaviour
     private bool CanSeeInventory = false;
     public bool CanSeeShop = false;
     public bool isInShop = false;
+
+    public Texture2D cursor_Normal;
+    public Vector2 normalCursorHotspot;
 
     void Awake()
     {
@@ -61,17 +63,12 @@ public class PlayerScript : MonoBehaviour
         EquipWeapon(_weaponData);
     }
 
-    private void Update()
-    {
-        //test
-        if (Input.GetKeyDown(KeyCode.M)) AddWeapon(_weaponData2);
-    }
-
     public void SetPlayerData(Player playerData)
     {
         this.playerName = playerData.playerName;
         this.maxHealth = playerData.health;
         this.movementSpeed = playerData.movementSpeed;
+
         this.currentHealth = this.maxHealth;
         this.cash = 400;
     }
@@ -115,12 +112,27 @@ public class PlayerScript : MonoBehaviour
     public void RemoveFromInventory(Weapon weaponData)
     {
         inventory.Remove(weaponData);
+        RefreshUI();
     }
 
     public void RefreshUI()
     {
         playerPanel.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = equippedWeapon.weaponName;
         playerPanel.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(equippedWeapon.thumbnailPath);
+
+        foreach (Transform child in playerPanel.transform.GetChild(1).GetChild(0))
+        {
+            Destroy(child.gameObject);
+        }
+
+        if (inventory.Count > 0)
+        {
+            foreach (Weapon weapon in inventory)
+            {
+                GameObject inventoryWeapon = Instantiate(inventoryWeaponPrefab, playerPanel.transform.GetChild(1).GetChild(0));
+                inventoryWeapon.GetComponent<InventoryWeapon>().Initialise(weapon);
+            }
+        }
     }
 
     public void ToggleInventoryView()
@@ -128,6 +140,7 @@ public class PlayerScript : MonoBehaviour
         if (CanSeeShop) ToggleShopView();
 
         CanSeeInventory = !CanSeeInventory;
+        if (!CanSeeInventory) Cursor.SetCursor(cursor_Normal, normalCursorHotspot, CursorMode.Auto);
         playerPanel.transform.GetChild(1).gameObject.SetActive(CanSeeInventory);
         playerPanel.transform.GetChild(0).GetChild(1).gameObject.SetActive(CanSeeInventory);
     }
@@ -138,6 +151,7 @@ public class PlayerScript : MonoBehaviour
 
         if (CanSeeInventory) ToggleInventoryView();
         CanSeeShop = !CanSeeShop;
+        if (!CanSeeShop) Cursor.SetCursor(cursor_Normal, normalCursorHotspot, CursorMode.Auto);
     }
 
     public void LookAtMouse()
