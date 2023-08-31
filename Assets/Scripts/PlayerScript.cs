@@ -9,6 +9,7 @@ public class PlayerScript : MonoBehaviour
     public static PlayerScript instance { get; private set; }
 
     public Rigidbody2D rb;
+    public Animator anim;
 
     public string playerName;
     public float maxHealth;
@@ -66,6 +67,17 @@ public class PlayerScript : MonoBehaviour
         EquipWeapon(_weaponData);
     }
 
+    public void LateUpdate() {
+        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        {
+            anim.SetBool("isWalking", true);
+        }
+        else
+        {
+            anim.SetBool("isWalking", false);
+        }
+    }
+
     public void SetPlayerData(Player playerData)
     {
         this.playerName = playerData.playerName;
@@ -87,6 +99,7 @@ public class PlayerScript : MonoBehaviour
 
         currentHealth -= damage;
         if (currentHealth <= 0) GameController.instance.currentState = GameController.GAME_STATE.DEAD;
+        playerPanel.transform.GetChild(3).GetComponent<HealthBar>().UpdateHealthBar();
     }
 
     public void EquipWeapon(Weapon weaponData)
