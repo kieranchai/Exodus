@@ -31,6 +31,7 @@ public class ShopWeapon : MonoBehaviour
 
     public void Sell()
     {
+        Cursor.SetCursor(PlayerScript.instance.cursor_Normal, PlayerScript.instance.normalCursorHotspot, CursorMode.Auto);
         PlayerScript.instance.cash += this.weaponData.cost;
         PlayerScript.instance.RemoveFromInventory(this.weaponData);
         Destroy(gameObject);

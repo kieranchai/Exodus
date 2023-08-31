@@ -66,7 +66,12 @@ public class ShopController : MonoBehaviour
 
     public void UpdateSellInventory()
     {
-        foreach(Weapon inventoryWeapon in PlayerScript.instance.inventory)
+        foreach (Transform child in sellPanel.transform.GetChild(0))
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (Weapon inventoryWeapon in PlayerScript.instance.inventory)
         {
             GameObject shopInventoryWeapon = Instantiate(shopWeaponPrefab, sellPanel.transform.GetChild(0));
             shopInventoryWeapon.GetComponent<ShopWeapon>().Initialise(inventoryWeapon, "sell");
