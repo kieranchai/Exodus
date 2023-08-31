@@ -27,6 +27,9 @@ public class ShopWeapon : MonoBehaviour
 
         PlayerScript.instance.cash -= this.weaponData.cost;
         PlayerScript.instance.AddWeapon(this.weaponData);
+
+        //Add Ammo when buying Gun
+        PlayerScript.instance.UpdateAmmoCount(30, this.weaponData.ammoType);
     }
 
     public void Sell()

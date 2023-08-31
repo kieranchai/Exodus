@@ -4,36 +4,8 @@ using System.IO;
 
 public class CSVtoSO
 {
-    private static string enemyCSVPath = "/Assets/Editor/CSVs/EnemyCSV.csv";
     private static string playerCSVPath = "/Assets/Editor/CSVs/PlayerCSV.csv";
     private static string weaponCSVPath = "/Assets/Editor/CSVs/WeaponCSV.csv";
-
-    [MenuItem("Utilities/Generate Enemies")]
-    public static void GenerateEnemies()
-    {
-        string[] allLines = File.ReadAllLines(System.IO.Directory.GetCurrentDirectory() + enemyCSVPath);
-
-        foreach (string s in allLines)
-        {
-            string[] splitData = s.Split(',');
-
-            if (splitData.Length != 5)
-            {
-                return;
-            }
-
-            Enemy enemy = ScriptableObject.CreateInstance<Enemy>();
-            enemy.id = int.Parse(splitData[0]);
-            enemy.enemyName = splitData[1];
-            enemy.health = float.Parse(splitData[2]);
-            enemy.movementSpeed = float.Parse(splitData[3]);
-            enemy.damage = float.Parse(splitData[4]);
-
-            AssetDatabase.CreateAsset(enemy, $"Assets/Resources/ScriptableObjects/Enemies/{enemy.id}.asset");
-        }
-
-        AssetDatabase.SaveAssets();
-    }
 
     [MenuItem("Utilities/Generate Players")]
     public static void GeneratePlayers()
@@ -70,7 +42,7 @@ public class CSVtoSO
         {
             string[] splitData = s.Split(',');
 
-            if (splitData.Length != 11)
+            if (splitData.Length != 13)
             {
                 return;
             }
@@ -86,7 +58,9 @@ public class CSVtoSO
             weapon.weaponRange = float.Parse(splitData[7]);
             weapon.ammoCount = int.Parse(splitData[8]);
             weapon.cost = int.Parse(splitData[9]);
-            weapon.reloadSpeed = float.Parse(splitData[10]);
+            weapon.weight = float.Parse(splitData[10]);
+            weapon.ammoType = splitData[11];
+            weapon.inShop = splitData[12];
 
             AssetDatabase.CreateAsset(weapon, $"Assets/Resources/ScriptableObjects/Weapons/{weapon.weaponName}.asset");
         }

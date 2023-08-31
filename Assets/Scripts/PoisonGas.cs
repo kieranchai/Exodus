@@ -12,6 +12,9 @@ public class PoisonGas : MonoBehaviour
     private float savedTimer = 0f;
     private float damageInterval = 1f;
 
+    [SerializeField]
+    private Transform endLocation;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -22,9 +25,9 @@ public class PoisonGas : MonoBehaviour
         instance = this;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        transform.localScale += new Vector3(.02f * expandSpeed, .02f * expandSpeed, 0);
+        transform.position = Vector3.MoveTowards(transform.position, new Vector3(endLocation.position.x, endLocation.position.y + (gameObject.GetComponent<Collider2D>().bounds.size.y / 2)), expandSpeed * Time.deltaTime);
     }
 
     private void OnTriggerStay2D(Collider2D collision)

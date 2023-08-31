@@ -14,18 +14,13 @@ public class WeaponScript : MonoBehaviour
     public int cost;
     public int maxAmmoCount;
     public float reloadSpeed;
-    private bool isReloading;
+    public float weight;
+    public string inShop;
+    public string ammoType;
     private bool limitAttack;
-
-    public int currentAmmoCount;
 
     public void SetWeaponData(Weapon weaponData)
     {
-        if (isReloading)
-        {
-            StopAllCoroutines();
-        }
-
         this.weaponId = weaponData.weaponId;
         this.weaponName = weaponData.weaponName;
         this.attackPower = weaponData.attackPower;
@@ -36,65 +31,47 @@ public class WeaponScript : MonoBehaviour
         this.weaponRange = weaponData.weaponRange;
         this.maxAmmoCount = weaponData.ammoCount;
         this.cost = weaponData.cost;
-        this.reloadSpeed = weaponData.reloadSpeed;
-
-        // Force the gun to reload in Update upon equipping 
-        isReloading = false;
-        this.currentAmmoCount = 0;
+        this.weight = weaponData.weight;
+        this.ammoType = weaponData.ammoType;
+        this.inShop = weaponData.inShop;
 
         SpriteRenderer weaponSprite = gameObject.GetComponent<SpriteRenderer>();
         Sprite sprite = Resources.Load<Sprite>(this.spritePath);
         weaponSprite.sprite = sprite;
+
+        PlayerScript.instance.weaponWeight = this.weight;
     }
 
-    private void Update()
-    {
-        if (PlayerScript.instance.equippedWeapon && this.currentAmmoCount == 0 && isReloading == false)
-        {
-            isReloading = true;
-            StartCoroutine(Reload());
-        }
-    }
     public void TryAttack()
     {
         if (!PlayerScript.instance.equippedWeapon) return;
 
         if (!limitAttack)
         {
-            if (!isReloading)
+            switch (this.weaponType)
             {
-                switch (this.weaponType)
-                {
-                    case "line":
-                        StartCoroutine(LineAttack(this.cooldown, this.weaponRange));
-                        break;
-                    default:
-                        break;
-                }
+                case "line":
+                    StartCoroutine(LineAttack());
+                    break;
+                default:
+                    break;
             }
         }
     }
 
-    IEnumerator Reload()
-    {
-        yield return new WaitForSeconds(this.reloadSpeed);
-        this.currentAmmoCount = this.maxAmmoCount;
-        isReloading = false;
-        yield return null;
-    }
-
-    IEnumerator LineAttack(float cooldown, float weaponRange)
+    IEnumerator LineAttack()
     {
         limitAttack = true;
-        if (this.currentAmmoCount > 0)
+        if (PlayerScript.instance.ammoCount[this.ammoType] > 0)
         {
             GameObject bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Bullet"), transform.position, transform.rotation);
-            bullet.GetComponent<BulletScript>().Initialize(this.attackPower, weaponRange);
+            bullet.GetComponent<BulletScript>().Initialize(this.attackPower, this.weaponRange);
             //can add Projectile Speed to CSV (600 here)
             bullet.GetComponent<Rigidbody2D>().AddForce(transform.right * 600);
 
-            --this.currentAmmoCount;
-            yield return new WaitForSeconds(cooldown);
+            --PlayerScript.instance.ammoCount[this.ammoType];
+            PlayerScript.instance.RefreshAmmoUI();
+            yield return new WaitForSeconds(this.cooldown);
         }
         limitAttack = false;
         yield return null;

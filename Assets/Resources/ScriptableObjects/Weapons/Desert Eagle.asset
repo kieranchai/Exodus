@@ -23,3 +23,6 @@ MonoBehaviour:
   ammoCount: 6
   cost: 200
   reloadSpeed: 2
+  weight: 100
+  ammoType: HEAVY
+  inShop: YES

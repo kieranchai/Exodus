@@ -13,5 +13,7 @@ public class Weapon : ScriptableObject
     public float weaponRange;
     public int ammoCount;
     public int cost;
-    public float reloadSpeed;
+    public float weight;
+    public string ammoType;
+    public string inShop;
 }

@@ -23,8 +23,15 @@ public class CursorController : MonoBehaviour
 
     public void OnShopCursorEnter()
     {
-        if(this.gameObject.GetComponent<ShopWeapon>().type == "buy") Cursor.SetCursor(cursor_Buy, buyCursorHotspot, CursorMode.Auto);
-        if(this.gameObject.GetComponent<ShopWeapon>().type == "sell") Cursor.SetCursor(cursor_Sell, sellCursorHotspot, CursorMode.Auto);
+        if (this.gameObject.GetComponent<ShopWeapon>() != null)
+        {
+            if (this.gameObject.GetComponent<ShopWeapon>().type == "buy") Cursor.SetCursor(cursor_Buy, buyCursorHotspot, CursorMode.Auto);
+            if (this.gameObject.GetComponent<ShopWeapon>().type == "sell") Cursor.SetCursor(cursor_Sell, sellCursorHotspot, CursorMode.Auto);
+            return;
+        }
+
+        Cursor.SetCursor(cursor_Buy, buyCursorHotspot, CursorMode.Auto);
+
     }
 
     public void OnCursorExit()

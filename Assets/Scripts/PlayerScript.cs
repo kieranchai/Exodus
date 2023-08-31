@@ -29,8 +29,11 @@ public class PlayerScript : MonoBehaviour
     private Weapon _weaponData;
     //
 
+    public float weaponWeight = 1;
     public WeaponScript weaponSlot;
     public Weapon equippedWeapon;
+
+    public Dictionary<string, int> ammoCount = new Dictionary<string, int>();
 
     public List<Weapon> inventory = new(5);
 
@@ -71,6 +74,11 @@ public class PlayerScript : MonoBehaviour
 
         this.currentHealth = this.maxHealth;
         this.cash = 400;
+
+        this.ammoCount.Add("LIGHT", 0);
+        this.ammoCount.Add("MEDIUM", 0);
+        this.ammoCount.Add("HEAVY", 0);
+        RefreshAmmoUI();
     }
 
     public void TakeDamage(float damage)
@@ -115,10 +123,25 @@ public class PlayerScript : MonoBehaviour
         RefreshUI();
     }
 
+    public void UpdateAmmoCount(int ammo, string ammoType)
+    {
+        this.ammoCount[ammoType] += ammo;
+
+        RefreshAmmoUI();
+    }
+
+    public void RefreshAmmoUI()
+    {
+        playerPanel.transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = this.ammoCount["LIGHT"] + " LIGHT";
+        playerPanel.transform.GetChild(2).GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = this.ammoCount["MEDIUM"] + " MEDIUM";
+        playerPanel.transform.GetChild(2).GetChild(2).GetChild(0).GetComponent<TMP_Text>().text = this.ammoCount["HEAVY"] + " HEAVY";
+    }
+
     public void RefreshUI()
     {
         playerPanel.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = equippedWeapon.weaponName;
         playerPanel.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(equippedWeapon.thumbnailPath);
+        playerPanel.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text = equippedWeapon.ammoType;
 
         foreach (Transform child in playerPanel.transform.GetChild(1).GetChild(0))
         {
@@ -169,7 +192,7 @@ public class PlayerScript : MonoBehaviour
             direction,
             movementFilter,
             castCollisions,
-            movementSpeed * Time.fixedDeltaTime + collisionOffset);
+            movementSpeed * weaponWeight * Time.fixedDeltaTime + collisionOffset);
 
         if (count == 0)
         {

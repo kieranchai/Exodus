@@ -23,3 +23,6 @@ MonoBehaviour:
   ammoCount: 25
   cost: 600
   reloadSpeed: 2
+  weight: 500
+  ammoType: MEDIUM
+  inShop: YES

@@ -8,6 +8,9 @@ public class ShopController : MonoBehaviour
     private GameObject shopWeaponPrefab;
 
     [SerializeField]
+    private GameObject shopItemPrefab;
+
+    [SerializeField]
     private GameObject shopPanel;
 
     private GameObject buyPanel;
@@ -23,9 +26,15 @@ public class ShopController : MonoBehaviour
         Weapon[] allWeapons = Resources.LoadAll<Weapon>("ScriptableObjects/Weapons");
         foreach(Weapon weaponData in allWeapons)
         {
+            if (weaponData.inShop == "NO") continue;
             GameObject shopWeapon = Instantiate(shopWeaponPrefab, buyPanel.transform.GetChild(0));
             shopWeapon.GetComponent<ShopWeapon>().Initialise(weaponData, "buy");
         }
+
+        //Hardcode in for now
+        GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.GetChild(0));
+        shopItem.GetComponent<ShopItem>().Initialise();
+
     }
 
     private void Update()
