@@ -8,17 +8,19 @@ public class EnemyScript : MonoBehaviour
 
     NavMeshAgent agent;
     public Animator anim;
-    public Rigidbody2D rb;
-
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        anim.SetBool("isWalking", true);
     }
     void Update()
     {
+        if (agent.velocity.magnitude > 0) {
+            anim.SetBool("isWalking", true);
+        }else {
+            anim.SetBool("isWalking", false);
+        }
         agent.SetDestination(PlayerScript.instance.transform.position);
         transform.up = (PlayerScript.instance.transform.position - new Vector3(transform.position.x, transform.position.y));
     }
