@@ -22,7 +22,6 @@ MonoBehaviour:
   weaponRange: 8
   ammoCount: 25
   cost: 600
-  reloadSpeed: 2
-  weight: 500
+  weight: 0.5
   ammoType: MEDIUM
   inShop: YES

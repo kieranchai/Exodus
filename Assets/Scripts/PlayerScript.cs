@@ -209,7 +209,7 @@ public class PlayerScript : MonoBehaviour
 
         if (count == 0)
         {
-            Vector2 moveVector = direction * movementSpeed * Time.fixedDeltaTime;
+            Vector2 moveVector = direction * weaponWeight * movementSpeed * Time.fixedDeltaTime;
 
             rb.MovePosition(rb.position + moveVector);
             return true;

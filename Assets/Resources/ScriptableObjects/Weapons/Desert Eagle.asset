@@ -22,7 +22,6 @@ MonoBehaviour:
   weaponRange: 8
   ammoCount: 6
   cost: 200
-  reloadSpeed: 2
-  weight: 100
+  weight: 0.9
   ammoType: HEAVY
   inShop: YES
