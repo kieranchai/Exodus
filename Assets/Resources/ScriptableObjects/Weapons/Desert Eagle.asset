@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
   m_Name: Desert Eagle
   m_EditorClassIdentifier: 
-  weaponId: 2
+  id: 2
   weaponName: Desert Eagle
   attackPower: 6
   spritePath: Sprites/testWeaponSprite2
@@ -20,8 +20,8 @@ MonoBehaviour:
   weaponType: line
   cooldown: 0.7
   weaponRange: 8
-  ammoCount: 6
-  cost: 200
-  weight: 0.9
+  defaultAmmo: 20
+  cost: 120
+  weight: 0.4
   ammoType: HEAVY
   inShop: YES

@@ -14,6 +14,10 @@ public class PlayerScript : MonoBehaviour
     public string playerName;
     public float maxHealth;
     public float movementSpeed;
+    public int lightAmmoCap;
+    public int mediumAmmoCap;
+    public int heavyAmmoCap;
+    public string defaultWeapon;
 
     public float currentHealth;
     public float cash;
@@ -25,12 +29,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     private Player _data;
 
-    //test
-    [SerializeField]
-    private Weapon _weaponData;
-    //
-
-    public float weaponWeight = 1;
+    public float weaponWeight = 0;
     public WeaponScript weaponSlot;
     public Weapon equippedWeapon;
 
@@ -64,7 +63,7 @@ public class PlayerScript : MonoBehaviour
     private void Start()
     {
         SetPlayerData(_data);
-        EquipWeapon(_weaponData);
+        EquipWeapon(Resources.Load<Weapon>($"ScriptableObjects/Weapons/{this.defaultWeapon}"));
     }
 
     public void LateUpdate() {
@@ -83,6 +82,10 @@ public class PlayerScript : MonoBehaviour
         this.playerName = playerData.playerName;
         this.maxHealth = playerData.health;
         this.movementSpeed = playerData.movementSpeed;
+        this.lightAmmoCap = playerData.lightAmmoCap;
+        this.mediumAmmoCap = playerData.mediumAmmoCap;
+        this.heavyAmmoCap = playerData.heavyAmmoCap;
+        this.defaultWeapon = playerData.defaultWeapon;
 
         this.currentHealth = this.maxHealth;
         this.cash = 400;
@@ -138,8 +141,36 @@ public class PlayerScript : MonoBehaviour
 
     public void UpdateAmmoCount(int ammo, string ammoType)
     {
+        switch (ammoType)
+        {
+            case "LIGHT":
+                if (this.ammoCount[ammoType] + ammo >= this.lightAmmoCap)
+                {
+                    this.ammoCount[ammoType] = this.lightAmmoCap;
+                    RefreshAmmoUI();
+                    return;
+                }
+                break;
+            case "MEDIUM":
+                if (this.ammoCount[ammoType] + ammo >= this.mediumAmmoCap)
+                {
+                    this.ammoCount[ammoType] = this.mediumAmmoCap;
+                    RefreshAmmoUI();
+                    return;
+                }
+                break;
+            case "HEAVY":
+                if (this.ammoCount[ammoType] + ammo >= this.heavyAmmoCap)
+                {
+                    this.ammoCount[ammoType] = this.heavyAmmoCap;
+                    RefreshAmmoUI();
+                    return;
+                }
+                break;
+            default:
+                break;
+        }
         this.ammoCount[ammoType] += ammo;
-
         RefreshAmmoUI();
     }
 
@@ -205,11 +236,11 @@ public class PlayerScript : MonoBehaviour
             direction,
             movementFilter,
             castCollisions,
-            movementSpeed * weaponWeight * Time.fixedDeltaTime + collisionOffset);
+            (movementSpeed - weaponWeight) * Time.fixedDeltaTime + collisionOffset);
 
         if (count == 0)
         {
-            Vector2 moveVector = direction * weaponWeight * movementSpeed * Time.fixedDeltaTime;
+            Vector2 moveVector = direction * (movementSpeed - weaponWeight) * Time.fixedDeltaTime;
 
             rb.MovePosition(rb.position + moveVector);
             return true;

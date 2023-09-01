@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: 1
   m_EditorClassIdentifier: 
   id: 1
-  playerName: Joe
-  health: 5
-  movementSpeed: 3
+  playerName: Jonesy
+  health: 100
+  movementSpeed: 5
+  lightAmmoCap: 100
+  mediumAmmoCap: 100
+  heavyAmmoCap: 100
+  defaultWeapon: M4 Tactical

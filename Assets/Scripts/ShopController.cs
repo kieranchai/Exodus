@@ -16,7 +16,7 @@ public class ShopController : MonoBehaviour
     private GameObject buyPanel;
     private GameObject sellPanel;
 
-    private void Start()
+    private void Awake()
     {
         buyPanel = shopPanel.transform.GetChild(2).gameObject;
         buyPanel.SetActive(true);
@@ -24,27 +24,38 @@ public class ShopController : MonoBehaviour
         sellPanel.SetActive(false);
 
         Weapon[] allWeapons = Resources.LoadAll<Weapon>("ScriptableObjects/Weapons");
-        foreach(Weapon weaponData in allWeapons)
+        foreach (Weapon weaponData in allWeapons)
         {
             if (weaponData.inShop == "NO") continue;
             GameObject shopWeapon = Instantiate(shopWeaponPrefab, buyPanel.transform.GetChild(0));
             shopWeapon.GetComponent<ShopWeapon>().Initialise(weaponData, "buy");
         }
 
-        //Hardcode in for now
-        GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.GetChild(0));
-        shopItem.GetComponent<ShopItem>().Initialise();
-
+        Item[] allItems = Resources.LoadAll<Item>("ScriptableObjects/Items");
+        foreach (Item itemData in allItems)
+        {
+            if (itemData.inShop == "NO") continue;
+            GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.GetChild(0));
+            shopItem.GetComponent<ShopItem>().Initialise(itemData);
+        }
     }
 
     private void Update()
     {
-        if(PlayerScript.instance.CanSeeShop) shopPanel.SetActive(true); else shopPanel.SetActive(false);
+        if (PlayerScript.instance.CanSeeShop)
+        {
+            shopPanel.SetActive(true);
+        }
+        else
+        {
+            shopPanel.SetActive(false);
+            shopPanel.transform.Find("Item Detail Panel").gameObject.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
             PlayerScript.instance.isInShop = true;
         }
@@ -56,7 +67,7 @@ public class ShopController : MonoBehaviour
         {
             PlayerScript.instance.isInShop = false;
             PlayerScript.instance.CanSeeShop = false;
-            Cursor.SetCursor(PlayerScript.instance.cursor_Normal, PlayerScript.instance.normalCursorHotspot, CursorMode.Auto); 
+            Cursor.SetCursor(PlayerScript.instance.cursor_Normal, PlayerScript.instance.normalCursorHotspot, CursorMode.Auto);
         }
     }
 

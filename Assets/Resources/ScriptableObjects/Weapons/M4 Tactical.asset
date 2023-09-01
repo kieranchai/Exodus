@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
   m_Name: M4 Tactical
   m_EditorClassIdentifier: 
-  weaponId: 1
+  id: 1
   weaponName: M4 Tactical
   attackPower: 3
   spritePath: Sprites/testWeaponSprite
@@ -20,8 +20,8 @@ MonoBehaviour:
   weaponType: line
   cooldown: 0.2
   weaponRange: 8
-  ammoCount: 25
-  cost: 600
-  weight: 0.5
+  defaultAmmo: 60
+  cost: 250
+  weight: 0.8
   ammoType: MEDIUM
   inShop: YES

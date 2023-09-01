@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class WeaponScript : MonoBehaviour
 {
-    public int weaponId;
+    public int id;
     public string weaponName;
     public float attackPower;
     public string spritePath;
@@ -12,7 +12,7 @@ public class WeaponScript : MonoBehaviour
     public float cooldown;
     public float weaponRange;
     public int cost;
-    public int maxAmmoCount;
+    public int defaultAmmo;
     public float reloadSpeed;
     public float weight;
     public string inShop;
@@ -21,7 +21,7 @@ public class WeaponScript : MonoBehaviour
 
     public void SetWeaponData(Weapon weaponData)
     {
-        this.weaponId = weaponData.weaponId;
+        this.id = weaponData.id;
         this.weaponName = weaponData.weaponName;
         this.attackPower = weaponData.attackPower;
         this.spritePath = weaponData.spritePath;
@@ -29,7 +29,7 @@ public class WeaponScript : MonoBehaviour
         this.weaponType = weaponData.weaponType;
         this.cooldown = weaponData.cooldown;
         this.weaponRange = weaponData.weaponRange;
-        this.maxAmmoCount = weaponData.ammoCount;
+        this.defaultAmmo = weaponData.defaultAmmo;
         this.cost = weaponData.cost;
         this.weight = weaponData.weight;
         this.ammoType = weaponData.ammoType;
