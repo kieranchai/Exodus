@@ -1913,6 +1913,7 @@ GameObject:
   - component: {fileID: 413252142}
   - component: {fileID: 413252144}
   - component: {fileID: 413252143}
+  - component: {fileID: 413252145}
   m_Layer: 5
   m_Name: Weapon Slots
   m_TagString: Untagged
@@ -1934,11 +1935,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 38703066}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00053406, y: 0.0003111547}
-  m_SizeDelta: {x: 806.23, y: 893.36}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -0.000015256403, y: 0}
+  m_SizeDelta: {x: 806.23, y: 40}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &413252143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1973,6 +1974,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 413252141}
   m_CullTransparentMesh: 1
+--- !u!114 &413252145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413252141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &481058138
 GameObject:
   m_ObjectHideFlags: 0
@@ -11583,6 +11598,7 @@ GameObject:
   - component: {fileID: 2037515664}
   - component: {fileID: 2037515666}
   - component: {fileID: 2037515665}
+  - component: {fileID: 2037515667}
   m_Layer: 5
   m_Name: Item Slots
   m_TagString: Untagged
@@ -11604,11 +11620,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1692430536}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00051116943, y: -553.04016}
-  m_SizeDelta: {x: 806.2, y: 2000.6597}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -0.0000076293945, y: 0}
+  m_SizeDelta: {x: 806.2, y: 40}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2037515665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11643,6 +11659,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2037515663}
   m_CullTransparentMesh: 1
+--- !u!114 &2037515667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037515663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &2050684124
 GameObject:
   m_ObjectHideFlags: 0
@@ -11788,6 +11818,7 @@ GameObject:
   - component: {fileID: 2084082223}
   - component: {fileID: 2084082225}
   - component: {fileID: 2084082224}
+  - component: {fileID: 2084082226}
   m_Layer: 5
   m_Name: Weapon Slots
   m_TagString: Untagged
@@ -11809,11 +11840,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1384294845}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00051116943, y: -553.04016}
-  m_SizeDelta: {x: 806.2, y: 2000.6597}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 806.19995, y: 40}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2084082224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11848,6 +11879,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2084082222}
   m_CullTransparentMesh: 1
+--- !u!114 &2084082226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084082222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &2086352408
 GameObject:
   m_ObjectHideFlags: 0
