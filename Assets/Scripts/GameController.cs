@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance { get; private set; }
     public bool isOverUI = false;
+    public BoxCollider2D LowTierZone;
 
     public enum GAME_STATE
     {

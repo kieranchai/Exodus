@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -27,6 +28,7 @@ public class EnemyScript : MonoBehaviour
 
     private float timer = 0;
     private float duration = 3f;
+    public float returnDuration;
 
     [SerializeField]
     private float sightRange = 7f;
@@ -45,7 +47,8 @@ public class EnemyScript : MonoBehaviour
         WANDER,
         CHASE,
         ATTACK,
-        DEAD
+        DEAD,
+        RETURN
     }
 
     ENEMY_STATE currentState = ENEMY_STATE.WANDER;
@@ -88,6 +91,9 @@ public class EnemyScript : MonoBehaviour
             case ENEMY_STATE.DEAD:
                 Dead();
                 break;
+            case ENEMY_STATE.RETURN:
+                ReturnToZone();
+                break;
             default:
                 break;
         }
@@ -123,6 +129,23 @@ public class EnemyScript : MonoBehaviour
             finalPosition = hit.position;
         }
         return finalPosition;
+    }
+
+    public void ReturnToZone() {
+        UnityEngine.Vector3 target = RandomPointInZone(GameController.instance.LowTierZone.bounds);
+        agent.SetDestination(target);
+        transform.up = (target - new UnityEngine.Vector3(transform.position.x, transform.position.y));
+        if (agent.remainingDistance > agent.stoppingDistance) {
+            this.currentState = ENEMY_STATE.WANDER;
+        }
+    }
+
+    public UnityEngine.Vector3 RandomPointInZone(Bounds bounds) {
+        return new UnityEngine.Vector3(
+            Random.Range(bounds.min.x, bounds.max.x),
+            Random.Range(bounds.min.y, bounds.max.y),
+            Random.Range(bounds.min.z, bounds.max.z)
+        );
     }
     public void Wander()
     {
@@ -176,7 +199,7 @@ public class EnemyScript : MonoBehaviour
         bool inRange = UnityEngine.Vector3.Distance(PlayerScript.instance.transform.position, transform.position) <= this.sightRange;
         float sightAngle = UnityEngine.Vector2.Angle(PlayerScript.instance.transform.position - transform.position, transform.up);
 
-        int mask1 = 1 << LayerMask.NameToLayer("Tilemap Colliders");
+        int mask1 = 1 << LayerMask.NameToLayer("Tilemap Collider");
         int mask2 = 1 << LayerMask.NameToLayer("Safe Zone");
         int combinedMask = mask1 | mask2;
 
@@ -232,5 +255,15 @@ public class EnemyScript : MonoBehaviour
         /*        enemySprite.sprite = Resources.Load<Sprite>($"Sprites/{this.enemyName}_Death");*/
 
         Destroy(gameObject, 4f);
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Low Tier Zone")
+        {
+            if (this.currentState == ENEMY_STATE.WANDER) {
+                this.currentState = ENEMY_STATE.RETURN;
+            }
+        }
     }
 }
