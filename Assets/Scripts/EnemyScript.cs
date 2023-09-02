@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,6 +10,12 @@ public class EnemyScript : MonoBehaviour
     private Animator anim;
     private Collider2D enemyCollider;
     private SpriteRenderer enemySprite;
+    private UnityEngine.Vector2 wanderWaypoint;
+
+    // [SerializeField]
+    // private float wanderDistance;
+    // [SerializeField]
+    // private float wanderRange;
 
     private string enemyName;
     private float maxHealth;
@@ -29,6 +36,9 @@ public class EnemyScript : MonoBehaviour
 
     public Weapon equippedWeapon;
     public EnemyWeaponScript weaponSlot;
+
+    [SerializeField]
+    private float wanderRadius;
 
     public enum ENEMY_STATE
     {
@@ -102,9 +112,27 @@ public class EnemyScript : MonoBehaviour
         this.weaponSlot.SetWeaponData(weaponData);
     }
 
+
+    public UnityEngine.Vector3 RandomNavMeshLocation()
+    {
+        UnityEngine.Vector3 finalPosition = UnityEngine.Vector3.zero;
+        UnityEngine.Vector3 randomPosition = Random.insideUnitSphere * wanderRadius;
+        randomPosition += transform.position;
+        if (NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, wanderRadius, 1))
+        {
+            finalPosition = hit.position;
+        }
+        return finalPosition;
+    }
     public void Wander()
     {
-        //Wander
+
+        if (agent.remainingDistance <= agent.stoppingDistance)
+        {
+            UnityEngine.Vector3 target = RandomNavMeshLocation();
+            agent.SetDestination(target);
+            transform.up = (target - new UnityEngine.Vector3(transform.position.x, transform.position.y));
+        }
 
         if (PlayerInSight())
         {
@@ -115,7 +143,7 @@ public class EnemyScript : MonoBehaviour
     public void Chase()
     {
         agent.SetDestination(PlayerScript.instance.transform.position);
-        transform.up = (PlayerScript.instance.transform.position - new Vector3(transform.position.x, transform.position.y));
+        transform.up = (PlayerScript.instance.transform.position - new UnityEngine.Vector3(transform.position.x, transform.position.y));
 
         if (PlayerInSight())
         {
@@ -139,14 +167,14 @@ public class EnemyScript : MonoBehaviour
         {
             this.currentState = ENEMY_STATE.CHASE;
         }
-
+        transform.up = (PlayerScript.instance.transform.position - new UnityEngine.Vector3(transform.position.x, transform.position.y));
         this.weaponSlot.TryAttack();
     }
 
     public bool PlayerInSight()
     {
-        bool inRange = Vector3.Distance(PlayerScript.instance.transform.position, transform.position) <= this.sightRange;
-        float sightAngle = Vector2.Angle(PlayerScript.instance.transform.position - transform.position, transform.up);
+        bool inRange = UnityEngine.Vector3.Distance(PlayerScript.instance.transform.position, transform.position) <= this.sightRange;
+        float sightAngle = UnityEngine.Vector2.Angle(PlayerScript.instance.transform.position - transform.position, transform.up);
 
         int mask1 = 1 << LayerMask.NameToLayer("Tilemap Colliders");
         int mask2 = 1 << LayerMask.NameToLayer("Safe Zone");
@@ -163,7 +191,7 @@ public class EnemyScript : MonoBehaviour
 
     public bool PlayerInRange()
     {
-        if (Vector3.Distance(PlayerScript.instance.transform.position, transform.position) <= this.equippedWeapon.weaponRange)
+        if (UnityEngine.Vector3.Distance(PlayerScript.instance.transform.position, transform.position) <= this.equippedWeapon.weaponRange)
         {
             return true;
         }
@@ -200,7 +228,7 @@ public class EnemyScript : MonoBehaviour
         enemyCollider.enabled = false;
 
         // Change Enemy Sprite to Death Sprite
-/*        enemySprite.sprite = Resources.Load<Sprite>($"Sprites/{this.enemyName}_Death");*/
+        /*        enemySprite.sprite = Resources.Load<Sprite>($"Sprites/{this.enemyName}_Death");*/
 
         Destroy(gameObject, 4f);
     }
