@@ -218,7 +218,8 @@ public class EnemyScript : MonoBehaviour
     public void DeathEvent()
     {
         // Drop XP, Cash, Loot
-
+        PlayerScript.instance.UpdateExperience(xpDrop);
+        PlayerScript.instance.UpdateCash(cashDrop);
         this.currentState = ENEMY_STATE.DEAD;
     }
 

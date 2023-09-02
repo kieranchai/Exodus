@@ -22,6 +22,8 @@ public class PlayerScript : MonoBehaviour
 
     public float currentHealth;
     public float cash;
+    public float experience;
+    public int level;
 
     public ContactFilter2D movementFilter;
     private List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
@@ -89,6 +91,8 @@ public class PlayerScript : MonoBehaviour
 
         this.currentHealth = this.maxHealth;
         this.cash = 400;
+        this.experience = 0;
+        this.level = 0;
 
         this.ammoCount.Add("LIGHT", 0);
         this.ammoCount.Add("MEDIUM", 0);
@@ -104,7 +108,20 @@ public class PlayerScript : MonoBehaviour
         if (currentHealth <= 0) GameController.instance.currentState = GameController.GAME_STATE.DEAD;
         playerPanel.transform.Find("HealthBar").GetComponent<HealthBar>().UpdateHealthBar();
     }
+    
+    public void UpdateExperience(float experience) {
+        this.experience += experience;
+        
+        //hardcode 
+        if (this.experience > 100) {
+            this.experience = 0;
+            this.level++;
+        }
+    }
 
+    public void UpdateCash(float cash) {
+        this.cash += cash;
+    }
     public void EquipWeapon(Weapon weaponData)
     {
         if (equippedWeapon)
