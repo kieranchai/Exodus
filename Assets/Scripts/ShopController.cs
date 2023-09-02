@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
 
 public class ShopController : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject shopWeaponPrefab;
-
     [SerializeField]
     private GameObject shopItemPrefab;
 
@@ -27,8 +25,8 @@ public class ShopController : MonoBehaviour
         foreach (Weapon weaponData in allWeapons)
         {
             if (weaponData.inShop == "NO") continue;
-            GameObject shopWeapon = Instantiate(shopWeaponPrefab, buyPanel.transform.GetChild(0));
-            shopWeapon.GetComponent<ShopWeapon>().Initialise(weaponData, "buy");
+            GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.GetChild(0));
+            shopItem.GetComponent<ShopItem>().Initialise(weaponData, "buy");
         }
 
         Item[] allItems = Resources.LoadAll<Item>("ScriptableObjects/Items");
@@ -36,7 +34,7 @@ public class ShopController : MonoBehaviour
         {
             if (itemData.inShop == "NO") continue;
             GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.GetChild(0));
-            shopItem.GetComponent<ShopItem>().Initialise(itemData);
+            shopItem.GetComponent<ShopItem>().Initialise(itemData, "buy");
         }
     }
 
@@ -67,7 +65,6 @@ public class ShopController : MonoBehaviour
         {
             PlayerScript.instance.isInShop = false;
             PlayerScript.instance.CanSeeShop = false;
-            Cursor.SetCursor(PlayerScript.instance.cursor_Normal, PlayerScript.instance.normalCursorHotspot, CursorMode.Auto);
         }
     }
 
@@ -91,10 +88,10 @@ public class ShopController : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        foreach (Weapon inventoryWeapon in PlayerScript.instance.inventory)
+        foreach (KeyValuePair<ScriptableObject, int> item in PlayerScript.instance.inventory)
         {
-            GameObject shopInventoryWeapon = Instantiate(shopWeaponPrefab, sellPanel.transform.GetChild(0));
-            shopInventoryWeapon.GetComponent<ShopWeapon>().Initialise(inventoryWeapon, "sell");
+            GameObject shopInventoryItem = Instantiate(shopItemPrefab, sellPanel.transform.GetChild(0));
+            shopInventoryItem.GetComponent<ShopItem>().Initialise(item.Key, "sell");
         }
     }
 }

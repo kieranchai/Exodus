@@ -4,16 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ShopItem : MonoBehaviour
+public class InventoryItem : MonoBehaviour
 {
     [SerializeField] private TMP_Text Name;
-    [SerializeField] private TMP_Text Cost;
+    [SerializeField] private TMP_Text Count;
 
     private string itemName;
     private string description;
     private string thumbnailPath;
-    private float cost;
-    private string type;
 
     private string itemType;
     private string primaryValue;
@@ -29,20 +27,19 @@ public class ShopItem : MonoBehaviour
     private Item itemData;
     private GameObject itemDetailPanel;
 
-    public void Initialise(ScriptableObject itemData, string type)
+    public void Initialise(ScriptableObject itemData)
     {
         if (itemData.GetType().IsAssignableFrom(typeof(Weapon)))
         {
             this.weaponData = (Weapon)itemData;
 
             this.Name.text = this.weaponData.weaponName;
-            this.Cost.text = $"${this.weaponData.cost}";
-            gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(this.weaponData.thumbnailPath);
+            this.Count.text = PlayerScript.instance.inventory[itemData].ToString();
+            gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(weaponData.thumbnailPath);
 
             this.itemName = this.weaponData.weaponName;
             /*            this.description = this.weaponData.description;*/
             this.thumbnailPath = this.weaponData.thumbnailPath;
-            this.cost = this.weaponData.cost;
 
             this.attackPower = this.weaponData.attackPower;
             this.cooldown = this.weaponData.cooldown;
@@ -51,31 +48,27 @@ public class ShopItem : MonoBehaviour
             this.ammoType = this.weaponData.ammoType;
             this.itemType = null;
 
-            this.type = type;
-
             this.itemDetailPanel = gameObject.transform.parent.parent.parent.Find("Item Detail Panel").gameObject;
-            gameObject.transform.GetComponent<Button>().onClick.AddListener(() => Select(this.type, true));
+            gameObject.transform.GetComponent<Button>().onClick.AddListener(() => Select(true));
         }
 
         if (itemData.GetType().IsAssignableFrom(typeof(Item)))
         {
             this.itemData = (Item)itemData;
             this.Name.text = this.itemData.itemName;
-            this.Cost.text = $"${this.itemData.cost}";
+            this.Count.text = PlayerScript.instance.inventory[itemData].ToString();
             gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(this.itemData.thumbnailPath);
+
 
             this.itemName = this.itemData.itemName;
             this.itemType = this.itemData.type;
             this.primaryValue = this.itemData.primaryValue;
             this.secondaryValue = this.itemData.secondaryValue;
-            this.cost = this.itemData.cost;
             this.thumbnailPath = this.itemData.thumbnailPath;
             this.description = FormatDescription(this.itemData.description);
 
-            this.type = type;
-
             this.itemDetailPanel = gameObject.transform.parent.parent.parent.Find("Item Detail Panel").gameObject;
-            gameObject.transform.GetComponent<Button>().onClick.AddListener(() => Select(this.type, false));
+            gameObject.transform.GetComponent<Button>().onClick.AddListener(() => Select(false));
         }
     }
 
@@ -88,24 +81,12 @@ public class ShopItem : MonoBehaviour
         return formattedDesc;
     }
 
-    public void Select(string type, bool isWeapon)
+    public void Select(bool isWeapon)
     {
         this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.RemoveAllListeners();
         this.itemDetailPanel.transform.Find("Item Name").GetComponent<TMP_Text>().text = this.itemName;
         this.itemDetailPanel.transform.Find("Item Description").GetComponent<TMP_Text>().text = this.description;
-        this.itemDetailPanel.transform.Find("Item Cost").GetComponent<TMP_Text>().text = $"${this.cost}";
         this.itemDetailPanel.transform.Find("Item Thumbnail").GetComponent<Image>().sprite = Resources.Load<Sprite>(this.thumbnailPath);
-
-        if (type == "buy")
-        {
-            this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "PURCHASE";
-            this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => Buy(this.itemType));
-        }
-        else
-        {
-            this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "SELL";
-            this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => Sell());
-        }
 
         foreach (Transform child in this.itemDetailPanel.transform)
         {
@@ -114,6 +95,9 @@ public class ShopItem : MonoBehaviour
 
         if (isWeapon)
         {
+            this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "EQUIP";
+            this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => Swap());
+
             this.itemDetailPanel.transform.Find("Weapon AP").GetComponent<TMP_Text>().text = this.attackPower.ToString();
             this.itemDetailPanel.transform.Find("Weapon CD").GetComponent<TMP_Text>().text = this.cooldown.ToString();
             this.itemDetailPanel.transform.Find("Weapon Range").GetComponent<TMP_Text>().text = this.range.ToString();
@@ -125,50 +109,34 @@ public class ShopItem : MonoBehaviour
                 if (child.name.Contains("Weapon")) child.gameObject.SetActive(true);
             }
         }
+        else
+        {
+            this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "USE";
+            this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => Use());
+        }
 
         this.itemDetailPanel.SetActive(true);
     }
 
-    public void Buy(string itemType)
+    public void Use()
     {
-        if (PlayerScript.instance.cash < this.cost) return;
+        //Item effect
+        Debug.Log("Used");
 
-        switch (itemType)
+        PlayerScript.instance.RemoveFromInventory(this.itemData);
+        if (!PlayerScript.instance.inventory.ContainsKey(this.itemData))
         {
-            case "LIGHT AMMO":
-                if (PlayerScript.instance.ammoCount["LIGHT"] + int.Parse(this.primaryValue) == PlayerScript.instance.lightAmmoCap) return;
-                PlayerScript.instance.UpdateAmmoCount(int.Parse(this.primaryValue), "LIGHT");
-                break;
-            case "MEDIUM AMMO":
-                if (PlayerScript.instance.ammoCount["MEDIUM"] + int.Parse(this.primaryValue) == PlayerScript.instance.lightAmmoCap) return;
-                PlayerScript.instance.UpdateAmmoCount(int.Parse(this.primaryValue), "MEDIUM");
-                break;
-            case "HEAVY AMMO":
-                if (PlayerScript.instance.ammoCount["HEAVY"] + int.Parse(this.primaryValue) == PlayerScript.instance.lightAmmoCap) return;
-                PlayerScript.instance.UpdateAmmoCount(int.Parse(this.primaryValue), "HEAVY");
-                break;
-            case "SMALL HEALTH":
-                PlayerScript.instance.AddToInventory(this.itemData);
-                break;
-            case "BIG HEALTH":
-                break;
-            case "MOVEMENT SPEED":
-                break;
-            case "GAS":
-                break;
-            default:
-                if (PlayerScript.instance.inventory.ContainsKey(this.weaponData) || PlayerScript.instance.equippedWeapon == this.weaponData) return;
-                PlayerScript.instance.AddToInventory(this.weaponData);
-                PlayerScript.instance.UpdateAmmoCount(this.weaponData.defaultAmmo, this.weaponData.ammoType);
-                break;
+            this.itemDetailPanel.SetActive(false);
+            Destroy(gameObject);
+            return;
         }
-        PlayerScript.instance.cash -= this.cost;
+        this.Count.text = PlayerScript.instance.inventory[itemData].ToString();
     }
 
-    public void Sell()
+    public void Swap()
     {
-        PlayerScript.instance.cash += this.weaponData.cost;
-        PlayerScript.instance.RemoveFromInventory(this.weaponData);
+        PlayerScript.instance.EquipWeapon(this.weaponData);
+        this.itemDetailPanel.SetActive(false);
         Destroy(gameObject);
     }
 }

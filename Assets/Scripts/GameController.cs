@@ -7,6 +7,7 @@ using System;
 public class GameController : MonoBehaviour
 {
     public static GameController instance { get; private set; }
+    public bool isOverUI = false;
 
     public enum GAME_STATE
     {
@@ -80,9 +81,18 @@ public class GameController : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Escape)) currentState = GAME_STATE.PAUSED;
-        if (Input.GetMouseButton(0)) PlayerScript.instance.weaponSlot.TryAttack();
+        if (Input.GetMouseButton(0) && !isOverUI) PlayerScript.instance.weaponSlot.TryAttack();
         if (Input.GetKeyDown(KeyCode.Tab)) PlayerScript.instance.ToggleInventoryView();
         if (Input.GetKeyDown(KeyCode.E)) PlayerScript.instance.ToggleShopView();
+    }
 
+    public void CursorIsOverUI()
+    {
+        isOverUI = true;
+    }
+
+    public void CursorNotOverUI()
+    {
+        isOverUI = false;
     }
 }

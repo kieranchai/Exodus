@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Xml;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -33,19 +34,16 @@ public class PlayerScript : MonoBehaviour
     public WeaponScript weaponSlot;
     public Weapon equippedWeapon;
 
-    public Dictionary<string, int> ammoCount = new Dictionary<string, int>();
+    public Dictionary<string, int> ammoCount = new();
 
-    public List<Weapon> inventory = new(5);
+    public Dictionary<ScriptableObject, int> inventory = new();
 
     [SerializeField] private GameObject playerPanel;
-    [SerializeField] private GameObject inventoryWeaponPrefab;
+    [SerializeField] private GameObject inventoryItemPrefab;
 
     private bool CanSeeInventory = false;
     public bool CanSeeShop = false;
     public bool isInShop = false;
-
-    public Texture2D cursor_Normal;
-    public Vector2 normalCursorHotspot;
 
     void Awake()
     {
@@ -64,9 +62,11 @@ public class PlayerScript : MonoBehaviour
     {
         SetPlayerData(_data);
         EquipWeapon(Resources.Load<Weapon>($"ScriptableObjects/Weapons/{this.defaultWeapon}"));
+        UpdateAmmoCount(this.equippedWeapon.defaultAmmo, this.equippedWeapon.ammoType);
     }
 
-    public void LateUpdate() {
+    public void LateUpdate()
+    {
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
             anim.SetBool("isWalking", true);
@@ -102,7 +102,7 @@ public class PlayerScript : MonoBehaviour
 
         currentHealth -= damage;
         if (currentHealth <= 0) GameController.instance.currentState = GameController.GAME_STATE.DEAD;
-        playerPanel.transform.GetChild(3).GetComponent<HealthBar>().UpdateHealthBar();
+        playerPanel.transform.Find("HealthBar").GetComponent<HealthBar>().UpdateHealthBar();
     }
 
     public void EquipWeapon(Weapon weaponData)
@@ -122,21 +122,37 @@ public class PlayerScript : MonoBehaviour
         //Remove weapon that I want to equip from Inventory
         RemoveFromInventory(weaponData);
         //Add currently equipped weapon to inventory and remove from equipped
-        AddWeapon(this.equippedWeapon);
+        AddToInventory(this.equippedWeapon);
         equippedWeapon = null;
     }
 
-    public void AddWeapon(Weapon weaponData)
+    public void AddToInventory(ScriptableObject itemData)
     {
-        inventory.Add(weaponData);
-        GameObject inventoryWeapon = Instantiate(inventoryWeaponPrefab, playerPanel.transform.GetChild(1).GetChild(0));
-        inventoryWeapon.GetComponent<InventoryWeapon>().Initialise(weaponData);
+        if (!inventory.ContainsKey(itemData))
+        {
+            inventory.Add(itemData, 1);
+        }
+        else
+        {
+            ++inventory[itemData];
+        }
+
+        GameObject inventoryItem = Instantiate(inventoryItemPrefab, playerPanel.transform.Find("Inventory Panel").Find("Inventory Items Panel").Find("Item Slots"));
+        inventoryItem.GetComponent<InventoryItem>().Initialise(itemData);
+        RefreshUI();
     }
 
-    public void RemoveFromInventory(Weapon weaponData)
+    public void RemoveFromInventory(ScriptableObject itemData)
     {
-        inventory.Remove(weaponData);
-        RefreshUI();
+        if (inventory[itemData] == 1)
+        {
+            inventory.Remove(itemData);
+            RefreshUI();
+        }
+        else
+        {
+            --inventory[itemData];
+        }
     }
 
     public void UpdateAmmoCount(int ammo, string ammoType)
@@ -176,28 +192,27 @@ public class PlayerScript : MonoBehaviour
 
     public void RefreshAmmoUI()
     {
-        playerPanel.transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = this.ammoCount["LIGHT"] + " LIGHT";
-        playerPanel.transform.GetChild(2).GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = this.ammoCount["MEDIUM"] + " MEDIUM";
-        playerPanel.transform.GetChild(2).GetChild(2).GetChild(0).GetComponent<TMP_Text>().text = this.ammoCount["HEAVY"] + " HEAVY";
+        playerPanel.transform.Find("Ammo Count").Find("LIGHT").Find("Count").GetComponent<TMP_Text>().text = this.ammoCount["LIGHT"] + " LIGHT";
+        playerPanel.transform.Find("Ammo Count").Find("MEDIUM").Find("Count").GetComponent<TMP_Text>().text = this.ammoCount["MEDIUM"] + " MEDIUM";
+        playerPanel.transform.Find("Ammo Count").Find("HEAVY").Find("Count").GetComponent<TMP_Text>().text = this.ammoCount["HEAVY"] + " HEAVY";
     }
 
     public void RefreshUI()
     {
-        playerPanel.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = equippedWeapon.weaponName;
-        playerPanel.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(equippedWeapon.thumbnailPath);
-        playerPanel.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text = equippedWeapon.ammoType;
+        playerPanel.transform.Find("Equipped Weapon").Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = equippedWeapon.ammoType;
+        playerPanel.transform.Find("Equipped Weapon").Find("Weapon").GetComponent<Image>().sprite = Resources.Load<Sprite>(equippedWeapon.thumbnailPath);
 
-        foreach (Transform child in playerPanel.transform.GetChild(1).GetChild(0))
+        foreach (Transform child in playerPanel.transform.Find("Inventory Panel").Find("Inventory Items Panel").Find("Item Slots"))
         {
             Destroy(child.gameObject);
         }
 
         if (inventory.Count > 0)
         {
-            foreach (Weapon weapon in inventory)
+            foreach (KeyValuePair<ScriptableObject, int> item in inventory)
             {
-                GameObject inventoryWeapon = Instantiate(inventoryWeaponPrefab, playerPanel.transform.GetChild(1).GetChild(0));
-                inventoryWeapon.GetComponent<InventoryWeapon>().Initialise(weapon);
+                GameObject inventoryItem = Instantiate(inventoryItemPrefab, playerPanel.transform.Find("Inventory Panel").Find("Inventory Items Panel").Find("Item Slots"));
+                inventoryItem.GetComponent<InventoryItem>().Initialise(item.Key);
             }
         }
     }
@@ -207,9 +222,11 @@ public class PlayerScript : MonoBehaviour
         if (CanSeeShop) ToggleShopView();
 
         CanSeeInventory = !CanSeeInventory;
-        if (!CanSeeInventory) Cursor.SetCursor(cursor_Normal, normalCursorHotspot, CursorMode.Auto);
-        playerPanel.transform.GetChild(1).gameObject.SetActive(CanSeeInventory);
-        playerPanel.transform.GetChild(0).GetChild(1).gameObject.SetActive(CanSeeInventory);
+        if (!CanSeeInventory)
+        {
+            GameController.instance.CursorNotOverUI();
+        }
+        playerPanel.transform.Find("Inventory Panel").gameObject.SetActive(CanSeeInventory);
     }
 
     public void ToggleShopView()
@@ -218,7 +235,11 @@ public class PlayerScript : MonoBehaviour
 
         if (CanSeeInventory) ToggleInventoryView();
         CanSeeShop = !CanSeeShop;
-        if (!CanSeeShop) Cursor.SetCursor(cursor_Normal, normalCursorHotspot, CursorMode.Auto);
+        if (!CanSeeShop)
+        {
+            GameController.instance.CursorNotOverUI();
+        }
+
     }
 
     public void LookAtMouse()
