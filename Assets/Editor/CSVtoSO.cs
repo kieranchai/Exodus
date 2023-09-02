@@ -7,6 +7,7 @@ public class CSVtoSO
     private static string playerCSVPath = "/Assets/Editor/CSVs/Player.csv";
     private static string weaponCSVPath = "/Assets/Editor/CSVs/Weapons.csv";
     private static string itemCSVPath = "/Assets/Editor/CSVs/Items.csv";
+    private static string enemyCSVPath = "/Assets/Editor/CSVs/Enemies.csv";
 
 
     [MenuItem("Utilities/Generate Player")]
@@ -100,6 +101,36 @@ public class CSVtoSO
             item.inShop = splitData[8];
 
             AssetDatabase.CreateAsset(item, $"Assets/Resources/ScriptableObjects/Items/{item.itemName}.asset");
+        }
+
+        AssetDatabase.SaveAssets();
+    }
+
+    [MenuItem("Utilities/Generate Enemies")]
+    public static void GenerateEnemies()
+    {
+        string[] allLines = File.ReadAllLines(System.IO.Directory.GetCurrentDirectory() + enemyCSVPath);
+
+        foreach (string s in allLines)
+        {
+            string[] splitData = s.Split(',');
+
+            if (splitData.Length != 8)
+            {
+                return;
+            }
+
+            Enemy enemy = ScriptableObject.CreateInstance<Enemy>();
+            enemy.id = int.Parse(splitData[0]);
+            enemy.enemyName = splitData[1];
+            enemy.health = float.Parse(splitData[2]);
+            enemy.movementSpeed = float.Parse(splitData[3]);
+            enemy.equippedWeapon = splitData[4];
+            enemy.xpDrop = int.Parse(splitData[5]);
+            enemy.cashDrop = int.Parse(splitData[6]);
+            enemy.lootDrop = splitData[7];
+
+            AssetDatabase.CreateAsset(enemy, $"Assets/Resources/ScriptableObjects/Enemies/{enemy.id}.asset");
         }
 
         AssetDatabase.SaveAssets();

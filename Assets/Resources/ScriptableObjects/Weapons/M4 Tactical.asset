@@ -19,7 +19,7 @@ MonoBehaviour:
   thumbnailPath: UISprites/testWeaponSprite
   weaponType: line
   cooldown: 0.2
-  weaponRange: 8
+  weaponRange: 5
   defaultAmmo: 60
   cost: 250
   weight: 0.8
