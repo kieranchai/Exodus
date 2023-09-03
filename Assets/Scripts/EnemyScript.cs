@@ -10,13 +10,6 @@ public class EnemyScript : MonoBehaviour
     private Collider2D enemyCollider;
     private SpriteRenderer enemySprite;
 
-    // private Vector2 wanderWaypoint;
-
-    // [SerializeField]
-    // private float wanderDistance;
-    // [SerializeField]
-    // private float wanderRange;
-
     private string enemyName;
     private float maxHealth;
     private float movementSpeed;
@@ -260,9 +253,9 @@ public class EnemyScript : MonoBehaviour
         Destroy(gameObject, 4f);
     }
 
-    void OnTriggerExit2D(Collider2D other)
+    void OnTriggerExit2D(Collider2D collision)
     {
-        if (other.gameObject.CompareTag("Low Tier Zone"))
+        if (collision.gameObject.CompareTag("Low Tier Zone"))
         {
             if (this.currentState == ENEMY_STATE.WANDER)
             {

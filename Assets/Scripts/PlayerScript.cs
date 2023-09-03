@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Xml;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -66,18 +65,6 @@ public class PlayerScript : MonoBehaviour
         EquipWeapon(Resources.Load<Weapon>($"ScriptableObjects/Weapons/{this.defaultWeapon}"));
         UpdateAmmoCount(this.equippedWeapon.defaultAmmo, this.equippedWeapon.ammoType);
         UpdateCash(500);
-    }
-
-    public void LateUpdate()
-    {
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
-        {
-            anim.SetBool("isWalking", true);
-        }
-        else
-        {
-            anim.SetBool("isWalking", false);
-        }
     }
 
     public void SetPlayerData(Player playerData)
@@ -273,7 +260,6 @@ public class PlayerScript : MonoBehaviour
 
     public bool MovePlayer(Vector2 direction)
     {
-
         int count = rb.Cast(
             direction,
             movementFilter,

@@ -1015,7 +1015,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
-  collisionOffset: 0.25
+  collisionOffset: 0.16
   _data: {fileID: 11400000, guid: b0ec09c74486dc44286165c53c675807, type: 2}
   weaponWeight: 1
   weaponSlot: {fileID: 0}
@@ -1121,9 +1121,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.01, y: -0.04056406}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.24995089
+  m_Radius: 0.28
 --- !u!1 &273342274
 GameObject:
   m_ObjectHideFlags: 0
@@ -7185,9 +7185,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.020465493}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.13738453
+  m_Radius: 0.28
 --- !u!1 &1972449466
 GameObject:
   m_ObjectHideFlags: 0
