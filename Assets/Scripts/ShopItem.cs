@@ -12,7 +12,7 @@ public class ShopItem : MonoBehaviour
     private string itemName;
     private string description;
     private string thumbnailPath;
-    private float cost;
+    private int cost;
     private string type;
 
     private string itemType;
@@ -37,6 +37,7 @@ public class ShopItem : MonoBehaviour
 
             this.Name.text = this.weaponData.weaponName;
             this.Cost.text = $"${this.weaponData.cost}";
+
             gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(this.weaponData.thumbnailPath);
 
             this.itemName = this.weaponData.weaponName;
@@ -77,6 +78,7 @@ public class ShopItem : MonoBehaviour
             this.itemDetailPanel = gameObject.transform.parent.parent.parent.Find("Item Detail Panel").gameObject;
             gameObject.transform.GetComponent<Button>().onClick.AddListener(() => Select(this.type, false));
         }
+        if (this.type == "sell") this.Cost.text = PlayerScript.instance.inventory[itemData].ToString();
     }
 
     public string FormatDescription(string description)
@@ -100,11 +102,47 @@ public class ShopItem : MonoBehaviour
         {
             this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "PURCHASE";
             this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => Buy(this.itemType));
+
+            if (this.weaponData && PlayerScript.instance.inventory.ContainsKey(this.weaponData) || PlayerScript.instance.equippedWeapon == this.weaponData)
+            {
+                this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "OWNED";
+                this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.RemoveAllListeners();
+            }
+
+            if (this.itemData)
+            {
+                switch (this.itemType)
+                {
+                    case "LIGHT AMMO":
+                        if (PlayerScript.instance.ammoCount["LIGHT"] == PlayerScript.instance.lightAmmoCap)
+                        {
+                            this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "MAX AMMO";
+                            this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.RemoveAllListeners();
+                        }
+                        break;
+                    case "MEDIUM AMMO":
+                        if (PlayerScript.instance.ammoCount["MEDIUM"] == PlayerScript.instance.mediumAmmoCap)
+                        {
+                            this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "MAX AMMO";
+                            this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.RemoveAllListeners();
+                        };
+                        break;
+                    case "HEAVY AMMO":
+                        if (PlayerScript.instance.ammoCount["HEAVY"] == PlayerScript.instance.heavyAmmoCap)
+                        {
+                            this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "MAX AMMO";
+                            this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.RemoveAllListeners();
+                        };
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
         else
         {
             this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "SELL";
-            this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => Sell());
+            this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => Sell(this.itemType));
         }
 
         foreach (Transform child in this.itemDetailPanel.transform)
@@ -136,15 +174,15 @@ public class ShopItem : MonoBehaviour
         switch (itemType)
         {
             case "LIGHT AMMO":
-                if (PlayerScript.instance.ammoCount["LIGHT"] + int.Parse(this.primaryValue) == PlayerScript.instance.lightAmmoCap) return;
+                if (PlayerScript.instance.ammoCount["LIGHT"] == PlayerScript.instance.lightAmmoCap) return;
                 PlayerScript.instance.UpdateAmmoCount(int.Parse(this.primaryValue), "LIGHT");
                 break;
             case "MEDIUM AMMO":
-                if (PlayerScript.instance.ammoCount["MEDIUM"] + int.Parse(this.primaryValue) == PlayerScript.instance.lightAmmoCap) return;
+                if (PlayerScript.instance.ammoCount["MEDIUM"] == PlayerScript.instance.mediumAmmoCap) return;
                 PlayerScript.instance.UpdateAmmoCount(int.Parse(this.primaryValue), "MEDIUM");
                 break;
             case "HEAVY AMMO":
-                if (PlayerScript.instance.ammoCount["HEAVY"] + int.Parse(this.primaryValue) == PlayerScript.instance.lightAmmoCap) return;
+                if (PlayerScript.instance.ammoCount["HEAVY"] == PlayerScript.instance.heavyAmmoCap) return;
                 PlayerScript.instance.UpdateAmmoCount(int.Parse(this.primaryValue), "HEAVY");
                 break;
             case "SMALL HEALTH":
@@ -159,16 +197,68 @@ public class ShopItem : MonoBehaviour
             default:
                 if (PlayerScript.instance.inventory.ContainsKey(this.weaponData) || PlayerScript.instance.equippedWeapon == this.weaponData) return;
                 PlayerScript.instance.AddToInventory(this.weaponData);
+                this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "OWNED";
+                this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.RemoveAllListeners();
                 PlayerScript.instance.UpdateAmmoCount(this.weaponData.defaultAmmo, this.weaponData.ammoType);
                 break;
         }
-        PlayerScript.instance.cash -= this.cost;
+        PlayerScript.instance.UpdateCash(-this.cost);
+        gameObject.transform.parent.parent.parent.transform.Find("Cash").GetComponent<SlidingNumber>().AddToNumber(-this.cost);
+        if (this.itemData)
+        {
+            switch (this.itemType)
+            {
+                case "LIGHT AMMO":
+                    if (PlayerScript.instance.ammoCount["LIGHT"] == PlayerScript.instance.lightAmmoCap)
+                    {
+                        this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "MAX AMMO";
+                        this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.RemoveAllListeners();
+                    }
+                    break;
+                case "MEDIUM AMMO":
+                    if (PlayerScript.instance.ammoCount["MEDIUM"] == PlayerScript.instance.mediumAmmoCap)
+                    {
+                        this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "MAX AMMO";
+                        this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.RemoveAllListeners();
+                    };
+                    break;
+                case "HEAVY AMMO":
+                    if (PlayerScript.instance.ammoCount["HEAVY"] == PlayerScript.instance.heavyAmmoCap)
+                    {
+                        this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "MAX AMMO";
+                        this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.RemoveAllListeners();
+                    };
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
-    public void Sell()
+    public void Sell(string itemType)
     {
-        PlayerScript.instance.cash += this.weaponData.cost;
-        PlayerScript.instance.RemoveFromInventory(this.weaponData);
-        Destroy(gameObject);
+        ScriptableObject _data;
+
+        if (itemType == null)
+        {
+            _data = this.weaponData;
+            PlayerScript.instance.UpdateCash(this.weaponData.cost);
+            gameObject.transform.parent.parent.parent.transform.Find("Cash").GetComponent<SlidingNumber>().AddToNumber(this.weaponData.cost);
+        }
+        else
+        {
+            _data = this.itemData;
+            PlayerScript.instance.UpdateCash(this.itemData.cost);
+            gameObject.transform.parent.parent.parent.transform.Find("Cash").GetComponent<SlidingNumber>().AddToNumber(this.itemData.cost);
+        }
+
+        PlayerScript.instance.RemoveFromInventory(_data);
+        if (!PlayerScript.instance.inventory.ContainsKey(_data))
+        {
+            this.itemDetailPanel.SetActive(false);
+            Destroy(gameObject);
+            return;
+        }
+        this.Cost.text = PlayerScript.instance.inventory[_data].ToString();
     }
 }

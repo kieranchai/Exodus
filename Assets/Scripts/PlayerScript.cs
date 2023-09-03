@@ -21,7 +21,7 @@ public class PlayerScript : MonoBehaviour
     public string defaultWeapon;
 
     public float currentHealth;
-    public float cash;
+    public int cash;
     public float experience;
     public int level;
 
@@ -65,6 +65,7 @@ public class PlayerScript : MonoBehaviour
         SetPlayerData(_data);
         EquipWeapon(Resources.Load<Weapon>($"ScriptableObjects/Weapons/{this.defaultWeapon}"));
         UpdateAmmoCount(this.equippedWeapon.defaultAmmo, this.equippedWeapon.ammoType);
+        UpdateCash(500);
     }
 
     public void LateUpdate()
@@ -90,9 +91,10 @@ public class PlayerScript : MonoBehaviour
         this.defaultWeapon = playerData.defaultWeapon;
 
         this.currentHealth = this.maxHealth;
-        this.cash = 400;
+
+        this.cash = 0;
         this.experience = 0;
-        this.level = 0;
+        this.level = 1;
 
         this.ammoCount.Add("LIGHT", 0);
         this.ammoCount.Add("MEDIUM", 0);
@@ -119,9 +121,12 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void UpdateCash(float cash) {
-        this.cash += cash;
+    public void UpdateCash(int value)
+    {
+        playerPanel.transform.Find("Cash").GetComponent<SlidingNumber>().AddToNumber(value);
+        this.cash += value;
     }
+
     public void EquipWeapon(Weapon weaponData)
     {
         if (equippedWeapon)
@@ -249,14 +254,13 @@ public class PlayerScript : MonoBehaviour
     public void ToggleShopView()
     {
         if (!isInShop) return;
-
+        playerPanel.transform.parent.Find("Shop Panel").Find("Cash").GetComponent<SlidingNumber>().SetNumber(this.cash);
         if (CanSeeInventory) ToggleInventoryView();
         CanSeeShop = !CanSeeShop;
         if (!CanSeeShop)
         {
             GameController.instance.CursorNotOverUI();
         }
-
     }
 
     public void LookAtMouse()

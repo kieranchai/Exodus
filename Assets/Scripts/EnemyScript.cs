@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,7 +9,8 @@ public class EnemyScript : MonoBehaviour
     private Animator anim;
     private Collider2D enemyCollider;
     private SpriteRenderer enemySprite;
-    private UnityEngine.Vector2 wanderWaypoint;
+
+    // private Vector2 wanderWaypoint;
 
     // [SerializeField]
     // private float wanderDistance;
@@ -27,8 +26,9 @@ public class EnemyScript : MonoBehaviour
     private string lootDrop;
 
     private float timer = 0;
-    private float duration = 3f;
+    private float duration = 2f;
     public float returnDuration;
+    public bool isReturning = false;
 
     [SerializeField]
     private float sightRange = 7f;
@@ -92,7 +92,7 @@ public class EnemyScript : MonoBehaviour
                 Dead();
                 break;
             case ENEMY_STATE.RETURN:
-                ReturnToZone();
+                if (!this.isReturning) ReturnToZone();
                 break;
             default:
                 break;
@@ -119,10 +119,10 @@ public class EnemyScript : MonoBehaviour
     }
 
 
-    public UnityEngine.Vector3 RandomNavMeshLocation()
+    public Vector3 RandomNavMeshLocation()
     {
-        UnityEngine.Vector3 finalPosition = UnityEngine.Vector3.zero;
-        UnityEngine.Vector3 randomPosition = Random.insideUnitSphere * wanderRadius;
+        Vector3 finalPosition = Vector3.zero;
+        Vector3 randomPosition = Random.insideUnitSphere * wanderRadius;
         randomPosition += transform.position;
         if (NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, wanderRadius, 1))
         {
@@ -131,30 +131,35 @@ public class EnemyScript : MonoBehaviour
         return finalPosition;
     }
 
-    public void ReturnToZone() {
-        UnityEngine.Vector3 target = RandomPointInZone(GameController.instance.LowTierZone.bounds);
+    public void ReturnToZone()
+    {
+        this.isReturning = true;
+        Vector3 target = RandomPointInZone(GameController.instance.LowTierZone.bounds);
         agent.SetDestination(target);
-        transform.up = (target - new UnityEngine.Vector3(transform.position.x, transform.position.y));
-        if (agent.remainingDistance > agent.stoppingDistance) {
+        transform.up = (target - new Vector3(transform.position.x, transform.position.y));
+        if (agent.remainingDistance > agent.stoppingDistance)
+        {
             this.currentState = ENEMY_STATE.WANDER;
+            this.isReturning = false;
         }
     }
 
-    public UnityEngine.Vector3 RandomPointInZone(Bounds bounds) {
-        return new UnityEngine.Vector3(
+    public Vector3 RandomPointInZone(Bounds bounds)
+    {
+        return new Vector3(
             Random.Range(bounds.min.x, bounds.max.x),
             Random.Range(bounds.min.y, bounds.max.y),
             Random.Range(bounds.min.z, bounds.max.z)
         );
     }
+
     public void Wander()
     {
-
         if (agent.remainingDistance <= agent.stoppingDistance)
         {
-            UnityEngine.Vector3 target = RandomNavMeshLocation();
+            Vector3 target = RandomNavMeshLocation();
             agent.SetDestination(target);
-            transform.up = (target - new UnityEngine.Vector3(transform.position.x, transform.position.y));
+            transform.up = (target - new Vector3(transform.position.x, transform.position.y));
         }
 
         if (PlayerInSight())
@@ -166,12 +171,10 @@ public class EnemyScript : MonoBehaviour
     public void Chase()
     {
         agent.SetDestination(PlayerScript.instance.transform.position);
-        transform.up = (PlayerScript.instance.transform.position - new UnityEngine.Vector3(transform.position.x, transform.position.y));
-
+        transform.up = (PlayerScript.instance.transform.position - new Vector3(transform.position.x, transform.position.y));
         if (PlayerInSight())
         {
-            // Play Event 
-
+            this.timer = 0;
             if (PlayerInRange())
             {
                 this.currentState = ENEMY_STATE.ATTACK;
@@ -180,7 +183,7 @@ public class EnemyScript : MonoBehaviour
         else
         {
             this.timer += Time.deltaTime;
-            if (this.timer >= this.duration) this.currentState = ENEMY_STATE.WANDER;
+            if (this.timer >= this.duration) this.currentState = ENEMY_STATE.RETURN;
         }
     }
 
@@ -190,14 +193,14 @@ public class EnemyScript : MonoBehaviour
         {
             this.currentState = ENEMY_STATE.CHASE;
         }
-        transform.up = (PlayerScript.instance.transform.position - new UnityEngine.Vector3(transform.position.x, transform.position.y));
+        transform.up = (PlayerScript.instance.transform.position - new Vector3(transform.position.x, transform.position.y));
         this.weaponSlot.TryAttack();
     }
 
     public bool PlayerInSight()
     {
-        bool inRange = UnityEngine.Vector3.Distance(PlayerScript.instance.transform.position, transform.position) <= this.sightRange;
-        float sightAngle = UnityEngine.Vector2.Angle(PlayerScript.instance.transform.position - transform.position, transform.up);
+        bool inRange = Vector3.Distance(PlayerScript.instance.transform.position, transform.position) <= this.sightRange;
+        float sightAngle = Vector2.Angle(PlayerScript.instance.transform.position - transform.position, transform.up);
 
         int mask1 = 1 << LayerMask.NameToLayer("Tilemap Collider");
         int mask2 = 1 << LayerMask.NameToLayer("Safe Zone");
@@ -214,7 +217,7 @@ public class EnemyScript : MonoBehaviour
 
     public bool PlayerInRange()
     {
-        if (UnityEngine.Vector3.Distance(PlayerScript.instance.transform.position, transform.position) <= this.equippedWeapon.weaponRange)
+        if (Vector3.Distance(PlayerScript.instance.transform.position, transform.position) <= this.equippedWeapon.weaponRange)
         {
             return true;
         }
@@ -259,9 +262,10 @@ public class EnemyScript : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Low Tier Zone")
+        if (other.gameObject.CompareTag("Low Tier Zone"))
         {
-            if (this.currentState == ENEMY_STATE.WANDER) {
+            if (this.currentState == ENEMY_STATE.WANDER)
+            {
                 this.currentState = ENEMY_STATE.RETURN;
             }
         }

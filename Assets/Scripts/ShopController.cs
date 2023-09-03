@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
 using UnityEngine;
 
 public class ShopController : MonoBehaviour
@@ -16,16 +15,16 @@ public class ShopController : MonoBehaviour
 
     private void Awake()
     {
-        buyPanel = shopPanel.transform.GetChild(2).gameObject;
+        buyPanel = shopPanel.transform.Find("Buy Panel").gameObject;
         buyPanel.SetActive(true);
-        sellPanel = shopPanel.transform.GetChild(3).gameObject;
+        sellPanel = shopPanel.transform.Find("Sell Panel").gameObject;
         sellPanel.SetActive(false);
 
         Weapon[] allWeapons = Resources.LoadAll<Weapon>("ScriptableObjects/Weapons");
         foreach (Weapon weaponData in allWeapons)
         {
             if (weaponData.inShop == "NO") continue;
-            GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.GetChild(0));
+            GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
             shopItem.GetComponent<ShopItem>().Initialise(weaponData, "buy");
         }
 
@@ -33,7 +32,7 @@ public class ShopController : MonoBehaviour
         foreach (Item itemData in allItems)
         {
             if (itemData.inShop == "NO") continue;
-            GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.GetChild(0));
+            GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
             shopItem.GetComponent<ShopItem>().Initialise(itemData, "buy");
         }
     }
@@ -83,14 +82,14 @@ public class ShopController : MonoBehaviour
 
     public void UpdateSellInventory()
     {
-        foreach (Transform child in sellPanel.transform.GetChild(0))
+        foreach (Transform child in sellPanel.transform.Find("Weapon Slots"))
         {
             Destroy(child.gameObject);
         }
 
         foreach (KeyValuePair<ScriptableObject, int> item in PlayerScript.instance.inventory)
         {
-            GameObject shopInventoryItem = Instantiate(shopItemPrefab, sellPanel.transform.GetChild(0));
+            GameObject shopInventoryItem = Instantiate(shopItemPrefab, sellPanel.transform.Find("Weapon Slots"));
             shopInventoryItem.GetComponent<ShopItem>().Initialise(item.Key, "sell");
         }
     }
