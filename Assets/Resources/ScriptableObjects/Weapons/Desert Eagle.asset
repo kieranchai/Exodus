@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 2
   weaponName: Desert Eagle
   attackPower: 6
-  spritePath: Sprites/testWeaponSprite2
+  spritePath: Sprites/Desert Eagle
   thumbnailPath: UISprites/testWeaponSprite2
   weaponType: line
   cooldown: 0.7

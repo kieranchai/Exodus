@@ -29,5 +29,10 @@ public class EnemyBulletScript : MonoBehaviour
             PlayerScript.instance.TakeDamage(this.attackPower);
             Destroy(gameObject);
         }
+
+        if (collision.gameObject.CompareTag("Tilemap Collider"))
+        {
+            Destroy(gameObject);
+        }
     }
 }

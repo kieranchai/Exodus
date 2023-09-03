@@ -10,6 +10,7 @@ public class EnemyWeaponScript : MonoBehaviour
     private float cooldown;
     private float weaponRange;
     private bool limitAttack;
+    public string spritePath;
 
     public void SetWeaponData(Weapon weaponData)
     {
@@ -18,6 +19,12 @@ public class EnemyWeaponScript : MonoBehaviour
         this.weaponType = weaponData.weaponType;
         this.cooldown = weaponData.cooldown;
         this.weaponRange = weaponData.weaponRange;
+        this.spritePath = weaponData.spritePath;
+
+        SpriteRenderer weaponSprite = gameObject.GetComponent<SpriteRenderer>();
+        Sprite sprite = Resources.Load<Sprite>(this.spritePath);
+        weaponSprite.sprite = sprite;
+
     }
 
     public void TryAttack()
