@@ -2,8 +2,6 @@ using System.Collections;
 using UnityEngine;
 using System;
 
-// KIERAN AND JOEL
-
 public class GameController : MonoBehaviour
 {
     public static GameController instance { get; private set; }

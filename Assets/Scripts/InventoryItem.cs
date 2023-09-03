@@ -120,8 +120,10 @@ public class InventoryItem : MonoBehaviour
 
     public void Use()
     {
-        //Item effect
+        //Different Item Effect #Use Switch Case
         Debug.Log("Used");
+
+
 
         PlayerScript.instance.RemoveFromInventory(this.itemData);
         if (!PlayerScript.instance.inventory.ContainsKey(this.itemData))

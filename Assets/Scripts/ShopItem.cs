@@ -186,13 +186,10 @@ public class ShopItem : MonoBehaviour
                 PlayerScript.instance.UpdateAmmoCount(int.Parse(this.primaryValue), "HEAVY");
                 break;
             case "SMALL HEALTH":
-                PlayerScript.instance.AddToInventory(this.itemData);
-                break;
             case "BIG HEALTH":
-                break;
             case "MOVEMENT SPEED":
-                break;
             case "GAS":
+                PlayerScript.instance.AddToInventory(this.itemData);
                 break;
             default:
                 if (PlayerScript.instance.inventory.ContainsKey(this.weaponData) || PlayerScript.instance.equippedWeapon == this.weaponData) return;
