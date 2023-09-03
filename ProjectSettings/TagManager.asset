@@ -9,6 +9,7 @@ TagManager:
   - Tooltip
   - Enemy
   - Low Tier Zone
+  - Tilemap Collider
   layers:
   - Default
   - TransparentFX
