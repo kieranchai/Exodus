@@ -91,10 +91,33 @@ public class GameController : MonoBehaviour
             PlayerScript.instance.anim.SetBool("isWalking", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape)) currentState = GAME_STATE.PAUSED;
+        if (Input.GetKeyDown(KeyCode.Escape)) Exit();
         if (Input.GetMouseButton(0) && !isOverUI) PlayerScript.instance.weaponSlot.TryAttack();
         if (Input.GetKeyDown(KeyCode.Tab)) PlayerScript.instance.ToggleInventoryView();
-        if (Input.GetKeyDown(KeyCode.E)) PlayerScript.instance.ToggleShopView();
+        if (Input.GetKeyDown(KeyCode.E)) Interact();
+    }
+
+    private void Exit()
+    {
+        if (PlayerScript.instance.CanSeeShop || PlayerScript.instance.CanSeeInventory)
+        {
+            PlayerScript.instance.TurnOffAllViews();
+            return;
+        }
+
+        //If no panel is open, then PAUSE game when ESC
+        currentState = GAME_STATE.PAUSED;
+    }
+
+    private void Interact()
+    {
+        if (PlayerScript.instance.isInShop)
+        {
+            PlayerScript.instance.ToggleShopView();
+            return;
+        }
+
+        //Other Interactable Scenarios
     }
 
     private void GameOver()
@@ -130,7 +153,6 @@ public class GameController : MonoBehaviour
             default:
                 break;
         }
-
         return true;
     }
 

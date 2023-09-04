@@ -48,8 +48,8 @@ public class EnemyWeaponScript : MonoBehaviour
         limitAttack = true;
         float spread = Random.Range(-5.0f, 5.0f);
         GameObject bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Bullet"), transform.position, Quaternion.Euler(0, 0, spread));
-        bullet.GetComponent<EnemyBulletScript>().Initialize(this.attackPower, this.weaponRange);
-        bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 600);
+        bullet.GetComponent<EnemyBulletScript>().Initialise(this.attackPower, this.weaponRange);
+        bullet.GetComponent<Rigidbody2D>().AddRelativeForce(transform.right * 600);
         yield return new WaitForSeconds(this.cooldown);
 
         limitAttack = false;

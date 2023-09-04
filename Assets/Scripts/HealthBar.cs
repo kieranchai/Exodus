@@ -3,10 +3,26 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public Slider slider;
-    public void UpdateHealthBar()
+    [SerializeField]
+    private Image healthBar;
+
+    private float lerpSpeed;
+
+    private void Update()
     {
-        slider.maxValue = PlayerScript.instance.maxHealth;
-        slider.value = PlayerScript.instance.currentHealth;
+        lerpSpeed = 3f * Time.deltaTime;
+        HealthBarFiller();
+        ColorChanger();
+    }
+
+    private void HealthBarFiller()
+    {
+        healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, PlayerScript.instance.currentHealth / PlayerScript.instance.maxHealth, lerpSpeed);
+    }
+
+    private void ColorChanger()
+    {
+        Color healthColor = Color.Lerp(Color.red, Color.green, PlayerScript.instance.currentHealth / PlayerScript.instance.maxHealth);
+        healthBar.color = healthColor;
     }
 }

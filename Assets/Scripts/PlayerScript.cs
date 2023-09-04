@@ -42,7 +42,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private GameObject playerPanel;
     [SerializeField] private GameObject inventoryItemPrefab;
 
-    private bool CanSeeInventory = false;
+    public bool CanSeeInventory = false;
     public bool CanSeeShop = false;
     public bool isInShop = false;
 
@@ -100,7 +100,6 @@ public class PlayerScript : MonoBehaviour
 
         currentHealth -= damage;
         if (currentHealth <= 0) GameController.instance.currentState = GameController.GAME_STATE.DEAD;
-        playerPanel.transform.Find("HealthBar").GetComponent<HealthBar>().UpdateHealthBar();
     }
 
     public void UpdateExperience(float experience)
@@ -254,6 +253,14 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    public void TurnOffAllViews()
+    {
+        playerPanel.transform.Find("Inventory Panel").gameObject.SetActive(false);
+        playerPanel.transform.parent.Find("Shop Panel").gameObject.SetActive(false);
+        CanSeeInventory = false;
+        CanSeeShop = false;
+    }
+
     public void ToggleInventoryView()
     {
         if (CanSeeShop) ToggleShopView();
@@ -268,7 +275,6 @@ public class PlayerScript : MonoBehaviour
 
     public void ToggleShopView()
     {
-        if (!isInShop) return;
         playerPanel.transform.parent.Find("Shop Panel").Find("Cash").GetComponent<SlidingNumber>().SetNumber(this.cash);
         if (CanSeeInventory) ToggleInventoryView();
         CanSeeShop = !CanSeeShop;

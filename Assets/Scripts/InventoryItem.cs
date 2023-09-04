@@ -27,7 +27,6 @@ public class InventoryItem : MonoBehaviour
     private Item itemData;
     private GameObject itemDetailPanel;
 
-    [SerializeField]
     private Color defaultColor;
 
     public void Initialise(ScriptableObject itemData)
@@ -141,7 +140,6 @@ public class InventoryItem : MonoBehaviour
     {
         if (GameController.instance.UseItem(this.itemData))
         {
-            Debug.Log("Used");
             UpdateItem();
         } else
         {
