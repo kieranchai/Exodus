@@ -16,7 +16,8 @@ MonoBehaviour:
   enemyName: Wraith
   health: 10
   movementSpeed: 3
-  equippedWeapon: Desert Eagle
+  equippedWeapon: Heavy Pistol
   xpDrop: 10
   cashDrop: 40
   lootDrop: NULL
+  spawnZone: Low Tier Zone

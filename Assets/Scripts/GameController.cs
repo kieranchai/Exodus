@@ -22,6 +22,8 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject pauseScreen;
 
+    private bool stimCD = false;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -34,7 +36,8 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        switch (currentState) { 
+        switch (currentState)
+        {
             case GAME_STATE.PLAYING:
                 HandleInput();
                 break;
@@ -109,5 +112,34 @@ public class GameController : MonoBehaviour
     public void CursorNotOverUI()
     {
         isOverUI = false;
+    }
+
+    public bool UseItem(Item itemData)
+    {
+        switch (itemData.type)
+        {
+            case "SMALL HEALTH":
+            case "BIG HEALTH":
+                break;
+            case "MOVEMENT SPEED":
+                if (this.stimCD) return false;
+                StartCoroutine(ItemStim(itemData));
+                break;
+            case "GAS":
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
+
+    IEnumerator ItemStim(Item itemData)
+    {
+        this.stimCD = true;
+        PlayerScript.instance.movementSpeed += float.Parse(itemData.primaryValue);
+        yield return new WaitForSeconds(float.Parse(itemData.secondaryValue));
+        PlayerScript.instance.movementSpeed = PlayerScript.instance.initialMovementSpeed;
+        this.stimCD = false;
     }
 }

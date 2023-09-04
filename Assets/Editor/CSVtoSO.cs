@@ -49,7 +49,7 @@ public class CSVtoSO
         {
             string[] splitData = s.Split(',');
 
-            if (splitData.Length != 13)
+            if (splitData.Length != 14)
             {
                 return;
             }
@@ -57,17 +57,18 @@ public class CSVtoSO
             Weapon weapon = ScriptableObject.CreateInstance<Weapon>();
             weapon.id = int.Parse(splitData[0]);
             weapon.weaponName = splitData[1];
-            weapon.attackPower = float.Parse(splitData[2]);
-            weapon.spritePath = splitData[3];
-            weapon.thumbnailPath = splitData[4];
-            weapon.weaponType = splitData[5];
-            weapon.cooldown = float.Parse(splitData[6]);
-            weapon.weaponRange = float.Parse(splitData[7]);
-            weapon.defaultAmmo = int.Parse(splitData[8]);
-            weapon.cost = int.Parse(splitData[9]);
-            weapon.weight = float.Parse(splitData[10]);
-            weapon.ammoType = splitData[11];
-            weapon.inShop = splitData[12];
+            weapon.description = splitData[2];
+            weapon.attackPower = float.Parse(splitData[3]);
+            weapon.spritePath = splitData[4];
+            weapon.thumbnailPath = splitData[5];
+            weapon.weaponType = splitData[6];
+            weapon.cooldown = float.Parse(splitData[7]);
+            weapon.weaponRange = float.Parse(splitData[8]);
+            weapon.defaultAmmo = int.Parse(splitData[9]);
+            weapon.cost = int.Parse(splitData[10]);
+            weapon.weight = float.Parse(splitData[11]);
+            weapon.ammoType = splitData[12];
+            weapon.inShop = splitData[13];
 
             AssetDatabase.CreateAsset(weapon, $"Assets/Resources/ScriptableObjects/Weapons/{weapon.weaponName}.asset");
         }
@@ -115,7 +116,7 @@ public class CSVtoSO
         {
             string[] splitData = s.Split(',');
 
-            if (splitData.Length != 8)
+            if (splitData.Length != 9)
             {
                 return;
             }
@@ -129,6 +130,7 @@ public class CSVtoSO
             enemy.xpDrop = int.Parse(splitData[5]);
             enemy.cashDrop = int.Parse(splitData[6]);
             enemy.lootDrop = splitData[7];
+            enemy.spawnZone = splitData[8];
 
             AssetDatabase.CreateAsset(enemy, $"Assets/Resources/ScriptableObjects/Enemies/{enemy.id}.asset");
         }

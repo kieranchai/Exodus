@@ -41,7 +41,7 @@ public class ShopItem : MonoBehaviour
             gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(this.weaponData.thumbnailPath);
 
             this.itemName = this.weaponData.weaponName;
-            /*            this.description = this.weaponData.description;*/
+            this.description = this.weaponData.description;
             this.thumbnailPath = this.weaponData.thumbnailPath;
             this.cost = this.weaponData.cost;
 

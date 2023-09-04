@@ -41,7 +41,8 @@ public class InventoryItem : MonoBehaviour
             gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(weaponData.thumbnailPath);
 
             this.itemName = this.weaponData.weaponName;
-            /*            this.description = this.weaponData.description;*/
+            if (PlayerScript.instance.equippedWeapon == this.weaponData) this.Name.text = $"[EQUIPPED] {this.weaponData.weaponName}";
+            this.description = this.weaponData.description;
             this.thumbnailPath = this.weaponData.thumbnailPath;
 
             this.attackPower = this.weaponData.attackPower;
@@ -138,11 +139,19 @@ public class InventoryItem : MonoBehaviour
 
     public void Use()
     {
-        //Different Item Effect #Use Switch Case
-        Debug.Log("Used");
+        if (GameController.instance.UseItem(this.itemData))
+        {
+            Debug.Log("Used");
+            UpdateItem();
+        } else
+        {
+            Debug.Log("On cooldown");
+            return;
+        }
+    }
 
-
-
+    private void UpdateItem()
+    {
         PlayerScript.instance.RemoveFromInventory(this.itemData);
         if (!PlayerScript.instance.inventory.ContainsKey(this.itemData))
         {
@@ -168,14 +177,18 @@ public class InventoryItem : MonoBehaviour
 
         foreach (Transform child in transform.parent)
         {
-            if (child.GetComponent<InventoryItem>().weaponData == PlayerScript.instance.equippedWeapon)
+            if (child.GetComponent<InventoryItem>().weaponData)
             {
-                this.itemDetailPanel.transform.Find("Item Name").GetComponent<TMP_Text>().text = this.itemName + " (EQUIPPED)";
-                child.GetComponent<Image>().color = Color.green;
-            } else
-            {
-                this.itemDetailPanel.transform.Find("Item Name").GetComponent<TMP_Text>().text = this.itemName;
-                child.GetComponent<Image>().color = defaultColor;
+                if (child.GetComponent<InventoryItem>().weaponData == PlayerScript.instance.equippedWeapon)
+                {
+                    child.GetComponent<InventoryItem>().Name.text = $"[EQUIPPED] {child.GetComponent<InventoryItem>().weaponData.weaponName}";
+                    child.GetComponent<Image>().color = Color.green;
+                }
+                else
+                {
+                    child.GetComponent<InventoryItem>().Name.text = child.GetComponent<InventoryItem>().weaponData.weaponName;
+                    child.GetComponent<Image>().color = defaultColor;
+                }
             }
         }
     }

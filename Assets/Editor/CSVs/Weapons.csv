@@ -1,2 +1,3 @@
-1,M4 Tactical,3,Sprites/M4 Tactical,UISprites/testWeaponSprite,line,0.2,5,60,250,0.8,MEDIUM,YES
-2,Desert Eagle,6,Sprites/Desert Eagle,UISprites/testWeaponSprite2,line,0.7,5,20,120,0.4,HEAVY,YES
+1,Assault Rifle,Standard issue rifle. Reliable and efficient.,3,Sprites/Assault Rifle,UISprites/Assault Rifle,line,0.2,8,60,250,0.8,MEDIUM,YES
+2,Heavy Pistol,Powerful but slow. Great for headshots.,6,Sprites/Heavy Pistol,UISprites/Heavy Pistol,line,0.7,8,20,120,0.4,HEAVY,YES
+3,Fists,NULL,1,NULL,UISprites/Fists,melee,0.6,0,0,0,0,NULL,NO

@@ -11,4 +11,5 @@ public class Enemy : ScriptableObject
     public int xpDrop;
     public int cashDrop;
     public string lootDrop;
+    public string spawnZone;
 }

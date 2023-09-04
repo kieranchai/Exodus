@@ -46,6 +46,8 @@ public class PlayerScript : MonoBehaviour
     public bool CanSeeShop = false;
     public bool isInShop = false;
 
+    public float initialMovementSpeed;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -80,6 +82,7 @@ public class PlayerScript : MonoBehaviour
         this.defaultWeapon = playerData.defaultWeapon;
 
         this.currentHealth = this.maxHealth;
+        this.initialMovementSpeed = this.movementSpeed;
 
         this.cash = 0;
         this.experience = 0;
@@ -141,7 +144,7 @@ public class PlayerScript : MonoBehaviour
         equippedWeapon = null;
 
         // Set Equipped Weapon Data to UNARMED
-/*        weaponSlot.SetWeaponData(Resources.Load<Weapon>("ScriptableObjects/Weapons/Unarmed"));*/
+        weaponSlot.SetWeaponData(Resources.Load<Weapon>("ScriptableObjects/Weapons/Fists"));
 
         this.weaponWeight = 0;
         RefreshEquippedUI();
@@ -259,7 +262,6 @@ public class PlayerScript : MonoBehaviour
         if (!CanSeeInventory)
         {
             GameController.instance.CursorNotOverUI();
-            playerPanel.transform.Find("Inventory Panel").Find("Item Detail Panel").gameObject.SetActive(false);
         }
         playerPanel.transform.Find("Inventory Panel").gameObject.SetActive(CanSeeInventory);
     }
