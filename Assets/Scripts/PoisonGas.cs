@@ -10,7 +10,8 @@ public class PoisonGas : MonoBehaviour
 
     private Vector3 targetLocationV3;
 
-    private float timeTaken = 10f;
+    [SerializeField]
+    private float timeTaken = 30f;
 
     void Awake()
     {

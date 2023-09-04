@@ -62,7 +62,9 @@ public class PlayerScript : MonoBehaviour
     private void Start()
     {
         SetPlayerData(_data);
-        EquipWeapon(Resources.Load<Weapon>($"ScriptableObjects/Weapons/{this.defaultWeapon}"));
+
+        EquipDefaultWeapon(Resources.Load<Weapon>($"ScriptableObjects/Weapons/{this.defaultWeapon}"));
+
         UpdateAmmoCount(this.equippedWeapon.defaultAmmo, this.equippedWeapon.ammoType);
         UpdateCash(500);
     }
@@ -97,12 +99,14 @@ public class PlayerScript : MonoBehaviour
         if (currentHealth <= 0) GameController.instance.currentState = GameController.GAME_STATE.DEAD;
         playerPanel.transform.Find("HealthBar").GetComponent<HealthBar>().UpdateHealthBar();
     }
-    
-    public void UpdateExperience(float experience) {
+
+    public void UpdateExperience(float experience)
+    {
         this.experience += experience;
-        
+
         //hardcode 
-        if (this.experience > 100) {
+        if (this.experience > 100)
+        {
             this.experience = 0;
             this.level++;
         }
@@ -114,25 +118,33 @@ public class PlayerScript : MonoBehaviour
         this.cash += value;
     }
 
-    public void EquipWeapon(Weapon weaponData)
+    public void EquipDefaultWeapon(Weapon weaponData)
     {
-        if (equippedWeapon)
-        {
-            SwapWeapon(weaponData);
-        }
-        //Set equipped weapon to the weapon I want to equip
         equippedWeapon = weaponData;
         weaponSlot.SetWeaponData(weaponData);
-        RefreshUI();
+        this.weaponWeight = weaponData.weight;
+        RefreshEquippedUI();
+        AddToInventory(weaponData);
     }
 
-    public void SwapWeapon(Weapon weaponData)
+    public void EquipWeapon(Weapon weaponData)
     {
-        //Remove weapon that I want to equip from Inventory
-        RemoveFromInventory(weaponData);
-        //Add currently equipped weapon to inventory and remove from equipped
-        AddToInventory(this.equippedWeapon);
+        if (!inventory.ContainsKey(weaponData)) return;
+        equippedWeapon = weaponData;
+        weaponSlot.SetWeaponData(weaponData);
+        this.weaponWeight = weaponData.weight;
+        RefreshEquippedUI();
+    }
+
+    public void UnequipWeapon()
+    {
         equippedWeapon = null;
+
+        // Set Equipped Weapon Data to UNARMED
+/*        weaponSlot.SetWeaponData(Resources.Load<Weapon>("ScriptableObjects/Weapons/Unarmed"));*/
+
+        this.weaponWeight = 0;
+        RefreshEquippedUI();
     }
 
     public void AddToInventory(ScriptableObject itemData)
@@ -148,7 +160,7 @@ public class PlayerScript : MonoBehaviour
 
         GameObject inventoryItem = Instantiate(inventoryItemPrefab, playerPanel.transform.Find("Inventory Panel").Find("Inventory Items Panel").Find("Item Slots"));
         inventoryItem.GetComponent<InventoryItem>().Initialise(itemData);
-        RefreshUI();
+        RefreshInventoryUI();
     }
 
     public void RemoveFromInventory(ScriptableObject itemData)
@@ -156,7 +168,9 @@ public class PlayerScript : MonoBehaviour
         if (inventory[itemData] == 1)
         {
             inventory.Remove(itemData);
-            RefreshUI();
+            if (equippedWeapon == itemData) UnequipWeapon();
+            RefreshInventoryUI();
+            RefreshEquippedUI();
         }
         else
         {
@@ -206,11 +220,8 @@ public class PlayerScript : MonoBehaviour
         playerPanel.transform.Find("Ammo Count").Find("HEAVY").Find("Count").GetComponent<TMP_Text>().text = this.ammoCount["HEAVY"] + " HEAVY";
     }
 
-    public void RefreshUI()
+    public void RefreshInventoryUI()
     {
-        playerPanel.transform.Find("Equipped Weapon").Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = equippedWeapon.ammoType;
-        playerPanel.transform.Find("Equipped Weapon").Find("Weapon").GetComponent<Image>().sprite = Resources.Load<Sprite>(equippedWeapon.thumbnailPath);
-
         foreach (Transform child in playerPanel.transform.Find("Inventory Panel").Find("Inventory Items Panel").Find("Item Slots"))
         {
             Destroy(child.gameObject);
@@ -226,6 +237,20 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    public void RefreshEquippedUI()
+    {
+        if (equippedWeapon)
+        {
+            playerPanel.transform.Find("Equipped Weapon").Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = equippedWeapon.ammoType;
+            playerPanel.transform.Find("Equipped Weapon").Find("Weapon").GetComponent<Image>().sprite = Resources.Load<Sprite>(equippedWeapon.thumbnailPath);
+        }
+        else
+        {
+            playerPanel.transform.Find("Equipped Weapon").Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = "UNARMED";
+            playerPanel.transform.Find("Equipped Weapon").Find("Weapon").GetComponent<Image>().sprite = Resources.Load<Sprite>("UISprites/testItemSprite");
+        }
+    }
+
     public void ToggleInventoryView()
     {
         if (CanSeeShop) ToggleShopView();
@@ -234,6 +259,7 @@ public class PlayerScript : MonoBehaviour
         if (!CanSeeInventory)
         {
             GameController.instance.CursorNotOverUI();
+            playerPanel.transform.Find("Inventory Panel").Find("Item Detail Panel").gameObject.SetActive(false);
         }
         playerPanel.transform.Find("Inventory Panel").gameObject.SetActive(CanSeeInventory);
     }

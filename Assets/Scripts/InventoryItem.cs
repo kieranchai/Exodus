@@ -27,6 +27,9 @@ public class InventoryItem : MonoBehaviour
     private Item itemData;
     private GameObject itemDetailPanel;
 
+    [SerializeField]
+    private Color defaultColor;
+
     public void Initialise(ScriptableObject itemData)
     {
         if (itemData.GetType().IsAssignableFrom(typeof(Weapon)))
@@ -50,6 +53,12 @@ public class InventoryItem : MonoBehaviour
 
             this.itemDetailPanel = gameObject.transform.parent.parent.parent.Find("Item Detail Panel").gameObject;
             gameObject.transform.GetComponent<Button>().onClick.AddListener(() => Select(true));
+
+            if (PlayerScript.instance.equippedWeapon == this.weaponData)
+            {
+                this.itemDetailPanel.transform.Find("Item Name").GetComponent<TMP_Text>().text = this.itemName + " (EQUIPPED)";
+                transform.GetComponent<Image>().color = Color.green;
+            }
         }
 
         if (itemData.GetType().IsAssignableFrom(typeof(Item)))
@@ -95,8 +104,17 @@ public class InventoryItem : MonoBehaviour
 
         if (isWeapon)
         {
-            this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "EQUIP";
-            this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => Swap());
+
+            if (PlayerScript.instance.equippedWeapon == this.weaponData)
+            {
+                this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "UNEQUIP";
+                this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => UseWeapon());
+            }
+            else
+            {
+                this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "EQUIP";
+                this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => UseWeapon());
+            }
 
             this.itemDetailPanel.transform.Find("Weapon AP").GetComponent<TMP_Text>().text = this.attackPower.ToString();
             this.itemDetailPanel.transform.Find("Weapon CD").GetComponent<TMP_Text>().text = this.cooldown.ToString();
@@ -135,10 +153,30 @@ public class InventoryItem : MonoBehaviour
         this.Count.text = PlayerScript.instance.inventory[itemData].ToString();
     }
 
-    public void Swap()
+    public void UseWeapon()
     {
-        PlayerScript.instance.EquipWeapon(this.weaponData);
-        this.itemDetailPanel.SetActive(false);
-        Destroy(gameObject);
+        if (PlayerScript.instance.equippedWeapon == this.weaponData)
+        {
+            PlayerScript.instance.UnequipWeapon();
+            this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "EQUIP";
+        }
+        else
+        {
+            PlayerScript.instance.EquipWeapon(this.weaponData);
+            this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "UNEQUIP";
+        }
+
+        foreach (Transform child in transform.parent)
+        {
+            if (child.GetComponent<InventoryItem>().weaponData == PlayerScript.instance.equippedWeapon)
+            {
+                this.itemDetailPanel.transform.Find("Item Name").GetComponent<TMP_Text>().text = this.itemName + " (EQUIPPED)";
+                child.GetComponent<Image>().color = Color.green;
+            } else
+            {
+                this.itemDetailPanel.transform.Find("Item Name").GetComponent<TMP_Text>().text = this.itemName;
+                child.GetComponent<Image>().color = defaultColor;
+            }
+        }
     }
 }

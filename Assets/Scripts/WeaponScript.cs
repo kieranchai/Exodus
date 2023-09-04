@@ -38,8 +38,6 @@ public class WeaponScript : MonoBehaviour
         SpriteRenderer weaponSprite = gameObject.GetComponent<SpriteRenderer>();
         Sprite sprite = Resources.Load<Sprite>(this.spritePath);
         weaponSprite.sprite = sprite;
-
-        PlayerScript.instance.weaponWeight = this.weight;
     }
 
     public void TryAttack()
