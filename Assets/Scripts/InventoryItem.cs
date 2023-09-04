@@ -143,7 +143,7 @@ public class InventoryItem : MonoBehaviour
             UpdateItem();
         } else
         {
-            Debug.Log("On cooldown");
+            Debug.Log("Can't use it right now");
             return;
         }
     }

@@ -13,6 +13,14 @@ public class PoisonGas : MonoBehaviour
     [SerializeField]
     private float timeTaken = 30f;
 
+    private float savedTimer = 0;
+
+    [SerializeField]
+    private float damageInterval = 2f;
+
+    [SerializeField]
+    private float damage = 5f;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -38,6 +46,26 @@ public class PoisonGas : MonoBehaviour
             t += Time.deltaTime / timeToMove;
             transform.position = Vector3.Lerp(currentPos, position, t);
             yield return null;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if ((Time.time - savedTimer) > damageInterval)
+            {
+                savedTimer = Time.time;
+                collision.GetComponent<PlayerScript>().TakeDamage(damage, true);
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Safe Zone"))
+        {
+            // LOSE
         }
     }
 }

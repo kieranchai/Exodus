@@ -24,9 +24,12 @@ public class PlayerScript : MonoBehaviour
     public float experience;
     public int level;
 
-    public ContactFilter2D movementFilter;
-    private List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
-    public float collisionOffset;
+    private Vector3 moveDir;
+    private Vector3 rollDir;
+    private float rollSpeed;
+    private Vector3 lastMoveDir;
+    private float rollCD = 5f;
+    private float rollTimer;
 
     [SerializeField]
     private Player _data;
@@ -48,6 +51,14 @@ public class PlayerScript : MonoBehaviour
 
     public float initialMovementSpeed;
 
+    public enum PLAYER_STATE
+    {
+        NORMAL,
+        ROLLING
+    }
+
+    public PLAYER_STATE currentState;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -59,6 +70,8 @@ public class PlayerScript : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         weaponSlot = transform.GetChild(0).GetComponent<WeaponScript>();
+        this.currentState = PLAYER_STATE.NORMAL;
+        this.rollTimer = this.rollCD;
     }
 
     private void Start()
@@ -69,6 +82,91 @@ public class PlayerScript : MonoBehaviour
 
         UpdateAmmoCount(this.equippedWeapon.defaultAmmo, this.equippedWeapon.ammoType);
         UpdateCash(500);
+    }
+
+    private void Update()
+    {
+        if (GameController.instance.currentState == GameController.GAME_STATE.PLAYING)
+        {
+            switch (this.currentState)
+            {
+                case PLAYER_STATE.NORMAL:
+                    float moveX = 0f;
+                    float moveY = 0f;
+
+                    if (Input.GetKey(KeyCode.W))
+                    {
+                        moveY = +1f;
+                    }
+                    if (Input.GetKey(KeyCode.S))
+                    {
+                        moveY = -1f;
+                    }
+                    if (Input.GetKey(KeyCode.A))
+                    {
+                        moveX = -1f;
+                    }
+                    if (Input.GetKey(KeyCode.D))
+                    {
+                        moveX = +1f;
+                    }
+
+                    this.moveDir = new Vector3(moveX, moveY).normalized;
+                    if (moveX != 0 || moveY != 0)
+                    {
+                        // Moving
+                        this.lastMoveDir = this.moveDir;
+                        this.anim.SetBool("isWalking", true);
+                    }
+                    else
+                    {
+                        this.anim.SetBool("isWalking", false);
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.LeftShift))
+                    {
+                        if (this.rollTimer < this.rollCD) return;
+                        this.rollDir = this.lastMoveDir;
+                        this.rollSpeed = this.initialMovementSpeed * 1.5f;
+                        this.currentState = PLAYER_STATE.ROLLING;
+                        this.rollTimer = 0;
+
+                        this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.SetActive(true);
+                        //Play Roll Anims
+                    }
+                    break;
+                case PLAYER_STATE.ROLLING:
+                    float rollSpeedDropMultiplier = 2f;
+                    this.rollSpeed -= rollSpeed * rollSpeedDropMultiplier * Time.deltaTime;
+
+                    float rollSpeedMinimum = 5f;
+                    if (rollSpeed < rollSpeedMinimum)
+                    {
+                        this.currentState = PLAYER_STATE.NORMAL;
+                        //Stop Roll Anims
+                    }
+                    break;
+                default: break;
+            }
+            this.rollTimer += Time.deltaTime;
+            this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").Find("Timer").gameObject.GetComponent<TMP_Text>().text = ((int)this.rollCD - (int)this.rollTimer).ToString();
+            if(this.rollTimer >= this.rollCD) this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.SetActive(false);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        switch (this.currentState)
+        {
+            case PLAYER_STATE.NORMAL:
+                this.rb.velocity = this.moveDir * (this.movementSpeed - this.weaponWeight);
+                break;
+            case PLAYER_STATE.ROLLING:
+                this.rb.velocity = this.rollDir * this.rollSpeed;
+                break;
+            default:
+                break;
+        }
     }
 
     public void SetPlayerData(Player playerData)
@@ -94,9 +192,10 @@ public class PlayerScript : MonoBehaviour
         RefreshAmmoUI();
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, bool fromZone)
     {
         if (GameController.instance.currentState == GameController.GAME_STATE.DEAD) return;
+        if (this.currentState ==  PLAYER_STATE.ROLLING && fromZone == false) return;
 
         currentHealth -= damage;
         if (currentHealth <= 0) GameController.instance.currentState = GameController.GAME_STATE.DEAD;
@@ -291,26 +390,4 @@ public class PlayerScript : MonoBehaviour
 
         transform.GetChild(0).gameObject.transform.right = this.transform.up.normalized;
     }
-
-    public bool MovePlayer(Vector2 direction)
-    {
-        int count = rb.Cast(
-            direction,
-            movementFilter,
-            castCollisions,
-            (movementSpeed - weaponWeight) * Time.fixedDeltaTime + collisionOffset);
-
-        if (count == 0)
-        {
-            Vector2 moveVector = direction * (movementSpeed - weaponWeight) * Time.fixedDeltaTime;
-
-            rb.MovePosition(rb.position + moveVector);
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
 }

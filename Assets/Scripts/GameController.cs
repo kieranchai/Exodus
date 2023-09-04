@@ -72,27 +72,11 @@ public class GameController : MonoBehaviour
     private void HandleInput()
     {
         PlayerScript.instance.LookAtMouse();
-        bool success = PlayerScript.instance.MovePlayer(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized);
-        if (!success)
-        {
-            success = PlayerScript.instance.MovePlayer(new Vector2(Input.GetAxisRaw("Horizontal"), 0));
-            if (!success)
-            {
-                success = PlayerScript.instance.MovePlayer(new Vector2(0, Input.GetAxisRaw("Vertical")));
-            }
-        }
 
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
-        {
-            PlayerScript.instance.anim.SetBool("isWalking", true);
-        }
-        else
-        {
-            PlayerScript.instance.anim.SetBool("isWalking", false);
-        }
+        //Movement Input WASD+LEFT SHIFT is in PlayerScript Update/FixedUpdate
 
         if (Input.GetKeyDown(KeyCode.Escape)) Exit();
-        if (Input.GetMouseButton(0) && !isOverUI) PlayerScript.instance.weaponSlot.TryAttack();
+        if (Input.GetMouseButton(0) && !isOverUI && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING) PlayerScript.instance.weaponSlot.TryAttack();
         if (Input.GetKeyDown(KeyCode.Tab)) PlayerScript.instance.ToggleInventoryView();
         if (Input.GetKeyDown(KeyCode.E)) Interact();
     }
@@ -143,6 +127,8 @@ public class GameController : MonoBehaviour
         {
             case "SMALL HEALTH":
             case "BIG HEALTH":
+                if (PlayerScript.instance.currentHealth == PlayerScript.instance.maxHealth) return false;
+                StartCoroutine(ItemHealth(itemData));
                 break;
             case "MOVEMENT SPEED":
                 if (this.stimCD) return false;
@@ -154,6 +140,13 @@ public class GameController : MonoBehaviour
                 break;
         }
         return true;
+    }
+
+    IEnumerator ItemHealth(Item itemData)
+    {
+        PlayerScript.instance.currentHealth += float.Parse(itemData.primaryValue);
+        if (PlayerScript.instance.currentHealth >= PlayerScript.instance.maxHealth) PlayerScript.instance.currentHealth = PlayerScript.instance.maxHealth;
+        yield return null;
     }
 
     IEnumerator ItemStim(Item itemData)
