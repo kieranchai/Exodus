@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ShopController : MonoBehaviour
 {
+    public static ShopController instance { get; private set; }
+
     [SerializeField]
     private GameObject shopItemPrefab;
 
@@ -15,6 +17,13 @@ public class ShopController : MonoBehaviour
 
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+
         buyPanel = shopPanel.transform.Find("Buy Panel").gameObject;
         buyPanel.SetActive(true);
         sellPanel = shopPanel.transform.Find("Sell Panel").gameObject;

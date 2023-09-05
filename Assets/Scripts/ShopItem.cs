@@ -103,7 +103,7 @@ public class ShopItem : MonoBehaviour
             this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "PURCHASE";
             this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => Buy(this.itemType));
 
-            if (this.weaponData && PlayerScript.instance.inventory.ContainsKey(this.weaponData) || PlayerScript.instance.equippedWeapon == this.weaponData)
+            if (this.weaponData && PlayerScript.instance.inventory.ContainsKey(this.weaponData) || PlayerScript.instance.equippedWeapon && PlayerScript.instance.equippedWeapon == this.weaponData)
             {
                 this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "OWNED";
                 this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.RemoveAllListeners();

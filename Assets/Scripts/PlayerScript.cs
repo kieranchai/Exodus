@@ -150,7 +150,7 @@ public class PlayerScript : MonoBehaviour
             }
             this.rollTimer += Time.deltaTime;
             this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").Find("Timer").gameObject.GetComponent<TMP_Text>().text = ((int)this.rollCD - (int)this.rollTimer).ToString();
-            if(this.rollTimer >= this.rollCD) this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.SetActive(false);
+            if (this.rollTimer >= this.rollCD) this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.SetActive(false);
         }
     }
 
@@ -195,7 +195,7 @@ public class PlayerScript : MonoBehaviour
     public void TakeDamage(float damage, bool fromZone)
     {
         if (GameController.instance.currentState == GameController.GAME_STATE.DEAD) return;
-        if (this.currentState ==  PLAYER_STATE.ROLLING && fromZone == false) return;
+        if (this.currentState == PLAYER_STATE.ROLLING && fromZone == false) return;
 
         currentHealth -= damage;
         if (currentHealth <= 0) GameController.instance.currentState = GameController.GAME_STATE.DEAD;
@@ -321,6 +321,11 @@ public class PlayerScript : MonoBehaviour
         playerPanel.transform.Find("Ammo Count").Find("HEAVY").Find("Count").GetComponent<TMP_Text>().text = this.ammoCount["HEAVY"] + " HEAVY";
     }
 
+    public void HideInventoryItemDetailUI()
+    {
+        playerPanel.transform.Find("Inventory Panel").Find("Item Detail Panel").gameObject.SetActive(false);
+    }
+
     public void RefreshInventoryUI()
     {
         foreach (Transform child in playerPanel.transform.Find("Inventory Panel").Find("Inventory Items Panel").Find("Item Slots"))
@@ -369,6 +374,12 @@ public class PlayerScript : MonoBehaviour
         {
             GameController.instance.CursorNotOverUI();
         }
+        else
+        {
+            RefreshInventoryUI();
+            HideInventoryItemDetailUI();
+        }
+
         playerPanel.transform.Find("Inventory Panel").gameObject.SetActive(CanSeeInventory);
     }
 
@@ -381,6 +392,16 @@ public class PlayerScript : MonoBehaviour
         {
             GameController.instance.CursorNotOverUI();
         }
+        else
+        {
+            RefreshShopUI();
+        }
+    }
+
+    public void RefreshShopUI()
+    {
+        ShopController.instance.DisplaySellPanel();
+        ShopController.instance.DisplayBuyPanel();
     }
 
     public void LookAtMouse()
