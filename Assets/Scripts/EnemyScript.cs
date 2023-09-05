@@ -36,6 +36,9 @@ public class EnemyScript : MonoBehaviour
     [SerializeField]
     private float wanderRadius;
 
+    [SerializeField]
+    private Transform damagePopupPrefab;
+
     public enum ENEMY_STATE
     {
         WANDER,
@@ -231,6 +234,10 @@ public class EnemyScript : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
+        DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
+        damagePopup.Setup(damage);
+
         if (this.currentHealth - damage > 0)
         {
             this.currentHealth -= damage;

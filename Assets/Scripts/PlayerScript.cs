@@ -44,6 +44,7 @@ public class PlayerScript : MonoBehaviour
 
     [SerializeField] private GameObject playerPanel;
     [SerializeField] private GameObject inventoryItemPrefab;
+    [SerializeField] private Transform damagePopupPrefab;
 
     public bool CanSeeInventory = false;
     public bool CanSeeShop = false;
@@ -197,6 +198,10 @@ public class PlayerScript : MonoBehaviour
         if (GameController.instance.currentState == GameController.GAME_STATE.DEAD) return;
         if (this.currentState == PLAYER_STATE.ROLLING && fromZone == false) return;
 
+        Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
+        DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
+        damagePopup.Setup(damage);
+
         currentHealth -= damage;
         if (currentHealth <= 0) GameController.instance.currentState = GameController.GAME_STATE.DEAD;
     }
@@ -208,7 +213,6 @@ public class PlayerScript : MonoBehaviour
         if (this.experience >= LevelController.instance.xpNeeded)
         {
             if (LevelController.instance.isMaxLvl) {
-                Debug.Log("max lvl reached");
                 return;
             }
             this.experience -= LevelController.instance.xpNeeded;

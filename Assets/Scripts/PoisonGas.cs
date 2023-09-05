@@ -21,6 +21,12 @@ public class PoisonGas : MonoBehaviour
     [SerializeField]
     private float damage = 5f;
 
+    public float t = 0f;
+
+    public bool hasReached = false;
+
+    public bool itemUsed = false;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -40,13 +46,13 @@ public class PoisonGas : MonoBehaviour
     public IEnumerator SpreadToPosition(Transform transform, Vector3 position, float timeToMove)
     {
         var currentPos = transform.position;
-        var t = 0f;
         while (t < 1)
         {
-            t += Time.deltaTime / timeToMove;
+            if(!itemUsed) this.t += Time.deltaTime / timeToMove;
             transform.position = Vector3.Lerp(currentPos, position, t);
             yield return null;
         }
+        this.hasReached = true;
     }
 
     private void OnTriggerStay2D(Collider2D collision)

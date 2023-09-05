@@ -137,6 +137,8 @@ public class GameController : MonoBehaviour
                 StartCoroutine(ItemStim(itemData));
                 break;
             case "GAS":
+                if (PoisonGas.instance.hasReached) return false;
+                StartCoroutine(ItemGas(itemData));
                 break;
             default:
                 break;
@@ -158,5 +160,12 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(float.Parse(itemData.secondaryValue));
         PlayerScript.instance.movementSpeed = PlayerScript.instance.initialMovementSpeed;
         this.stimCD = false;
+    }
+
+    IEnumerator ItemGas(Item itemData)
+    {
+        PoisonGas.instance.itemUsed = true;
+        yield return new WaitForSeconds(float.Parse(itemData.primaryValue));
+        PoisonGas.instance.itemUsed = false;
     }
 }

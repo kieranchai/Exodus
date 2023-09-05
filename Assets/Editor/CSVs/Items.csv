@@ -4,4 +4,4 @@
 4,BANDAGE,Replenishes your HEALTH by [primaryValue],SMALL HEALTH,10,NULL,20,UISprites/testItemSprite,YES
 5,MEDKIT,Replenishes your HEALTH by [primaryValue],BIG HEALTH,50,NULL,100,UISprites/testItemSprite,YES
 6,STIM,Increases your [type] by [primaryValue] for [secondaryValue],MOVEMENT SPEED,2,10,75,UISprites/testItemSprite,YES
-7,SLOW DOWN GAS,Slows down [type] by [primaryValue] for [secondaryValue],GAS,0.5,5,150,UISprites/testItemSprite,YES
+7,GAS STOPPER,Stops [type] for [primaryValue],GAS,5,NULL,150,UISprites/testItemSprite,YES

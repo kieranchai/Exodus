@@ -11,10 +11,10 @@ public class ExperienceBar : MonoBehaviour
     void Update()
     {
         lerpSpeed = 3f * Time.deltaTime;
-        HealthBarFiller();
+        XPBarFiller();
     }
 
-    private void HealthBarFiller()
+    private void XPBarFiller()
     {
         experiencebar.fillAmount = Mathf.Lerp(experiencebar.fillAmount, PlayerScript.instance.experience / LevelController.instance.xpNeeded, lerpSpeed);
     }
