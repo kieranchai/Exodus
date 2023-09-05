@@ -18,6 +18,10 @@ public class WeaponScript : MonoBehaviour
     public string inShop;
     public string ammoType;
     private bool limitAttack;
+    public int framesToFlash = 3;
+    private SpriteRenderer weaponSprite;
+    private Sprite sprite;
+    private Sprite flash;
 
     public void SetWeaponData(Weapon weaponData)
     {
@@ -35,8 +39,9 @@ public class WeaponScript : MonoBehaviour
         this.ammoType = weaponData.ammoType;
         this.inShop = weaponData.inShop;
 
-        SpriteRenderer weaponSprite = gameObject.GetComponent<SpriteRenderer>();
-        Sprite sprite = Resources.Load<Sprite>(this.spritePath);
+        weaponSprite = gameObject.GetComponent<SpriteRenderer>();
+        sprite = Resources.Load<Sprite>(this.spritePath);
+        flash = Resources.Load<Sprite>(this.spritePath + " Flash");
         weaponSprite.sprite = sprite;
     }
 
@@ -49,6 +54,7 @@ public class WeaponScript : MonoBehaviour
             switch (this.weaponType)
             {
                 case "line":
+                    StartCoroutine(FlashMuzzleFlash());
                     StartCoroutine(LineAttack());
                     break;
                 default:
@@ -73,6 +79,14 @@ public class WeaponScript : MonoBehaviour
         }
         limitAttack = false;
         yield return null;
+    }
+
+    IEnumerator FlashMuzzleFlash() {
+        weaponSprite.sprite = flash;
+        for (int i = 0; i < framesToFlash; i ++) {
+            yield return 0;
+        }
+        weaponSprite.sprite = sprite;
     }
 
 }
