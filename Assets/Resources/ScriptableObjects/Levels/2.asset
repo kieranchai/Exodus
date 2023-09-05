@@ -9,15 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a5c7a2cfc43c9248a5a36bfb68096a3, type: 3}
-  m_Name: 1
+  m_Script: {fileID: 11500000, guid: 130c2ce1fd95cf642a5e605a8e093d38, type: 3}
+  m_Name: 2
   m_EditorClassIdentifier: 
-  id: 1
-  enemyName: Wraith
-  health: 10
-  movementSpeed: 3
-  equippedWeapon: Heavy Pistol
-  xpDrop: 10
-  cashDrop: 40
-  lootDrop: NULL
-  spawnZone: LowTierZone
+  levelId: 2
+  xpNeeded: 110
+  healthBuff: 110

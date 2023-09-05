@@ -129,14 +129,20 @@ public class EnemyScript : MonoBehaviour
 
     public void ReturnToZone()
     {
-        this.isReturning = true;
-        Vector3 target = RandomPointInZone(GameController.instance.LowTierZone.bounds);
-        agent.SetDestination(target);
-        transform.up = (target - new Vector3(transform.position.x, transform.position.y));
-        if (agent.remainingDistance > agent.stoppingDistance)
+        foreach (BoxCollider2D a in GameController.instance.Zones)
         {
-            this.currentState = ENEMY_STATE.WANDER;
-            this.isReturning = false;
+            if (a.tag == spawnZone)
+            {
+                this.isReturning = true;
+                Vector3 target = RandomPointInZone(a.bounds);
+                agent.SetDestination(target);
+                transform.up = (target - new Vector3(transform.position.x, transform.position.y));
+                if (agent.remainingDistance > agent.stoppingDistance)
+                {
+                    this.currentState = ENEMY_STATE.WANDER;
+                    this.isReturning = false;
+                }
+            }
         }
     }
 
@@ -258,7 +264,7 @@ public class EnemyScript : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Low Tier Zone"))
+        if (collision.gameObject.tag == spawnZone)
         {
             if (this.currentState == ENEMY_STATE.WANDER)
             {

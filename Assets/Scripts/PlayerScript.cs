@@ -205,11 +205,17 @@ public class PlayerScript : MonoBehaviour
     {
         this.experience += experience;
 
-        //hardcode 
-        if (this.experience > 100)
+        if (this.experience >= LevelController.instance.xpNeeded)
         {
-            this.experience = 0;
-            this.level++;
+            if (LevelController.instance.isMaxLvl) {
+                Debug.Log("max lvl reached");
+                return;
+            }
+            this.experience -= LevelController.instance.xpNeeded;
+            level++;
+            LevelController.instance.UpdateLevelsModifier();
+            maxHealth = LevelController.instance.healthBuff;
+            currentHealth = maxHealth;
         }
     }
 

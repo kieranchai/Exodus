@@ -8,8 +8,9 @@ TagManager:
   - Shop
   - Tooltip
   - Enemy
-  - Low Tier Zone
   - Tilemap Collider
+  - LowTierZone
+  - MidTierZone
   layers:
   - Default
   - TransparentFX

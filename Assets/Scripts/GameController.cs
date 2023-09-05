@@ -6,8 +6,7 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance { get; private set; }
     public bool isOverUI = false;
-    public BoxCollider2D LowTierZone;
-
+    public BoxCollider2D[] Zones;
     public enum GAME_STATE
     {
         PAUSED,
@@ -79,6 +78,9 @@ public class GameController : MonoBehaviour
         if (Input.GetMouseButton(0) && !isOverUI && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING) PlayerScript.instance.weaponSlot.TryAttack();
         if (Input.GetKeyDown(KeyCode.Tab)) PlayerScript.instance.ToggleInventoryView();
         if (Input.GetKeyDown(KeyCode.E)) Interact();
+
+        //cheat
+        if (Input.GetKeyDown(KeyCode.L)){PlayerScript.instance.UpdateExperience(10);}
     }
 
     private void Exit()
