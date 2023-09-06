@@ -18312,6 +18312,7 @@ MonoBehaviour:
   enemyCounter: 0
   enemyLimit: 3
   currentZone: {fileID: 0}
+  duration: 5
 --- !u!1 &1450434193
 GameObject:
   m_ObjectHideFlags: 0
@@ -20137,6 +20138,7 @@ MonoBehaviour:
   enemyCounter: 0
   enemyLimit: 5
   currentZone: {fileID: 0}
+  duration: 5
 --- !u!1 &1818668845
 GameObject:
   m_ObjectHideFlags: 0

@@ -54,7 +54,7 @@ public class WeaponScript : MonoBehaviour
             switch (this.weaponType)
             {
                 case "line":
-                    StartCoroutine(FlashMuzzleFlash());
+                    if (PlayerScript.instance.ammoCount[this.ammoType] > 0) StartCoroutine(FlashMuzzleFlash());
                     StartCoroutine(LineAttack());
                     break;
                 default:
