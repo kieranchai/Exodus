@@ -83,7 +83,10 @@ public class WeaponScript : MonoBehaviour
 
     IEnumerator FlashMuzzleFlash() {
         weaponSprite.sprite = flash;
-        for (int i = 0; i < framesToFlash; i ++) {
+        int ratio = (int)((1/Time.deltaTime) / 60);
+        if (ratio < 1) ratio = 1;
+        int dynamicflash = (framesToFlash * ratio); 
+        for (int i = 0; i < dynamicflash ; i ++) {
             yield return 0;
         }
         weaponSprite.sprite = sprite;

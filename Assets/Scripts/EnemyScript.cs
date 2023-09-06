@@ -17,7 +17,7 @@ public class EnemyScript : MonoBehaviour
     private int xpDrop;
     private int cashDrop;
     private string lootDrop;
-    private string spawnZone;
+    public string spawnZone;
 
     private float timer = 0;
     private float duration = 2f;
@@ -106,7 +106,6 @@ public class EnemyScript : MonoBehaviour
         this.xpDrop = enemyData.xpDrop;
         this.cashDrop = enemyData.cashDrop;
         this.lootDrop = enemyData.lootDrop;
-        this.spawnZone = enemyData.spawnZone;
 
         this.currentHealth = this.maxHealth;
         agent.speed = this.movementSpeed;
