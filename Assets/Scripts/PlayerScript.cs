@@ -10,6 +10,7 @@ public class PlayerScript : MonoBehaviour
 
     public Rigidbody2D rb;
     public Animator anim;
+    public Collider2D coll;
 
     public string playerName;
     public float maxHealth;
@@ -70,6 +71,7 @@ public class PlayerScript : MonoBehaviour
         instance = this;
 
         rb = GetComponent<Rigidbody2D>();
+        coll = GetComponent<Collider2D>();
         weaponSlot = transform.GetChild(0).GetComponent<WeaponScript>();
         this.currentState = PLAYER_STATE.NORMAL;
         this.rollTimer = this.rollCD;

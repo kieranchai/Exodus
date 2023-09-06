@@ -81,7 +81,9 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E)) Interact();
 
         //cheat
-        if (Input.GetKeyDown(KeyCode.L)){PlayerScript.instance.UpdateExperience(10);}
+        if (Input.GetKeyDown(KeyCode.L)) { PlayerScript.instance.UpdateExperience(10); }
+        if (Input.GetKeyDown(KeyCode.H)) { PlayerScript.instance.currentHealth = PlayerScript.instance.maxHealth; }
+
     }
 
     private void Exit()
@@ -110,7 +112,8 @@ public class GameController : MonoBehaviour
     private void GameOver()
     {
         PlayerScript.instance.anim.SetBool("isWalking", false);
-
+        PlayerScript.instance.rb.velocity = Vector2.zero;
+        PlayerScript.instance.coll.enabled = false;
         Debug.Log("You died");
     }
 

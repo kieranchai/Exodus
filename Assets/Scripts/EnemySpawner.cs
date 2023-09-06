@@ -1,34 +1,41 @@
-dusing System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
     public string spawnZone;
-    public Enemy enemy[];
-    public Enemy zoneEnemies[];
+    public GameObject[] zoneEnemies;
 
     public int enemyCounter;
 
     public int enemyLimit = 5;
     public Collider2D currentZone;
 
+    private float timer = 0;
+    public float duration = 5f;
+
     void Start()
     {
-        enemy[] = Resources.LoadAll<Enemy>("ScriptableObjects/Enemies");
-        zoneEnemies[] = Array.Find(enemy, e => e.spawnZone == spawnZone);
+        zoneEnemies = Resources.LoadAll<GameObject>($"Prefabs/Enemies/{spawnZone}");
         currentZone = gameObject.GetComponent<Collider2D>();
     }
 
     void Update()
     {
-        if (enemyCounter < enemyLimit) SpawnRandomEnemy();
+        timer += Time.deltaTime;
+        if (timer >= duration)
+        {
+            SpawnRandomEnemy();
+            timer = 0;
+        }
     }
 
     public void SpawnRandomEnemy()
     {
-        Enemy spawnedEnemy = Instantiate(zoneEnemies[Random.Range(0, zoneEnemies.Length)], RandomPointInZone(currentZone));
-        spawnedEnemy.spawnZone = currentZone.tag;
+        if (enemyCounter == enemyLimit) return;
+        GameObject spawnedEnemy = Instantiate(zoneEnemies[Random.Range(0, zoneEnemies.Length - 1)], RandomPointInZone(currentZone.bounds), Quaternion.identity);
+        spawnedEnemy.GetComponent<EnemyScript>().spawnZone = currentZone.tag;
         enemyCounter++;
     }
 

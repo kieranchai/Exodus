@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
+using UnityEngine.U2D;
 
 public class EnemyWeaponScript : MonoBehaviour
 {
@@ -11,7 +13,10 @@ public class EnemyWeaponScript : MonoBehaviour
     private float weaponRange;
     private bool limitAttack;
     public string spritePath;
-
+    public int framesToFlash = 3;
+    private SpriteRenderer weaponSprite;
+    private Sprite sprite;
+    private Sprite flash;
     public void SetWeaponData(Weapon weaponData)
     {
         this.weaponName = weaponData.name;
@@ -21,10 +26,10 @@ public class EnemyWeaponScript : MonoBehaviour
         this.weaponRange = weaponData.weaponRange;
         this.spritePath = weaponData.spritePath;
 
-        SpriteRenderer weaponSprite = gameObject.GetComponent<SpriteRenderer>();
-        Sprite sprite = Resources.Load<Sprite>(this.spritePath);
+        weaponSprite = gameObject.GetComponent<SpriteRenderer>();
+        sprite = Resources.Load<Sprite>(this.spritePath);
+        flash = Resources.Load<Sprite>(this.spritePath + " Flash");
         weaponSprite.sprite = sprite;
-
     }
 
     public void TryAttack()
@@ -34,6 +39,7 @@ public class EnemyWeaponScript : MonoBehaviour
             switch (this.weaponType)
             {
                 case "line":
+                    StartCoroutine(FlashMuzzleFlash());
                     StartCoroutine(LineAttack());
                     break;
                 default:
@@ -54,5 +60,18 @@ public class EnemyWeaponScript : MonoBehaviour
 
         limitAttack = false;
         yield return null;
+    }
+
+    IEnumerator FlashMuzzleFlash()
+    {
+        weaponSprite.sprite = flash;
+        int ratio = (int)((1 / Time.deltaTime) / 60);
+        if (ratio < 1) ratio = 1;
+        int dynamicflash = (framesToFlash * ratio);
+        for (int i = 0; i < dynamicflash; i++)
+        {
+            yield return 0;
+        }
+        weaponSprite.sprite = sprite;
     }
 }

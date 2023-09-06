@@ -39,6 +39,9 @@ public class EnemyScript : MonoBehaviour
     [SerializeField]
     private Transform damagePopupPrefab;
 
+    private bool hasSetSpawnZone = false;
+    private EnemySpawner mySpawner;
+
     public enum ENEMY_STATE
     {
         WANDER,
@@ -254,6 +257,7 @@ public class EnemyScript : MonoBehaviour
         // Drop XP, Cash, Loot
         PlayerScript.instance.UpdateExperience(xpDrop);
         PlayerScript.instance.UpdateCash(cashDrop);
+        --this.mySpawner.enemyCounter;
         this.currentState = ENEMY_STATE.DEAD;
     }
 
@@ -266,6 +270,15 @@ public class EnemyScript : MonoBehaviour
         /*        enemySprite.sprite = Resources.Load<Sprite>($"Sprites/{this.enemyName}_Death");*/
 
         Destroy(gameObject, 4f);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(!this.hasSetSpawnZone && collision.CompareTag(this.spawnZone))
+        {
+            this.mySpawner = collision.gameObject.GetComponent<EnemySpawner>();
+            this.hasSetSpawnZone = true;
+        }
     }
 
     void OnTriggerExit2D(Collider2D collision)

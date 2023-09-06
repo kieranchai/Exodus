@@ -9,8 +9,9 @@ TagManager:
   - Tooltip
   - Enemy
   - Tilemap Collider
-  - LowTierZone
   - MidTierZone
+  - City
+  - Forest
   layers:
   - Default
   - TransparentFX
