@@ -157,6 +157,7 @@ public class ShopItem : MonoBehaviour
             this.itemDetailPanel.transform.Find("Weapon Range").GetComponent<TMP_Text>().text = this.range.ToString();
             this.itemDetailPanel.transform.Find("Weapon Weight").GetComponent<TMP_Text>().text = this.weight.ToString();
             this.itemDetailPanel.transform.Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = this.ammoType.ToString();
+            if(this.ammoType == "NULL") this.itemDetailPanel.transform.Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = "MELEE";
 
             foreach (Transform child in this.itemDetailPanel.transform)
             {

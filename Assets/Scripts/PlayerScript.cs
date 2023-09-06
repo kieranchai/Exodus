@@ -256,7 +256,6 @@ public class PlayerScript : MonoBehaviour
         if (!inventory.ContainsKey(weaponData)) return;
         equippedWeapon = weaponData;
         weaponSlot.SetWeaponData(weaponData);
-        Debug.Log(weaponData.weaponType);
         transform.GetChild(1).gameObject.SetActive(false);
         if (weaponData.weaponType == "akimbo") {
             transform.GetChild(1).gameObject.GetComponent<WeaponScript>().SetWeaponData(weaponData); 
@@ -312,7 +311,7 @@ public class PlayerScript : MonoBehaviour
 
     public void UpdateAmmoCount(int ammo, string ammoType)
     {
-        // if (ammoType == "NULL") return;
+        if (ammoType == "NULL") return;
         switch (ammoType)
         {
             case "LIGHT":

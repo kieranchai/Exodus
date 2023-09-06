@@ -121,7 +121,7 @@ public class InventoryItem : MonoBehaviour
             this.itemDetailPanel.transform.Find("Weapon Range").GetComponent<TMP_Text>().text = this.range.ToString();
             this.itemDetailPanel.transform.Find("Weapon Weight").GetComponent<TMP_Text>().text = this.weight.ToString();
             this.itemDetailPanel.transform.Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = this.ammoType.ToString();
-
+            if (this.ammoType == "NULL") this.itemDetailPanel.transform.Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = "MELEE";
             foreach (Transform child in this.itemDetailPanel.transform)
             {
                 if (child.name.Contains("Weapon")) child.gameObject.SetActive(true);
@@ -141,7 +141,8 @@ public class InventoryItem : MonoBehaviour
         if (GameController.instance.UseItem(this.itemData))
         {
             UpdateItem();
-        } else
+        }
+        else
         {
             Debug.Log("Can't use it right now");
             return;
