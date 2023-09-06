@@ -1113,6 +1113,7 @@ Transform:
   - {fileID: 280030222}
   - {fileID: 1889801931}
   - {fileID: 1974300279}
+  - {fileID: 2111136095}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &167660544
@@ -1315,6 +1316,7 @@ GameObject:
   - component: {fileID: 280030222}
   - component: {fileID: 280030223}
   - component: {fileID: 280030224}
+  - component: {fileID: 280030225}
   m_Layer: 3
   m_Name: Weapon
   m_TagString: Untagged
@@ -1378,7 +1380,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 880bc3b3e07915149a9809150991b6d2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1386,7 +1388,7 @@ SpriteRenderer:
   m_Size: {x: 0.64, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &280030224
@@ -1416,6 +1418,31 @@ MonoBehaviour:
   inShop: 
   ammoType: 
   framesToFlash: 3
+  anim: {fileID: 280030225}
+  animatorOverrideController: {fileID: 22100000, guid: 26830a479b03f1443a089b4677c8973c, type: 2}
+  circleOrigin: {fileID: 2111136095}
+  radius: 0.21
+--- !u!95 &280030225
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280030221}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d9f0d17394cdce74d9d5eb00d578f994, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &341201356
 GameObject:
   m_ObjectHideFlags: 0
@@ -20592,6 +20619,10 @@ MonoBehaviour:
   inShop: 
   ammoType: 
   framesToFlash: 3
+  anim: {fileID: 280030225}
+  animatorOverrideController: {fileID: 22100000, guid: 26830a479b03f1443a089b4677c8973c, type: 2}
+  circleOrigin: {fileID: 0}
+  radius: 0
 --- !u!212 &1889801933
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -35219,6 +35250,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2111136094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2111136095}
+  m_Layer: 3
+  m_Name: MeleePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2111136095
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111136094}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.203, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 167660542}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2117672542
 GameObject:
   m_ObjectHideFlags: 0

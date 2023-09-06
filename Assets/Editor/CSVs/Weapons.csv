@@ -3,3 +3,4 @@
 3,Fists,NULL,1,NULL,UISprites/Fists,melee,0.6,0,0,0,0,NULL,NO
 4,Dual Pistols,Make it double!,1,Sprites/Heavy Pistol,UISprites/Heavy Pistol,akimbo,0.5,8,40,120,0.4,HEAVY,YES
 5,Dual Rifles,Make it double!,3,Sprites/Assault Rifle,UISprites/Assault Rifle,akimbo,0.2,8,100,120,0.4,MEDIUM,YES
+6,Katana,Up close and personal!,10,Sprites/Katana,UISprites/Katana,melee,0.2,0,0,300,0,NULL,YES

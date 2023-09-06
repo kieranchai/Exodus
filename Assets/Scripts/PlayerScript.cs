@@ -256,7 +256,7 @@ public class PlayerScript : MonoBehaviour
         if (!inventory.ContainsKey(weaponData)) return;
         equippedWeapon = weaponData;
         weaponSlot.SetWeaponData(weaponData);
-
+        Debug.Log(weaponData.weaponType);
         transform.GetChild(1).gameObject.SetActive(false);
         if (weaponData.weaponType == "akimbo") {
             transform.GetChild(1).gameObject.GetComponent<WeaponScript>().SetWeaponData(weaponData); 
@@ -270,11 +270,11 @@ public class PlayerScript : MonoBehaviour
     public void UnequipWeapon()
     {
         if (equippedWeapon.weaponType == "akimbo") transform.GetChild(1).gameObject.SetActive(false);
-        equippedWeapon = null;
+        // equippedWeapon = null;
 
         // Set Equipped Weapon Data to UNARMED
         weaponSlot.SetWeaponData(Resources.Load<Weapon>("ScriptableObjects/Weapons/Fists"));
-
+        equippedWeapon = Resources.Load<Weapon>("ScriptableObjects/Weapons/Fists");
         this.weaponWeight = 0;
         RefreshEquippedUI();
     }
@@ -312,6 +312,7 @@ public class PlayerScript : MonoBehaviour
 
     public void UpdateAmmoCount(int ammo, string ammoType)
     {
+        // if (ammoType == "NULL") return;
         switch (ammoType)
         {
             case "LIGHT":

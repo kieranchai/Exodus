@@ -22,7 +22,10 @@ public class WeaponScript : MonoBehaviour
     private SpriteRenderer weaponSprite;
     private Sprite sprite;
     private Sprite flash;
-
+    public Animator anim;
+    public AnimatorOverrideController animatorOverrideController;
+    public Transform circleOrigin;
+    public float radius;
     public void SetWeaponData(Weapon weaponData)
     {
         this.id = weaponData.id;
@@ -43,12 +46,17 @@ public class WeaponScript : MonoBehaviour
         sprite = Resources.Load<Sprite>(this.spritePath);
         flash = Resources.Load<Sprite>(this.spritePath + " Flash");
         weaponSprite.sprite = sprite;
+
+        if (weaponData.weaponType == "melee") {
+            anim.enabled = true;
+        }else {
+            anim.enabled = false;
+        }
     }
 
     public void TryAttack()
     {
         if (!PlayerScript.instance.equippedWeapon) return;
-
         if (!limitAttack)
         {
             switch (this.weaponType)
@@ -56,6 +64,9 @@ public class WeaponScript : MonoBehaviour
                 case "line":
                     if (PlayerScript.instance.ammoCount[this.ammoType] > 0) StartCoroutine(FlashMuzzleFlash());
                     StartCoroutine(LineAttack());
+                    break;
+                case "melee":
+                   StartCoroutine(MeleeAttack());
                     break;
                 case "akimbo":
                     if (PlayerScript.instance.ammoCount[this.ammoType] > 0) StartCoroutine(FlashMuzzleFlash());
@@ -66,7 +77,31 @@ public class WeaponScript : MonoBehaviour
             }
         }
     }
-
+    IEnumerator MeleeAttack()
+    {
+        limitAttack = true;
+        foreach (Collider2D collider in Physics2D.OverlapCircleAll(circleOrigin.position, radius))
+        {
+            if (collider.gameObject.CompareTag("Enemy"))
+            {
+                collider.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower);
+            }
+        }
+        switch (this.weaponName)
+        {
+            case "Fists":
+                anim.SetTrigger("Fists");
+                break;
+            case "Katana":
+                anim.SetTrigger("Katana");
+                break;
+            default:
+                break;
+        }
+        yield return new WaitForSeconds(this.cooldown);
+        limitAttack = false;
+        yield return null;
+    }
     IEnumerator LineAttack()
     {
         limitAttack = true;
@@ -96,4 +131,9 @@ public class WeaponScript : MonoBehaviour
         weaponSprite.sprite = sprite;
     }
 
+    private void OnDrawGizmosSelected() {
+        Gizmos.color = Color.blue;
+        Vector3 position = circleOrigin.position;
+        Gizmos.DrawWireSphere(position,radius);
+    }
 }
