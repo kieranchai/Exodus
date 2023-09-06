@@ -76,7 +76,14 @@ public class GameController : MonoBehaviour
         //Movement Input WASD+LEFT SHIFT is in PlayerScript Update/FixedUpdate
 
         if (Input.GetKeyDown(KeyCode.Escape)) Exit();
-        if (Input.GetMouseButton(0) && !isOverUI && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING) PlayerScript.instance.weaponSlot.TryAttack();
+        if (Input.GetMouseButton(0) && !isOverUI && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
+        {
+            PlayerScript.instance.weaponSlot.TryAttack();
+            if (PlayerScript.instance.equippedWeapon && PlayerScript.instance.equippedWeapon.weaponType == "akimbo")
+            {
+                PlayerScript.instance.akimboSlot.TryAttack();
+            }
+        }
         if (Input.GetKeyDown(KeyCode.Tab)) PlayerScript.instance.ToggleInventoryView();
         if (Input.GetKeyDown(KeyCode.E)) Interact();
 
@@ -111,9 +118,9 @@ public class GameController : MonoBehaviour
 
     private void GameOver()
     {
-        PlayerScript.instance.anim.SetBool("isWalking", false);
-        PlayerScript.instance.rb.velocity = Vector2.zero;
         PlayerScript.instance.coll.enabled = false;
+        PlayerScript.instance.anim.SetBool("isWalking", false);
+
         Debug.Log("You died");
     }
 

@@ -37,8 +37,9 @@ public class PlayerScript : MonoBehaviour
 
     public float weaponWeight = 0;
     public WeaponScript weaponSlot;
+    public WeaponScript akimboSlot;
     public Weapon equippedWeapon;
-
+   
     public Dictionary<string, int> ammoCount = new();
 
     public Dictionary<ScriptableObject, int> inventory = new();
@@ -56,7 +57,8 @@ public class PlayerScript : MonoBehaviour
     public enum PLAYER_STATE
     {
         NORMAL,
-        ROLLING
+        ROLLING,
+        DEAD
     }
 
     public PLAYER_STATE currentState;
@@ -73,6 +75,7 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
         weaponSlot = transform.GetChild(0).GetComponent<WeaponScript>();
+        akimboSlot = transform.GetChild(1).GetComponent<WeaponScript>();
         this.currentState = PLAYER_STATE.NORMAL;
         this.rollTimer = this.rollCD;
     }
@@ -167,6 +170,8 @@ public class PlayerScript : MonoBehaviour
             case PLAYER_STATE.ROLLING:
                 this.rb.velocity = this.rollDir * this.rollSpeed;
                 break;
+            case PLAYER_STATE.DEAD:
+                break;
             default:
                 break;
         }
@@ -205,7 +210,12 @@ public class PlayerScript : MonoBehaviour
         damagePopup.Setup(damage);
 
         currentHealth -= damage;
-        if (currentHealth <= 0) GameController.instance.currentState = GameController.GAME_STATE.DEAD;
+        if (currentHealth <= 0)
+        {
+            this.rb.velocity = Vector3.zero;
+            this.currentState = PLAYER_STATE.DEAD;
+            GameController.instance.currentState = GameController.GAME_STATE.DEAD;
+        }
     }
 
     public void UpdateExperience(float experience)
@@ -214,7 +224,8 @@ public class PlayerScript : MonoBehaviour
 
         if (this.experience >= LevelController.instance.xpNeeded)
         {
-            if (LevelController.instance.isMaxLvl) {
+            if (LevelController.instance.isMaxLvl)
+            {
                 return;
             }
             this.experience -= LevelController.instance.xpNeeded;
@@ -245,12 +256,20 @@ public class PlayerScript : MonoBehaviour
         if (!inventory.ContainsKey(weaponData)) return;
         equippedWeapon = weaponData;
         weaponSlot.SetWeaponData(weaponData);
+
+        transform.GetChild(1).gameObject.SetActive(false);
+        if (weaponData.weaponType == "akimbo") {
+            transform.GetChild(1).gameObject.GetComponent<WeaponScript>().SetWeaponData(weaponData); 
+            transform.GetChild(1).gameObject.SetActive(true);
+        }
+
         this.weaponWeight = weaponData.weight;
         RefreshEquippedUI();
     }
 
     public void UnequipWeapon()
     {
+        if (equippedWeapon.weaponType == "akimbo") transform.GetChild(1).gameObject.SetActive(false);
         equippedWeapon = null;
 
         // Set Equipped Weapon Data to UNARMED
@@ -422,5 +441,6 @@ public class PlayerScript : MonoBehaviour
         transform.up = (Vector3)(mousePos - new Vector2(transform.position.x, transform.position.y));
 
         transform.GetChild(0).gameObject.transform.right = this.transform.up.normalized;
+        transform.GetChild(1).gameObject.transform.right = this.transform.up.normalized;
     }
 }

@@ -1,3 +1,5 @@
 1,Assault Rifle,Standard issue rifle. Reliable and efficient.,3,Sprites/Assault Rifle,UISprites/Assault Rifle,line,0.2,8,60,250,0.8,MEDIUM,YES
 2,Heavy Pistol,Powerful but slow. Great for headshots.,6,Sprites/Heavy Pistol,UISprites/Heavy Pistol,line,0.7,8,20,120,0.4,HEAVY,YES
 3,Fists,NULL,1,NULL,UISprites/Fists,melee,0.6,0,0,0,0,NULL,NO
+4,Dual Pistols,Make it double!,1,Sprites/Heavy Pistol,UISprites/Heavy Pistol,akimbo,0.5,8,40,120,0.4,HEAVY,YES
+5,Dual Rifles,Make it double!,3,Sprites/Assault Rifle,UISprites/Assault Rifle,akimbo,0.2,8,100,120,0.4,MEDIUM,YES
