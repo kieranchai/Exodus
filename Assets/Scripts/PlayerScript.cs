@@ -31,6 +31,7 @@ public class PlayerScript : MonoBehaviour
     private Vector3 lastMoveDir;
     private float rollCD = 5f;
     private float rollTimer;
+    private bool rollOnCD = false;
 
     [SerializeField]
     private Player _data;
@@ -136,7 +137,7 @@ public class PlayerScript : MonoBehaviour
                         this.rollSpeed = this.initialMovementSpeed * 1.5f;
                         this.currentState = PLAYER_STATE.ROLLING;
                         this.rollTimer = 0;
-
+                        this.rollOnCD = true;
                         this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.SetActive(true);
                         //Play Roll Anims
                     }
@@ -156,7 +157,16 @@ public class PlayerScript : MonoBehaviour
             }
             this.rollTimer += Time.deltaTime;
             this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").Find("Timer").gameObject.GetComponent<TMP_Text>().text = ((int)this.rollCD - (int)this.rollTimer).ToString();
-            if (this.rollTimer >= this.rollCD) this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.SetActive(false);
+            if(this.rollOnCD) {
+                this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.GetComponent<Image>().fillAmount = Mathf.Lerp(
+                this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.GetComponent<Image>().fillAmount, 1 - rollTimer/rollCD, 10f * Time.deltaTime);
+            } else {
+                this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.GetComponent<Image>().fillAmount = 1;
+            }
+            if (this.rollTimer >= this.rollCD) {
+                this.rollOnCD = false;
+                this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.SetActive(false);
+            }
         }
     }
 
@@ -460,6 +470,19 @@ public class PlayerScript : MonoBehaviour
         playerPanel.transform.Find("Alert").Find("Text").gameObject.GetComponent<TMP_Text>().text = alertText;
         StopCoroutine(DisplayAlert());
         StartCoroutine(DisplayAlert());
+    }
+
+    public void UpdateStimTimerUI(float timer, float duration)
+    {
+        this.playerPanel.transform.Find("Stim Buff").gameObject.SetActive(true);
+        this.playerPanel.transform.Find("Stim Buff").Find("Timer").gameObject.GetComponent<Image>().fillAmount = Mathf.Lerp(
+            this.playerPanel.transform.Find("Stim Buff").Find("Timer").gameObject.GetComponent<Image>().fillAmount, 1 - timer/duration, 10f * Time.deltaTime);
+    }
+
+    public void HideStimTimerUI() 
+    {
+        this.playerPanel.transform.Find("Stim Buff").Find("Timer").gameObject.GetComponent<Image>().fillAmount = 1;
+        this.playerPanel.transform.Find("Stim Buff").gameObject.SetActive(false);
     }
 
     public void LookAtMouse()

@@ -21,6 +21,9 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject pauseScreen;
 
+    [SerializeField]
+    private GameObject deathScreen;
+
     private bool stimCD = false;
 
     void Awake()
@@ -121,7 +124,8 @@ public class GameController : MonoBehaviour
         PlayerScript.instance.coll.enabled = false;
         PlayerScript.instance.anim.SetBool("isWalking", false);
 
-        Debug.Log("You died");
+        Time.timeScale = 0.0f;
+        deathScreen.SetActive(true);
     }
 
     public void CursorIsOverUI()
@@ -181,7 +185,13 @@ public class GameController : MonoBehaviour
     {
         this.stimCD = true;
         PlayerScript.instance.movementSpeed += float.Parse(itemData.primaryValue);
-        yield return new WaitForSeconds(float.Parse(itemData.secondaryValue));
+        float stimTimer = 0;
+        while(stimTimer < float.Parse(itemData.secondaryValue)) {
+            stimTimer += Time.deltaTime;
+            PlayerScript.instance.UpdateStimTimerUI(stimTimer, float.Parse(itemData.secondaryValue));
+            yield return null;
+        }
+        PlayerScript.instance.HideStimTimerUI();
         PlayerScript.instance.movementSpeed = PlayerScript.instance.initialMovementSpeed;
         this.stimCD = false;
     }
