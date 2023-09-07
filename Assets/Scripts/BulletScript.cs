@@ -6,7 +6,7 @@ public class BulletScript : MonoBehaviour
     private float weaponRange;
     private Vector3 initialPosition;
 
-    public void Initialize(float attackPower, float weaponRange)
+    public void Initialise(float attackPower, float weaponRange)
     {
         this.attackPower = attackPower;
         this.weaponRange = weaponRange;

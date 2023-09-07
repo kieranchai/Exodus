@@ -108,9 +108,9 @@ public class WeaponScript : MonoBehaviour
         if (PlayerScript.instance.ammoCount[this.ammoType] > 0)
         {
             GameObject bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Bullet"), transform.position, transform.rotation);
-            bullet.GetComponent<BulletScript>().Initialize(this.attackPower, this.weaponRange);
+            bullet.GetComponent<BulletScript>().Initialise(this.attackPower, this.weaponRange);
             //can add Projectile Speed to CSV (600 here)
-            bullet.GetComponent<Rigidbody2D>().AddForce(transform.right * 600);
+            bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 600);
 
             --PlayerScript.instance.ammoCount[this.ammoType];
             PlayerScript.instance.RefreshAmmoUI();

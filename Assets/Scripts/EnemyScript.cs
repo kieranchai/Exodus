@@ -77,7 +77,6 @@ public class EnemyScript : MonoBehaviour
             anim.SetBool("isWalking", false);
         }
 
-        transform.Find("Weapon").right = this.transform.up.normalized;
         switch (this.currentState)
         {
             case ENEMY_STATE.WANDER:
