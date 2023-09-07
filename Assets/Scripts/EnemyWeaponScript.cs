@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
-using UnityEngine.U2D;
 
 public class EnemyWeaponScript : MonoBehaviour
 {
@@ -17,6 +14,7 @@ public class EnemyWeaponScript : MonoBehaviour
     private SpriteRenderer weaponSprite;
     private Sprite sprite;
     private Sprite flash;
+
     public void SetWeaponData(Weapon weaponData)
     {
         this.weaponName = weaponData.name;

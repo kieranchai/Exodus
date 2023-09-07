@@ -12,6 +12,7 @@ TagManager:
   - MidTierZone
   - City
   - Forest
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Safe Zone
   - Poison Gas
   - Tilemap Collider
-  - 
+  - Boss
   - 
   - 
   - 
