@@ -140,15 +140,28 @@ public class GameController : MonoBehaviour
         {
             case "SMALL HEALTH":
             case "BIG HEALTH":
-                if (PlayerScript.instance.currentHealth == PlayerScript.instance.maxHealth) return false;
+                if (PlayerScript.instance.currentHealth == PlayerScript.instance.maxHealth) {
+                    PlayerScript.instance.AlertPopup("health");
+                    return false;
+                }
                 StartCoroutine(ItemHealth(itemData));
                 break;
             case "MOVEMENT SPEED":
-                if (this.stimCD) return false;
+                if (this.stimCD) {
+                    PlayerScript.instance.AlertPopup("speed");
+                    return false;
+                }
                 StartCoroutine(ItemStim(itemData));
                 break;
             case "GAS":
-                if (PoisonGas.instance.hasReached) return false;
+                if (PoisonGas.instance.hasReached) {
+                    PlayerScript.instance.AlertPopup("gasEnded");
+                    return false;
+                } else if (PoisonGas.instance.itemUsed)
+                {
+                    PlayerScript.instance.AlertPopup("gas");
+                    return false;
+                }
                 StartCoroutine(ItemGas(itemData));
                 break;
             default:

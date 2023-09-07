@@ -39,7 +39,7 @@ public class PlayerScript : MonoBehaviour
     public WeaponScript weaponSlot;
     public WeaponScript akimboSlot;
     public Weapon equippedWeapon;
-   
+
     public Dictionary<string, int> ammoCount = new();
 
     public Dictionary<ScriptableObject, int> inventory = new();
@@ -257,8 +257,9 @@ public class PlayerScript : MonoBehaviour
         equippedWeapon = weaponData;
         weaponSlot.SetWeaponData(weaponData);
         transform.GetChild(1).gameObject.SetActive(false);
-        if (weaponData.weaponType == "akimbo") {
-            transform.GetChild(1).gameObject.GetComponent<WeaponScript>().SetWeaponData(weaponData); 
+        if (weaponData.weaponType == "akimbo")
+        {
+            transform.GetChild(1).gameObject.GetComponent<WeaponScript>().SetWeaponData(weaponData);
             transform.GetChild(1).gameObject.SetActive(true);
         }
 
@@ -435,6 +436,32 @@ public class PlayerScript : MonoBehaviour
         ShopController.instance.DisplayBuyPanel();
     }
 
+    public void AlertPopup(string alertType)
+    {
+        string alertText = "";
+
+        switch (alertType)
+        {
+            case "health":
+                alertText = "You are already at full health.";
+                break;
+            case "speed":
+                alertText = "You are already affected by STIM. Try again later.";
+                break;
+            case "gas":
+                alertText = "You have already stopped the gas. Try again later.";
+                break;
+            case "gasEnded":
+                alertText = "The gas has already finished spreading.";
+                break;
+            default:
+                break;
+        }
+        playerPanel.transform.Find("Alert").Find("Text").gameObject.GetComponent<TMP_Text>().text = alertText;
+        StopCoroutine(DisplayAlert());
+        StartCoroutine(DisplayAlert());
+    }
+
     public void LookAtMouse()
     {
         Vector2 mousePos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -442,5 +469,12 @@ public class PlayerScript : MonoBehaviour
 
         transform.GetChild(0).gameObject.transform.right = this.transform.up.normalized;
         transform.GetChild(1).gameObject.transform.right = this.transform.up.normalized;
+    }
+
+    IEnumerator DisplayAlert()
+    {
+        playerPanel.transform.Find("Alert").gameObject.SetActive(true);
+        yield return new WaitForSeconds(2);
+        playerPanel.transform.Find("Alert").gameObject.SetActive(false);
     }
 }
