@@ -19,6 +19,8 @@ public class MothershipScript : MonoBehaviour
     private Vector3 newLeftTurretPos;
     private Vector3 newRightTurretPos;
 
+    private bool isTargeted = false;
+
     private enum BOSS_STATE
     {
         STAGE1,
@@ -43,8 +45,11 @@ public class MothershipScript : MonoBehaviour
     void Update()
     {
         //Set the turret orientation to face downwards
-        leftTurret.transform.up = -this.transform.up.normalized;
-        rightTurret.transform.up = -this.transform.up.normalized;
+        if(!isTargeted)
+        {
+            leftTurret.transform.up = -this.transform.up.normalized;
+            rightTurret.transform.up = -this.transform.up.normalized;
+        }
 
         switch (currentState)
         {
@@ -77,6 +82,21 @@ public class MothershipScript : MonoBehaviour
 
     IEnumerator Stage1Cycle()
     {
+        //Target Player
+        float targetTime = 0;
+        float targetDuration = 5f;
+        while (targetTime < targetDuration)
+        {
+            isTargeted = true;
+            targetTime += Time.deltaTime;
+            leftTurret.transform.up = (PlayerScript.instance.transform.position - new Vector3(leftTurret.transform.position.x, leftTurret.transform.position.y));
+            rightTurret.transform.up = (PlayerScript.instance.transform.position - new Vector3(rightTurret.transform.position.x, rightTurret.transform.position.y));
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 5, 0.5f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 5, 0.5f);
+            yield return null;
+        }
+        isTargeted = false;
+
         //Initiate Moving Right Turret to be beside Left Turret from Initial Positions
         float moveTime = 0;
         float moveDuration = 1f;
@@ -178,7 +198,6 @@ public class MothershipScript : MonoBehaviour
         }
         newLeftTurretPos = initialLeftTurretPos;
         newRightTurretPos = initialRightTurretPos;
-        Debug.Log("End Cycle");
 
         yield return StartCoroutine(Stage1Cycle());
     }
