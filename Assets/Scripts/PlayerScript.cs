@@ -11,6 +11,7 @@ public class PlayerScript : MonoBehaviour
     public Rigidbody2D rb;
     public Animator anim;
     public Collider2D coll;
+    public SpriteRenderer playerSprite;
 
     public string playerName;
     public float maxHealth;
@@ -75,6 +76,8 @@ public class PlayerScript : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
+        playerSprite = GetComponent<SpriteRenderer>();
+
         weaponSlot = transform.GetChild(0).GetComponent<WeaponScript>();
         akimboSlot = transform.GetChild(1).GetComponent<WeaponScript>();
         this.currentState = PLAYER_STATE.NORMAL;
@@ -88,6 +91,8 @@ public class PlayerScript : MonoBehaviour
         EquipDefaultWeapon(Resources.Load<Weapon>($"ScriptableObjects/Weapons/{this.defaultWeapon}"));
 
         UpdateAmmoCount(this.equippedWeapon.defaultAmmo, this.equippedWeapon.ammoType);
+
+        StartCoroutine(SpawnFlicker());
     }
 
     private void Update()
@@ -156,13 +161,17 @@ public class PlayerScript : MonoBehaviour
             }
             this.rollTimer += Time.deltaTime;
             this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").Find("Timer").gameObject.GetComponent<TMP_Text>().text = ((int)this.rollCD - (int)this.rollTimer).ToString();
-            if(this.rollOnCD) {
+            if (this.rollOnCD)
+            {
                 this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.GetComponent<Image>().fillAmount = Mathf.Lerp(
-                this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.GetComponent<Image>().fillAmount, 1 - rollTimer/rollCD, 10f * Time.deltaTime);
-            } else {
+                this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.GetComponent<Image>().fillAmount, 1 - rollTimer / rollCD, 10f * Time.deltaTime);
+            }
+            else
+            {
                 this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.GetComponent<Image>().fillAmount = 1;
             }
-            if (this.rollTimer >= this.rollCD) {
+            if (this.rollTimer >= this.rollCD)
+            {
                 this.rollOnCD = false;
                 this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.SetActive(false);
             }
@@ -390,12 +399,11 @@ public class PlayerScript : MonoBehaviour
         if (equippedWeapon)
         {
             playerPanel.transform.Find("Equipped Weapon").Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = equippedWeapon.ammoType;
+            if (equippedWeapon.ammoType == "NULL")
+            {
+                playerPanel.transform.Find("Equipped Weapon").Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = "MELEE";
+            }
             playerPanel.transform.Find("Equipped Weapon").Find("Weapon").GetComponent<Image>().sprite = Resources.Load<Sprite>(equippedWeapon.thumbnailPath);
-        }
-        else
-        {
-            playerPanel.transform.Find("Equipped Weapon").Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = "UNARMED";
-            playerPanel.transform.Find("Equipped Weapon").Find("Weapon").GetComponent<Image>().sprite = Resources.Load<Sprite>("UISprites/testItemSprite");
         }
     }
 
@@ -476,10 +484,10 @@ public class PlayerScript : MonoBehaviour
     {
         this.playerPanel.transform.Find("Stim Buff").gameObject.SetActive(true);
         this.playerPanel.transform.Find("Stim Buff").Find("Timer").gameObject.GetComponent<Image>().fillAmount = Mathf.Lerp(
-            this.playerPanel.transform.Find("Stim Buff").Find("Timer").gameObject.GetComponent<Image>().fillAmount, 1 - timer/duration, 10f * Time.deltaTime);
+            this.playerPanel.transform.Find("Stim Buff").Find("Timer").gameObject.GetComponent<Image>().fillAmount, 1 - timer / duration, 10f * Time.deltaTime);
     }
 
-    public void HideStimTimerUI() 
+    public void HideStimTimerUI()
     {
         this.playerPanel.transform.Find("Stim Buff").Find("Timer").gameObject.GetComponent<Image>().fillAmount = 1;
         this.playerPanel.transform.Find("Stim Buff").gameObject.SetActive(false);
@@ -500,12 +508,31 @@ public class PlayerScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(GameController.instance.currentState == GameController.GAME_STATE.TUTORIAL)
+        if (GameController.instance.currentState == GameController.GAME_STATE.TUTORIAL)
         {
-            if(collision.gameObject.CompareTag("Tutorial Area 2"))
+            if (collision.gameObject.CompareTag("Tutorial Area 2"))
             {
                 GameController.instance.passedArea2 = true;
             }
         }
+    }
+
+    IEnumerator SpawnFlicker()
+    {
+        Color initialColor = playerSprite.color;
+        Color hitFlash = Color.black;
+        hitFlash.a = 0.2f;
+
+        playerSprite.color = hitFlash;
+        yield return new WaitForSeconds(0.05f);
+        playerSprite.color = initialColor;
+        yield return new WaitForSeconds(0.05f);
+        playerSprite.color = hitFlash;
+        yield return new WaitForSeconds(0.05f);
+        playerSprite.color = initialColor;
+        yield return new WaitForSeconds(0.05f);
+        playerSprite.color = hitFlash;
+        yield return new WaitForSeconds(0.05f);
+        playerSprite.color = initialColor;
     }
 }
