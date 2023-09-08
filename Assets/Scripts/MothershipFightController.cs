@@ -42,11 +42,11 @@ public class MothershipFightController : MonoBehaviour
         float elapsed = 0;
         float initialZoom = Camera.main.orthographicSize;
 
-        while (elapsed <= 3)
+        while (elapsed <= 1)
         {
             elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / 3);
-            Camera.main.orthographicSize = Mathf.Lerp(initialZoom, 5, t);
+            float t = Mathf.Clamp01(elapsed / 1);
+            Camera.main.orthographicSize = Mathf.Lerp(initialZoom, 6, t);
             yield return null;
         }
     }

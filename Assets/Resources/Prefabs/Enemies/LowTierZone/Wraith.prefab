@@ -182,6 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spritePath: 
+  framesToFlash: 3
 --- !u!1 &8553370393558730800
 GameObject:
   m_ObjectHideFlags: 0

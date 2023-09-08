@@ -43,6 +43,15 @@ public class PoisonGas : MonoBehaviour
         StartCoroutine(SpreadToPosition(transform, this.targetLocationV3, this.timeTaken));
     }
 
+    private void Update()
+    {
+        if (this.hasReached)
+        {
+            //Event when gas touch safe zone
+            ShopController.instance.gameObject.SetActive(false);
+        }
+    }
+
     public IEnumerator SpreadToPosition(Transform transform, Vector3 position, float timeToMove)
     {
         var currentPos = transform.position;
@@ -64,14 +73,6 @@ public class PoisonGas : MonoBehaviour
                 savedTimer = Time.time;
                 collision.GetComponent<PlayerScript>().TakeDamage(damage, true);
             }
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Safe Zone"))
-        {
-            // LOSE
         }
     }
 }

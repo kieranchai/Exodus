@@ -1,6 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -16,7 +19,7 @@ public class GameController : MonoBehaviour
         WIN
     }
 
-    public GAME_STATE currentState = GAME_STATE.PLAYING;
+    public GAME_STATE currentState = GAME_STATE.TUTORIAL;
 
     [SerializeField]
     private GameObject pauseScreen;
@@ -25,6 +28,13 @@ public class GameController : MonoBehaviour
     private GameObject deathScreen;
 
     private bool stimCD = false;
+
+    [SerializeField]
+    private GameObject tutorialPanel;
+    [SerializeField]
+    private GameObject tutorialBG;
+    private bool tutorialStarted = false;
+    public TMP_Text tutorialText;
 
     void Awake()
     {
@@ -47,6 +57,7 @@ public class GameController : MonoBehaviour
                 PauseGame();
                 break;
             case GAME_STATE.TUTORIAL:
+                StartTutorial();
                 break;
             case GAME_STATE.DEAD:
                 GameOver();
@@ -55,6 +66,15 @@ public class GameController : MonoBehaviour
                 break;
             default:
                 break;
+        }
+    }
+
+    private void StartTutorial()
+    {
+        if(!tutorialStarted)
+        {
+            tutorialStarted = true;
+            StartCoroutine(Tutorial());
         }
     }
 
@@ -123,8 +143,12 @@ public class GameController : MonoBehaviour
         PlayerScript.instance.coll.enabled = false;
         PlayerScript.instance.anim.SetBool("isWalking", false);
 
-        Time.timeScale = 0.0f;
         deathScreen.SetActive(true);
+    }
+
+    public void Quit()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void CursorIsOverUI()
@@ -200,5 +224,92 @@ public class GameController : MonoBehaviour
         PoisonGas.instance.itemUsed = true;
         yield return new WaitForSeconds(float.Parse(itemData.primaryValue));
         PoisonGas.instance.itemUsed = false;
+    }
+
+    IEnumerator Tutorial()
+    {
+        tutorialBG.SetActive(true);
+        tutorialPanel.SetActive(true);
+        yield return StartCoroutine(PlayText("Move your character with WASD"));
+
+        bool hasPressedKey = false;
+        while (!hasPressedKey)
+        {
+            if (Input.GetKeyDown(KeyCode.E)) hasPressedKey = true;
+            yield return null;
+        }
+
+        yield return StartCoroutine(PlayText("Left click to attack"));
+
+        hasPressedKey = false;
+        while (!hasPressedKey)
+        {
+            if (Input.GetKeyDown(KeyCode.E)) hasPressedKey = true;
+            yield return null;
+        }
+
+        tutorialPanel.transform.Find("Background").gameObject.SetActive(false);
+
+        yield return StartCoroutine(PlayText("Your minimap is located on the top right of the HUD."));
+        // Set arrow to point at Minimap to True
+
+        hasPressedKey = false;
+        while (!hasPressedKey)
+        {
+            if (Input.GetKeyDown(KeyCode.E)) hasPressedKey = true;
+            yield return null;
+        }
+
+        yield return StartCoroutine(PlayText("This bar represents how far the poison gas has progressed. Once the gas reaches your safe zone, you will be unable to buy stuff from the shop."));
+        // Set arrow to point at Bar to True
+
+        hasPressedKey = false;
+        while (!hasPressedKey)
+        {
+            if (Input.GetKeyDown(KeyCode.E)) hasPressedKey = true;
+            yield return null;
+        }
+
+        yield return StartCoroutine(PlayText("This is the amount of money you have. Earn more money by killing aliens. Money can be spent at the shop to buy new items and weapons."));
+        // Set arrow to point at Money to True
+
+        hasPressedKey = false;
+        while (!hasPressedKey)
+        {
+            if (Input.GetKeyDown(KeyCode.E)) hasPressedKey = true;
+            yield return null;
+        }
+
+        yield return StartCoroutine(PlayText("Press SHIFT to dodge. Dodging makes you invulnerable for one second, and you can only dodge once every five seconds. You will still take damage from the poison gas while dodging."));
+        // Set arrow to point at DODGE to True
+
+        hasPressedKey = false;
+        while (!hasPressedKey)
+        {
+            if (Input.GetKeyDown(KeyCode.E)) hasPressedKey = true;
+            yield return null;
+        }
+
+        yield return StartCoroutine(PlayText("Here is where you'll find your currently equipped weapon and the amount of ammo you have. You can only carry a maximum of 100 ammo for each ammo type."));
+        // Set arrow to point at AMMO to True
+
+        hasPressedKey = false;
+        while (!hasPressedKey)
+        {
+            if (Input.GetKeyDown(KeyCode.E)) hasPressedKey = true;
+            yield return null;
+        }
+
+        tutorialBG.SetActive(false);
+        tutorialPanel.SetActive(false);
+        this.currentState = GAME_STATE.PLAYING;
+        yield return null;
+    }
+
+    IEnumerator PlayText(string text)
+    {
+        tutorialText.text = "";
+        tutorialText.text = text;
+        yield return null;
     }
 }

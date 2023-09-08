@@ -7,6 +7,9 @@ public class MothershipScript : MonoBehaviour
     public float maxHealth;
     public float currentHealth;
 
+    private SpriteRenderer motherShipSprite;
+    private Color initialColor;
+
     [SerializeField] private Transform damagePopupPrefab;
 
     [SerializeField]
@@ -56,7 +59,8 @@ public class MothershipScript : MonoBehaviour
     {
         maxHealth = 100f;
         currentHealth = maxHealth;
-
+        motherShipSprite = GetComponent<SpriteRenderer>();
+        initialColor = motherShipSprite.color;
         initialLeftTurretPos = leftTurret.transform.position;
         initialRightTurretPos = rightTurret.transform.position;
     }
@@ -104,10 +108,12 @@ public class MothershipScript : MonoBehaviour
         damagePopup.Setup(damage);
 
         currentHealth -= damage;
+        StartCoroutine(MothershipHit());
         if (currentHealth <= 0)
         {
             //DIE
             StopAllCoroutines();
+            motherShipSprite.color = initialColor;
             currentState = BOSS_STATE.DEAD;
         }
     }
@@ -123,6 +129,7 @@ public class MothershipScript : MonoBehaviour
         if (currentHealth <= maxHealth / 2)
         {
             StopAllCoroutines();
+            motherShipSprite.color = initialColor;
             StartCoroutine(HealForceField(BOSS_STATE.STAGE2));
         }
     }
@@ -364,5 +371,20 @@ public class MothershipScript : MonoBehaviour
         yield return new WaitForSeconds(1);
         yield return StartCoroutine(HealForceField(BOSS_STATE.STAGE2));
         yield return StartCoroutine(Stage2Cycle());
+    }
+
+    IEnumerator MothershipHit()
+    {
+        float duration = 0.1f;
+        while (duration > 0)
+        {
+            duration -= Time.deltaTime;
+
+            Color hitFlash = Color.red;
+            hitFlash.a = 0.7f;
+            motherShipSprite.color = hitFlash;
+            yield return null;
+        }
+        motherShipSprite.color = initialColor;
     }
 }
