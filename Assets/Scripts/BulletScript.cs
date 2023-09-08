@@ -29,7 +29,7 @@ public class BulletScript : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (collision.gameObject.CompareTag("Tilemap Collider"))
+        if (collision.gameObject.CompareTag("Tilemap Collider") || collision.gameObject.CompareTag("Forcefield"))
         {
             Destroy(gameObject);
         }

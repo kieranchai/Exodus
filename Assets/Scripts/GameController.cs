@@ -34,7 +34,6 @@ public class GameController : MonoBehaviour
             return;
         }
         instance = this;
-        // Application.targetFrameRate = 60;
     }
 
     private void Update()

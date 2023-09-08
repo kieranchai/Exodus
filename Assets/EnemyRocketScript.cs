@@ -10,7 +10,7 @@ public class EnemyRocketScript : MonoBehaviour
     public float splashRange;
 
     private float timer = 0f;
-    private float duration = 1f;
+    private float duration = 2.5f;
 
     public void Initialise(float attackPower, float weaponRange)
     {

@@ -1,9 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MothershipScript : MonoBehaviour
 {
+    public static MothershipScript instance { get; private set; }
     public float maxHealth;
     public float currentHealth;
 
@@ -26,7 +26,7 @@ public class MothershipScript : MonoBehaviour
 
     private bool isTargeted = false;
     private bool forceFieldUp = false;
-
+    public bool isHoming = false;
     private float turretOffset = 0.1f;
 
     public enum BOSS_STATE
@@ -41,6 +41,15 @@ public class MothershipScript : MonoBehaviour
 
     private bool hasStartedStage1 = false;
     private bool hasStartedStage2 = false;
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+    }
 
     private void Start()
     {
@@ -106,7 +115,7 @@ public class MothershipScript : MonoBehaviour
         if (currentHealth <= maxHealth / 2)
         {
             StopAllCoroutines();
-            currentState = BOSS_STATE.STAGE2;
+            StartCoroutine(HealForceField(BOSS_STATE.STAGE2));
         }
     }
 
@@ -134,8 +143,8 @@ public class MothershipScript : MonoBehaviour
         {
             isTargeted = true;
             targetTime += Time.deltaTime;
-            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 5, 0.5f);
-            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 5, 0.5f);
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.5f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.5f);
             yield return null;
         }
         isTargeted = false;
@@ -150,8 +159,8 @@ public class MothershipScript : MonoBehaviour
             sweepTime += Time.deltaTime;
             leftTurret.transform.position = Vector3.Lerp(newLeftTurretPos, initialRightTurretPos, sweepTime / sweepDuration);
             rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialLeftTurretPos, sweepTime / sweepDuration);
-            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 5, 0.3f);
-            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 5, 0.3f);
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.3f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.3f);
             yield return null;
         }
         newLeftTurretPos = initialRightTurretPos;
@@ -165,8 +174,8 @@ public class MothershipScript : MonoBehaviour
             sweepTime += Time.deltaTime;
             leftTurret.transform.position = Vector3.Lerp(newLeftTurretPos, initialLeftTurretPos, sweepTime / sweepDuration);
             rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialRightTurretPos, sweepTime / sweepDuration);
-            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 5, 0.3f);
-            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 5, 0.3f);
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.3f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.3f);
             yield return null;
         }
         newLeftTurretPos = initialLeftTurretPos;
@@ -193,34 +202,50 @@ public class MothershipScript : MonoBehaviour
             waveTime += Time.deltaTime;
             leftTurret.transform.position = Vector3.Lerp(newLeftTurretPos, initialRightTurretPos - new Vector3(rightTurret.GetComponent<Collider2D>().bounds.size.x + turretOffset, 0), waveTime / waveDuration);
             rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialRightTurretPos, waveTime / waveDuration);
-            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("burst", 5, 5, 0.3f);
-            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("burst", 5, 5, 0.3f);
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("burst", 5, 10, 0.5f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("burst", 5, 10, 0.5f);
             yield return null;
         }
         isTargeted = false;
         newLeftTurretPos = initialRightTurretPos - new Vector3(rightTurret.GetComponent<Collider2D>().bounds.size.x + turretOffset, 0);
         newRightTurretPos = initialRightTurretPos;
 
-        yield return StartCoroutine(Stage1Cycle());
-    }
-
-    IEnumerator Stage2Cycle()
-    {
-        //Reset Turrets back to Initial Pos and No Targetting
+        //Wave Burst Attack from Right to Left
+        waveTime = 0;
+        waveDuration = 5f;
+        while (waveTime < waveDuration)
+        {
+            isTargeted = true;
+            waveTime += Time.deltaTime;
+            leftTurret.transform.position = Vector3.Lerp(newLeftTurretPos, initialLeftTurretPos, waveTime / waveDuration);
+            rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialLeftTurretPos + new Vector3(leftTurret.GetComponent<Collider2D>().bounds.size.x + turretOffset, 0), waveTime / waveDuration);
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("burst", 5, 10, 0.3f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("burst", 5, 10, 0.3f);
+            yield return null;
+        }
         isTargeted = false;
-        float moveTime = 0;
-        float moveDuration = 1f;
+        newLeftTurretPos = initialLeftTurretPos;
+        newRightTurretPos = initialLeftTurretPos + new Vector3(leftTurret.GetComponent<Collider2D>().bounds.size.x + turretOffset, 0);
+
+        //Reset Turrets back to Initial Pos
+        moveTime = 0;
+        moveDuration = 1f;
         while (moveTime < moveDuration)
         {
             moveTime += Time.deltaTime;
-            leftTurret.transform.position = Vector3.Lerp(leftTurret.transform.position, initialLeftTurretPos, moveTime / moveDuration);
-            rightTurret.transform.position = Vector3.Lerp(rightTurret.transform.position, initialRightTurretPos, moveTime / moveDuration);
+            leftTurret.transform.position = Vector3.Lerp(newLeftTurretPos, initialLeftTurretPos, moveTime / moveDuration);
+            rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialRightTurretPos, moveTime / moveDuration);
             yield return null;
         }
         newLeftTurretPos = initialLeftTurretPos;
         newRightTurretPos = initialRightTurretPos;
 
-        //Heal + Forcefield
+        yield return StartCoroutine(Stage1Cycle());
+    }
+
+    IEnumerator HealForceField(BOSS_STATE nextState)
+    {
+        isTargeted = false;
         float healTime = 0;
         float healDuration = 5f;
         while (healTime < healDuration)
@@ -229,27 +254,83 @@ public class MothershipScript : MonoBehaviour
             forceField.SetActive(true);
             healTime += Time.deltaTime;
             currentHealth += 5f * Time.deltaTime;
+
+            leftTurret.transform.position = Vector3.Lerp(leftTurret.transform.position, initialLeftTurretPos, healTime / healDuration);
+            rightTurret.transform.position = Vector3.Lerp(rightTurret.transform.position, initialRightTurretPos, healTime / healDuration);
             yield return null;
         }
-        forceField.SetActive(false);
-        forceFieldUp = false;
         newLeftTurretPos = initialLeftTurretPos;
         newRightTurretPos = initialRightTurretPos;
+        forceField.SetActive(false);
+        forceFieldUp = false;
+        currentState = nextState;
+    }
 
-        //Stationary Rocket Attack
+    IEnumerator Stage2Cycle()
+    {
+        //Guided Rocket Attack
+        Debug.Log("Homing");
+        isTargeted = true;
+        leftTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
+        isHoming = true;
+        while (isHoming) yield return 0;
+        isTargeted = false;
+
+        //Guided Rocket Attack
+        Debug.Log("Homing");
+        isTargeted = true;
+        leftTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
+        isHoming = true;
+        while (isHoming) yield return 0;
+        isTargeted = false;
+
+        //Guided Rocket Attack
+        Debug.Log("Homing");
+        isTargeted = true;
+        leftTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
+        isHoming = true;
+        while (isHoming) yield return 0;
+        isTargeted = false;
+
+        //Slow Rocket Attack
         float targetTime = 0;
-        float targetDuration = 10f;
+        float targetDuration = 5f;
         while (targetTime < targetDuration)
         {
             isTargeted = true;
             targetTime += Time.deltaTime;
-            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("rocket", 10, 5, 0.5f);
-            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("rocket", 10, 5, 0.5f);
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("rocket", 10, 10, 0.8f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("rocket", 10, 10, 0.8f);
             yield return null;
         }
         isTargeted = false;
-        newLeftTurretPos = initialLeftTurretPos;
-        newRightTurretPos = initialRightTurretPos;
 
+        //Fast Rocket Attack
+        targetTime = 0;
+        targetDuration = 5f;
+        while (targetTime < targetDuration)
+        {
+            isTargeted = true;
+            targetTime += Time.deltaTime;
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("rocket", 10, 10, 0.6f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("rocket", 10, 10, 0.6f);
+            yield return null;
+        }
+        isTargeted = false;
+
+        //Faster Rocket Attack
+        targetTime = 0;
+        targetDuration = 5f;
+        while (targetTime < targetDuration)
+        {
+            isTargeted = true;
+            targetTime += Time.deltaTime;
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("rocket", 10, 10, 0.3f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("rocket", 10, 10, 0.3f);
+            yield return null;
+        }
+        isTargeted = false;
+
+        yield return StartCoroutine(Stage2Cycle());
     }
 }

@@ -21,6 +21,9 @@ public class MothershipTurretScript : MonoBehaviour
                 case "rocket":
                     StartCoroutine(RocketAttack(attackPower, weaponRange, cooldown));
                     break;
+                case "homingrocket":
+                    StartCoroutine(HomingRocketAttack(attackPower));
+                    break;
                 default:
                     break;
             }
@@ -67,6 +70,13 @@ public class MothershipTurretScript : MonoBehaviour
 
         yield return new WaitForSeconds(cooldown);
         limitAttack = false;
+        yield return null;
+    }
+
+    IEnumerator HomingRocketAttack(float attackPower)
+    {
+        GameObject rocket = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Homing Rocket"), transform.position, Quaternion.identity);
+        rocket.GetComponent<EnemyHomingRocketScript>().Initialise(attackPower);
         yield return null;
     }
 }
