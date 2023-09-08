@@ -7,10 +7,9 @@ public class MothershipScript : MonoBehaviour
     public float maxHealth;
     public float currentHealth;
 
-    private SpriteRenderer motherShipSprite;
-    private Color initialColor;
-
     [SerializeField] private Transform damagePopupPrefab;
+
+    [SerializeField] private SimpleFlash flashEffect;
 
     [SerializeField]
     private GameObject leftTurret;
@@ -59,8 +58,6 @@ public class MothershipScript : MonoBehaviour
     {
         maxHealth = 100f;
         currentHealth = maxHealth;
-        motherShipSprite = GetComponent<SpriteRenderer>();
-        initialColor = motherShipSprite.color;
         initialLeftTurretPos = leftTurret.transform.position;
         initialRightTurretPos = rightTurret.transform.position;
     }
@@ -108,12 +105,11 @@ public class MothershipScript : MonoBehaviour
         damagePopup.Setup(damage);
 
         currentHealth -= damage;
-        StartCoroutine(MothershipHit());
+        flashEffect.Flash(Color.white);
         if (currentHealth <= 0)
         {
             //DIE
             StopAllCoroutines();
-            motherShipSprite.color = initialColor;
             currentState = BOSS_STATE.DEAD;
         }
     }
@@ -129,7 +125,6 @@ public class MothershipScript : MonoBehaviour
         if (currentHealth <= maxHealth / 2)
         {
             StopAllCoroutines();
-            motherShipSprite.color = initialColor;
             StartCoroutine(HealForceField(BOSS_STATE.STAGE2));
         }
     }
@@ -262,6 +257,7 @@ public class MothershipScript : MonoBehaviour
             forceFieldUp = true;
             forceField.SetActive(true);
             healTime += Time.deltaTime;
+            flashEffect.Flash(Color.green);
             currentHealth += 5f * Time.deltaTime;
 
             leftTurret.transform.position = Vector3.Lerp(leftTurret.transform.position, initialLeftTurretPos, healTime / healDuration);
@@ -373,18 +369,4 @@ public class MothershipScript : MonoBehaviour
         yield return StartCoroutine(Stage2Cycle());
     }
 
-    IEnumerator MothershipHit()
-    {
-        float duration = 0.1f;
-        while (duration > 0)
-        {
-            duration -= Time.deltaTime;
-
-            Color hitFlash = Color.red;
-            hitFlash.a = 0.7f;
-            motherShipSprite.color = hitFlash;
-            yield return null;
-        }
-        motherShipSprite.color = initialColor;
-    }
 }

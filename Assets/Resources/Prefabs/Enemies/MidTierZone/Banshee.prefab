@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6023163072656699271}
   - component: {fileID: 8624372836433268640}
   - component: {fileID: 7447468480313073687}
+  - component: {fileID: 7987459450773787534}
   m_Layer: 7
   m_Name: Banshee
   m_TagString: Enemy
@@ -78,6 +79,7 @@ MonoBehaviour:
   isReturning: 0
   sightRange: 10
   _data: {fileID: 11400000, guid: 711a3e5adc81d4b4192af29c0fe7a6eb, type: 2}
+  flashEffect: {fileID: 7987459450773787534}
   equippedWeapon: {fileID: 0}
   weaponSlot: {fileID: 0}
   wanderRadius: 10
@@ -217,6 +219,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7987459450773787534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2810925259751799354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42b95147628ee1345b2136bcfca06db4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 2100000, guid: 00e2494529e17a24fa05e2b3b023fa3c, type: 2}
+  duration: 0.125
 --- !u!1 &4094356185309259451
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,6 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spritePath: 
+  framesToFlash: 3
 --- !u!1 &8690835795961651348
 GameObject:
   m_ObjectHideFlags: 0

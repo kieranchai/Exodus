@@ -8384,13 +8384,14 @@ GameObject:
   - component: {fileID: 949515821}
   - component: {fileID: 949515824}
   - component: {fileID: 949515825}
+  - component: {fileID: 949515826}
   m_Layer: 11
   m_Name: Mothership
   m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &949515821
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8427,7 +8428,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.64, y: 0.64}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -8477,8 +8478,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 8559223efba1fa64b8b0c4720548b9ef, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -8521,6 +8522,7 @@ MonoBehaviour:
   maxHealth: 0
   currentHealth: 0
   damagePopupPrefab: {fileID: 4179147922126599982, guid: 97dc3241655b26940be0f67604dbb62f, type: 3}
+  flashEffect: {fileID: 949515826}
   leftTurret: {fileID: 1472547426}
   rightTurret: {fileID: 1915076249}
   forceField: {fileID: 62851571}
@@ -8554,6 +8556,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &949515826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949515820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42b95147628ee1345b2136bcfca06db4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 2100000, guid: 00e2494529e17a24fa05e2b3b023fa3c, type: 2}
+  duration: 0.125
 --- !u!1 &958725295
 GameObject:
   m_ObjectHideFlags: 0

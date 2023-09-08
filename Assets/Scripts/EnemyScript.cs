@@ -30,6 +30,9 @@ public class EnemyScript : MonoBehaviour
     [SerializeField]
     private Enemy _data;
 
+    [SerializeField]
+    private SimpleFlash flashEffect;
+
     public Weapon equippedWeapon;
     public EnemyWeaponScript weaponSlot;
 
@@ -242,15 +245,13 @@ public class EnemyScript : MonoBehaviour
         if (this.currentHealth - damage > 0)
         {
             this.currentHealth -= damage;
-            StopCoroutine(EnemyHit());
-            StartCoroutine(EnemyHit());
+            flashEffect.Flash(Color.white);
             this.currentState = ENEMY_STATE.CHASE;
         }
         else
         {
             this.currentHealth -= damage;
-            StopCoroutine(EnemyHit());
-            StartCoroutine(EnemyHit());
+            flashEffect.Flash(Color.white);
             DeathEvent();
         }
     }
@@ -294,21 +295,4 @@ public class EnemyScript : MonoBehaviour
             }
         }
     }
-
-    IEnumerator EnemyHit()
-    {
-        float duration = 0.1f;
-        Color initialColor = enemySprite.color;
-        while (duration > 0)
-        {
-            duration -= Time.deltaTime;
-            
-            Color hitFlash = Color.red;
-            hitFlash.a = 0.7f;
-            enemySprite.color = hitFlash;
-            yield return null;
-        }
-        enemySprite.color = initialColor;
-    }
-
 }
