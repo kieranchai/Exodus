@@ -86,6 +86,11 @@ public class WeaponScript : MonoBehaviour
             {
                 collider.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower);
             }
+
+            if (collider.gameObject.CompareTag("Boss"))
+            {
+                collider.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower);
+            }
         }
         switch (this.weaponName)
         {

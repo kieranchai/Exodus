@@ -34,6 +34,12 @@ public class BulletScript : MonoBehaviour
             Destroy(gameObject);
         }
 
+        if(collision.gameObject.CompareTag("Boss"))
+        {
+            collision.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower);
+            Destroy(gameObject);
+        }
+
     }
     
 }
