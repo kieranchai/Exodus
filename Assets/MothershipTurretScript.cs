@@ -75,8 +75,11 @@ public class MothershipTurretScript : MonoBehaviour
 
     IEnumerator HomingRocketAttack(float attackPower)
     {
+        limitAttack = true;
         GameObject rocket = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Homing Rocket"), transform.position, Quaternion.identity);
         rocket.GetComponent<EnemyHomingRocketScript>().Initialise(attackPower);
+        yield return new WaitForSeconds(0);
+        limitAttack = false;
         yield return null;
     }
 }

@@ -27,6 +27,7 @@ public class MothershipScript : MonoBehaviour
     private bool isTargeted = false;
     private bool forceFieldUp = false;
     public bool isHoming = false;
+    public bool hasShotHoming = false;
     private float turretOffset = 0.1f;
 
     public enum BOSS_STATE
@@ -82,11 +83,17 @@ public class MothershipScript : MonoBehaviour
             case BOSS_STATE.STAGE2:
                 Stage2();
                 break;
-            case BOSS_STATE.STAGE3:
+            case BOSS_STATE.DEAD:
+                Dead();
                 break;
             default:
                 break;
         }
+    }
+
+    public void Dead()
+    {
+        //Killed Boss
     }
 
     public void TakeDamage(float damage)
@@ -100,6 +107,7 @@ public class MothershipScript : MonoBehaviour
         if (currentHealth <= 0)
         {
             //DIE
+            StopAllCoroutines();
             currentState = BOSS_STATE.DEAD;
         }
     }
@@ -125,12 +133,6 @@ public class MothershipScript : MonoBehaviour
         {
             hasStartedStage2 = true;
             StartCoroutine(Stage2Cycle());
-        }
-
-
-        if (currentHealth == maxHealth / 4)
-        {
-            currentState = BOSS_STATE.STAGE3;
         }
     }
 
@@ -259,6 +261,7 @@ public class MothershipScript : MonoBehaviour
             rightTurret.transform.position = Vector3.Lerp(rightTurret.transform.position, initialRightTurretPos, healTime / healDuration);
             yield return null;
         }
+        if (currentHealth >= maxHealth) currentHealth = maxHealth;
         newLeftTurretPos = initialLeftTurretPos;
         newRightTurretPos = initialRightTurretPos;
         forceField.SetActive(false);
@@ -269,27 +272,54 @@ public class MothershipScript : MonoBehaviour
     IEnumerator Stage2Cycle()
     {
         //Guided Rocket Attack
-        Debug.Log("Homing");
         isTargeted = true;
-        leftTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
         isHoming = true;
-        while (isHoming) yield return 0;
+        leftTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
+        rightTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
+        while (isHoming)
+        {
+            if(!hasShotHoming)
+            {
+                hasShotHoming = true;
+                leftTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
+            }
+            yield return null;
+        }
+        hasShotHoming = false;
         isTargeted = false;
 
         //Guided Rocket Attack
-        Debug.Log("Homing");
         isTargeted = true;
-        leftTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
         isHoming = true;
-        while (isHoming) yield return 0;
+        leftTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
+        rightTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
+        while (isHoming)
+        {
+            if (!hasShotHoming)
+            {
+                hasShotHoming = true;
+                rightTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
+            }
+            yield return null;
+        }
+        hasShotHoming = false;
         isTargeted = false;
 
         //Guided Rocket Attack
-        Debug.Log("Homing");
         isTargeted = true;
-        leftTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
         isHoming = true;
-        while (isHoming) yield return 0;
+        leftTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
+        rightTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
+        while (isHoming)
+        {
+            if (!hasShotHoming)
+            {
+                hasShotHoming = true;
+                leftTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
+            }
+            yield return null;
+        }
+        hasShotHoming = false;
         isTargeted = false;
 
         //Slow Rocket Attack
@@ -331,6 +361,8 @@ public class MothershipScript : MonoBehaviour
         }
         isTargeted = false;
 
+        yield return new WaitForSeconds(1);
+        yield return StartCoroutine(HealForceField(BOSS_STATE.STAGE2));
         yield return StartCoroutine(Stage2Cycle());
     }
 }

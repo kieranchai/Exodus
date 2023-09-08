@@ -18,7 +18,7 @@ public class EnemyHomingRocketScript : MonoBehaviour
     private void Update()
     {
         agent.SetDestination(PlayerScript.instance.transform.position);
-        transform.up = agent.nextPosition - new Vector3(transform.position.x, transform.position.y);
+        transform.up = PlayerScript.instance.transform.position - new Vector3(transform.position.x, transform.position.y);
     }
 
     private void Explode()
