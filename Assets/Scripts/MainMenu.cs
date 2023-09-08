@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
     public void LoadScene()
     {
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Tutorial");
     }
 
     public void Quit()

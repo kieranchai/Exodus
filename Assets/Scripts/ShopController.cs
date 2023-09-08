@@ -29,20 +29,32 @@ public class ShopController : MonoBehaviour
         sellPanel = shopPanel.transform.Find("Sell Panel").gameObject;
         sellPanel.SetActive(false);
 
-        Weapon[] allWeapons = Resources.LoadAll<Weapon>("ScriptableObjects/Weapons");
-        foreach (Weapon weaponData in allWeapons)
+        if(GameController.instance.currentState == GameController.GAME_STATE.TUTORIAL)
         {
-            if (weaponData.inShop == "NO") continue;
-            GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
-            shopItem.GetComponent<ShopItem>().Initialise(weaponData, "buy");
-        }
+            Item[] allItems = Resources.LoadAll<Item>("ScriptableObjects/Items");
+            foreach (Item itemData in allItems)
+            {
+                if (itemData.itemName != "HEAVY AMMO") continue;
+                GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
+                shopItem.GetComponent<ShopItem>().Initialise(itemData, "buy");
+            }
+        } else
+        {
+            Weapon[] allWeapons = Resources.LoadAll<Weapon>("ScriptableObjects/Weapons");
+            foreach (Weapon weaponData in allWeapons)
+            {
+                if (weaponData.inShop == "NO") continue;
+                GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
+                shopItem.GetComponent<ShopItem>().Initialise(weaponData, "buy");
+            }
 
-        Item[] allItems = Resources.LoadAll<Item>("ScriptableObjects/Items");
-        foreach (Item itemData in allItems)
-        {
-            if (itemData.inShop == "NO") continue;
-            GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
-            shopItem.GetComponent<ShopItem>().Initialise(itemData, "buy");
+            Item[] allItems = Resources.LoadAll<Item>("ScriptableObjects/Items");
+            foreach (Item itemData in allItems)
+            {
+                if (itemData.inShop == "NO") continue;
+                GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
+                shopItem.GetComponent<ShopItem>().Initialise(itemData, "buy");
+            }
         }
     }
 
@@ -86,7 +98,10 @@ public class ShopController : MonoBehaviour
     {
         buyPanel.SetActive(false);
         shopPanel.transform.Find("Item Detail Panel").gameObject.SetActive(false);
-        UpdateSellInventory();
+        if (GameController.instance.currentState != GameController.GAME_STATE.TUTORIAL)
+        {
+            UpdateSellInventory();
+        }
         sellPanel.SetActive(true);
     }
 

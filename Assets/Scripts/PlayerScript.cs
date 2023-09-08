@@ -88,12 +88,11 @@ public class PlayerScript : MonoBehaviour
         EquipDefaultWeapon(Resources.Load<Weapon>($"ScriptableObjects/Weapons/{this.defaultWeapon}"));
 
         UpdateAmmoCount(this.equippedWeapon.defaultAmmo, this.equippedWeapon.ammoType);
-        UpdateCash(500);
     }
 
     private void Update()
     {
-        if (GameController.instance.currentState == GameController.GAME_STATE.PLAYING)
+        if (GameController.instance.currentState == GameController.GAME_STATE.PLAYING || GameController.instance.currentState == GameController.GAME_STATE.TUTORIAL)
         {
             switch (this.currentState)
             {
@@ -496,5 +495,16 @@ public class PlayerScript : MonoBehaviour
         playerPanel.transform.Find("Alert").gameObject.SetActive(true);
         yield return new WaitForSeconds(2);
         playerPanel.transform.Find("Alert").gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(GameController.instance.currentState == GameController.GAME_STATE.TUTORIAL)
+        {
+            if(collision.gameObject.CompareTag("Tutorial Area 2"))
+            {
+                GameController.instance.passedArea2 = true;
+            }
+        }
     }
 }
