@@ -219,6 +219,7 @@ public class PlayerScript : MonoBehaviour
         damagePopup.Setup(damage);
 
         currentHealth -= damage;
+        CameraController.instance.animator.SetTrigger("CameraShake");
         if (currentHealth <= 0)
         {
             this.rb.velocity = Vector3.zero;
