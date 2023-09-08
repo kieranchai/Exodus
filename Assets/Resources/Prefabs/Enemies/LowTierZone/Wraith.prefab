@@ -198,7 +198,6 @@ GameObject:
   - component: {fileID: 844532355146325513}
   - component: {fileID: 4803594054944414822}
   - component: {fileID: 5255932247110077302}
-  - component: {fileID: 1260369132313837233}
   m_Layer: 7
   m_Name: Wraith
   m_TagString: Enemy
@@ -262,7 +261,6 @@ MonoBehaviour:
   isReturning: 0
   sightRange: 10
   _data: {fileID: 11400000, guid: 79fc729d8ccfe324187c4b91e4c49413, type: 2}
-  flashEffect: {fileID: 1260369132313837233}
   equippedWeapon: {fileID: 0}
   weaponSlot: {fileID: 0}
   wanderRadius: 10
@@ -402,17 +400,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.28
---- !u!114 &1260369132313837233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8553370393558730800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42b95147628ee1345b2136bcfca06db4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flashMaterial: {fileID: 2100000, guid: 00e2494529e17a24fa05e2b3b023fa3c, type: 2}
-  duration: 0.125
