@@ -109,6 +109,7 @@ public class WeaponScript : MonoBehaviour
     }
     IEnumerator LineAttack()
     {
+        CameraController.instance.animator.SetTrigger("CameraShake");
         limitAttack = true;
         if (PlayerScript.instance.ammoCount[this.ammoType] > 0)
         {
