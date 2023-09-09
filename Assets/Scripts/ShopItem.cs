@@ -201,7 +201,6 @@ public class ShopItem : MonoBehaviour
                 break;
         }
         PlayerScript.instance.UpdateCash(-this.cost);
-        gameObject.transform.parent.parent.parent.transform.Find("Cash").GetComponent<SlidingNumber>().AddToNumber(-this.cost);
         if (this.itemData)
         {
             switch (this.itemType)
@@ -241,13 +240,11 @@ public class ShopItem : MonoBehaviour
         {
             _data = this.weaponData;
             PlayerScript.instance.UpdateCash(this.weaponData.cost);
-            gameObject.transform.parent.parent.parent.transform.Find("Cash").GetComponent<SlidingNumber>().AddToNumber(this.weaponData.cost);
         }
         else
         {
             _data = this.itemData;
             PlayerScript.instance.UpdateCash(this.itemData.cost);
-            gameObject.transform.parent.parent.parent.transform.Find("Cash").GetComponent<SlidingNumber>().AddToNumber(this.itemData.cost);
         }
 
         PlayerScript.instance.RemoveFromInventory(_data);
