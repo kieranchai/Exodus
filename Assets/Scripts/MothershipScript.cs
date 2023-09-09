@@ -278,57 +278,6 @@ public class MothershipScript : MonoBehaviour
 
     IEnumerator Stage2Cycle()
     {
-        //Guided Rocket Attack
-        isTargeted = true;
-        isHoming = true;
-        leftTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
-        rightTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
-        while (isHoming)
-        {
-            if(!hasShotHoming)
-            {
-                hasShotHoming = true;
-                leftTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
-            }
-            yield return null;
-        }
-        hasShotHoming = false;
-        isTargeted = false;
-
-        //Guided Rocket Attack
-        isTargeted = true;
-        isHoming = true;
-        leftTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
-        rightTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
-        while (isHoming)
-        {
-            if (!hasShotHoming)
-            {
-                hasShotHoming = true;
-                rightTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
-            }
-            yield return null;
-        }
-        hasShotHoming = false;
-        isTargeted = false;
-
-        //Guided Rocket Attack
-        isTargeted = true;
-        isHoming = true;
-        leftTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
-        rightTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
-        while (isHoming)
-        {
-            if (!hasShotHoming)
-            {
-                hasShotHoming = true;
-                leftTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
-            }
-            yield return null;
-        }
-        hasShotHoming = false;
-        isTargeted = false;
-
         //Slow Rocket Attack
         float targetTime = 0;
         float targetDuration = 5f;
@@ -369,7 +318,53 @@ public class MothershipScript : MonoBehaviour
         isTargeted = false;
 
         yield return new WaitForSeconds(1);
-        yield return StartCoroutine(HealForceField(BOSS_STATE.STAGE2));
+
+        //Guided Rocket Attack
+        isTargeted = true;
+        isHoming = true;
+        leftTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
+        rightTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
+        while (isHoming)
+        {
+            forceFieldUp = true;
+            forceField.SetActive(true);
+            currentHealth += 5f * Time.deltaTime;
+            if (!hasShotHoming)
+            {
+                hasShotHoming = true;
+                leftTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
+            }
+            yield return null;
+        }
+        if (currentHealth >= maxHealth) currentHealth = maxHealth;
+        hasShotHoming = false;
+        isTargeted = false;
+        forceField.SetActive(false);
+        forceFieldUp = false;
+
+        //Guided Rocket Attack
+        isTargeted = true;
+        isHoming = true;
+        leftTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
+        rightTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
+        while (isHoming)
+        {
+            forceFieldUp = true;
+            forceField.SetActive(true);
+            currentHealth += 5f * Time.deltaTime;
+            if (!hasShotHoming)
+            {
+                hasShotHoming = true;
+                rightTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
+            }
+            yield return null;
+        }
+        if (currentHealth >= maxHealth) currentHealth = maxHealth;
+        hasShotHoming = false;
+        isTargeted = false;
+        forceField.SetActive(false);
+        forceFieldUp = false;
+
         yield return StartCoroutine(Stage2Cycle());
     }
 
