@@ -435,7 +435,6 @@ public class PlayerScript : MonoBehaviour
 
     public void ToggleShopView()
     {
-        playerPanel.transform.parent.Find("Shop Panel").Find("Cash").GetComponent<SlidingNumber>().SetNumber(this.cash);
         if (CanSeeInventory) ToggleInventoryView();
         CanSeeShop = !CanSeeShop;
         if (!CanSeeShop)

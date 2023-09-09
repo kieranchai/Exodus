@@ -91,6 +91,7 @@ public class ShopController : MonoBehaviour
     public void DisplayBuyPanel()
     {
         sellPanel.SetActive(false);
+        shopPanel.transform.Find("Item Detail Panel").gameObject.SetActive(false);
         buyPanel.SetActive(true);
     }
 
