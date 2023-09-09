@@ -15,6 +15,7 @@ TagManager:
   - Boss
   - Forcefield
   - Tutorial Area 2
+  - TargetDummy
   layers:
   - Default
   - TransparentFX

@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private TMP_Text tutorialDialogueText;
     [SerializeField] private Collider2D area1Collider;
     public bool passedArea2 = false;
+    public bool dummyShot = false;
 
     public enum GAME_STATE
     {
@@ -253,7 +254,7 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         tutorialDialogueBox.SetActive(true);
         yield return StartCoroutine(Typewriter("Great."));
-        yield return StartCoroutine(Typewriter("Press MOUSE1 to shoot."));
+        yield return StartCoroutine(Typewriter("Press MOUSE1 to shoot the target dummy in front of you"));
         yield return StartCoroutine(Typewriter("You can try unequipping your weapon and pressing MOUSE1 to punch as well."));
         allowShooting = true;
         yield return new WaitForSeconds(1f);
@@ -261,8 +262,7 @@ public class GameController : MonoBehaviour
         hasDone = false;
         while (!hasDone)
         {
-            if (Input.GetMouseButton(0) && !isOverUI && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
-            {
+            if (this.dummyShot) {
                 hasDone = true;
             }
             yield return null;
