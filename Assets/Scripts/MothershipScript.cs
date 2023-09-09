@@ -32,12 +32,13 @@ public class MothershipScript : MonoBehaviour
     public bool isHoming = false;
     public bool hasShotHoming = false;
     private float turretOffset = 0.1f;
+    private bool finalHitStarted = false;
+    public bool victory = false;
 
     public enum BOSS_STATE
     {
         STAGE1,
         STAGE2,
-        STAGE3,
         DEAD
     }
 
@@ -67,16 +68,19 @@ public class MothershipScript : MonoBehaviour
 
     void Update()
     {
-        //Set the turret orientation to face downwards
-        if (!isTargeted)
+        //Set the turret orientation to face downwards and only rotate turrets when boss is alive
+        if(currentState != BOSS_STATE.DEAD)
         {
-            leftTurret.transform.up = -transform.up.normalized;
-            rightTurret.transform.up = -transform.up.normalized;
-        }
-        else
-        {
-            leftTurret.transform.up = (PlayerScript.instance.transform.position - new Vector3(leftTurret.transform.position.x, leftTurret.transform.position.y));
-            rightTurret.transform.up = (PlayerScript.instance.transform.position - new Vector3(rightTurret.transform.position.x, rightTurret.transform.position.y));
+            if (!isTargeted)
+            {
+                leftTurret.transform.up = -transform.up.normalized;
+                rightTurret.transform.up = -transform.up.normalized;
+            }
+            else
+            {
+                leftTurret.transform.up = (PlayerScript.instance.transform.position - new Vector3(leftTurret.transform.position.x, leftTurret.transform.position.y));
+                rightTurret.transform.up = (PlayerScript.instance.transform.position - new Vector3(rightTurret.transform.position.x, rightTurret.transform.position.y));
+            }
         }
 
         switch (currentState)
@@ -98,11 +102,15 @@ public class MothershipScript : MonoBehaviour
     public void Dead()
     {
         //Killed Boss
+        motherShipSprite.color = initialColor;
+        Time.timeScale = 1.0f;
+        victory = true;
     }
 
     public void TakeDamage(float damage)
     {
         if (forceFieldUp) return;
+        if (finalHitStarted) return;
         Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
         DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
         damagePopup.Setup(damage);
@@ -113,8 +121,7 @@ public class MothershipScript : MonoBehaviour
         {
             //DIE
             StopAllCoroutines();
-            motherShipSprite.color = initialColor;
-            currentState = BOSS_STATE.DEAD;
+            StartCoroutine(FinalHit());
         }
     }
 
@@ -126,7 +133,7 @@ public class MothershipScript : MonoBehaviour
             StartCoroutine(Stage1Cycle());
         }
 
-        if (currentHealth <= maxHealth / 2)
+        if (currentHealth <= maxHealth / 3)
         {
             StopAllCoroutines();
             motherShipSprite.color = initialColor;
@@ -271,9 +278,26 @@ public class MothershipScript : MonoBehaviour
         if (currentHealth >= maxHealth) currentHealth = maxHealth;
         newLeftTurretPos = initialLeftTurretPos;
         newRightTurretPos = initialRightTurretPos;
-        forceField.SetActive(false);
+        yield return FlickerForcefield();
         forceFieldUp = false;
         currentState = nextState;
+    }
+
+    IEnumerator FlickerForcefield()
+    {
+        forceField.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+        forceField.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        forceField.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+        forceField.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        forceField.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+        forceField.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        forceField.SetActive(false);
     }
 
     IEnumerator Stage2Cycle()
@@ -339,7 +363,7 @@ public class MothershipScript : MonoBehaviour
         if (currentHealth >= maxHealth) currentHealth = maxHealth;
         hasShotHoming = false;
         isTargeted = false;
-        forceField.SetActive(false);
+        yield return FlickerForcefield();
         forceFieldUp = false;
 
         //Guided Rocket Attack
@@ -362,8 +386,38 @@ public class MothershipScript : MonoBehaviour
         if (currentHealth >= maxHealth) currentHealth = maxHealth;
         hasShotHoming = false;
         isTargeted = false;
-        forceField.SetActive(false);
+        yield return FlickerForcefield();
         forceFieldUp = false;
+
+        //Sweeping Attack LEFT->RIGHT RIGHT<-LEFT
+        float sweepTime = 0;
+        float sweepDuration = 1f;
+        while (sweepTime < sweepDuration)
+        {
+            sweepTime += Time.deltaTime;
+            leftTurret.transform.position = Vector3.Lerp(newLeftTurretPos, initialRightTurretPos, sweepTime / sweepDuration);
+            rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialLeftTurretPos, sweepTime / sweepDuration);
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.2f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.2f);
+            yield return null;
+        }
+        newLeftTurretPos = initialRightTurretPos;
+        newRightTurretPos = initialLeftTurretPos;
+
+        //Sweeping Attack RIGHT->LEFT LEFT<-RIGHT
+        sweepTime = 0;
+        sweepDuration = 1f;
+        while (sweepTime < sweepDuration)
+        {
+            sweepTime += Time.deltaTime;
+            leftTurret.transform.position = Vector3.Lerp(newLeftTurretPos, initialLeftTurretPos, sweepTime / sweepDuration);
+            rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialRightTurretPos, sweepTime / sweepDuration);
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.2f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.2f);
+            yield return null;
+        }
+        newLeftTurretPos = initialLeftTurretPos;
+        newRightTurretPos = initialRightTurretPos;
 
         yield return StartCoroutine(Stage2Cycle());
     }
@@ -381,5 +435,13 @@ public class MothershipScript : MonoBehaviour
             yield return null;
         }
         motherShipSprite.color = initialColor;
+    }
+
+    IEnumerator FinalHit()
+    {
+        finalHitStarted = true;
+        Time.timeScale = 0.4f;
+        yield return new WaitForSeconds(0.8f);
+        currentState = BOSS_STATE.DEAD;
     }
 }

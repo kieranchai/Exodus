@@ -12,6 +12,7 @@ public class PlayerScript : MonoBehaviour
     public Animator anim;
     public Collider2D coll;
     public SpriteRenderer playerSprite;
+    [SerializeField] private ParticleSystem dustCloud;
 
     public string playerName;
     public float maxHealth;
@@ -60,7 +61,8 @@ public class PlayerScript : MonoBehaviour
     {
         NORMAL,
         ROLLING,
-        DEAD
+        DEAD,
+        WIN
     }
 
     public PLAYER_STATE currentState;
@@ -138,12 +140,13 @@ public class PlayerScript : MonoBehaviour
                     {
                         if (this.rollTimer < this.rollCD) return;
                         this.rollDir = this.lastMoveDir;
-                        this.rollSpeed = this.initialMovementSpeed * 1.5f;
+                        this.rollSpeed = this.initialMovementSpeed * 2f;
                         this.currentState = PLAYER_STATE.ROLLING;
                         this.rollTimer = 0;
                         this.rollOnCD = true;
                         this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.SetActive(true);
                         //Play Roll Anims
+                        dustCloud.Play();
                     }
                     break;
                 case PLAYER_STATE.ROLLING:
@@ -189,6 +192,10 @@ public class PlayerScript : MonoBehaviour
                 this.rb.velocity = this.rollDir * this.rollSpeed;
                 break;
             case PLAYER_STATE.DEAD:
+                this.rb.velocity = Vector3.zero;
+                break;
+            case PLAYER_STATE.WIN:
+                this.rb.velocity = Vector3.zero;
                 break;
             default:
                 break;
@@ -231,7 +238,6 @@ public class PlayerScript : MonoBehaviour
         CameraController.instance.animator.SetTrigger("CameraShake");
         if (currentHealth <= 0)
         {
-            this.rb.velocity = Vector3.zero;
             this.currentState = PLAYER_STATE.DEAD;
             GameController.instance.currentState = GameController.GAME_STATE.DEAD;
         }

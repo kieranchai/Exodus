@@ -38,6 +38,8 @@ public class GameController : MonoBehaviour
 
     private bool stimCD = false;
 
+    private bool hasLoadedEndCutscene = false;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -66,10 +68,20 @@ public class GameController : MonoBehaviour
                 GameOver();
                 break;
             case GAME_STATE.WIN:
+                if (!hasLoadedEndCutscene) EndGame();
                 break;
             default:
                 break;
         }
+    }
+
+    private void EndGame()
+    {
+        PlayerScript.instance.coll.enabled = false;
+        PlayerScript.instance.anim.SetBool("isWalking", false);
+        PlayerScript.instance.currentState = PlayerScript.PLAYER_STATE.WIN;
+        hasLoadedEndCutscene = true;
+        // Load Scene
     }
 
     private void PauseGame()
@@ -122,7 +134,7 @@ public class GameController : MonoBehaviour
 
         //Movement Input WASD+LEFT SHIFT is in PlayerScript Update/FixedUpdate
 
-        if(allowShooting)
+        if (allowShooting)
         {
             if (Input.GetMouseButton(0) && !isOverUI && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
             {
@@ -146,10 +158,8 @@ public class GameController : MonoBehaviour
         tutorialDialogueBox.SetActive(true);
         yield return StartCoroutine(Typewriter("Good morning, soldier! Welcome to your training."));
         yield return StartCoroutine(Typewriter("First, try running around with WASD."));
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(false);
         bool hasMoved = false;
-        while(!hasMoved)
+        while (!hasMoved)
         {
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
             {
@@ -157,12 +167,11 @@ public class GameController : MonoBehaviour
             }
             yield return null;
         }
+        tutorialDialogueBox.SetActive(false);
         yield return new WaitForSeconds(1f);
         tutorialDialogueBox.SetActive(true);
         yield return StartCoroutine(Typewriter("Amazing work!"));
         yield return StartCoroutine(Typewriter("Next, try pressing SHIFT to dodge."));
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(false);
         bool hasDodged = false;
         while (!hasDodged)
         {
@@ -172,26 +181,25 @@ public class GameController : MonoBehaviour
             }
             yield return null;
         }
+        tutorialDialogueBox.SetActive(false);
         yield return new WaitForSeconds(1f);
         tutorialDialogueBox.SetActive(true);
         yield return StartCoroutine(Typewriter("Bravo!"));
         yield return StartCoroutine(Typewriter("If timed well, dodging allows you to avoid taking enemy damage."));
         yield return StartCoroutine(Typewriter("You can only dodge once every 5 seconds, so use your dodges carefully!"));
         yield return StartCoroutine(Typewriter("Proceed over to the next area."));
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(false);
         area1Collider.enabled = false;
         while (!passedArea2)
         {
             yield return null;
         }
+        tutorialDialogueBox.SetActive(false);
+        yield return new WaitForSeconds(1f);
         tutorialDialogueBox.SetActive(true);
         yield return StartCoroutine(Typewriter("Good work."));
         PlayerScript.instance.AddToInventory(Resources.Load<Weapon>("ScriptableObjects/Weapons/Heavy Pistol"));
-        yield return StartCoroutine(Typewriter("You have been given a gun."));
+        yield return StartCoroutine(Typewriter("A weapon has been given to you."));
         yield return StartCoroutine(Typewriter("Press TAB to open your inventory."));
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(false);
         bool hasPressed = false;
         while (!hasPressed)
         {
@@ -201,11 +209,10 @@ public class GameController : MonoBehaviour
             }
             yield return null;
         }
+        tutorialDialogueBox.SetActive(false);
         yield return new WaitForSeconds(1f);
         tutorialDialogueBox.SetActive(true);
         yield return StartCoroutine(Typewriter("Now, select the gun and equip it."));
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(false);
         bool hasDone = false;
         while (!hasDone)
         {
@@ -215,6 +222,7 @@ public class GameController : MonoBehaviour
             }
             yield return null;
         }
+        tutorialDialogueBox.SetActive(false);
         yield return new WaitForSeconds(1f);
         tutorialDialogueBox.SetActive(true);
         yield return StartCoroutine(Typewriter("You're a natural!"));
@@ -224,8 +232,6 @@ public class GameController : MonoBehaviour
         yield return StartCoroutine(Typewriter("You can purchase ammo from the shop."));
         yield return StartCoroutine(Typewriter("Try opening the shop panel by pressing E near the shop."));
         PlayerScript.instance.UpdateCash(150);
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(false);
         hasDone = false;
         while (!hasDone)
         {
@@ -235,13 +241,12 @@ public class GameController : MonoBehaviour
             }
             yield return null;
         }
+        tutorialDialogueBox.SetActive(false);
         yield return new WaitForSeconds(1f);
         tutorialDialogueBox.SetActive(true);
         yield return StartCoroutine(Typewriter("You've been given some cash."));
         yield return StartCoroutine(Typewriter("Cash can only be earned by killing aliens, and can only be used at the shop to purchase weapons and items."));
         yield return StartCoroutine(Typewriter("Use the cash to purchase ammo for your weapon."));
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(false);
         hasDone = false;
         while (!hasDone)
         {
@@ -251,25 +256,27 @@ public class GameController : MonoBehaviour
             }
             yield return null;
         }
+        tutorialDialogueBox.SetActive(false);
         yield return new WaitForSeconds(1f);
         tutorialDialogueBox.SetActive(true);
         yield return StartCoroutine(Typewriter("Great."));
         yield return StartCoroutine(Typewriter("Press MOUSE1 to shoot the target dummy in front of you"));
         yield return StartCoroutine(Typewriter("You can try unequipping your weapon and pressing MOUSE1 to punch as well."));
         allowShooting = true;
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(false);
         hasDone = false;
         while (!hasDone)
         {
-            if (this.dummyShot) {
+            if (this.dummyShot)
+            {
                 hasDone = true;
             }
             yield return null;
         }
+        tutorialDialogueBox.SetActive(false);
         yield return new WaitForSeconds(1f);
         tutorialDialogueBox.SetActive(true);
         yield return StartCoroutine(Typewriter("Awesome!"));
+        yield return new WaitForSeconds(2f);
         yield return StartCoroutine(Typewriter("You might be wondering what the bar on the left of your minimap represents."));
         yield return StartCoroutine(Typewriter("Well... it represents the progress of the poisonous gas."));
         yield return StartCoroutine(Typewriter("The closer the gas is to the end of the bar, the closer to Earth's doom!"));
