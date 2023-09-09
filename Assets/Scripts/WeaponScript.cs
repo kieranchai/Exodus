@@ -91,6 +91,11 @@ public class WeaponScript : MonoBehaviour
             {
                 collider.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower);
             }
+
+            if (collider.gameObject.CompareTag("TargetDummy"))
+            {
+                GameController.instance.dummyShot = true;
+            }
         }
         switch (this.weaponName)
         {

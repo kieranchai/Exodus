@@ -218,8 +218,8 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         tutorialDialogueBox.SetActive(true);
         yield return StartCoroutine(Typewriter("You're a natural!"));
-        yield return StartCoroutine(Typewriter("Oops, I've forgotten to give you ammo."));
-        yield return StartCoroutine(Typewriter("Notice that there are 3 different types of ammo on the bottom right of your screen."));
+        yield return StartCoroutine(Typewriter("Oops, it seems that you need bullets."));
+        yield return StartCoroutine(Typewriter("Notice that there are 3 different types of ammo below your minimap."));
         yield return StartCoroutine(Typewriter("Different weapons will require different types of ammo."));
         yield return StartCoroutine(Typewriter("You can purchase ammo from the shop."));
         yield return StartCoroutine(Typewriter("Try opening the shop panel by pressing E near the shop."));
@@ -286,7 +286,7 @@ public class GameController : MonoBehaviour
     IEnumerator Typewriter(string text)
     {
         tutorialDialogueText.text = "";
-        var waitTimer = new WaitForSeconds(.03f);
+        var waitTimer = new WaitForSeconds(.05f);
         foreach (char c in text)
         {
             tutorialDialogueText.text += c;

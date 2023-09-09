@@ -1278,7 +1278,7 @@ Transform:
   m_GameObject: {fileID: 101831585}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.4, y: -3.7, z: -10}
+  m_LocalPosition: {x: 10.79, y: -0.05, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1351,7 +1351,7 @@ MonoBehaviour:
   smoothTime: 0
   positionOffset: {x: 0, y: 0, z: 0}
   xLimit: {x: 8.98, y: 18.74}
-  yLimit: {x: -4.55, y: 43.05}
+  yLimit: {x: -4.55, y: 45.4}
 --- !u!1 &155791965
 GameObject:
   m_ObjectHideFlags: 0
@@ -2347,6 +2347,7 @@ MonoBehaviour:
   tutorialDialogueText: {fileID: 0}
   area1Collider: {fileID: 0}
   passedArea2: 0
+  dummyShot: 0
   currentState: 1
   pauseScreen: {fileID: 1972449466}
   deathScreen: {fileID: 1429068255}
