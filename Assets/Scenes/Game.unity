@@ -17438,6 +17438,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limitAttack: 0
+  weaponSprite: {fileID: 1472547428}
+  sprite: {fileID: 21300000, guid: 5bebe7db52a019045b2cc1c5697caa9c, type: 3}
+  flash: {fileID: 21300000, guid: c800c5a06b4ccec4d93522ad47101439, type: 3}
+  framesToFlash: 3
 --- !u!70 &1472547430
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -18069,6 +18073,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limitAttack: 0
+  weaponSprite: {fileID: 1915076252}
+  sprite: {fileID: 21300000, guid: 5bebe7db52a019045b2cc1c5697caa9c, type: 3}
+  flash: {fileID: 21300000, guid: c800c5a06b4ccec4d93522ad47101439, type: 3}
+  framesToFlash: 3
 --- !u!212 &1915076252
 SpriteRenderer:
   m_ObjectHideFlags: 0
