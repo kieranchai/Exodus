@@ -5,6 +5,10 @@ using UnityEngine;
 public class MothershipTurretScript : MonoBehaviour
 {
     public bool limitAttack = false;
+    public SpriteRenderer weaponSprite;
+    public Sprite sprite;
+    public Sprite flash;
+    public int framesToFlash = 2;
 
     public void DoAttack(string attackType, float attackPower, float weaponRange, float cooldown)
     {
@@ -32,6 +36,7 @@ public class MothershipTurretScript : MonoBehaviour
 
     IEnumerator NormalAttack(float attackPower, float weaponRange, float cooldown)
     {
+        StartCoroutine(FlashMuzzleFlash());
         limitAttack = true;
         GameObject bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Bullet"), transform.position, Quaternion.identity);
         bullet.GetComponent<EnemyBulletScript>().Initialise(attackPower, weaponRange);
@@ -47,14 +52,17 @@ public class MothershipTurretScript : MonoBehaviour
         GameObject bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Bullet"), transform.position, Quaternion.identity);
         bullet.GetComponent<EnemyBulletScript>().Initialise(attackPower, weaponRange);
         bullet.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
+        StartCoroutine(FlashMuzzleFlash());
         yield return new WaitForSeconds(0.05f);
         GameObject bullet2 = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Bullet"), transform.position, Quaternion.identity);
         bullet2.GetComponent<EnemyBulletScript>().Initialise(attackPower, weaponRange);
         bullet2.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
+        StartCoroutine(FlashMuzzleFlash());
         yield return new WaitForSeconds(0.05f);
         GameObject bullet3 = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Bullet"), transform.position, Quaternion.identity);
         bullet3.GetComponent<EnemyBulletScript>().Initialise(attackPower, weaponRange);
         bullet3.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
+        StartCoroutine(FlashMuzzleFlash());
         yield return new WaitForSeconds(cooldown);
         limitAttack = false;
         yield return null;
@@ -63,6 +71,7 @@ public class MothershipTurretScript : MonoBehaviour
     IEnumerator RocketAttack(float attackPower, float weaponRange, float cooldown)
     {
         limitAttack = true;
+        StartCoroutine(FlashMuzzleFlash());
         GameObject rocket = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Rocket"), transform.position, Quaternion.identity);
         rocket.GetComponent<EnemyRocketScript>().Initialise(attackPower, weaponRange);
         //can add Projectile Speed to CSV (600 here)
@@ -76,10 +85,22 @@ public class MothershipTurretScript : MonoBehaviour
     IEnumerator HomingRocketAttack(float attackPower)
     {
         limitAttack = true;
+        StartCoroutine(FlashMuzzleFlash());
         GameObject rocket = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Homing Rocket"), transform.position, Quaternion.identity);
         rocket.GetComponent<EnemyHomingRocketScript>().Initialise(attackPower);
         yield return new WaitForSeconds(0);
         limitAttack = false;
         yield return null;
+    }
+
+    IEnumerator FlashMuzzleFlash() {
+        weaponSprite.sprite = flash;
+        int ratio = (int)((1/Time.deltaTime) / 60);
+        if (ratio < 1) ratio = 1;
+        int dynamicflash = (framesToFlash * ratio); 
+        for (int i = 0; i < dynamicflash ; i ++) {
+            yield return 0;
+        }
+        weaponSprite.sprite = sprite;
     }
 }
