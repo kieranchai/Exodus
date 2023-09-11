@@ -124,7 +124,8 @@ public class WeaponScript : MonoBehaviour
             bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 600);
 
             --PlayerScript.instance.ammoCount[this.ammoType];
-            PlayerScript.instance.RefreshAmmoUI();
+            PlayerScript.instance.UpdateEquippedAmmoUI();
+            PlayerScript.instance.UpdateInventoryAmmoUI();
             yield return new WaitForSeconds(this.cooldown);
         }
         limitAttack = false;
