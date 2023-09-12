@@ -547,9 +547,9 @@ RectTransform:
   - {fileID: 953122639}
   - {fileID: 846587804}
   - {fileID: 631863110}
+  - {fileID: 1827894349}
   - {fileID: 1972449467}
   - {fileID: 1429068256}
-  - {fileID: 1827894349}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -38213,7 +38213,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1541815848398199017, guid: ce0582b477fb1de44aac87d054104069, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1118454439}
+    - target: {fileID: 2511091551062084196, guid: ce0582b477fb1de44aac87d054104069, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1118454439}
     - target: {fileID: 2751575765010492093, guid: ce0582b477fb1de44aac87d054104069, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1118454439}
+    - target: {fileID: 5651744253485843380, guid: ce0582b477fb1de44aac87d054104069, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1118454439}
@@ -38225,8 +38237,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Death Screen
       objectReference: {fileID: 0}
+    - target: {fileID: 8333792702221515678, guid: ce0582b477fb1de44aac87d054104069, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3620791824703345172, guid: ce0582b477fb1de44aac87d054104069, type: 3}
+    - {fileID: 941875966581596407, guid: ce0582b477fb1de44aac87d054104069, type: 3}
+    - {fileID: 6997143034638782741, guid: ce0582b477fb1de44aac87d054104069, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce0582b477fb1de44aac87d054104069, type: 3}
