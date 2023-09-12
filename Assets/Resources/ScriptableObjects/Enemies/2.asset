@@ -20,4 +20,4 @@ MonoBehaviour:
   xpDrop: 20
   cashDrop: 60
   lootDrop: NULL
-  spawnZone: MidTierZone
+  spawnZone: HighTierZone

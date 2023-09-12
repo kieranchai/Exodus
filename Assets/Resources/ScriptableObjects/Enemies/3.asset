@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a5c7a2cfc43c9248a5a36bfb68096a3, type: 3}
-  m_Name: 1
+  m_Name: 3
   m_EditorClassIdentifier: 
-  id: 1
-  enemyName: Wraith
-  health: 10
-  movementSpeed: 3
-  equippedWeapon: Heavy Pistol
-  xpDrop: 10
-  cashDrop: 40
+  id: 3
+  enemyName: Crab
+  health: 5
+  movementSpeed: 2
+  equippedWeapon: Pincers
+  xpDrop: 5
+  cashDrop: 10
   lootDrop: NULL
-  spawnZone: MidTierZone
+  spawnZone: LowTierZone

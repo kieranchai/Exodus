@@ -14,6 +14,9 @@ public class EnemyWeaponScript : MonoBehaviour
     private SpriteRenderer weaponSprite;
     private Sprite sprite;
     private Sprite flash;
+    public Animator anim;
+    public Transform circleOrigin;
+    public float radius;
 
     public void SetWeaponData(Weapon weaponData)
     {
@@ -28,6 +31,12 @@ public class EnemyWeaponScript : MonoBehaviour
         sprite = Resources.Load<Sprite>(this.spritePath);
         flash = Resources.Load<Sprite>(this.spritePath + " Flash");
         weaponSprite.sprite = sprite;
+
+        if (weaponData.weaponType == "melee") {
+            anim.enabled = true;
+        }else {
+            anim.enabled = false;
+        }
     }
 
     public void TryAttack()
@@ -39,6 +48,9 @@ public class EnemyWeaponScript : MonoBehaviour
                 case "line":
                     StartCoroutine(FlashMuzzleFlash());
                     StartCoroutine(LineAttack());
+                    break;
+                case "melee":
+                    StartCoroutine(MeleeAttack());
                     break;
                 default:
                     break;
@@ -60,6 +72,30 @@ public class EnemyWeaponScript : MonoBehaviour
         yield return null;
     }
 
+    IEnumerator MeleeAttack()
+    {
+        limitAttack = true;
+        foreach (Collider2D collider in Physics2D.OverlapCircleAll(circleOrigin.position, radius))
+        {
+            if (collider.gameObject.CompareTag("Player"))
+            {
+                PlayerScript.instance.TakeDamage(this.attackPower, false);
+            }
+
+        }
+        switch (this.weaponName)
+        {
+            case "Pincers":
+                anim.SetTrigger("Pincers");
+                break;
+            default:
+                break;
+        }
+        yield return new WaitForSeconds(this.cooldown);
+        limitAttack = false;
+        yield return null;
+    }
+
     IEnumerator FlashMuzzleFlash()
     {
         weaponSprite.sprite = flash;
@@ -72,4 +108,11 @@ public class EnemyWeaponScript : MonoBehaviour
         }
         weaponSprite.sprite = sprite;
     }
+
+    private void OnDrawGizmosSelected() {
+        Gizmos.color = Color.blue;
+        Vector3 position = circleOrigin.position;
+        Gizmos.DrawWireSphere(position,radius);
+    }
+
 }

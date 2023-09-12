@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: test
   m_EditorClassIdentifier: 
   id: 1
-  enemyName: Wraith
+  enemyName: bug
   health: 10
   movementSpeed: 3
   equippedWeapon: Heavy Pistol

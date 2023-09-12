@@ -41,6 +41,7 @@ public class EnemyScript : MonoBehaviour
 
     private bool hasSetSpawnZone = false;
     private EnemySpawner mySpawner;
+    // private bool canMelee = false;
 
     public enum ENEMY_STATE
     {
@@ -183,6 +184,7 @@ public class EnemyScript : MonoBehaviour
             this.timer = 0;
             if (PlayerInRange())
             {
+                Debug.Log("in range");
                 this.currentState = ENEMY_STATE.ATTACK;
             }
         }
@@ -277,7 +279,7 @@ public class EnemyScript : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(!this.hasSetSpawnZone && collision.CompareTag(this.spawnZone))
+        if (!this.hasSetSpawnZone && collision.CompareTag(this.spawnZone))
         {
             this.mySpawner = collision.gameObject.GetComponent<EnemySpawner>();
             this.hasSetSpawnZone = true;
@@ -302,7 +304,7 @@ public class EnemyScript : MonoBehaviour
         while (duration > 0)
         {
             duration -= Time.deltaTime;
-            
+
             Color hitFlash = Color.red;
             hitFlash.a = 0.7f;
             enemySprite.color = hitFlash;
@@ -310,5 +312,4 @@ public class EnemyScript : MonoBehaviour
         }
         enemySprite.color = initialColor;
     }
-
 }

@@ -23,7 +23,6 @@ public class WeaponScript : MonoBehaviour
     private Sprite sprite;
     private Sprite flash;
     public Animator anim;
-    public AnimatorOverrideController animatorOverrideController;
     public Transform circleOrigin;
     public float radius;
     public void SetWeaponData(Weapon weaponData)
