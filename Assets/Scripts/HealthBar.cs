@@ -12,17 +12,10 @@ public class HealthBar : MonoBehaviour
     {
         lerpSpeed = 3f * Time.deltaTime;
         HealthBarFiller();
-/*        ColorChanger();*/
     }
 
     private void HealthBarFiller()
     {
         healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, PlayerScript.instance.currentHealth / PlayerScript.instance.maxHealth, lerpSpeed);
     }
-
-/*    private void ColorChanger()
-    {
-        Color healthColor = Color.Lerp(Color.red, Color.green, PlayerScript.instance.currentHealth / PlayerScript.instance.maxHealth);
-        healthBar.color = healthColor;
-    }*/
 }

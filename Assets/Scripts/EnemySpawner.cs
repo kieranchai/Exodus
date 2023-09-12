@@ -37,7 +37,6 @@ public class EnemySpawner : MonoBehaviour
         GameObject spawnedEnemy = Instantiate(zoneEnemies[Random.Range(0, zoneEnemies.Length)], RandomPointInZone(currentZone.bounds), Quaternion.identity);
         spawnedEnemy.GetComponent<EnemyScript>().spawnZone = currentZone.tag;
         enemyCounter++;
-        Debug.Log(Random.Range(0, zoneEnemies.Length - 1));
     }
 
     public Vector3 RandomPointInZone(Bounds bounds)

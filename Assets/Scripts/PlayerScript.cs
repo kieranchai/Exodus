@@ -56,6 +56,8 @@ public class PlayerScript : MonoBehaviour
     public bool isInShop = false;
 
     public float initialMovementSpeed;
+    private Color initialColor;
+    private Sprite initialHPFill;
 
     public enum PLAYER_STATE
     {
@@ -79,7 +81,8 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
         playerSprite = GetComponent<SpriteRenderer>();
-
+        initialColor = playerSprite.color;
+        initialHPFill = playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().sprite;
         weaponSlot = transform.GetChild(0).GetComponent<WeaponScript>();
         akimboSlot = transform.GetChild(1).GetComponent<WeaponScript>();
         this.currentState = PLAYER_STATE.NORMAL;
@@ -229,11 +232,19 @@ public class PlayerScript : MonoBehaviour
         if (GameController.instance.currentState == GameController.GAME_STATE.DEAD) return;
         if (this.currentState == PLAYER_STATE.ROLLING && fromZone == false) return;
 
+        currentHealth -= damage;
         Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
         DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
         damagePopup.Setup(damage);
 
-        currentHealth -= damage;
+        playerSprite.color = initialColor;
+        StopCoroutine(HitFlicker());
+        StartCoroutine(HitFlicker());
+
+        playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().sprite = initialHPFill;
+        StopCoroutine(FlashHealthBar());
+        StartCoroutine(FlashHealthBar());
+
         CameraController.instance.animator.SetTrigger("CameraShake");
         if (currentHealth <= 0)
         {
@@ -557,5 +568,32 @@ public class PlayerScript : MonoBehaviour
         playerSprite.color = hitFlash;
         yield return new WaitForSeconds(0.05f);
         playerSprite.color = initialColor;
+    }
+
+    IEnumerator HitFlicker()
+    {
+        float duration = 0.1f;
+        while (duration > 0)
+        {
+            duration -= Time.deltaTime;
+
+            Color hitFlash = Color.red;
+            hitFlash.a = 0.7f;
+            playerSprite.color = hitFlash;
+            yield return null;
+        }
+        playerSprite.color = initialColor;
+    }
+
+    IEnumerator FlashHealthBar()
+    {
+        float duration = 0.1f;
+        while (duration > 0)
+        {
+            duration -= Time.deltaTime;
+            playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().sprite = Resources.Load<Sprite>("UISprites/Player HP Fill Flash");
+            yield return null;
+        }
+        playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().sprite = initialHPFill;
     }
 }

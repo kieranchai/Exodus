@@ -183,7 +183,6 @@ public class EnemyScript : MonoBehaviour
             this.timer = 0;
             if (PlayerInRange())
             {
-                Debug.Log("in range");
                 this.currentState = ENEMY_STATE.ATTACK;
             }
         }

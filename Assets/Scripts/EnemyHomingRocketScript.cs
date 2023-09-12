@@ -31,7 +31,7 @@ public class EnemyHomingRocketScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Tilemap Collider"))
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Tilemap Collider") || collision.gameObject.CompareTag("Enemy"))
         {
             Explode();
         }
