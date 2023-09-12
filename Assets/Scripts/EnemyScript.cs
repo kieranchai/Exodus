@@ -40,8 +40,7 @@ public class EnemyScript : MonoBehaviour
     private Transform damagePopupPrefab;
 
     private bool hasSetSpawnZone = false;
-    private EnemySpawner mySpawner;
-    // private bool canMelee = false;
+    public EnemySpawner mySpawner;
 
     public enum ENEMY_STATE
     {

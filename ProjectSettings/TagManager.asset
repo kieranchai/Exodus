@@ -16,6 +16,7 @@ TagManager:
   - Forcefield
   - Tutorial Area 2
   - TargetDummy
+  - Woods
   layers:
   - Default
   - TransparentFX

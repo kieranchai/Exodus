@@ -5,3 +5,4 @@
 5,Dual Rifles,Make it double!,3,Sprites/Assault Rifle,UISprites/Assault Rifle,akimbo,0.2,8,100,120,0.4,MEDIUM,YES
 6,Katana,Up close and personal!,10,Sprites/Katana,UISprites/Katana,melee,0.2,0,0,300,0,NULL,YES
 7,Pincers,NULL,2,NULL,NULL,melee,0.6,1,0,0,0,NULL,NO
+8,Suicide Bomb,NULL,10,NULL,NULL,suicide,0,1,0,0,0,NULL,NO

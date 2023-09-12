@@ -52,6 +52,9 @@ public class EnemyWeaponScript : MonoBehaviour
                 case "melee":
                     StartCoroutine(MeleeAttack());
                     break;
+                case "suicide":
+                    StartCoroutine(SuicideAttack());
+                    break;
                 default:
                     break;
             }
@@ -93,6 +96,17 @@ public class EnemyWeaponScript : MonoBehaviour
         }
         yield return new WaitForSeconds(this.cooldown);
         limitAttack = false;
+        yield return null;
+    }
+
+    IEnumerator SuicideAttack()
+    {
+        limitAttack = true;
+        GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Heretic Explosion"), transform.position, Quaternion.identity);
+        explosion.GetComponent<EnemyExplosionScript>().Initialise(attackPower, 9f);
+        transform.parent.GetComponent<EnemyScript>().mySpawner.enemyCounter--;
+        limitAttack = false;
+        Destroy(transform.parent.gameObject);
         yield return null;
     }
 
