@@ -16,7 +16,7 @@ MonoBehaviour:
   enemyName: Banshee
   health: 20
   movementSpeed: 5
-  equippedWeapon: Heavy Pistol
+  equippedWeapon: Assault Rifle
   xpDrop: 20
   cashDrop: 60
   lootDrop: NULL

@@ -1743,6 +1743,7 @@ MonoBehaviour:
   Zones:
   - {fileID: 1796093821}
   - {fileID: 1449163588}
+  - {fileID: 1234412900}
   tutorialDialogueBox: {fileID: 0}
   tutorialDialogueText: {fileID: 0}
   area1Collider: {fileID: 0}
