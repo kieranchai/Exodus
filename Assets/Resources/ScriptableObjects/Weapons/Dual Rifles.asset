@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
   m_Name: Dual Rifles
   m_EditorClassIdentifier: 
-  id: 5
+  id: 3
   weaponName: Dual Rifles
-  description: Make it double!
-  attackPower: 3
+  description: Their names are Des and Troy.
+  attackPower: 6.6
   spritePath: Sprites/Assault Rifle
   thumbnailPath: UISprites/Assault Rifle
   weaponType: akimbo
   cooldown: 0.2
-  weaponRange: 8
-  defaultAmmo: 100
-  cost: 120
-  weight: 0.4
+  weaponRange: 6.5
+  defaultAmmo: 192
+  cost: 1500
+  weight: 1.5
   ammoType: MEDIUM
   inShop: YES

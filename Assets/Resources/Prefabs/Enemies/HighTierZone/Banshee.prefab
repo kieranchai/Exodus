@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 13.32, y: 15.97, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.98, y: 0.98, z: 0.98}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4342470135759779391}
@@ -78,11 +78,12 @@ MonoBehaviour:
   returnDuration: 3
   isReturning: 0
   sightRange: 10
-  _data: {fileID: 11400000, guid: 711a3e5adc81d4b4192af29c0fe7a6eb, type: 2}
+  _data: {fileID: 11400000, guid: c0405988aea230e43af4ab7fe29f7cc7, type: 2}
   equippedWeapon: {fileID: 0}
   weaponSlot: {fileID: 0}
   wanderRadius: 10
   damagePopupPrefab: {fileID: 4179147922126599982, guid: 97dc3241655b26940be0f67604dbb62f, type: 3}
+  mySpawner: {fileID: 0}
 --- !u!212 &4570507778859968313
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -124,12 +125,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 688f51e2ed8d3884fbaca550a1516351, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4c133fabb8796ad48917eb9bc5e8f0c0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 0.64, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

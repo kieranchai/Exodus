@@ -143,7 +143,7 @@ Transform:
   m_GameObject: {fileID: 7330187264894817030}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.181, y: 0.03, z: 0}
+  m_LocalPosition: {x: 0.181, y: 0.093, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -271,7 +271,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 13.32, y: 4.37, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.98, y: 0.98, z: 0.98}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3895819461035535941}
@@ -317,11 +317,12 @@ MonoBehaviour:
   returnDuration: 3
   isReturning: 0
   sightRange: 10
-  _data: {fileID: 11400000, guid: 79fc729d8ccfe324187c4b91e4c49413, type: 2}
+  _data: {fileID: 11400000, guid: 0ef7d8dff2c520e48a5f6df82aaeb6f4, type: 2}
   equippedWeapon: {fileID: 0}
   weaponSlot: {fileID: 0}
   wanderRadius: 10
   damagePopupPrefab: {fileID: 4179147922126599982, guid: 97dc3241655b26940be0f67604dbb62f, type: 3}
+  mySpawner: {fileID: 0}
 --- !u!212 &7865783603933936253
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -363,12 +364,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 688f51e2ed8d3884fbaca550a1516351, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4b791248a83c3d14c8696690ed261233, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 0.64, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -411,7 +412,7 @@ Animator:
   m_GameObject: {fileID: 8553370393558730800}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fea3941a64f3f994d83bf45ccf6c65f5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9acbaa8906d0f5f4ab1a8bd54d0f2b05, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

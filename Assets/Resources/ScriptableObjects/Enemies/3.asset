@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: 3
   m_EditorClassIdentifier: 
   id: 3
-  enemyName: Crab
-  health: 5
-  movementSpeed: 2
-  equippedWeapon: Pincers
-  xpDrop: 5
-  cashDrop: 10
+  enemyName: Wraith
+  health: 50
+  movementSpeed: 3.16
+  equippedWeapon: Alien Pistol
+  xpDrop: 20
+  cashDrop: 70
   lootDrop: NULL
-  spawnZone: LowTierZone
+  spawnZone: MidTierZone

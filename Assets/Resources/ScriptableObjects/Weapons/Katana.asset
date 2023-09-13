@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
   m_Name: Katana
   m_EditorClassIdentifier: 
-  id: 6
+  id: 4
   weaponName: Katana
   description: Up close and personal!
   attackPower: 10
   spritePath: Sprites/Katana
   thumbnailPath: UISprites/Katana
   weaponType: melee
-  cooldown: 0.2
+  cooldown: 0.3
   weaponRange: 0
   defaultAmmo: 0
-  cost: 300
-  weight: 0
+  cost: 1000
+  weight: 0.5
   ammoType: NULL
   inShop: YES

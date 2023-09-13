@@ -1,4 +1,8 @@
-1,Wraith,10,3,Heavy Pistol,10,40,NULL,MidTierZone
-2,Banshee,20,5,Assault Rifle,20,60,NULL,HighTierZone
-3,Crab,5,2,Pincers,5,10,NULL,LowTierZone
-4,Heretic,5,3,Suicide Bomb,10,50,NULL,MidTierZone
+1,Grunt,30,4,Alien Mouth,10,30,NULL,LowTierZone
+2,Hardened Grunt,40,3.5,Alien Mouth,15,50,NULL,LowTierZone
+3,Wraith,50,3.16,Alien Pistol,20,70,NULL,MidTierZone
+4,Hardened Wraith,60,2.92,Alien Pistol,25,90,NULL,MidTierZone
+5,Banshee,90,2.5,Alien Rifle,30,110,NULL,HighTierZone
+6,Hardened Banshee,100,2.41,Alien Rifle,35,130,NULL,HighTierZone
+7,Crab,6,3,Pincers,5,10,NULL,LowTierZone
+8,Heretic,15,6,Suicide Bomb,20,30,NULL,MidTierZone

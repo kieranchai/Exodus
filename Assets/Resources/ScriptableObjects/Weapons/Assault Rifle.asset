@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   weaponName: Assault Rifle
-  description: Standard issue rifle. Reliable and efficient.
-  attackPower: 3
+  description: Standard military issue rifle. Reliable and efficient.
+  attackPower: 6.6
   spritePath: Sprites/Assault Rifle
   thumbnailPath: UISprites/Assault Rifle
   weaponType: line
   cooldown: 0.2
-  weaponRange: 8
-  defaultAmmo: 60
-  cost: 250
+  weaponRange: 6.5
+  defaultAmmo: 96
+  cost: 540
   weight: 0.8
   ammoType: MEDIUM
   inShop: YES

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: 1
   m_EditorClassIdentifier: 
   id: 1
-  enemyName: Wraith
-  health: 10
-  movementSpeed: 3
-  equippedWeapon: Heavy Pistol
+  enemyName: Grunt
+  health: 30
+  movementSpeed: 4
+  equippedWeapon: Alien Mouth
   xpDrop: 10
-  cashDrop: 40
+  cashDrop: 30
   lootDrop: NULL
-  spawnZone: MidTierZone
+  spawnZone: LowTierZone

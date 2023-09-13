@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
   m_Name: Fists
   m_EditorClassIdentifier: 
-  id: 3
+  id: 5
   weaponName: Fists
-  description: NULL
-  attackPower: 1
+  description: Catch these hands.
+  attackPower: 3
   spritePath: NULL
   thumbnailPath: UISprites/Fists
   weaponType: melee

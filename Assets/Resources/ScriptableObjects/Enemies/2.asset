@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: 2
   m_EditorClassIdentifier: 
   id: 2
-  enemyName: Banshee
-  health: 20
-  movementSpeed: 5
-  equippedWeapon: Assault Rifle
-  xpDrop: 20
-  cashDrop: 60
+  enemyName: Hardened Grunt
+  health: 40
+  movementSpeed: 3.5
+  equippedWeapon: Alien Mouth
+  xpDrop: 15
+  cashDrop: 50
   lootDrop: NULL
-  spawnZone: HighTierZone
+  spawnZone: LowTierZone

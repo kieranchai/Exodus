@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: 4
   m_EditorClassIdentifier: 
   id: 4
-  enemyName: Heretic
-  health: 5
-  movementSpeed: 3
-  equippedWeapon: Suicide Bomb
-  xpDrop: 10
-  cashDrop: 50
+  enemyName: Hardened Wraith
+  health: 60
+  movementSpeed: 2.92
+  equippedWeapon: Alien Pistol
+  xpDrop: 25
+  cashDrop: 90
   lootDrop: NULL
   spawnZone: MidTierZone

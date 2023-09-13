@@ -317,11 +317,12 @@ MonoBehaviour:
   returnDuration: 3
   isReturning: 0
   sightRange: 10
-  _data: {fileID: 11400000, guid: 0ef7d8dff2c520e48a5f6df82aaeb6f4, type: 2}
+  _data: {fileID: 11400000, guid: 031224a9fb35a4e4798051dd5774030c, type: 2}
   equippedWeapon: {fileID: 0}
   weaponSlot: {fileID: 0}
   wanderRadius: 10
   damagePopupPrefab: {fileID: 4179147922126599982, guid: 97dc3241655b26940be0f67604dbb62f, type: 3}
+  mySpawner: {fileID: 0}
 --- !u!212 &7865783603933936253
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -91,6 +91,9 @@ public class EnemyWeaponScript : MonoBehaviour
             case "Pincers":
                 anim.SetTrigger("Pincers");
                 break;
+            case "Alien Mouth":
+                anim.SetTrigger("Mouth");
+                break;
             default:
                 break;
         }

@@ -1,8 +1,10 @@
-1,Assault Rifle,Standard issue rifle. Reliable and efficient.,3,Sprites/Assault Rifle,UISprites/Assault Rifle,line,0.2,8,60,250,0.8,MEDIUM,YES
-2,Heavy Pistol,Powerful but slow. Great for headshots.,6,Sprites/Heavy Pistol,UISprites/Heavy Pistol,line,0.7,8,20,120,0.4,HEAVY,YES
-3,Fists,NULL,1,NULL,UISprites/Fists,melee,0.6,0,0,0,0,NULL,NO
-4,Dual Pistols,Make it double!,1,Sprites/Heavy Pistol,UISprites/Heavy Pistol,akimbo,0.5,8,40,120,0.4,HEAVY,YES
-5,Dual Rifles,Make it double!,3,Sprites/Assault Rifle,UISprites/Assault Rifle,akimbo,0.2,8,100,120,0.4,MEDIUM,YES
-6,Katana,Up close and personal!,10,Sprites/Katana,UISprites/Katana,melee,0.2,0,0,300,0,NULL,YES
-7,Pincers,NULL,2,NULL,NULL,melee,0.6,1,0,0,0,NULL,NO
-8,Suicide Bomb,NULL,10,NULL,NULL,suicide,0,1,0,0,0,NULL,NO
+1,Assault Rifle,Standard military issue rifle. Reliable and efficient.,6.6,Sprites/Assault Rifle,UISprites/Assault Rifle,line,0.2,6.5,96,540,0.8,MEDIUM,YES
+2,Light Pistol,Light and portable handgun.,6,Sprites/Light Pistol,UISprites/Light Pistol,line,0.6,3,30,50,0.2,LIGHT,YES
+3,Dual Rifles,Their names are Des and Troy.,6.6,Sprites/Assault Rifle,UISprites/Assault Rifle,akimbo,0.2,6.5,192,1500,1.5,MEDIUM,YES
+4,Katana,Up close and personal!,10,Sprites/Katana,UISprites/Katana,melee,0.3,0,0,1000,0.5,NULL,YES
+5,Fists,Catch these hands.,3,NULL,UISprites/Fists,melee,0.6,0,0,0,0,NULL,NO
+6,Pincers,NULL,2,NULL,NULL,melee,0.6,1,0,0,0,NULL,NO
+7,Suicide Bomb,NULL,20,NULL,NULL,suicide,0,1,0,0,0,NULL,NO
+8,Alien Rifle,NULL,6.6,Sprites/Alien Rifle,NULL,line,0.2,6.5,0,0,0,MEDIUM,NO
+9,Alien Pistol,NULL,6,Sprites/Alien Pistol,NULL,line,0.6,3,0,0,0,LIGHT,NO
+10,Alien Mouth,NULL,3,Sprites/Alien Mouth,NULL,melee,0.6,1,0,0,0,NULL,NO
