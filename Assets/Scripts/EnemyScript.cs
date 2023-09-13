@@ -1,7 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -19,13 +20,12 @@ public class EnemyScript : MonoBehaviour
     private string lootDrop;
     public string spawnZone;
 
-    private float timer = 0;
-    private float duration = 2f;
+    public float timer = 0;
+    private float duration;
     public float returnDuration;
-    public bool isReturning = false;
 
     [SerializeField]
-    private float sightRange = 7f;
+    private float sightRange; // Can Set in CSV
 
     [SerializeField]
     private Enemy _data;
@@ -47,11 +47,10 @@ public class EnemyScript : MonoBehaviour
         WANDER,
         CHASE,
         ATTACK,
-        DEAD,
-        RETURN
+        DEAD
     }
 
-    ENEMY_STATE currentState = ENEMY_STATE.WANDER;
+    ENEMY_STATE currentState;
 
     private void Start()
     {
@@ -64,6 +63,9 @@ public class EnemyScript : MonoBehaviour
         this.weaponSlot = gameObject.transform.Find("Weapon").gameObject.GetComponent<EnemyWeaponScript>();
         SetEnemyData(_data);
         EquipWeapon(this.equippedWeapon);
+        this.currentState = ENEMY_STATE.WANDER;
+        this.duration = 2f;
+        this.sightRange = 5f;
     }
 
     void Update()
@@ -91,9 +93,6 @@ public class EnemyScript : MonoBehaviour
             case ENEMY_STATE.DEAD:
                 Dead();
                 break;
-            case ENEMY_STATE.RETURN:
-                if (!this.isReturning) ReturnToZone();
-                break;
             default:
                 break;
         }
@@ -118,38 +117,6 @@ public class EnemyScript : MonoBehaviour
         this.weaponSlot.SetWeaponData(weaponData);
     }
 
-
-    public Vector3 RandomNavMeshLocation()
-    {
-        Vector3 finalPosition = Vector3.zero;
-        Vector3 randomPosition = Random.insideUnitSphere * wanderRadius;
-        randomPosition += transform.position;
-        if (NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, wanderRadius, 1))
-        {
-            finalPosition = hit.position;
-        }
-        return finalPosition;
-    }
-
-    public void ReturnToZone()
-    {
-        foreach (BoxCollider2D a in GameController.instance.Zones)
-        {
-            if (a.tag == spawnZone)
-            {
-                this.isReturning = true;
-                Vector3 target = RandomPointInZone(a.bounds);
-                agent.SetDestination(target);
-                transform.up = (target - new Vector3(transform.position.x, transform.position.y));
-                if (agent.remainingDistance > agent.stoppingDistance)
-                {
-                    this.currentState = ENEMY_STATE.WANDER;
-                    this.isReturning = false;
-                }
-            }
-        }
-    }
-
     public Vector3 RandomPointInZone(Bounds bounds)
     {
         return new Vector3(
@@ -163,7 +130,7 @@ public class EnemyScript : MonoBehaviour
     {
         if (agent.remainingDistance <= agent.stoppingDistance)
         {
-            Vector3 target = RandomNavMeshLocation();
+            Vector3 target = RandomPointInZone(Array.Find(GameController.instance.Zones, x => x.CompareTag(spawnZone)).bounds);
             agent.SetDestination(target);
             transform.up = (target - new Vector3(transform.position.x, transform.position.y));
         }
@@ -189,7 +156,7 @@ public class EnemyScript : MonoBehaviour
         else
         {
             this.timer += Time.deltaTime;
-            if (this.timer >= this.duration) this.currentState = ENEMY_STATE.RETURN;
+            if (this.timer >= this.duration) this.currentState = ENEMY_STATE.WANDER;
         }
     }
 
@@ -207,7 +174,6 @@ public class EnemyScript : MonoBehaviour
     {
         bool inRange = Vector3.Distance(PlayerScript.instance.transform.position, transform.position) <= this.sightRange;
         float sightAngle = Vector2.Angle(PlayerScript.instance.transform.position - transform.position, transform.up);
-
         int mask1 = 1 << LayerMask.NameToLayer("Tilemap Collider");
         int mask2 = 1 << LayerMask.NameToLayer("Safe Zone");
         int combinedMask = mask1 | mask2;
@@ -272,7 +238,7 @@ public class EnemyScript : MonoBehaviour
         // Change Enemy Sprite to Death Sprite
         /*        enemySprite.sprite = Resources.Load<Sprite>($"Sprites/{this.enemyName}_Death");*/
 
-        Destroy(gameObject, 4f);
+        Destroy(gameObject, 2f);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -281,17 +247,6 @@ public class EnemyScript : MonoBehaviour
         {
             this.mySpawner = collision.gameObject.GetComponent<EnemySpawner>();
             this.hasSetSpawnZone = true;
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == spawnZone)
-        {
-            if (this.currentState == ENEMY_STATE.WANDER)
-            {
-                this.currentState = ENEMY_STATE.RETURN;
-            }
         }
     }
 

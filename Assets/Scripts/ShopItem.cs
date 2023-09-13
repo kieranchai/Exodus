@@ -153,10 +153,10 @@ public class ShopItem : MonoBehaviour
 
         if (isWeapon)
         {
-            this.itemDetailPanel.transform.Find("Weapon AP").GetComponent<TMP_Text>().text = "<b><color=#fff000>" + this.attackPower + "dmg</color></b>";
-            this.itemDetailPanel.transform.Find("Weapon CD").GetComponent<TMP_Text>().text = "<b><color=#fff000>" + this.cooldown + "/s</color></b>";
-            this.itemDetailPanel.transform.Find("Weapon Range").GetComponent<TMP_Text>().text = "<b><color=#fff000>" + this.range + "m</color></b>";
-            this.itemDetailPanel.transform.Find("Weapon Weight").GetComponent<TMP_Text>().text = "<b><color=#fff000>" + this.weight + "kg</color></b>";
+            this.itemDetailPanel.transform.Find("Weapon AP").GetComponent<TMP_Text>().text = "<color=#fff000>" + this.attackPower + "dmg</color>";
+            this.itemDetailPanel.transform.Find("Weapon CD").GetComponent<TMP_Text>().text = "<color=#fff000>" + this.cooldown + "/s</color>";
+            this.itemDetailPanel.transform.Find("Weapon Range").GetComponent<TMP_Text>().text = "<color=#fff000>" + this.range + "m</color>";
+            this.itemDetailPanel.transform.Find("Weapon Weight").GetComponent<TMP_Text>().text = "<color=#fff000>" + this.weight + "kg</color>";
             this.itemDetailPanel.transform.Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = this.ammoType.ToString();
             if (this.ammoType == "NULL") this.itemDetailPanel.transform.Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = "MELEE";
 

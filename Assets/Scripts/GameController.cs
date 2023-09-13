@@ -198,7 +198,7 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         tutorialDialogueBox.SetActive(true);
         yield return StartCoroutine(Typewriter("Good work."));
-        PlayerScript.instance.AddToInventory(Resources.Load<Weapon>("ScriptableObjects/Weapons/Heavy Pistol"));
+        PlayerScript.instance.AddToInventory(Resources.Load<Weapon>("ScriptableObjects/Weapons/Light Pistol"));
         yield return StartCoroutine(Typewriter("A weapon has been given to you."));
         yield return StartCoroutine(Typewriter("Press TAB to open your inventory."));
         bool hasPressed = false;
