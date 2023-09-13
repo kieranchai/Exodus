@@ -545,11 +545,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 953122639}
-  - {fileID: 846587804}
   - {fileID: 631863110}
   - {fileID: 1827894349}
   - {fileID: 1972449467}
   - {fileID: 1429068256}
+  - {fileID: 846587804}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1589,6 +1589,14 @@ PrefabInstance:
     - target: {fileID: 3409057061268308597, guid: 4038f214a233e6945916fb81cfcf3d86, type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: CursorNotOverUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910434766069326170, guid: 4038f214a233e6945916fb81cfcf3d86, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910434766069326170, guid: 4038f214a233e6945916fb81cfcf3d86, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6463915780586623185, guid: 4038f214a233e6945916fb81cfcf3d86, type: 3}
       propertyPath: m_AnchorMax.y
@@ -38152,6 +38160,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 155791969}
     m_Modifications:
+    - target: {fileID: 1212357695663020031, guid: 5d62fba5a8bfe3d4aabef51c370a6b70, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1212357695663020031, guid: 5d62fba5a8bfe3d4aabef51c370a6b70, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1774130127860466181, guid: 5d62fba5a8bfe3d4aabef51c370a6b70, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -38160,9 +38176,13 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: DisplayBuyPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 2181446599714140195, guid: 5d62fba5a8bfe3d4aabef51c370a6b70, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2719952226445021162, guid: 5d62fba5a8bfe3d4aabef51c370a6b70, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 40
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3250261255203131395, guid: 5d62fba5a8bfe3d4aabef51c370a6b70, type: 3}
       propertyPath: m_LocalPosition.x
@@ -38182,6 +38202,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3250261255203131395, guid: 5d62fba5a8bfe3d4aabef51c370a6b70, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559103392659812257, guid: 5d62fba5a8bfe3d4aabef51c370a6b70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3775278216635663348, guid: 5d62fba5a8bfe3d4aabef51c370a6b70, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3775278216635663348, guid: 5d62fba5a8bfe3d4aabef51c370a6b70, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4018369482084325393, guid: 5d62fba5a8bfe3d4aabef51c370a6b70, type: 3}
@@ -38216,6 +38248,18 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: CursorNotOverUI
       objectReference: {fileID: 0}
+    - target: {fileID: 4668705608326669238, guid: 5d62fba5a8bfe3d4aabef51c370a6b70, type: 3}
+      propertyPath: m_Padding.m_Top
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668705608326669238, guid: 5d62fba5a8bfe3d4aabef51c370a6b70, type: 3}
+      propertyPath: m_Padding.m_Bottom
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506993057684860664, guid: 5d62fba5a8bfe3d4aabef51c370a6b70, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fe1610935a745694da044677eac24b05, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

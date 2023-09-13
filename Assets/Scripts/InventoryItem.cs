@@ -116,10 +116,10 @@ public class InventoryItem : MonoBehaviour
                 this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => UseWeapon());
             }
 
-            this.itemDetailPanel.transform.Find("Weapon AP").GetComponent<TMP_Text>().text = this.attackPower.ToString();
-            this.itemDetailPanel.transform.Find("Weapon CD").GetComponent<TMP_Text>().text = this.cooldown.ToString();
-            this.itemDetailPanel.transform.Find("Weapon Range").GetComponent<TMP_Text>().text = this.range.ToString();
-            this.itemDetailPanel.transform.Find("Weapon Weight").GetComponent<TMP_Text>().text = this.weight.ToString();
+            this.itemDetailPanel.transform.Find("Weapon AP").GetComponent<TMP_Text>().text = "<b><color=#fff000>" + this.attackPower + "dmg</color></b>";
+            this.itemDetailPanel.transform.Find("Weapon CD").GetComponent<TMP_Text>().text = "<b><color=#fff000>" + this.cooldown + "/s</color></b>";
+            this.itemDetailPanel.transform.Find("Weapon Range").GetComponent<TMP_Text>().text = "<b><color=#fff000>" + this.range + "m</color></b>";
+            this.itemDetailPanel.transform.Find("Weapon Weight").GetComponent<TMP_Text>().text = "<b><color=#fff000>" + this.weight + "kg</color></b>";
             this.itemDetailPanel.transform.Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = this.ammoType.ToString();
             if (this.ammoType == "NULL") this.itemDetailPanel.transform.Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = "MELEE";
             foreach (Transform child in this.itemDetailPanel.transform)

@@ -142,6 +142,7 @@ public class ShopItem : MonoBehaviour
         else
         {
             this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "SELL";
+            this.itemDetailPanel.transform.Find("Item Cost").GetComponent<TMP_Text>().text = $"${this.cost / 2}";
             this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => Sell(this.itemType));
         }
 
@@ -152,12 +153,12 @@ public class ShopItem : MonoBehaviour
 
         if (isWeapon)
         {
-            this.itemDetailPanel.transform.Find("Weapon AP").GetComponent<TMP_Text>().text = this.attackPower.ToString();
-            this.itemDetailPanel.transform.Find("Weapon CD").GetComponent<TMP_Text>().text = this.cooldown.ToString();
-            this.itemDetailPanel.transform.Find("Weapon Range").GetComponent<TMP_Text>().text = this.range.ToString();
-            this.itemDetailPanel.transform.Find("Weapon Weight").GetComponent<TMP_Text>().text = this.weight.ToString();
+            this.itemDetailPanel.transform.Find("Weapon AP").GetComponent<TMP_Text>().text = "<b><color=#fff000>" + this.attackPower + "dmg</color></b>";
+            this.itemDetailPanel.transform.Find("Weapon CD").GetComponent<TMP_Text>().text = "<b><color=#fff000>" + this.cooldown + "/s</color></b>";
+            this.itemDetailPanel.transform.Find("Weapon Range").GetComponent<TMP_Text>().text = "<b><color=#fff000>" + this.range + "m</color></b>";
+            this.itemDetailPanel.transform.Find("Weapon Weight").GetComponent<TMP_Text>().text = "<b><color=#fff000>" + this.weight + "kg</color></b>";
             this.itemDetailPanel.transform.Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = this.ammoType.ToString();
-            if(this.ammoType == "NULL") this.itemDetailPanel.transform.Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = "MELEE";
+            if (this.ammoType == "NULL") this.itemDetailPanel.transform.Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = "MELEE";
 
             foreach (Transform child in this.itemDetailPanel.transform)
             {
@@ -239,12 +240,12 @@ public class ShopItem : MonoBehaviour
         if (itemType == null)
         {
             _data = this.weaponData;
-            PlayerScript.instance.UpdateCash(this.weaponData.cost);
+            PlayerScript.instance.UpdateCash(this.weaponData.cost / 2);
         }
         else
         {
             _data = this.itemData;
-            PlayerScript.instance.UpdateCash(this.itemData.cost);
+            PlayerScript.instance.UpdateCash(this.itemData.cost / 2);
         }
 
         PlayerScript.instance.RemoveFromInventory(_data);
