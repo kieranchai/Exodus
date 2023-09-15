@@ -51,11 +51,13 @@ public class EnemyScript : MonoBehaviour
 
     ENEMY_STATE currentState;
 
+    private Color initialColor;
     private void Start()
     {
         anim = GetComponent<Animator>();
         enemyCollider = GetComponent<Collider2D>();
         enemySprite = GetComponent<SpriteRenderer>();
+        initialColor = enemySprite.color;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -204,18 +206,18 @@ public class EnemyScript : MonoBehaviour
         DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
         damagePopup.Setup(damage);
 
+        enemySprite.color = initialColor;
+        StopCoroutine(EnemyHit());
+        StartCoroutine(EnemyHit());
+
         if (this.currentHealth - damage > 0)
         {
             this.currentHealth -= damage;
-            StopCoroutine(EnemyHit());
-            StartCoroutine(EnemyHit());
             this.currentState = ENEMY_STATE.CHASE;
         }
         else
         {
             this.currentHealth -= damage;
-            StopCoroutine(EnemyHit());
-            StartCoroutine(EnemyHit());
             DeathEvent();
         }
     }
@@ -226,6 +228,7 @@ public class EnemyScript : MonoBehaviour
         PlayerScript.instance.UpdateExperience(xpDrop);
         PlayerScript.instance.UpdateCash(cashDrop);
         --this.mySpawner.enemyCounter;
+        this.mySpawner.timer = 0;
         this.currentState = ENEMY_STATE.DEAD;
     }
 
@@ -252,7 +255,6 @@ public class EnemyScript : MonoBehaviour
     IEnumerator EnemyHit()
     {
         float duration = 0.1f;
-        Color initialColor = enemySprite.color;
         while (duration > 0)
         {
             duration -= Time.deltaTime;

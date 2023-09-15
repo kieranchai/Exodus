@@ -12,13 +12,18 @@ public class EnemySpawner : MonoBehaviour
     public int enemyLimit = 5;
     public Collider2D currentZone;
 
-    private float timer = 0;
+    public float timer = 0;
     public float duration = 5f;
 
     void Start()
     {
         zoneEnemies = Resources.LoadAll<GameObject>($"Prefabs/Enemies/{spawnZone}");
         currentZone = gameObject.GetComponent<Collider2D>();
+
+        for(int i = 0; i < enemyLimit; i++)
+        {
+            SpawnRandomEnemy();
+        }
     }
 
     void Update()
