@@ -24,7 +24,6 @@ public class EnemyScript : MonoBehaviour
     private float duration;
     public float returnDuration;
 
-    [SerializeField]
     private float sightRange; // Can Set in CSV
 
     [SerializeField]
