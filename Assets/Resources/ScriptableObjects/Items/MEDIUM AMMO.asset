@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0679fe7870f5a04189bfc20411a2431, type: 3}
-  m_Name: MEDIUM AMMO
+  m_Name: Medium Ammo
   m_EditorClassIdentifier: 
   id: 2
-  itemName: MEDIUM AMMO
+  itemName: Medium Ammo
   description: Replenishes your [type] by [primaryValue]
   type: MEDIUM AMMO
-  primaryValue: 30
+  primaryValue: 60
   secondaryValue: NULL
-  cost: 30
+  cost: 168
   thumbnailPath: UISprites/testItemSprite
   inShop: YES

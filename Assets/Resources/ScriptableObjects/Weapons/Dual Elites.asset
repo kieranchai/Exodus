@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponName: Dual Elites
   description: Twin elite pistols for quick and precise double trouble.
   attackPower: 5.4
-  spritePath: Sprites/Light Pistol
+  spritePath: Sprites/Dual Elites
   thumbnailPath: UISprites/Dual Elites
   weaponType: akimbo
   cooldown: 0.6

@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
-  m_Name: Alien Mouth
+  m_Name: Baseball Bat
   m_EditorClassIdentifier: 
-  id: 14
-  weaponName: Alien Mouth
-  description: NULL
-  attackPower: 3
-  spritePath: Sprites/Alien Mouth
-  thumbnailPath: NULL
+  id: 7
+  weaponName: Baseball Bat
+  description: Good for balls but great against aliens!
+  attackPower: 6
+  spritePath: Sprites/Baseball Bat
+  thumbnailPath: UISprites/Baseball Bat
   weaponType: melee
-  cooldown: 0.6
-  weaponRange: 1
+  cooldown: 0.8
+  weaponRange: 0
   defaultAmmo: 0
-  cost: 0
-  weight: 0
+  cost: 30
+  weight: 0.2
   ammoType: NULL
-  inShop: NO
+  inShop: YES

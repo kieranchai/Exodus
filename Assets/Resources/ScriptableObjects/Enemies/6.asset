@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 6
   enemyName: Hardened Banshee
-  health: 100
+  health: 50
   movementSpeed: 2.41
   equippedWeapon: Alien Rifle
   xpDrop: 35

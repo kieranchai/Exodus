@@ -1,11 +1,14 @@
 1,Assault Rifle,Standard military issue rifle. Reliable and efficient.,6.6,Sprites/Assault Rifle,UISprites/Assault Rifle,line,0.2,6.5,96,540,0.8,MEDIUM,YES
 2,Light Pistol,Light and portable handgun.,6,Sprites/Light Pistol,UISprites/Light Pistol,line,0.6,3,30,50,0.2,LIGHT,YES
-3,Dual ARs,Their names are Des and Troy.,6.6,Sprites/Assault Rifle,UISprites/Dual ARs,akimbo,0.2,6.5,192,1500,1.5,MEDIUM,YES
-4,Dual Elites,Twin elite pistols for quick and precise double trouble.,5.4,Sprites/Light Pistol,UISprites/Dual Elites,akimbo,0.6,3,60,230,0.6,LIGHT,YES
-5,Katana,Up close and personal!,10,Sprites/Katana,UISprites/Katana,melee,0.3,0,0,1000,0.5,NULL,YES
-6,Fists,Catch these hands.,3,NULL,UISprites/Fists,melee,0.6,0,0,0,0,NULL,NO
-7,Pincers,NULL,2,NULL,NULL,melee,0.6,1,0,0,0,NULL,NO
-8,Suicide Bomb,NULL,20,NULL,NULL,suicide,0,1,0,0,0,NULL,NO
-9,Alien Rifle,NULL,6.6,Sprites/Alien Rifle,NULL,line,0.2,6.5,0,0,0,MEDIUM,NO
-10,Alien Pistol,NULL,6,Sprites/Alien Pistol,NULL,line,0.6,3,0,0,0,LIGHT,NO
-11,Alien Mouth,NULL,3,Sprites/Alien Mouth,NULL,melee,0.6,1,0,0,0,NULL,NO
+3,Submachine Gun,Also known as the RAD1000 - Rapid Alien Dispatcher.,2,Sprites/Submachine Gun,UISprites/Submachine Gun,line,0.1,4.5,78,230,0.4,LIGHT,YES
+4,Dual Elites,Twin elite pistols for quick and precise double trouble.,5.4,Sprites/Dual Elites,UISprites/Dual Elites,akimbo,0.6,3,60,230,0.6,LIGHT,YES
+5,Dual ARs,Their names are Des and Troy.,6.6,Sprites/Assault Rifle,UISprites/Assault Rifle,akimbo,0.2,6.5,192,1500,1.5,MEDIUM,YES
+6,Sniper Rifle,Highly precise weapon that does devastating amounts of damage. Pierces through enemies.,100,Sprites/Sniper RIfle,UISprites/Sniper RIfle,line,2,8,6,2000,1.5,HEAVY,YES
+7,Baseball Bat,Good for balls but great against aliens!,6,Sprites/Baseball Bat,UISprites/Baseball Bat,melee,0.8,0,0,30,0.2,NULL,YES
+8,Katana,A samurai should always be prepared for death.,50,Sprites/Katana,UISprites/Katana,melee,0.2,0,0,1200,0.2,NULL,YES
+9,Fists,Catch these hands.,3,NULL,UISprites/Fists,melee,0.6,0,0,0,0,NULL,NO
+10,Pincers,NULL,2,NULL,NULL,melee,0.6,1,0,0,0,NULL,NO
+11,Suicide Bomb,NULL,20,NULL,NULL,suicide,0,1,0,0,0,NULL,NO
+12,Alien Rifle,NULL,3.3,Sprites/Alien Rifle,NULL,line,0.2,6.5,0,0,0,MEDIUM,NO
+13,Alien Pistol,NULL,3,Sprites/Alien Pistol,NULL,line,0.6,3,0,0,0,LIGHT,NO
+14,Alien Mouth,NULL,3,Sprites/Alien Mouth,NULL,melee,0.6,1,0,0,0,NULL,NO

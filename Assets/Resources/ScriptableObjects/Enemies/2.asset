@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   enemyName: Hardened Grunt
-  health: 40
+  health: 20
   movementSpeed: 3.5
   equippedWeapon: Alien Mouth
   xpDrop: 15

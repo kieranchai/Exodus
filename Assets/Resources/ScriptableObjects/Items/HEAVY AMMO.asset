@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0679fe7870f5a04189bfc20411a2431, type: 3}
-  m_Name: HEAVY AMMO
+  m_Name: Heavy Ammo
   m_EditorClassIdentifier: 
   id: 3
-  itemName: HEAVY AMMO
+  itemName: Heavy Ammo
   description: Replenishes your [type] by [primaryValue]
   type: HEAVY AMMO
-  primaryValue: 30
+  primaryValue: 5
   secondaryValue: NULL
-  cost: 50
+  cost: 500
   thumbnailPath: UISprites/testItemSprite
   inShop: YES

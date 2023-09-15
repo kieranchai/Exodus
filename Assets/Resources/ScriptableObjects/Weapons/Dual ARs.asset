@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
   m_Name: Dual ARs
   m_EditorClassIdentifier: 
-  id: 3
+  id: 5
   weaponName: Dual ARs
   description: Their names are Des and Troy.
   attackPower: 6.6
   spritePath: Sprites/Assault Rifle
-  thumbnailPath: UISprites/Dual ARs
+  thumbnailPath: UISprites/Assault Rifle
   weaponType: akimbo
   cooldown: 0.2
   weaponRange: 6.5

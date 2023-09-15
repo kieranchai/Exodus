@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
-  m_Name: Alien Rifle
+  m_Name: Sniper Rifle
   m_EditorClassIdentifier: 
-  id: 12
-  weaponName: Alien Rifle
-  description: NULL
-  attackPower: 3.3
-  spritePath: Sprites/Alien Rifle
-  thumbnailPath: NULL
+  id: 6
+  weaponName: Sniper Rifle
+  description: Highly precise weapon that does devastating amounts of damage. Pierces
+    through enemies.
+  attackPower: 100
+  spritePath: Sprites/Sniper RIfle
+  thumbnailPath: UISprites/Sniper RIfle
   weaponType: line
-  cooldown: 0.2
-  weaponRange: 6.5
-  defaultAmmo: 0
-  cost: 0
-  weight: 0
-  ammoType: MEDIUM
-  inShop: NO
+  cooldown: 2
+  weaponRange: 8
+  defaultAmmo: 6
+  cost: 2000
+  weight: 1.5
+  ammoType: HEAVY
+  inShop: YES

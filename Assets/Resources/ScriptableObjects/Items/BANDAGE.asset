@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0679fe7870f5a04189bfc20411a2431, type: 3}
-  m_Name: BANDAGE
+  m_Name: Bandage
   m_EditorClassIdentifier: 
   id: 4
-  itemName: BANDAGE
-  description: Replenishes your HEALTH by [primaryValue]
+  itemName: Bandage
+  description: Replenishes your HEALTH by [primaryValue] HP.
   type: SMALL HEALTH
-  primaryValue: 10
+  primaryValue: 50
   secondaryValue: NULL
-  cost: 20
+  cost: 70
   thumbnailPath: UISprites/testItemSprite
   inShop: YES

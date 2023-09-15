@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
-  m_Name: Alien Mouth
+  m_Name: Submachine Gun
   m_EditorClassIdentifier: 
-  id: 14
-  weaponName: Alien Mouth
-  description: NULL
-  attackPower: 3
-  spritePath: Sprites/Alien Mouth
-  thumbnailPath: NULL
-  weaponType: melee
-  cooldown: 0.6
-  weaponRange: 1
-  defaultAmmo: 0
-  cost: 0
-  weight: 0
-  ammoType: NULL
-  inShop: NO
+  id: 3
+  weaponName: Submachine Gun
+  description: Also known as the RAD1000 - Rapid Alien Dispatcher.
+  attackPower: 2
+  spritePath: Sprites/Submachine Gun
+  thumbnailPath: UISprites/Submachine Gun
+  weaponType: line
+  cooldown: 0.1
+  weaponRange: 4.5
+  defaultAmmo: 78
+  cost: 230
+  weight: 0.4
+  ammoType: LIGHT
+  inShop: YES

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 3
   enemyName: Wraith
-  health: 50
+  health: 25
   movementSpeed: 3.16
   equippedWeapon: Alien Pistol
   xpDrop: 20

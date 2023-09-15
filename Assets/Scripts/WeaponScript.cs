@@ -105,6 +105,9 @@ public class WeaponScript : MonoBehaviour
             case "Katana":
                 anim.SetTrigger("Katana");
                 break;
+            case "Baseball Bat":
+                anim.SetTrigger("Baseball");
+                break;
             default:
                 break;
         }
@@ -117,11 +120,20 @@ public class WeaponScript : MonoBehaviour
         limitAttack = true;
         if (PlayerScript.instance.ammoCount[this.ammoType] > 0)
         {
-            GameObject bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Bullet"), transform.position, transform.rotation);
-            bullet.GetComponent<BulletScript>().Initialise(this.attackPower, this.weaponRange);
+            GameObject bullet;
+            switch (this.weaponName)
+            {
+                case "Sniper Rifle":
+                    bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Sniper Bullet"), transform.position, transform.rotation);
+                    bullet.GetComponent<SniperBulletScript>().Initialise(this.attackPower, this.weaponRange);
+                    break;
+                default:
+                    bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Bullet"), transform.position, transform.rotation);
+                    bullet.GetComponent<BulletScript>().Initialise(this.attackPower, this.weaponRange);
+                    break;
+            }
             //can add Projectile Speed to CSV (600 here)
             bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 600);
-
             --PlayerScript.instance.ammoCount[this.ammoType];
             PlayerScript.instance.UpdateEquippedAmmoUI();
             PlayerScript.instance.UpdateInventoryAmmoUI();

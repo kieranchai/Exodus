@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 4
   enemyName: Hardened Wraith
-  health: 60
+  health: 30
   movementSpeed: 2.92
   equippedWeapon: Alien Pistol
   xpDrop: 25

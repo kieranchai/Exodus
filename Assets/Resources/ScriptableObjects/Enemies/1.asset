@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   enemyName: Grunt
-  health: 30
+  health: 15
   movementSpeed: 4
   equippedWeapon: Alien Mouth
   xpDrop: 10
