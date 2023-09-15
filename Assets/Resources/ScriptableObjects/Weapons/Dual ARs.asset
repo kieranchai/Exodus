@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
-  m_Name: Suicide Bomb
+  m_Name: Dual ARs
   m_EditorClassIdentifier: 
-  id: 8
-  weaponName: Suicide Bomb
-  description: NULL
-  attackPower: 20
-  spritePath: NULL
-  thumbnailPath: NULL
-  weaponType: suicide
-  cooldown: 0
-  weaponRange: 1
-  defaultAmmo: 0
-  cost: 0
-  weight: 0
-  ammoType: NULL
-  inShop: NO
+  id: 3
+  weaponName: Dual ARs
+  description: Their names are Des and Troy.
+  attackPower: 6.6
+  spritePath: Sprites/Assault Rifle
+  thumbnailPath: UISprites/Dual ARs
+  weaponType: akimbo
+  cooldown: 0.2
+  weaponRange: 6.5
+  defaultAmmo: 192
+  cost: 1500
+  weight: 1.5
+  ammoType: MEDIUM
+  inShop: YES
