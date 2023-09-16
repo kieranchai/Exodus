@@ -118,7 +118,7 @@ public class GameController : MonoBehaviour
         //cheat
         if (Input.GetKeyDown(KeyCode.M)) PlayerScript.instance.UpdateCash(1000);
         if (Input.GetKeyDown(KeyCode.L)) PlayerScript.instance.UpdateExperience(10);
-        if (Input.GetKeyDown(KeyCode.H)) PlayerScript.instance.currentHealth = PlayerScript.instance.maxHealth;
+        if (Input.GetKeyDown(KeyCode.H)) PlayerScript.instance.UpdateHealth(PlayerScript.instance.maxHealth);
     }
 
     private void StartTutorial()
@@ -397,8 +397,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator ItemHealth(Item itemData)
     {
-        PlayerScript.instance.currentHealth += float.Parse(itemData.primaryValue);
-        if (PlayerScript.instance.currentHealth >= PlayerScript.instance.maxHealth) PlayerScript.instance.currentHealth = PlayerScript.instance.maxHealth;
+        PlayerScript.instance.UpdateHealth(float.Parse(itemData.primaryValue));
         yield return null;
     }
 

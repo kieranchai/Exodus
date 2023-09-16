@@ -505,6 +505,7 @@ MonoBehaviour:
   playerPanel: {fileID: 2013872994}
   inventoryItemPrefab: {fileID: 111435379396932244, guid: add3bc8f1e2345a42ab1ba3efe957f4d, type: 3}
   damagePopupPrefab: {fileID: 4179147922126599982, guid: 97dc3241655b26940be0f67604dbb62f, type: 3}
+  healPopUpPrefab: {fileID: 4179147922126599982, guid: daad7778829b30e45a0f71510e365e76, type: 3}
   CanSeeInventory: 0
   CanSeeShop: 0
   isInShop: 0
@@ -6266,6 +6267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shopItemPrefab: {fileID: 1973643188835383957, guid: d162dc5836f94bf46b3083fc2f1aa938, type: 3}
   shopPanel: {fileID: 662102601}
+  shopButtonPrefab: {fileID: 6258715754171492373, guid: 22de68eb0a5fe004488e2b5053c36fba, type: 3}
 --- !u!1 &1727842277
 GameObject:
   m_ObjectHideFlags: 0

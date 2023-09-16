@@ -243,6 +243,14 @@ public class EnemyScript : MonoBehaviour
         Destroy(gameObject, 2f);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Safe Zone"))
+        {
+            this.currentState = ENEMY_STATE.WANDER;
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (!this.hasSetSpawnZone && collision.CompareTag(this.spawnZone))

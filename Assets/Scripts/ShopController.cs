@@ -18,6 +18,11 @@ public class ShopController : MonoBehaviour
     private GameObject buyPanel;
     private GameObject sellPanel;
 
+    [SerializeField]
+    private GameObject shopButtonPrefab;
+
+    private GameObject shopButton;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -72,6 +77,11 @@ public class ShopController : MonoBehaviour
             shopPanel.SetActive(false);
             shopPanel.transform.Find("Item Detail Panel").gameObject.SetActive(false);
         }
+
+        if(shopButton)
+        {
+            shopButton.transform.position = PlayerScript.instance.transform.position + new Vector3(0, 0.5f);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -79,6 +89,7 @@ public class ShopController : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             PlayerScript.instance.isInShop = true;
+            shopButton = Instantiate(shopButtonPrefab, PlayerScript.instance.transform.position + new Vector3(0, 0.5f), Quaternion.identity);
         }
     }
 
@@ -88,6 +99,8 @@ public class ShopController : MonoBehaviour
         {
             PlayerScript.instance.isInShop = false;
             PlayerScript.instance.CanSeeShop = false;
+            Destroy(shopButton);
+            shopButton = null;
         }
     }
 

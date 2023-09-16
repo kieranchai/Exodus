@@ -31,7 +31,7 @@ public class PlayerScript : MonoBehaviour
     private Vector3 rollDir;
     private float rollSpeed;
     private Vector3 lastMoveDir;
-    private float rollCD = 5f;
+    private float rollCD = 3f;
     private float rollTimer;
     private bool rollOnCD = false;
 
@@ -50,6 +50,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private GameObject playerPanel;
     [SerializeField] private GameObject inventoryItemPrefab;
     [SerializeField] private Transform damagePopupPrefab;
+    [SerializeField] private Transform healPopUpPrefab;
 
     public bool CanSeeInventory = false;
     public bool CanSeeShop = false;
@@ -232,7 +233,7 @@ public class PlayerScript : MonoBehaviour
         if (GameController.instance.currentState == GameController.GAME_STATE.DEAD) return;
         if (this.currentState == PLAYER_STATE.ROLLING && fromZone == false) return;
 
-        currentHealth -= damage;
+        UpdateHealth(-damage);
         Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
         DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
         damagePopup.Setup(damage);
@@ -268,6 +269,18 @@ public class PlayerScript : MonoBehaviour
             LevelController.instance.UpdateLevelsModifier();
             maxHealth = LevelController.instance.healthBuff;
             currentHealth = maxHealth;
+        }
+    }
+
+    public void UpdateHealth(float value)
+    {
+        this.currentHealth += value;
+        if(this.currentHealth >= this.maxHealth) this.currentHealth = this.maxHealth;
+        if(value >= 0)
+        {
+            Transform healPopUpTransform = Instantiate(healPopUpPrefab, transform.position, Quaternion.identity);
+            DamagePopup healPopUp = healPopUpTransform.GetComponent<DamagePopup>();
+            healPopUp.Setup(value);
         }
     }
 

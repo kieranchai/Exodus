@@ -28,7 +28,7 @@ public class MothershipScript : MonoBehaviour
     private Vector3 newRightTurretPos;
 
     private bool isTargeted = false;
-    private bool forceFieldUp = false;
+    public bool forceFieldUp = false;
     public bool isHoming = false;
     public bool hasShotHoming = false;
     private float turretOffset = 0.1f;
@@ -39,13 +39,16 @@ public class MothershipScript : MonoBehaviour
     {
         STAGE1,
         STAGE2,
-        DEAD
+        DEAD,
+        PAUSED
     }
 
-    public BOSS_STATE currentState = BOSS_STATE.STAGE1;
+    public BOSS_STATE currentState;
 
-    private bool hasStartedStage1 = false;
-    private bool hasStartedStage2 = false;
+    public bool hasStartedStage1 = false;
+    public bool hasStartedStage2 = false;
+    public bool hasStartedPause = false;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -58,12 +61,13 @@ public class MothershipScript : MonoBehaviour
 
     private void Start()
     {
-        maxHealth = 100f;
+        maxHealth = 1000f;
         currentHealth = maxHealth;
         motherShipSprite = GetComponent<SpriteRenderer>();
         initialColor = motherShipSprite.color;
         initialLeftTurretPos = leftTurret.transform.position;
         initialRightTurretPos = rightTurret.transform.position;
+        currentState = BOSS_STATE.PAUSED;
     }
 
     void Update()
@@ -93,6 +97,9 @@ public class MothershipScript : MonoBehaviour
                 break;
             case BOSS_STATE.DEAD:
                 Dead();
+                break;
+            case BOSS_STATE.PAUSED:
+                Paused();
                 break;
             default:
                 break;
@@ -130,6 +137,7 @@ public class MothershipScript : MonoBehaviour
         if (!hasStartedStage1)
         {
             hasStartedStage1 = true;
+            StopAllCoroutines();
             StartCoroutine(Stage1Cycle());
         }
 
@@ -147,6 +155,16 @@ public class MothershipScript : MonoBehaviour
         {
             hasStartedStage2 = true;
             StartCoroutine(Stage2Cycle());
+        }
+    }
+
+    private void Paused()
+    {
+        if(!hasStartedPause)
+        {
+            hasStartedPause = true;
+            StopAllCoroutines();
+            StartCoroutine(PauseHeal());
         }
     }
 
@@ -259,6 +277,32 @@ public class MothershipScript : MonoBehaviour
         yield return StartCoroutine(Stage1Cycle());
     }
 
+    public IEnumerator PauseHeal()
+    {
+        isTargeted = false;
+        //Reset Turrets back to Initial Pos
+        float moveTime = 0;
+        float moveDuration = 1f;
+        while (moveTime < moveDuration)
+        {
+            moveTime += Time.deltaTime;
+            leftTurret.transform.position = Vector3.Lerp(newLeftTurretPos, initialLeftTurretPos, moveTime / moveDuration);
+            rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialRightTurretPos, moveTime / moveDuration);
+            yield return null;
+        }
+        newLeftTurretPos = initialLeftTurretPos;
+        newRightTurretPos = initialRightTurretPos;
+
+        while (true)
+        {
+            forceFieldUp = true;
+            forceField.SetActive(true);
+            currentHealth += 100f * Time.deltaTime;
+            if (currentHealth >= maxHealth) currentHealth = maxHealth;
+            yield return null;
+        }
+    }
+
     IEnumerator HealForceField(BOSS_STATE nextState)
     {
         isTargeted = false;
@@ -269,7 +313,7 @@ public class MothershipScript : MonoBehaviour
             forceFieldUp = true;
             forceField.SetActive(true);
             healTime += Time.deltaTime;
-            currentHealth += 5f * Time.deltaTime;
+            currentHealth += 50f * Time.deltaTime;
 
             leftTurret.transform.position = Vector3.Lerp(leftTurret.transform.position, initialLeftTurretPos, healTime / healDuration);
             rightTurret.transform.position = Vector3.Lerp(rightTurret.transform.position, initialRightTurretPos, healTime / healDuration);
@@ -352,7 +396,7 @@ public class MothershipScript : MonoBehaviour
         {
             forceFieldUp = true;
             forceField.SetActive(true);
-            currentHealth += 5f * Time.deltaTime;
+            currentHealth += 50f * Time.deltaTime;
             if (!hasShotHoming)
             {
                 hasShotHoming = true;
@@ -375,7 +419,7 @@ public class MothershipScript : MonoBehaviour
         {
             forceFieldUp = true;
             forceField.SetActive(true);
-            currentHealth += 5f * Time.deltaTime;
+            currentHealth += 50f * Time.deltaTime;
             if (!hasShotHoming)
             {
                 hasShotHoming = true;

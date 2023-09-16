@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,12 @@ public class MothershipFightController : MonoBehaviour
 
     private bool fightStarted = false;
     private bool fightEnded = false;
+    private float initialZoom;
+
+    private void Start()
+    {
+        initialZoom = Camera.main.orthographicSize;
+    }
 
     private void Update()
     {
@@ -40,15 +47,39 @@ public class MothershipFightController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            StopAllCoroutines();
             StartCoroutine(StartFight());
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            StopAllCoroutines();
+            motherShip.GetComponent<MothershipScript>().hasStartedPause = false;
+            motherShip.GetComponent<MothershipScript>().hasStartedStage1 = false;
+            motherShip.GetComponent<MothershipScript>().hasStartedStage2 = false;
+            StartCoroutine(ExitFight());
+        }
+    }
+
+    IEnumerator ExitFight()
+    {
+        motherShip.transform.Find("Forcefield").gameObject.SetActive(true);
+        motherShip.GetComponent<MothershipScript>().currentState = MothershipScript.BOSS_STATE.PAUSED;
+        motherShipHealthBar.SetActive(false);
+        fightStarted = false;
+        yield return ZoomInCamera();
     }
 
     IEnumerator StartFight()
     {
         yield return ZoomOutCamera();
+        motherShip.GetComponent<MothershipScript>().StopCoroutine(motherShip.GetComponent<MothershipScript>().PauseHeal());
         yield return FlickerForcefield();
-        motherShip.GetComponent<MothershipScript>().enabled = true;
+        motherShip.GetComponent<MothershipScript>().forceFieldUp = false;
+        motherShip.GetComponent<MothershipScript>().currentState = MothershipScript.BOSS_STATE.STAGE1;
         motherShipHealthBar.SetActive(true);
         fightStarted = true;
     }
@@ -73,13 +104,25 @@ public class MothershipFightController : MonoBehaviour
     IEnumerator ZoomOutCamera()
     {
         float elapsed = 0;
-        float initialZoom = Camera.main.orthographicSize;
-
+        float currentZoom = Camera.main.orthographicSize;
         while (elapsed <= 1)
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / 1);
-            Camera.main.orthographicSize = Mathf.Lerp(initialZoom, 7, t);
+            Camera.main.orthographicSize = Mathf.Lerp(currentZoom, 7, t);
+            yield return null;
+        }
+    }
+
+    IEnumerator ZoomInCamera()
+    {
+        float elapsed = 0;
+        float currentZoom = Camera.main.orthographicSize;
+        while (elapsed <= 1)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / 1);
+            Camera.main.orthographicSize = Mathf.Lerp(currentZoom, initialZoom, t);
             yield return null;
         }
     }
