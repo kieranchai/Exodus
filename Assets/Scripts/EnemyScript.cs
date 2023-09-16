@@ -37,10 +37,13 @@ public class EnemyScript : MonoBehaviour
 
     [SerializeField]
     private Transform damagePopupPrefab;
-
+    [SerializeField]
+    private Transform xpCashPopupPrefab;
     private bool hasSetSpawnZone = false;
     public EnemySpawner mySpawner;
 
+    [SerializeField]
+    private ParticleSystem spawnParticle;
     public enum ENEMY_STATE
     {
         WANDER,
@@ -67,6 +70,8 @@ public class EnemyScript : MonoBehaviour
         this.currentState = ENEMY_STATE.WANDER;
         this.duration = 2f;
         this.sightRange = 5f;
+
+        spawnParticle.Play();
     }
 
     void Update()
@@ -225,6 +230,10 @@ public class EnemyScript : MonoBehaviour
     public void DeathEvent()
     {
         // Drop XP, Cash, Loot
+        Transform xpCashPopupTransform = Instantiate(xpCashPopupPrefab, transform.position + new Vector3(0.5f ,0), Quaternion.identity);
+        DamagePopup xpCashPopup = xpCashPopupTransform.GetComponent<DamagePopup>();
+        xpCashPopup.SetupXPCash(cashDrop, xpDrop);
+
         PlayerScript.instance.UpdateExperience(xpDrop);
         PlayerScript.instance.UpdateCash(cashDrop);
         --this.mySpawner.enemyCounter;

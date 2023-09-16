@@ -39,7 +39,8 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnRandomEnemy()
     {
         if (enemyCounter == enemyLimit) return;
-        GameObject spawnedEnemy = Instantiate(zoneEnemies[Random.Range(0, zoneEnemies.Length)], RandomPointInZone(currentZone.bounds), Quaternion.identity);
+        Vector3 spawnLocation = RandomPointInZone(currentZone.bounds);
+        GameObject spawnedEnemy = Instantiate(zoneEnemies[Random.Range(0, zoneEnemies.Length)], spawnLocation, Quaternion.identity);
         spawnedEnemy.GetComponent<EnemyScript>().spawnZone = currentZone.tag;
         enemyCounter++;
     }

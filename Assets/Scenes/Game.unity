@@ -1384,6 +1384,7 @@ MonoBehaviour:
   currentZone: {fileID: 0}
   timer: 0
   duration: 5
+  spawnParticle: {fileID: 7616741446347416548, guid: 7d602933b42320a4096a088c45ba6554, type: 3}
 --- !u!4 &901328229
 Transform:
   m_ObjectHideFlags: 0
@@ -3865,6 +3866,7 @@ MonoBehaviour:
   currentZone: {fileID: 0}
   timer: 0
   duration: 5
+  spawnParticle: {fileID: 7616741446347416548, guid: 7d602933b42320a4096a088c45ba6554, type: 3}
 --- !u!61 &1234412900
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8954,6 +8956,7 @@ MonoBehaviour:
   currentZone: {fileID: 0}
   timer: 0
   duration: 5
+  spawnParticle: {fileID: 7616741446347416548, guid: 7d602933b42320a4096a088c45ba6554, type: 3}
 --- !u!1 &1472547426
 GameObject:
   m_ObjectHideFlags: 0
@@ -9448,6 +9451,7 @@ MonoBehaviour:
   currentZone: {fileID: 0}
   timer: 0
   duration: 5
+  spawnParticle: {fileID: 7616741446347416548, guid: 7d602933b42320a4096a088c45ba6554, type: 3}
 --- !u!1 &1827894348
 GameObject:
   m_ObjectHideFlags: 0

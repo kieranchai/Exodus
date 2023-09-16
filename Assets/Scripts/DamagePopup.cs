@@ -18,6 +18,12 @@ public class DamagePopup : MonoBehaviour
         textColor = textMesh.color;
     }
 
+    public void SetupXPCash(int cashAmount, int xpAmount)
+    {
+        textMesh.SetText($"+${cashAmount}\n+{xpAmount}XP");
+        textColor = textMesh.color;
+    }
+
     public void Update()
     {
         float moveYSpeed = 2f;
