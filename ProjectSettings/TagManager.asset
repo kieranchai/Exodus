@@ -18,6 +18,7 @@ TagManager:
   - TargetDummy
   - Woods
   - Beach
+  - Water
   layers:
   - Default
   - TransparentFX
