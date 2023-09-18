@@ -12,6 +12,16 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("Tutorial");
     }
 
+    public void ShowControls()
+    {
+        SceneManager.LoadScene("Controls");
+    }
+
+    public void ShowMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
     public void Quit()
     {
         #if UNITY_EDITOR

@@ -91,10 +91,34 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            pauseScreen.SetActive(false);
-            Time.timeScale = 1.0f;
-            currentState = GAME_STATE.PLAYING;
+            ResumeGame();
         }
+    }
+
+    public void ResumeGame()
+    {
+        CloseControls();
+        pauseScreen.SetActive(false);
+        Time.timeScale = 1.0f;
+        currentState = GAME_STATE.PLAYING;
+    }
+
+    public void ShowControls()
+    {
+        pauseScreen.transform.Find("Paused").gameObject.SetActive(false);
+        pauseScreen.transform.Find("Resume").gameObject.SetActive(false);
+        pauseScreen.transform.Find("Controls").gameObject.SetActive(false);
+        pauseScreen.transform.Find("Exit").gameObject.SetActive(false);
+        pauseScreen.transform.Find("Controls Screen").gameObject.SetActive(true);
+    }
+
+    public void CloseControls()
+    {
+        pauseScreen.transform.Find("Paused").gameObject.SetActive(true);
+        pauseScreen.transform.Find("Resume").gameObject.SetActive(true);
+        pauseScreen.transform.Find("Controls").gameObject.SetActive(true);
+        pauseScreen.transform.Find("Exit").gameObject.SetActive(true);
+        pauseScreen.transform.Find("Controls Screen").gameObject.SetActive(false);
     }
 
     private void HandleInput()
@@ -153,9 +177,6 @@ public class GameController : MonoBehaviour
 
     IEnumerator Tutorial()
     {
-        PlayerScript.instance.UpdateAmmoCount(-PlayerScript.instance.equippedWeapon.defaultAmmo, PlayerScript.instance.equippedWeapon.ammoType);
-        PlayerScript.instance.RemoveFromInventory(PlayerScript.instance.equippedWeapon);
-
         tutorialDialogueBox.SetActive(true);
         yield return StartCoroutine(Typewriter("Good morning, soldier! Welcome to your training."));
         yield return StartCoroutine(Typewriter("First, try running around with WASD."));

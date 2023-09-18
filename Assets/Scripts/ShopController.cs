@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -49,6 +49,7 @@ public class ShopController : MonoBehaviour
         } else
         {
             Item[] allItems = Resources.LoadAll<Item>("ScriptableObjects/Items");
+            Array.Sort(allItems, (a, b) => a.cost - b.cost);
             foreach (Item itemData in allItems)
             {
                 if (itemData.inShop == "NO") continue;
@@ -57,6 +58,7 @@ public class ShopController : MonoBehaviour
             }
 
             Weapon[] allWeapons = Resources.LoadAll<Weapon>("ScriptableObjects/Weapons");
+            Array.Sort(allWeapons, (a, b) => a.cost - b.cost);
             foreach (Weapon weaponData in allWeapons)
             {
                 if (weaponData.inShop == "NO") continue;

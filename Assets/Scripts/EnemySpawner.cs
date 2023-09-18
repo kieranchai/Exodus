@@ -55,7 +55,6 @@ public class EnemySpawner : MonoBehaviour
             if (random < cumulative)
             {
                 chosenEnemy = zoneEnemies[i];
-                Debug.Log(zoneEnemies[i].GetComponent<EnemyScript>()._data.enemyName);
                 break;
             }
         }

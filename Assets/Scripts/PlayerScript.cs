@@ -266,6 +266,7 @@ public class PlayerScript : MonoBehaviour
             }
             this.experience -= LevelController.instance.xpNeeded;
             level++;
+            playerPanel.transform.Find("Level").GetComponent<TMP_Text>().text = $"Lvl.{level}";
             LevelController.instance.UpdateLevelsModifier();
             maxHealth = LevelController.instance.healthBuff;
             currentHealth = maxHealth;
