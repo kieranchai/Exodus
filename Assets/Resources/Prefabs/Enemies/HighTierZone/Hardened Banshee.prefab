@@ -284,6 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnZone: 
+  spawnChance: 0
   timer: 0
   returnDuration: 3
   _data: {fileID: 11400000, guid: ff248defd9382a34aaacf8fe054a404e, type: 2}
@@ -334,7 +335,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: a10f78d362528a649ba5103fcbd42f69, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -19,5 +19,5 @@ MonoBehaviour:
   primaryValue: 2
   secondaryValue: 5
   cost: 150
-  thumbnailPath: UISprites/testItemSprite
+  thumbnailPath: UISprites/Stim
   inShop: YES

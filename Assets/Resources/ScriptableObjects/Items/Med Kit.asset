@@ -19,5 +19,5 @@ MonoBehaviour:
   primaryValue: 100
   secondaryValue: NULL
   cost: 130
-  thumbnailPath: UISprites/testItemSprite
+  thumbnailPath: UISprites/Med Kit
   inShop: YES

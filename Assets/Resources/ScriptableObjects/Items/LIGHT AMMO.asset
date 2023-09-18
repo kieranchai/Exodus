@@ -19,5 +19,5 @@ MonoBehaviour:
   primaryValue: 60
   secondaryValue: NULL
   cost: 50
-  thumbnailPath: UISprites/testItemSprite
+  thumbnailPath: UISprites/Light Ammo
   inShop: YES

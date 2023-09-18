@@ -106,7 +106,7 @@ public class EnemyWeaponScript : MonoBehaviour
     {
         limitAttack = true;
         GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Heretic Explosion"), transform.position, Quaternion.identity);
-        explosion.GetComponent<EnemyExplosionScript>().Initialise(attackPower, 9f);
+        explosion.GetComponent<EnemyExplosionScript>().Initialise(attackPower, 4f);
         transform.parent.GetComponent<EnemyScript>().mySpawner.enemyCounter--;
         limitAttack = false;
         Destroy(transform.parent.gameObject);

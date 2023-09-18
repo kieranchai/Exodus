@@ -19,5 +19,5 @@ MonoBehaviour:
   primaryValue: 15
   secondaryValue: NULL
   cost: 300
-  thumbnailPath: UISprites/testItemSprite
+  thumbnailPath: UISprites/Gas Stopper
   inShop: YES

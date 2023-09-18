@@ -19,5 +19,5 @@ MonoBehaviour:
   primaryValue: 50
   secondaryValue: NULL
   cost: 70
-  thumbnailPath: UISprites/testItemSprite
+  thumbnailPath: UISprites/Bandage
   inShop: YES
