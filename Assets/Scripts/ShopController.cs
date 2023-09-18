@@ -12,8 +12,7 @@ public class ShopController : MonoBehaviour
     [SerializeField]
     private GameObject shopItemPrefab;
 
-    [SerializeField]
-    private GameObject shopPanel;
+    public GameObject shopPanel;
 
     private GameObject buyPanel;
     private GameObject sellPanel;

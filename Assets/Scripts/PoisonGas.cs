@@ -25,6 +25,8 @@ public class PoisonGas : MonoBehaviour
 
     public bool hasReached = false;
 
+    private bool hasAlerted = false;
+
     public bool itemUsed = false;
 
     void Awake()
@@ -45,9 +47,12 @@ public class PoisonGas : MonoBehaviour
 
     private void Update()
     {
-        if (this.hasReached)
+        if (this.hasReached && !this.hasAlerted)
         {
+            this.hasAlerted = true;
             //Event when gas touch safe zone
+            PlayerScript.instance.AlertPopup("gasCovered");
+            ShopController.instance.shopPanel.SetActive(false);
             ShopController.instance.gameObject.SetActive(false);
         }
     }

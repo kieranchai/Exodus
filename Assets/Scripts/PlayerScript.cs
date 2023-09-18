@@ -520,6 +520,9 @@ public class PlayerScript : MonoBehaviour
             case "gasEnded":
                 alertText = "The gas has already finished spreading.";
                 break;
+            case "gasCovered":
+                alertText = "The gas has covered the entire planet. The shop will now stop operating.";
+                break;
             default:
                 break;
         }
@@ -550,7 +553,7 @@ public class PlayerScript : MonoBehaviour
     IEnumerator DisplayAlert()
     {
         playerPanel.transform.Find("Alert").gameObject.SetActive(true);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         playerPanel.transform.Find("Alert").gameObject.SetActive(false);
     }
 

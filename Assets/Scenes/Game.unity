@@ -14227,6 +14227,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6858271135168505549, guid: 4038f214a233e6945916fb81cfcf3d86, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7034979340944068262, guid: 4038f214a233e6945916fb81cfcf3d86, type: 3}
       propertyPath: m_Name
       value: Player Panel
@@ -19616,8 +19620,8 @@ Transform:
   m_GameObject: {fileID: 1353778698}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.054, y: 0.45, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalPosition: {x: 0.062, y: 0.488, z: 0}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1570537851}
