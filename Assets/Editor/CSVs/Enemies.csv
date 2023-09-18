@@ -1,8 +1,8 @@
-1,Grunt,15,4,Alien Mouth,10,30,NULL,LowTierZone
-2,Hardened Grunt,20,3.5,Alien Mouth,15,50,NULL,LowTierZone
-3,Wraith,25,3.16,Alien Pistol,20,70,NULL,MidTierZone
-4,Hardened Wraith,30,2.92,Alien Pistol,25,90,NULL,MidTierZone
-5,Banshee,45,2.5,Alien Rifle,30,110,NULL,HighTierZone
-6,Hardened Banshee,50,2.41,Alien Rifle,35,130,NULL,HighTierZone
-7,Crab,6,3,Pincers,5,10,NULL,UltraLowTierZone
-8,Heretic,15,6,Suicide Bomb,20,30,NULL,MidTierZone
+1,Grunt,15,4,Alien Mouth,10,30,NULL,LowTierZone,80
+2,Hardened Grunt,20,3.5,Alien Mouth,15,50,NULL,LowTierZone,20
+3,Wraith,25,3.16,Alien Pistol,20,70,NULL,MidTierZone,60
+4,Hardened Wraith,30,2.92,Alien Pistol,25,90,NULL,MidTierZone,10
+5,Banshee,45,2.5,Alien Rifle,30,110,NULL,HighTierZone,80
+6,Hardened Banshee,50,2.41,Alien Rifle,35,130,NULL,HighTierZone,20
+7,Crab,6,3,Pincers,5,10,NULL,UltraLowTierZone,100
+8,Heretic,15,6,Suicide Bomb,20,30,NULL,MidTierZone,30

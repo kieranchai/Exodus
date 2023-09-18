@@ -117,7 +117,7 @@ public class CSVtoSO
         {
             string[] splitData = s.Split(',');
 
-            if (splitData.Length != 9)
+            if (splitData.Length != 10)
             {
                 return;
             }
@@ -132,6 +132,7 @@ public class CSVtoSO
             enemy.cashDrop = int.Parse(splitData[6]);
             enemy.lootDrop = splitData[7];
             enemy.spawnZone = splitData[8];
+            enemy.spawnChance = int.Parse(splitData[9]);
 
             AssetDatabase.CreateAsset(enemy, $"Assets/Resources/ScriptableObjects/Enemies/{enemy.id}.asset");
         }

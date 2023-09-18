@@ -19,6 +19,7 @@ public class EnemyScript : MonoBehaviour
     private int cashDrop;
     private string lootDrop;
     public string spawnZone;
+    public int spawnChance;
 
     public float timer = 0;
     private float duration;
@@ -26,8 +27,7 @@ public class EnemyScript : MonoBehaviour
 
     private float sightRange; // Can Set in CSV
 
-    [SerializeField]
-    private Enemy _data;
+    public Enemy _data;
 
     public Weapon equippedWeapon;
     public EnemyWeaponScript weaponSlot;
@@ -113,6 +113,7 @@ public class EnemyScript : MonoBehaviour
         this.xpDrop = enemyData.xpDrop;
         this.cashDrop = enemyData.cashDrop;
         this.lootDrop = enemyData.lootDrop;
+        this.spawnChance = enemyData.spawnChance;
 
         this.currentHealth = this.maxHealth;
         agent.speed = this.movementSpeed;

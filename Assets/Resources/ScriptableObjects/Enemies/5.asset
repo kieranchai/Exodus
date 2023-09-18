@@ -21,3 +21,4 @@ MonoBehaviour:
   cashDrop: 110
   lootDrop: NULL
   spawnZone: HighTierZone
+  spawnChance: 80

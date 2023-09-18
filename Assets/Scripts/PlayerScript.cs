@@ -296,7 +296,7 @@ public class PlayerScript : MonoBehaviour
         weaponSlot.SetWeaponData(weaponData);
         this.weaponWeight = weaponData.weight;
         RefreshEquippedUI();
-        AddToInventory(weaponData);
+        UpdateEquippedAmmoUI();
     }
 
     public void EquipWeapon(Weapon weaponData)

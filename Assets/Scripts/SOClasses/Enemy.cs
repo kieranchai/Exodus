@@ -12,4 +12,5 @@ public class Enemy : ScriptableObject
     public int cashDrop;
     public string lootDrop;
     public string spawnZone;
+    public int spawnChance;
 }

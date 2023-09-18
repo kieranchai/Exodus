@@ -3,5 +3,5 @@
 3,Heavy Ammo,Replenishes your [type] by [primaryValue],HEAVY AMMO,5,NULL,500,UISprites/testItemSprite,YES
 4,Bandage,Replenishes your HEALTH by [primaryValue] HP.,SMALL HEALTH,50,NULL,70,UISprites/testItemSprite,YES
 5,Med Kit,Replenishes your HEALTH by [primaryValue] HP.,BIG HEALTH,100,NULL,130,UISprites/testItemSprite,YES
-6,STIM,Increases your [type] by [primaryValue] for [secondaryValue],MOVEMENT SPEED,2,10,75,UISprites/testItemSprite,YES
-7,GAS STOPPER,Stops [type] for [primaryValue],GAS,5,NULL,150,UISprites/testItemSprite,YES
+6,Stim,Increases your [type] by [primaryValue] for [secondaryValue] seconds.,MOVEMENT SPEED,2,5,150,UISprites/testItemSprite,YES
+7,Gas Stopper,Stops [type] for [primaryValue] seconds.,GAS,15,NULL,300,UISprites/testItemSprite,YES

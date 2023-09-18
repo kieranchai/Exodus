@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0679fe7870f5a04189bfc20411a2431, type: 3}
-  m_Name: GAS STOPPER
+  m_Name: Gas Stopper
   m_EditorClassIdentifier: 
   id: 7
-  itemName: GAS STOPPER
-  description: Stops [type] for [primaryValue]
+  itemName: Gas Stopper
+  description: Stops [type] for [primaryValue] seconds.
   type: GAS
-  primaryValue: 5
+  primaryValue: 15
   secondaryValue: NULL
-  cost: 150
+  cost: 300
   thumbnailPath: UISprites/testItemSprite
   inShop: YES

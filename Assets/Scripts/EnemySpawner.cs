@@ -15,9 +15,14 @@ public class EnemySpawner : MonoBehaviour
     public float timer = 0;
     public float duration = 5f;
 
+    private int random;
+    private int cumulative;
+    private GameObject chosenEnemy;
+
     void Start()
     {
         zoneEnemies = Resources.LoadAll<GameObject>($"Prefabs/Enemies/{spawnZone}");
+        Array.Sort(zoneEnemies, (a,b) => a.GetComponent<EnemyScript>()._data.spawnChance - b.GetComponent<EnemyScript>()._data.spawnChance);
         currentZone = gameObject.GetComponent<Collider2D>();
 
         for(int i = 0; i < enemyLimit; i++)
@@ -40,7 +45,22 @@ public class EnemySpawner : MonoBehaviour
     {
         if (enemyCounter == enemyLimit) return;
         Vector3 spawnLocation = RandomPointInZone(currentZone.bounds);
-        GameObject spawnedEnemy = Instantiate(zoneEnemies[Random.Range(0, zoneEnemies.Length)], spawnLocation, Quaternion.identity);
+
+        random = Random.Range(1,100);
+        cumulative = 0;
+
+        for(int i = 0; i < zoneEnemies.Length; i++)
+        {
+            cumulative += zoneEnemies[i].GetComponent<EnemyScript>()._data.spawnChance;
+            if (random < cumulative)
+            {
+                chosenEnemy = zoneEnemies[i];
+                Debug.Log(zoneEnemies[i].GetComponent<EnemyScript>()._data.enemyName);
+                break;
+            }
+        }
+
+        GameObject spawnedEnemy = Instantiate(chosenEnemy, spawnLocation, Quaternion.identity);
         spawnedEnemy.GetComponent<EnemyScript>().spawnZone = currentZone.tag;
         enemyCounter++;
     }

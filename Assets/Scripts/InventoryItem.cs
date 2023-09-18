@@ -27,8 +27,6 @@ public class InventoryItem : MonoBehaviour
     private Item itemData;
     private GameObject itemDetailPanel;
 
-    private Color defaultColor;
-
     public void Initialise(ScriptableObject itemData)
     {
         if (itemData.GetType().IsAssignableFrom(typeof(Weapon)))
@@ -181,7 +179,7 @@ public class InventoryItem : MonoBehaviour
                 else
                 {
                     child.GetComponent<InventoryItem>().Name.text = child.GetComponent<InventoryItem>().weaponData.weaponName;
-                    child.GetComponent<Image>().color = defaultColor;
+                    child.GetComponent<Image>().color = Color.white;
                 }
             }
         }
