@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0679fe7870f5a04189bfc20411a2431, type: 3}
+  m_Name: Bandage
+  m_EditorClassIdentifier: 
+  id: 4
+  itemName: Bandage
+  description: Replenishes your HEALTH by [primaryValue] HP.
+  type: SMALL HEALTH
+  primaryValue: 50
+  secondaryValue: NULL
+  cost: 70
+  thumbnailPath: UISprites/Bandage
+  inShop: YES
