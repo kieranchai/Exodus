@@ -67,6 +67,8 @@ public class MothershipScript : MonoBehaviour
         initialColor = motherShipSprite.color;
         initialLeftTurretPos = leftTurret.transform.position;
         initialRightTurretPos = rightTurret.transform.position;
+        newLeftTurretPos = initialLeftTurretPos;
+        newRightTurretPos = initialRightTurretPos;
         currentState = BOSS_STATE.PAUSED;
     }
 

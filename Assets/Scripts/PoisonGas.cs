@@ -42,6 +42,10 @@ public class PoisonGas : MonoBehaviour
     private void Start()
     {
         this.targetLocationV3 = new Vector3(targetLocation.position.x, targetLocation.position.y + (gameObject.GetComponent<Collider2D>().bounds.size.y / 2));
+    }
+
+    public void StartGas()
+    {
         StartCoroutine(SpreadToPosition(transform, this.targetLocationV3, this.timeTaken));
     }
 

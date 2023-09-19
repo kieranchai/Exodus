@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
 
     public enum GAME_STATE
     {
+        PANNING,
         PAUSED,
         PLAYING,
         TUTORIAL,
@@ -54,6 +55,8 @@ public class GameController : MonoBehaviour
     {
         switch (currentState)
         {
+            case GAME_STATE.PANNING:
+                break;
             case GAME_STATE.PLAYING:
                 HandleInput();
                 break;

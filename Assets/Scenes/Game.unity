@@ -63166,7 +63166,7 @@ MonoBehaviour:
   area1Collider: {fileID: 0}
   passedArea2: 0
   dummyShot: 0
-  currentState: 1
+  currentState: 0
   pauseScreen: {fileID: 1972449466}
   deathScreen: {fileID: 1429068255}
 --- !u!4 &1118454440
@@ -70787,8 +70787,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1eb2e7c49bcccd4193054e77b3df9b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 167660542}
-  smoothTime: 0.1
+  playerTarget: {fileID: 167660542}
+  zonesTarget:
+  - {fileID: 506457833}
+  - {fileID: 1234412898}
+  - {fileID: 1449163589}
+  - {fileID: 1796093820}
+  - {fileID: 901328229}
   positionOffset: {x: 0, y: 0, z: 0}
   xLimit: {x: 9.7, y: 18.74}
   yLimit: {x: -4.55, y: 120}
