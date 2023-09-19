@@ -13,6 +13,7 @@ public class PlayerScript : MonoBehaviour
     public Collider2D coll;
     public SpriteRenderer playerSprite;
     [SerializeField] private ParticleSystem dustCloud;
+    public AudioSource audioSource;
 
     public string playerName;
     public float maxHealth;
@@ -92,6 +93,8 @@ public class PlayerScript : MonoBehaviour
 
     private void Start()
     {
+        audioSource.volume = 0.5f;
+
         SetPlayerData(_data);
 
         EquipDefaultWeapon(Resources.Load<Weapon>($"ScriptableObjects/Weapons/{this.defaultWeapon}"));
@@ -550,6 +553,8 @@ public class PlayerScript : MonoBehaviour
 
     IEnumerator DisplayAlert()
     {
+        audioSource.clip = Resources.Load<AudioClip>($"Audio/Alert");
+        audioSource.Play();
         playerPanel.transform.Find("Alert").gameObject.SetActive(true);
         yield return new WaitForSeconds(3);
         playerPanel.transform.Find("Alert").gameObject.SetActive(false);

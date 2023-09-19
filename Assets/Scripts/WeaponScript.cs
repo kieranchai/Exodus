@@ -25,6 +25,13 @@ public class WeaponScript : MonoBehaviour
     public Animator anim;
     public Transform circleOrigin;
     public float radius;
+    [SerializeField] private AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource.volume = 0.5f;
+    }
+
     public void SetWeaponData(Weapon weaponData)
     {
         this.id = weaponData.id;
@@ -46,9 +53,12 @@ public class WeaponScript : MonoBehaviour
         flash = Resources.Load<Sprite>(this.spritePath + " Flash");
         weaponSprite.sprite = sprite;
 
-        if (weaponData.weaponType == "melee") {
+        if (weaponData.weaponType == "melee")
+        {
             anim.enabled = true;
-        }else {
+        }
+        else
+        {
             anim.enabled = false;
         }
     }
@@ -65,7 +75,7 @@ public class WeaponScript : MonoBehaviour
                     StartCoroutine(LineAttack());
                     break;
                 case "melee":
-                   StartCoroutine(MeleeAttack());
+                    StartCoroutine(MeleeAttack());
                     break;
                 case "akimbo":
                     if (PlayerScript.instance.ammoCount[this.ammoType] > 0) StartCoroutine(FlashMuzzleFlash());
@@ -97,20 +107,28 @@ public class WeaponScript : MonoBehaviour
                 GameController.instance.dummyShot = true;
             }
         }
+
         switch (this.weaponName)
         {
             case "Fists":
                 anim.SetTrigger("Fists");
+                audioSource.clip = Resources.Load<AudioClip>($"Audio/Fists");
+                audioSource.Play();
                 break;
             case "Katana":
                 anim.SetTrigger("Katana");
+                audioSource.clip = Resources.Load<AudioClip>($"Audio/Katana");
+                audioSource.Play();
                 break;
             case "Baseball Bat":
                 anim.SetTrigger("Baseball");
+                audioSource.clip = Resources.Load<AudioClip>($"Audio/Baseball Bat");
+                audioSource.Play();
                 break;
             default:
                 break;
         }
+
         yield return new WaitForSeconds(this.cooldown);
         limitAttack = false;
         yield return null;
@@ -132,6 +150,29 @@ public class WeaponScript : MonoBehaviour
                     bullet.GetComponent<BulletScript>().Initialise(this.attackPower, this.weaponRange);
                     break;
             }
+
+            //Audio
+            switch (this.weaponName)
+            {
+                case "Sniper Rifle":
+                    audioSource.clip = Resources.Load<AudioClip>($"Audio/Sniper Rifle");
+                    audioSource.Play();
+                    break;
+                case "Light Pistol":
+                case "Dual Elites":
+                case "Submachine Gun":
+                    audioSource.clip = Resources.Load<AudioClip>($"Audio/Light Pistol");
+                    audioSource.Play();
+                    break;
+                case "Assault Rifle":
+                case "Dual ARs":
+                    audioSource.clip = Resources.Load<AudioClip>($"Audio/Assault Rifle");
+                    audioSource.Play();
+                    break;
+                default:
+                    break;
+            }
+
             //can add Projectile Speed to CSV (600 here)
             bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 600);
             --PlayerScript.instance.ammoCount[this.ammoType];
@@ -139,24 +180,33 @@ public class WeaponScript : MonoBehaviour
             PlayerScript.instance.UpdateInventoryAmmoUI();
             yield return new WaitForSeconds(this.cooldown);
         }
+        else
+        {
+            audioSource.Stop();
+            audioSource.clip = Resources.Load<AudioClip>($"Audio/Empty");
+            audioSource.Play();
+        }
         limitAttack = false;
         yield return null;
     }
 
-    IEnumerator FlashMuzzleFlash() {
+    IEnumerator FlashMuzzleFlash()
+    {
         weaponSprite.sprite = flash;
-        int ratio = (int)((1/Time.deltaTime) / 60);
+        int ratio = (int)((1 / Time.deltaTime) / 60);
         if (ratio < 1) ratio = 1;
-        int dynamicflash = (framesToFlash * ratio); 
-        for (int i = 0; i < dynamicflash ; i ++) {
+        int dynamicflash = (framesToFlash * ratio);
+        for (int i = 0; i < dynamicflash; i++)
+        {
             yield return 0;
         }
         weaponSprite.sprite = sprite;
     }
 
-    private void OnDrawGizmosSelected() {
+    private void OnDrawGizmosSelected()
+    {
         Gizmos.color = Color.blue;
         Vector3 position = circleOrigin.position;
-        Gizmos.DrawWireSphere(position,radius);
+        Gizmos.DrawWireSphere(position, radius);
     }
 }

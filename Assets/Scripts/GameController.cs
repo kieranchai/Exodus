@@ -386,12 +386,23 @@ public class GameController : MonoBehaviour
         switch (itemData.type)
         {
             case "SMALL HEALTH":
+                if (PlayerScript.instance.currentHealth == PlayerScript.instance.maxHealth)
+                {
+                    PlayerScript.instance.AlertPopup("health");
+                    return false;
+                }
+                PlayerScript.instance.audioSource.clip = Resources.Load<AudioClip>($"Audio/Bandage");
+                PlayerScript.instance.audioSource.Play();
+                StartCoroutine(ItemHealth(itemData));
+                break;
             case "BIG HEALTH":
                 if (PlayerScript.instance.currentHealth == PlayerScript.instance.maxHealth)
                 {
                     PlayerScript.instance.AlertPopup("health");
                     return false;
                 }
+                PlayerScript.instance.audioSource.clip = Resources.Load<AudioClip>($"Audio/Med Kit");
+                PlayerScript.instance.audioSource.Play();
                 StartCoroutine(ItemHealth(itemData));
                 break;
             case "MOVEMENT SPEED":

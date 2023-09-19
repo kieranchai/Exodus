@@ -18,6 +18,14 @@ public class EnemyWeaponScript : MonoBehaviour
     public Transform circleOrigin;
     public float radius;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource.volume = 0.5f;
+    }
+
     public void SetWeaponData(Weapon weaponData)
     {
         this.weaponName = weaponData.name;
@@ -32,9 +40,12 @@ public class EnemyWeaponScript : MonoBehaviour
         flash = Resources.Load<Sprite>(this.spritePath + " Flash");
         weaponSprite.sprite = sprite;
 
-        if (weaponData.weaponType == "melee") {
+        if (weaponData.weaponType == "melee")
+        {
             anim.enabled = true;
-        }else {
+        }
+        else
+        {
             anim.enabled = false;
         }
     }
@@ -68,9 +79,23 @@ public class EnemyWeaponScript : MonoBehaviour
         float spread = Random.Range(-5.0f, 5.0f);
         GameObject bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Bullet"), transform.position, Quaternion.Euler(0, 0, spread));
         bullet.GetComponent<EnemyBulletScript>().Initialise(this.attackPower, this.weaponRange);
+
+        switch (this.weaponName)
+        {
+            case "Alien Rifle":
+                audioSource.clip = Resources.Load<AudioClip>($"Audio/Alien Rifle");
+                audioSource.Play();
+                break;
+            case "Alien Pistol":
+                audioSource.clip = Resources.Load<AudioClip>($"Audio/Alien Pistol");
+                audioSource.Play();
+                break;
+            default:
+                break;
+        }
+
         bullet.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
         yield return new WaitForSeconds(this.cooldown);
-
         limitAttack = false;
         yield return null;
     }
@@ -86,17 +111,23 @@ public class EnemyWeaponScript : MonoBehaviour
             }
 
         }
+
         switch (this.weaponName)
         {
             case "Pincers":
                 anim.SetTrigger("Pincers");
+                audioSource.clip = Resources.Load<AudioClip>($"Audio/Pincers");
+                audioSource.Play();
                 break;
             case "Alien Mouth":
                 anim.SetTrigger("Mouth");
+                audioSource.clip = Resources.Load<AudioClip>($"Audio/Alien Mouth");
+                audioSource.Play();
                 break;
             default:
                 break;
         }
+
         yield return new WaitForSeconds(this.cooldown);
         limitAttack = false;
         yield return null;
@@ -126,10 +157,11 @@ public class EnemyWeaponScript : MonoBehaviour
         weaponSprite.sprite = sprite;
     }
 
-    private void OnDrawGizmosSelected() {
+    private void OnDrawGizmosSelected()
+    {
         Gizmos.color = Color.blue;
         Vector3 position = circleOrigin.position;
-        Gizmos.DrawWireSphere(position,radius);
+        Gizmos.DrawWireSphere(position, radius);
     }
 
 }

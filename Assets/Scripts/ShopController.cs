@@ -22,6 +22,8 @@ public class ShopController : MonoBehaviour
 
     private GameObject shopButton;
 
+    public AudioSource audioSource;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -65,6 +67,11 @@ public class ShopController : MonoBehaviour
                 shopItem.GetComponent<ShopItem>().Initialise(weaponData, "buy");
             }
         }
+    }
+
+    private void Start()
+    {
+        audioSource.volume = 0.5f;
     }
 
     private void Update()
