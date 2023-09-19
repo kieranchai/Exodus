@@ -32,7 +32,6 @@ public class MothershipScript : MonoBehaviour
     public bool isHoming = false;
     public bool hasShotHoming = false;
     private float turretOffset = 0.1f;
-    private bool finalHitStarted = false;
     public bool victory = false;
 
     public enum BOSS_STATE
@@ -75,7 +74,7 @@ public class MothershipScript : MonoBehaviour
     void Update()
     {
         //Set the turret orientation to face downwards and only rotate turrets when boss is alive
-        if(currentState != BOSS_STATE.DEAD)
+        if (currentState != BOSS_STATE.DEAD)
         {
             if (!isTargeted)
             {
@@ -112,14 +111,12 @@ public class MothershipScript : MonoBehaviour
     {
         //Killed Boss
         motherShipSprite.color = initialColor;
-        Time.timeScale = 1.0f;
         victory = true;
     }
 
     public void TakeDamage(float damage)
     {
         if (forceFieldUp) return;
-        if (finalHitStarted) return;
         Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
         DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
         damagePopup.Setup(damage);
@@ -129,8 +126,7 @@ public class MothershipScript : MonoBehaviour
         if (currentHealth <= 0)
         {
             //DIE
-            StopAllCoroutines();
-            StartCoroutine(FinalHit());
+            currentState = BOSS_STATE.DEAD;
         }
     }
 
@@ -162,7 +158,7 @@ public class MothershipScript : MonoBehaviour
 
     private void Paused()
     {
-        if(!hasStartedPause)
+        if (!hasStartedPause)
         {
             hasStartedPause = true;
             StopAllCoroutines();
@@ -481,13 +477,5 @@ public class MothershipScript : MonoBehaviour
             yield return null;
         }
         motherShipSprite.color = initialColor;
-    }
-
-    IEnumerator FinalHit()
-    {
-        finalHitStarted = true;
-        Time.timeScale = 0.4f;
-        yield return new WaitForSeconds(0.8f);
-        currentState = BOSS_STATE.DEAD;
     }
 }

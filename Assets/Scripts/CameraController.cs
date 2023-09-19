@@ -59,10 +59,11 @@ public class CameraController : MonoBehaviour
     {
         smoothTime = introSmoothTime;
         Camera.main.orthographicSize = 7;
+        PlayerScript.instance.playerPanel.gameObject.SetActive(false);
         for (int i = 0; i < zonesTarget.Length; i++)
         {
             target = zonesTarget[i];
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(2.5f);
 /*            tutorialDialogueBox.SetActive(false);
             yield return new WaitForSeconds(1f);
             tutorialDialogueBox.SetActive(true);
@@ -70,11 +71,13 @@ public class CameraController : MonoBehaviour
         }
 
         target = playerTarget;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2.5f);
         yield return ZoomInCamera();
         GameController.instance.currentState = GameController.GAME_STATE.PLAYING;
+        PlayerScript.instance.playerPanel.gameObject.SetActive(true);
         smoothTime = playerSmoothTime;
         PoisonGas.instance.StartGas();
+        PlayerScript.instance.StartCoroutine(PlayerScript.instance.SpawnFlicker());
     }
 
     IEnumerator ZoomInCamera()

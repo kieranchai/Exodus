@@ -47,7 +47,7 @@ public class PlayerScript : MonoBehaviour
 
     public Dictionary<ScriptableObject, int> inventory = new();
 
-    [SerializeField] private GameObject playerPanel;
+    public GameObject playerPanel;
     [SerializeField] private GameObject inventoryItemPrefab;
     [SerializeField] private Transform damagePopupPrefab;
     [SerializeField] private Transform healPopUpPrefab;
@@ -97,8 +97,6 @@ public class PlayerScript : MonoBehaviour
         EquipDefaultWeapon(Resources.Load<Weapon>($"ScriptableObjects/Weapons/{this.defaultWeapon}"));
 
         UpdateAmmoCount(this.equippedWeapon.defaultAmmo, this.equippedWeapon.ammoType);
-
-        StartCoroutine(SpawnFlicker());
     }
 
     private void Update()
@@ -568,7 +566,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnFlicker()
+    public IEnumerator SpawnFlicker()
     {
         Color initialColor = playerSprite.color;
         Color hitFlash = Color.black;

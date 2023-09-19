@@ -238,7 +238,6 @@ public class EnemyScript : MonoBehaviour
         PlayerScript.instance.UpdateExperience(xpDrop);
         PlayerScript.instance.UpdateCash(cashDrop);
         --this.mySpawner.enemyCounter;
-        this.mySpawner.timer = 0;
         this.currentState = ENEMY_STATE.DEAD;
     }
 

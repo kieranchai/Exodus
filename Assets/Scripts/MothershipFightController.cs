@@ -13,9 +13,6 @@ public class MothershipFightController : MonoBehaviour
     [SerializeField]
     private GameObject motherShipHealthBar;
 
-    [SerializeField]
-    private TMP_Text gameWinText;
-
     private float lerpSpeed;
 
     private bool fightStarted = false;
@@ -34,7 +31,8 @@ public class MothershipFightController : MonoBehaviour
         if (motherShip.GetComponent<MothershipScript>().victory && !fightEnded)
         {
             fightEnded = true;
-            StartCoroutine(EndGame());
+            motherShipHealthBar.SetActive(false);
+            GameController.instance.currentState = GameController.GAME_STATE.WIN;
         }
     }
 
@@ -125,25 +123,5 @@ public class MothershipFightController : MonoBehaviour
             Camera.main.orthographicSize = Mathf.Lerp(currentZoom, initialZoom, t);
             yield return null;
         }
-    }
-
-    IEnumerator EndGame()
-    {
-        motherShipHealthBar.SetActive(false);
-        gameWinText.gameObject.SetActive(true);
-        GameController.instance.currentState = GameController.GAME_STATE.WIN;
-        yield return Typewriter("You've defeated the mothership and saved Earth!");
-    }
-
-    IEnumerator Typewriter(string text)
-    {
-        gameWinText.text = "";
-        var waitTimer = new WaitForSeconds(.05f);
-        foreach (char c in text)
-        {
-            gameWinText.text += c;
-            yield return waitTimer;
-        }
-        yield return new WaitForSeconds(0.5f);
     }
 }

@@ -83,6 +83,8 @@ public class GameController : MonoBehaviour
         PlayerScript.instance.coll.enabled = false;
         PlayerScript.instance.anim.SetBool("isWalking", false);
         PlayerScript.instance.currentState = PlayerScript.PLAYER_STATE.WIN;
+
+        Debug.Log("Win");
         hasLoadedEndCutscene = true;
         // Load Scene
     }
