@@ -243,11 +243,10 @@ public class EnemyScript : MonoBehaviour
 
     public void Dead()
     {
+        agent.isStopped = true;
         anim.enabled = false;
         enemyCollider.enabled = false;
-
-        // Change Enemy Sprite to Death Sprite
-        /*        enemySprite.sprite = Resources.Load<Sprite>($"Sprites/{this.enemyName}_Death");*/
+        enemySprite.sprite = Resources.Load<Sprite>($"Sprites/{this.enemyName}_Death");
 
         Destroy(gameObject, 2f);
     }
