@@ -6,6 +6,16 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.G)) LoadGame();
+    }
+    public void LoadGame()
+    {
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene("Game");
+    }
+
     public void LoadScene()
     {
         Time.timeScale = 1.0f;
