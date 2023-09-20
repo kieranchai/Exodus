@@ -45,6 +45,15 @@ public class CameraController : MonoBehaviour
             smoothTime = playerSmoothTime;
         }
     }
+
+    private void Update()
+    {
+        if(GameController.instance.currentState == GameController.GAME_STATE.PANNING)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape)) SkipPanning();
+        }
+    }
+
     private void LateUpdate()
     {
         if(target)
@@ -73,9 +82,23 @@ public class CameraController : MonoBehaviour
         target = playerTarget;
         yield return new WaitForSeconds(2.5f);
         yield return ZoomInCamera();
+        smoothTime = playerSmoothTime;
+        StartRealGame();
+    }
+
+    private void SkipPanning()
+    {
+        StopAllCoroutines();
+        smoothTime = playerSmoothTime;
+        target = playerTarget;
+        Camera.main.orthographicSize = initialZoom;
+        StartRealGame();
+    }
+
+    private void StartRealGame()
+    {
         GameController.instance.currentState = GameController.GAME_STATE.PLAYING;
         PlayerScript.instance.playerPanel.gameObject.SetActive(true);
-        smoothTime = playerSmoothTime;
         PoisonGas.instance.StartGas();
         PlayerScript.instance.StartCoroutine(PlayerScript.instance.SpawnFlicker());
     }

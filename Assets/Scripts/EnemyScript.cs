@@ -52,7 +52,7 @@ public class EnemyScript : MonoBehaviour
         DEAD
     }
 
-    ENEMY_STATE currentState;
+    public ENEMY_STATE currentState;
 
     private Color initialColor;
     private void Start()
@@ -68,7 +68,7 @@ public class EnemyScript : MonoBehaviour
         SetEnemyData(_data);
         EquipWeapon(this.equippedWeapon);
         this.currentState = ENEMY_STATE.WANDER;
-        this.duration = 2f;
+        this.duration = 1f;
         this.sightRange = 5f;
 
         spawnParticle.Play();
