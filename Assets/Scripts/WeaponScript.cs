@@ -17,7 +17,7 @@ public class WeaponScript : MonoBehaviour
     public float weight;
     public string inShop;
     public string ammoType;
-    private bool limitAttack;
+    public bool limitAttack;
     public int framesToFlash = 3;
     private SpriteRenderer weaponSprite;
     private Sprite sprite;

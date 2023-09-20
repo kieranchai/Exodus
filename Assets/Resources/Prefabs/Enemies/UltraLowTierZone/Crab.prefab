@@ -392,7 +392,7 @@ NavMeshAgent:
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 200
-  m_StoppingDistance: 0.55
+  m_StoppingDistance: 0.45
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -424,6 +424,7 @@ MonoBehaviour:
   xpCashPopupPrefab: {fileID: 4179147922126599982, guid: 35cce36764d8fe945b0bb43cf7dad78b, type: 3}
   mySpawner: {fileID: 0}
   spawnParticle: {fileID: 445088440379574451}
+  currentState: 0
 --- !u!212 &7865783603933936253
 SpriteRenderer:
   m_ObjectHideFlags: 0
