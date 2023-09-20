@@ -106,6 +106,7 @@ public class ShopController : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             PlayerScript.instance.isInShop = false;
+            if(PlayerScript.instance.CanSeeShop) GameController.instance.isOverUI = false;
             PlayerScript.instance.CanSeeShop = false;
             Destroy(shopButton);
             shopButton = null;
