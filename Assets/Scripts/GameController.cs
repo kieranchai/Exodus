@@ -335,6 +335,7 @@ public class GameController : MonoBehaviour
         if (PlayerScript.instance.CanSeeShop || PlayerScript.instance.CanSeeInventory)
         {
             PlayerScript.instance.TurnOffAllViews();
+            isOverUI = false;
             return;
         }
 
