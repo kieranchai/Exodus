@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -157,10 +158,11 @@ public class PlayerScript : MonoBehaviour
                 case PLAYER_STATE.ROLLING:
                     float rollSpeedDropMultiplier = 2f;
                     this.rollSpeed -= rollSpeed * rollSpeedDropMultiplier * Time.deltaTime;
-
+                    Physics2D.IgnoreLayerCollision(3, 7, true);
                     float rollSpeedMinimum = 5f;
                     if (rollSpeed < rollSpeedMinimum)
                     {
+                        Physics2D.IgnoreLayerCollision(3, 7, false);
                         this.currentState = PLAYER_STATE.NORMAL;
                         //Stop Roll Anims
                     }
@@ -237,7 +239,7 @@ public class PlayerScript : MonoBehaviour
         UpdateHealth(-damage);
         Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
         DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
-        damagePopup.Setup(damage);
+        damagePopup.SetupPlayerDamage(damage);
 
         playerSprite.color = initialColor;
         StopCoroutine(HitFlicker());
@@ -267,6 +269,11 @@ public class PlayerScript : MonoBehaviour
             }
             this.experience -= LevelController.instance.xpNeeded;
             level++;
+
+            Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
+            DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
+            damagePopup.SetupLevelUp();
+
             playerPanel.transform.Find("Level").GetComponent<TMP_Text>().text = $"Lvl.{level}";
             LevelController.instance.UpdateLevelsModifier();
             maxHealth = LevelController.instance.healthBuff;
@@ -282,7 +289,7 @@ public class PlayerScript : MonoBehaviour
         {
             Transform healPopUpTransform = Instantiate(healPopUpPrefab, transform.position, Quaternion.identity);
             DamagePopup healPopUp = healPopUpTransform.GetComponent<DamagePopup>();
-            healPopUp.Setup(value);
+            healPopUp.SetupHeal(value);
         }
     }
 
