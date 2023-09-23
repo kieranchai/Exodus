@@ -68,7 +68,7 @@ public class CameraController : MonoBehaviour
     {
         smoothTime = introSmoothTime;
         Camera.main.orthographicSize = 7;
-        PlayerScript.instance.playerPanel.gameObject.SetActive(false);
+        PlayerScript.instance.playerPanel.SetActive(false);
         for (int i = 0; i < zonesTarget.Length; i++)
         {
             target = zonesTarget[i];

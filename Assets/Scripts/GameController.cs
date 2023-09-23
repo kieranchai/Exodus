@@ -213,7 +213,7 @@ public class GameController : MonoBehaviour
         tutorialDialogueBox.SetActive(true);
         yield return StartCoroutine(Typewriter("Bravo!"));
         yield return StartCoroutine(Typewriter("If timed well, dodging allows you to avoid taking enemy damage."));
-        yield return StartCoroutine(Typewriter("You can only dodge once every 5 seconds, so use your dodges carefully!"));
+        yield return StartCoroutine(Typewriter("You can only dodge once every 3 seconds, so use your dodges carefully!"));
         yield return StartCoroutine(Typewriter("Proceed over to the next area."));
         area1Collider.enabled = false;
         while (!passedArea2)
@@ -243,7 +243,7 @@ public class GameController : MonoBehaviour
         bool hasDone = false;
         while (!hasDone)
         {
-            if (PlayerScript.instance.equippedWeapon == Resources.Load<Weapon>("ScriptableObjects/Weapons/Heavy Pistol"))
+            if (PlayerScript.instance.equippedWeapon == Resources.Load<Weapon>("ScriptableObjects/Weapons/Light Pistol"))
             {
                 hasDone = true;
             }
@@ -253,8 +253,7 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         tutorialDialogueBox.SetActive(true);
         yield return StartCoroutine(Typewriter("You're a natural!"));
-        yield return StartCoroutine(Typewriter("Oops, it seems that you need bullets."));
-        yield return StartCoroutine(Typewriter("Notice that there are 3 different types of ammo below your minimap."));
+        yield return StartCoroutine(Typewriter("Notice that there are 3 different types of ammo shown in your inventory."));
         yield return StartCoroutine(Typewriter("Different weapons will require different types of ammo."));
         yield return StartCoroutine(Typewriter("You can purchase ammo from the shop."));
         yield return StartCoroutine(Typewriter("Try opening the shop panel by pressing E near the shop."));
@@ -299,6 +298,7 @@ public class GameController : MonoBehaviour
             }
             yield return null;
         }
+        PoisonGas.instance.StartGas();
         tutorialDialogueBox.SetActive(false);
         yield return new WaitForSeconds(1f);
         tutorialDialogueBox.SetActive(true);

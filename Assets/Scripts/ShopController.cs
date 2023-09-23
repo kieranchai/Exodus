@@ -37,17 +37,22 @@ public class ShopController : MonoBehaviour
         buyPanel.SetActive(true);
         sellPanel = shopPanel.transform.Find("Sell Panel").gameObject;
         sellPanel.SetActive(false);
+    }
 
-        if(GameController.instance.currentState == GameController.GAME_STATE.TUTORIAL)
+    private void Start()
+    {
+        audioSource.volume = 0.5f;
+        if (GameController.instance.currentState == GameController.GAME_STATE.TUTORIAL)
         {
             Item[] allItems = Resources.LoadAll<Item>("ScriptableObjects/Items");
             foreach (Item itemData in allItems)
             {
-                if (itemData.itemName != "HEAVY AMMO") continue;
+                if (itemData.itemName != "Light Ammo") continue;
                 GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
                 shopItem.GetComponent<ShopItem>().Initialise(itemData, "buy");
             }
-        } else
+        }
+        else
         {
             Item[] allItems = Resources.LoadAll<Item>("ScriptableObjects/Items");
             Array.Sort(allItems, (a, b) => a.cost - b.cost);
@@ -67,11 +72,6 @@ public class ShopController : MonoBehaviour
                 shopItem.GetComponent<ShopItem>().Initialise(weaponData, "buy");
             }
         }
-    }
-
-    private void Start()
-    {
-        audioSource.volume = 0.5f;
     }
 
     private void Update()
