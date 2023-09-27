@@ -67,6 +67,7 @@ public class ShopController : MonoBehaviour
             Array.Sort(allWeapons, (a, b) => a.cost - b.cost);
             foreach (Weapon weaponData in allWeapons)
             {
+                weaponData.currentAmmoCount = weaponData.clipSize;
                 if (weaponData.inShop == "NO") continue;
                 GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
                 shopItem.GetComponent<ShopItem>().Initialise(weaponData, "buy");

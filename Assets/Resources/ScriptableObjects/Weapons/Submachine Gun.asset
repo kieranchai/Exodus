@@ -21,8 +21,8 @@ MonoBehaviour:
   weaponType: line
   cooldown: 0.1
   weaponRange: 4.5
-  defaultAmmo: 78
+  clipSize: 60
+  reloadSpeed: 1.5
   cost: 230
-  weight: 0.4
-  ammoType: LIGHT
+  currentAmmoCount: 60
   inShop: YES

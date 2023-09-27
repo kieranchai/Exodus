@@ -21,8 +21,8 @@ MonoBehaviour:
   weaponType: akimbo
   cooldown: 0.2
   weaponRange: 6.5
-  defaultAmmo: 192
+  clipSize: 30
+  reloadSpeed: 2
   cost: 1500
-  weight: 1.5
-  ammoType: MEDIUM
+  currentAmmoCount: 30
   inShop: YES

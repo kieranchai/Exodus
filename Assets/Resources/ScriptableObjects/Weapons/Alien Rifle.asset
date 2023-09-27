@@ -21,8 +21,8 @@ MonoBehaviour:
   weaponType: line
   cooldown: 0.2
   weaponRange: 6.5
-  defaultAmmo: 0
+  clipSize: 0
+  reloadSpeed: 0
   cost: 0
-  weight: 0
-  ammoType: MEDIUM
+  currentAmmoCount: 0
   inShop: NO

@@ -12,11 +12,7 @@ public class WeaponScript : MonoBehaviour
     public float cooldown;
     public float weaponRange;
     public int cost;
-    public int defaultAmmo;
-    public float reloadSpeed;
-    public float weight;
     public string inShop;
-    public string ammoType;
     public bool limitAttack;
     public int framesToFlash = 3;
     private SpriteRenderer weaponSprite;
@@ -27,13 +23,30 @@ public class WeaponScript : MonoBehaviour
     public float radius;
     [SerializeField] private AudioSource audioSource;
 
+    private int clipSize;
+    private float reloadSpeed;
+    private bool isReloading;
+
     private void Start()
     {
         audioSource.volume = 0.5f;
     }
+    private void Update()
+    {
+        if (PlayerScript.instance.equippedWeapon.weaponType != "melee" && isReloading == false && PlayerScript.instance.equippedWeapon.currentAmmoCount <= 0)
+        {
+            isReloading = true;
+            StartCoroutine(Reload());
+        }
+    }
 
     public void SetWeaponData(Weapon weaponData)
     {
+        if (isReloading)
+        {
+            StopAllCoroutines();
+        }
+
         this.id = weaponData.id;
         this.weaponName = weaponData.weaponName;
         this.attackPower = weaponData.attackPower;
@@ -42,11 +55,11 @@ public class WeaponScript : MonoBehaviour
         this.weaponType = weaponData.weaponType;
         this.cooldown = weaponData.cooldown;
         this.weaponRange = weaponData.weaponRange;
-        this.defaultAmmo = weaponData.defaultAmmo;
         this.cost = weaponData.cost;
-        this.weight = weaponData.weight;
-        this.ammoType = weaponData.ammoType;
         this.inShop = weaponData.inShop;
+
+        this.reloadSpeed = weaponData.reloadSpeed;
+        this.clipSize = weaponData.clipSize;
 
         weaponSprite = gameObject.GetComponent<SpriteRenderer>();
         sprite = Resources.Load<Sprite>(this.spritePath);
@@ -56,10 +69,13 @@ public class WeaponScript : MonoBehaviour
         if (weaponData.weaponType == "melee")
         {
             anim.enabled = true;
+            this.isReloading = false;
         }
         else
         {
             anim.enabled = false;
+            if (weaponData.currentAmmoCount <= 0) this.isReloading = true;
+            else this.isReloading = false;
         }
     }
 
@@ -68,24 +84,36 @@ public class WeaponScript : MonoBehaviour
         if (!PlayerScript.instance.equippedWeapon) return;
         if (!limitAttack)
         {
-            switch (this.weaponType)
+            if (!isReloading)
             {
-                case "line":
-                    if (PlayerScript.instance.ammoCount[this.ammoType] > 0) StartCoroutine(FlashMuzzleFlash());
-                    StartCoroutine(LineAttack());
-                    break;
-                case "melee":
-                    StartCoroutine(MeleeAttack());
-                    break;
-                case "akimbo":
-                    if (PlayerScript.instance.ammoCount[this.ammoType] > 0) StartCoroutine(FlashMuzzleFlash());
-                    StartCoroutine(LineAttack());
-                    break;
-                default:
-                    break;
+                switch (this.weaponType)
+                {
+                    case "line":
+                        StartCoroutine(FlashMuzzleFlash());
+                        StartCoroutine(LineAttack());
+                        break;
+                    case "melee":
+                        StartCoroutine(MeleeAttack());
+                        break;
+                    case "akimbo":
+                        StartCoroutine(FlashMuzzleFlash());
+                        StartCoroutine(LineAttack());
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
+
+    IEnumerator Reload()
+    {
+        yield return new WaitForSeconds(this.reloadSpeed);
+        PlayerScript.instance.equippedWeapon.currentAmmoCount = this.clipSize;
+        isReloading = false;
+        yield return null;
+    }
+
     IEnumerator MeleeAttack()
     {
         limitAttack = true;
@@ -136,7 +164,7 @@ public class WeaponScript : MonoBehaviour
     IEnumerator LineAttack()
     {
         limitAttack = true;
-        if (PlayerScript.instance.ammoCount[this.ammoType] > 0)
+        if (PlayerScript.instance.equippedWeapon.currentAmmoCount > 0)
         {
             GameObject bullet;
             switch (this.weaponName)
@@ -144,10 +172,12 @@ public class WeaponScript : MonoBehaviour
                 case "Sniper Rifle":
                     bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Sniper Bullet"), transform.position, transform.rotation);
                     bullet.GetComponent<SniperBulletScript>().Initialise(this.attackPower, this.weaponRange);
+                    --PlayerScript.instance.equippedWeapon.currentAmmoCount;
                     break;
                 default:
                     bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Bullet"), transform.position, transform.rotation);
                     bullet.GetComponent<BulletScript>().Initialise(this.attackPower, this.weaponRange);
+                    --PlayerScript.instance.equippedWeapon.currentAmmoCount;
                     break;
             }
 
@@ -175,9 +205,6 @@ public class WeaponScript : MonoBehaviour
 
             //can add Projectile Speed to CSV (600 here)
             bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 600);
-            --PlayerScript.instance.ammoCount[this.ammoType];
-            PlayerScript.instance.UpdateEquippedAmmoUI();
-            PlayerScript.instance.UpdateInventoryAmmoUI();
             yield return new WaitForSeconds(this.cooldown);
         }
         else

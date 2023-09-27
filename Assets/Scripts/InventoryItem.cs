@@ -20,8 +20,6 @@ public class InventoryItem : MonoBehaviour
     private float attackPower;
     private float cooldown;
     private float range;
-    private float weight;
-    private string ammoType;
 
     private Weapon weaponData;
     private Item itemData;
@@ -45,8 +43,6 @@ public class InventoryItem : MonoBehaviour
             this.attackPower = this.weaponData.attackPower;
             this.cooldown = this.weaponData.cooldown;
             this.range = this.weaponData.weaponRange;
-            this.weight = this.weaponData.weight;
-            this.ammoType = this.weaponData.ammoType;
             this.itemType = null;
 
             this.itemDetailPanel = gameObject.transform.parent.parent.parent.Find("Item Detail Panel").gameObject;
@@ -117,9 +113,6 @@ public class InventoryItem : MonoBehaviour
             this.itemDetailPanel.transform.Find("Weapon AP").GetComponent<TMP_Text>().text = "<color=#fff000>" + this.attackPower + "dmg</color>";
             this.itemDetailPanel.transform.Find("Weapon CD").GetComponent<TMP_Text>().text = "<color=#fff000>" + this.cooldown + "/s</color>";
             this.itemDetailPanel.transform.Find("Weapon Range").GetComponent<TMP_Text>().text = "<color=#fff000>" + this.range + "m</color>";
-            this.itemDetailPanel.transform.Find("Weapon Weight").GetComponent<TMP_Text>().text = "<color=#fff000>" + this.weight + "kg</color>";
-            this.itemDetailPanel.transform.Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = this.ammoType.ToString();
-            if (this.ammoType == "NULL") this.itemDetailPanel.transform.Find("Weapon Ammo Type").GetComponent<TMP_Text>().text = "MELEE";
             foreach (Transform child in this.itemDetailPanel.transform)
             {
                 if (child.name.Contains("Weapon")) child.gameObject.SetActive(true);

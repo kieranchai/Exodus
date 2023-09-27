@@ -21,8 +21,8 @@ MonoBehaviour:
   weaponType: melee
   cooldown: 0.2
   weaponRange: 0
-  defaultAmmo: 0
+  clipSize: 0
+  reloadSpeed: 0
   cost: 1200
-  weight: 0.2
-  ammoType: NULL
+  currentAmmoCount: 0
   inShop: YES

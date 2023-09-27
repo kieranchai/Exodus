@@ -19,9 +19,6 @@ public class PlayerScript : MonoBehaviour
     public string playerName;
     public float maxHealth;
     public float movementSpeed;
-    public int lightAmmoCap;
-    public int mediumAmmoCap;
-    public int heavyAmmoCap;
     public string defaultWeapon;
 
     public float currentHealth;
@@ -40,12 +37,9 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     private Player _data;
 
-    public float weaponWeight = 0;
     public WeaponScript weaponSlot;
     public WeaponScript akimboSlot;
     public Weapon equippedWeapon;
-
-    public Dictionary<string, int> ammoCount = new();
 
     public Dictionary<ScriptableObject, int> inventory = new();
 
@@ -99,8 +93,6 @@ public class PlayerScript : MonoBehaviour
         SetPlayerData(_data);
 
         EquipDefaultWeapon(Resources.Load<Weapon>($"ScriptableObjects/Weapons/{this.defaultWeapon}"));
-
-        UpdateAmmoCount(this.equippedWeapon.defaultAmmo, this.equippedWeapon.ammoType);
     }
 
     private void Update()
@@ -193,7 +185,7 @@ public class PlayerScript : MonoBehaviour
         switch (this.currentState)
         {
             case PLAYER_STATE.NORMAL:
-                this.rb.velocity = this.moveDir * (this.movementSpeed - this.weaponWeight);
+                this.rb.velocity = this.moveDir * (this.movementSpeed);
                 break;
             case PLAYER_STATE.ROLLING:
                 this.rb.velocity = this.rollDir * this.rollSpeed;
@@ -214,9 +206,6 @@ public class PlayerScript : MonoBehaviour
         this.playerName = playerData.playerName;
         this.maxHealth = playerData.health;
         this.movementSpeed = playerData.movementSpeed;
-        this.lightAmmoCap = playerData.lightAmmoCap;
-        this.mediumAmmoCap = playerData.mediumAmmoCap;
-        this.heavyAmmoCap = playerData.heavyAmmoCap;
         this.defaultWeapon = playerData.defaultWeapon;
 
         this.currentHealth = this.maxHealth;
@@ -225,10 +214,6 @@ public class PlayerScript : MonoBehaviour
         this.cash = 0;
         this.experience = 0;
         this.level = 1;
-
-        this.ammoCount.Add("LIGHT", 0);
-        this.ammoCount.Add("MEDIUM", 0);
-        this.ammoCount.Add("HEAVY", 0);
     }
 
     public void TakeDamage(float damage, bool fromZone)
@@ -303,9 +288,7 @@ public class PlayerScript : MonoBehaviour
     {
         equippedWeapon = weaponData;
         weaponSlot.SetWeaponData(weaponData);
-        this.weaponWeight = weaponData.weight;
         RefreshEquippedUI();
-        UpdateEquippedAmmoUI();
     }
 
     public void EquipWeapon(Weapon weaponData)
@@ -320,9 +303,7 @@ public class PlayerScript : MonoBehaviour
             transform.GetChild(1).gameObject.SetActive(true);
         }
 
-        this.weaponWeight = weaponData.weight;
         RefreshEquippedUI();
-        UpdateEquippedAmmoUI();
     }
 
     public void UnequipWeapon()
@@ -332,10 +313,8 @@ public class PlayerScript : MonoBehaviour
         // Set Equipped Weapon Data to FISTS
         weaponSlot.SetWeaponData(Resources.Load<Weapon>("ScriptableObjects/Weapons/Fists"));
         equippedWeapon = Resources.Load<Weapon>("ScriptableObjects/Weapons/Fists");
-        this.weaponWeight = 0;
 
         RefreshEquippedUI();
-        UpdateEquippedAmmoUI();
     }
 
     public void AddToInventory(ScriptableObject itemData)
@@ -362,61 +341,11 @@ public class PlayerScript : MonoBehaviour
             if (equippedWeapon == itemData) UnequipWeapon();
             RefreshInventoryUI();
             RefreshEquippedUI();
-            UpdateEquippedAmmoUI();
-            UpdateInventoryAmmoUI();
         }
         else
         {
             --inventory[itemData];
         }
-    }
-
-    public void UpdateAmmoCount(int ammo, string ammoType)
-    {
-        if (ammoType == "NULL") return;
-        switch (ammoType)
-        {
-            case "LIGHT":
-                if (this.ammoCount[ammoType] + ammo >= this.lightAmmoCap)
-                {
-                    this.ammoCount[ammoType] = this.lightAmmoCap;
-                    UpdateEquippedAmmoUI();
-                    UpdateInventoryAmmoUI();
-                    return;
-                }
-                break;
-            case "MEDIUM":
-                if (this.ammoCount[ammoType] + ammo >= this.mediumAmmoCap)
-                {
-                    this.ammoCount[ammoType] = this.mediumAmmoCap;
-                    UpdateEquippedAmmoUI();
-                    UpdateInventoryAmmoUI();
-                    return;
-                }
-                break;
-            case "HEAVY":
-                if (this.ammoCount[ammoType] + ammo >= this.heavyAmmoCap)
-                {
-                    this.ammoCount[ammoType] = this.heavyAmmoCap;
-                    UpdateEquippedAmmoUI();
-                    UpdateInventoryAmmoUI();
-                    return;
-                }
-                break;
-            default:
-                break;
-        }
-        this.ammoCount[ammoType] += ammo;
-        UpdateEquippedAmmoUI();
-        UpdateInventoryAmmoUI();
-    }
-
-    public void UpdateInventoryAmmoUI()
-    {
-        playerPanel.transform.Find("Inventory Panel").Find("Light Ammo Count").gameObject.GetComponent<TMP_Text>().text = this.ammoCount["LIGHT"].ToString();
-        playerPanel.transform.Find("Inventory Panel").Find("Medium Ammo Count").gameObject.GetComponent<TMP_Text>().text = this.ammoCount["MEDIUM"].ToString();
-        playerPanel.transform.Find("Inventory Panel").Find("Heavy Ammo Count").gameObject.GetComponent<TMP_Text>().text = this.ammoCount["HEAVY"].ToString();
-
     }
 
     public void HideInventoryItemDetailUI()
@@ -447,20 +376,6 @@ public class PlayerScript : MonoBehaviour
         {
             playerPanel.transform.Find("Equipped Weapon").Find("Weapon Name").GetComponent<TMP_Text>().text = equippedWeapon.weaponName;
             playerPanel.transform.Find("Equipped Weapon").Find("Weapon Image").Find("Weapon").GetComponent<Image>().sprite = Resources.Load<Sprite>(equippedWeapon.thumbnailPath);
-        }
-    }
-
-    public void UpdateEquippedAmmoUI()
-    {
-        if (this.equippedWeapon.weaponType == "melee")
-        {
-            this.playerPanel.transform.Find("Ammo Count").gameObject.GetComponent<TMP_Text>().text = "";
-            this.playerPanel.transform.Find("Ammo Type").gameObject.GetComponent<TMP_Text>().text = "MELEE";
-        }
-        else
-        {
-            this.playerPanel.transform.Find("Ammo Count").gameObject.GetComponent<TMP_Text>().text = this.ammoCount[this.equippedWeapon.ammoType].ToString();
-            this.playerPanel.transform.Find("Ammo Type").gameObject.GetComponent<TMP_Text>().text = this.equippedWeapon.ammoType.ToUpper();
         }
     }
 

@@ -16,7 +16,4 @@ MonoBehaviour:
   playerName: Jonesy
   health: 100
   movementSpeed: 5
-  lightAmmoCap: 500
-  mediumAmmoCap: 500
-  heavyAmmoCap: 500
   defaultWeapon: Fists

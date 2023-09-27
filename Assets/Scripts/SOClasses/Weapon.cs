@@ -12,9 +12,9 @@ public class Weapon : ScriptableObject
     public string weaponType;
     public float cooldown;
     public float weaponRange;
-    public int defaultAmmo;
+    public int clipSize;
+    public float reloadSpeed;
     public int cost;
-    public float weight;
-    public string ammoType;
+    public int currentAmmoCount;
     public string inShop;
 }

@@ -7,8 +7,5 @@ public class Player : ScriptableObject
     public string playerName;
     public float health;
     public float movementSpeed;
-    public int lightAmmoCap;
-    public int mediumAmmoCap;
-    public int heavyAmmoCap;
     public string defaultWeapon;
 }

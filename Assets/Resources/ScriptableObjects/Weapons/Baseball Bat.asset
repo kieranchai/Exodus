@@ -15,14 +15,14 @@ MonoBehaviour:
   id: 7
   weaponName: Baseball Bat
   description: Good for balls but great against aliens!
-  attackPower: 6
+  attackPower: 5
   spritePath: Sprites/Baseball Bat
   thumbnailPath: UISprites/Baseball Bat
   weaponType: melee
   cooldown: 0.8
   weaponRange: 0
-  defaultAmmo: 0
+  clipSize: 0
+  reloadSpeed: 0
   cost: 30
-  weight: 0.2
-  ammoType: NULL
+  currentAmmoCount: 0
   inShop: YES
