@@ -42,36 +42,14 @@ public class ShopController : MonoBehaviour
     private void Start()
     {
         audioSource.volume = 0.5f;
-        if (GameController.instance.currentState == GameController.GAME_STATE.TUTORIAL)
+        Weapon[] allWeapons = Resources.LoadAll<Weapon>("ScriptableObjects/Weapons");
+        Array.Sort(allWeapons, (a, b) => a.cost - b.cost);
+        foreach (Weapon weaponData in allWeapons)
         {
-            Item[] allItems = Resources.LoadAll<Item>("ScriptableObjects/Items");
-            foreach (Item itemData in allItems)
-            {
-                if (itemData.itemName != "Light Ammo") continue;
-                GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
-                shopItem.GetComponent<ShopItem>().Initialise(itemData, "buy");
-            }
-        }
-        else
-        {
-            Item[] allItems = Resources.LoadAll<Item>("ScriptableObjects/Items");
-            Array.Sort(allItems, (a, b) => a.cost - b.cost);
-            foreach (Item itemData in allItems)
-            {
-                if (itemData.inShop == "NO") continue;
-                GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
-                shopItem.GetComponent<ShopItem>().Initialise(itemData, "buy");
-            }
-
-            Weapon[] allWeapons = Resources.LoadAll<Weapon>("ScriptableObjects/Weapons");
-            Array.Sort(allWeapons, (a, b) => a.cost - b.cost);
-            foreach (Weapon weaponData in allWeapons)
-            {
-                weaponData.currentAmmoCount = weaponData.clipSize;
-                if (weaponData.inShop == "NO") continue;
-                GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
-                shopItem.GetComponent<ShopItem>().Initialise(weaponData, "buy");
-            }
+            weaponData.currentAmmoCount = weaponData.clipSize;
+            if (weaponData.inShop == "NO") continue;
+            GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
+            shopItem.GetComponent<ShopItem>().Initialise(weaponData, "buy");
         }
     }
 
@@ -87,7 +65,7 @@ public class ShopController : MonoBehaviour
             shopPanel.transform.Find("Item Detail Panel").gameObject.SetActive(false);
         }
 
-        if(shopButton)
+        if (shopButton)
         {
             shopButton.transform.position = PlayerScript.instance.transform.position + new Vector3(0, 0.5f);
         }
@@ -107,7 +85,7 @@ public class ShopController : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             PlayerScript.instance.isInShop = false;
-            if(PlayerScript.instance.CanSeeShop) GameController.instance.isOverUI = false;
+            if (PlayerScript.instance.CanSeeShop) GameController.instance.isOverUI = false;
             PlayerScript.instance.CanSeeShop = false;
             Destroy(shopButton);
             shopButton = null;
@@ -147,10 +125,10 @@ public class ShopController : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        foreach (KeyValuePair<ScriptableObject, int> item in PlayerScript.instance.inventory)
+        foreach (Weapon weapon in PlayerScript.instance.inventory)
         {
             GameObject shopInventoryItem = Instantiate(shopItemPrefab, sellPanel.transform.Find("Weapon Slots"));
-            shopInventoryItem.GetComponent<ShopItem>().Initialise(item.Key, "sell");
+            shopInventoryItem.GetComponent<ShopItem>().Initialise(weapon, "sell");
         }
     }
 }

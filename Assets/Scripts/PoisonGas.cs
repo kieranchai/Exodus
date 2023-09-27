@@ -55,9 +55,6 @@ public class PoisonGas : MonoBehaviour
         {
             this.hasAlerted = true;
             //Event when gas touch safe zone
-            PlayerScript.instance.AlertPopup("gasCovered");
-            ShopController.instance.shopPanel.SetActive(false);
-            ShopController.instance.gameObject.SetActive(false);
         }
     }
 

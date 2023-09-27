@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -41,7 +40,7 @@ public class PlayerScript : MonoBehaviour
     public WeaponScript akimboSlot;
     public Weapon equippedWeapon;
 
-    public Dictionary<ScriptableObject, int> inventory = new();
+    public List<Weapon> inventory = new();
 
     public GameObject playerPanel;
     [SerializeField] private GameObject inventoryItemPrefab;
@@ -65,6 +64,8 @@ public class PlayerScript : MonoBehaviour
     }
 
     public PLAYER_STATE currentState;
+
+    public int weaponNumber;
 
     void Awake()
     {
@@ -263,8 +264,8 @@ public class PlayerScript : MonoBehaviour
     public void UpdateHealth(float value)
     {
         this.currentHealth += value;
-        if(this.currentHealth >= this.maxHealth) this.currentHealth = this.maxHealth;
-        if(value >= 0)
+        if (this.currentHealth >= this.maxHealth) this.currentHealth = this.maxHealth;
+        if (value >= 0)
         {
             Transform healPopUpTransform = Instantiate(healPopUpPrefab, transform.position, Quaternion.identity);
             DamagePopup healPopUp = healPopUpTransform.GetComponent<DamagePopup>();
@@ -282,22 +283,23 @@ public class PlayerScript : MonoBehaviour
     {
         equippedWeapon = weaponData;
         weaponSlot.SetWeaponData(weaponData);
+        weaponNumber = -1;
         RefreshEquippedUI();
     }
 
     public void EquipWeapon(Weapon weaponData)
     {
-        if (!inventory.ContainsKey(weaponData)) return;
         equippedWeapon = weaponData;
         weaponSlot.SetWeaponData(weaponData);
         transform.GetChild(1).gameObject.SetActive(false);
         if (weaponData.weaponType == "akimbo")
         {
-            transform.GetChild(1).gameObject.GetComponent<WeaponScript>().SetWeaponData(weaponData);
             transform.GetChild(1).gameObject.SetActive(true);
+            transform.GetChild(1).gameObject.GetComponent<WeaponScript>().SetWeaponData(weaponData);
         }
-
+        weaponNumber = inventory.FindIndex(a => a == weaponData);
         RefreshEquippedUI();
+        RefreshInventoryUI();
     }
 
     public void UnequipWeapon()
@@ -307,39 +309,26 @@ public class PlayerScript : MonoBehaviour
         // Set Equipped Weapon Data to FISTS
         weaponSlot.SetWeaponData(Resources.Load<Weapon>("ScriptableObjects/Weapons/Fists"));
         equippedWeapon = Resources.Load<Weapon>("ScriptableObjects/Weapons/Fists");
+        weaponNumber = -1;
 
         RefreshEquippedUI();
     }
 
-    public void AddToInventory(ScriptableObject itemData)
+    public void AddToInventory(Weapon weaponData)
     {
-        if (!inventory.ContainsKey(itemData))
-        {
-            inventory.Add(itemData, 1);
-        }
-        else
-        {
-            ++inventory[itemData];
-        }
-
+        inventory.Add(weaponData);
         GameObject inventoryItem = Instantiate(inventoryItemPrefab, playerPanel.transform.Find("Inventory Panel").Find("Inventory Items Panel").Find("Item Slots"));
-        inventoryItem.GetComponent<InventoryItem>().Initialise(itemData);
-        RefreshInventoryUI();
+        inventoryItem.GetComponent<InventoryItem>().Initialise(weaponData);
+        UnequipWeapon();
+        EquipWeapon(weaponData);
     }
 
-    public void RemoveFromInventory(ScriptableObject itemData)
+    public void RemoveFromInventory(Weapon weaponData)
     {
-        if (inventory[itemData] == 1)
-        {
-            inventory.Remove(itemData);
-            if (equippedWeapon == itemData) UnequipWeapon();
-            RefreshInventoryUI();
-            RefreshEquippedUI();
-        }
-        else
-        {
-            --inventory[itemData];
-        }
+        inventory.Remove(weaponData);
+        if (equippedWeapon == weaponData) UnequipWeapon();
+        RefreshInventoryUI();
+        RefreshEquippedUI();
     }
 
     public void HideInventoryItemDetailUI()
@@ -351,16 +340,8 @@ public class PlayerScript : MonoBehaviour
     {
         foreach (Transform child in playerPanel.transform.Find("Inventory Panel").Find("Inventory Items Panel").Find("Item Slots"))
         {
-            Destroy(child.gameObject);
-        }
-
-        if (inventory.Count > 0)
-        {
-            foreach (KeyValuePair<ScriptableObject, int> item in inventory)
-            {
-                GameObject inventoryItem = Instantiate(inventoryItemPrefab, playerPanel.transform.Find("Inventory Panel").Find("Inventory Items Panel").Find("Item Slots"));
-                inventoryItem.GetComponent<InventoryItem>().Initialise(item.Key);
-            }
+            if (!inventory.Contains(child.gameObject.GetComponent<InventoryItem>().weaponData)) Destroy(child.gameObject);
+            child.gameObject.GetComponent<InventoryItem>().Check();
         }
     }
 
@@ -419,35 +400,6 @@ public class PlayerScript : MonoBehaviour
         ShopController.instance.DisplayBuyPanel();
     }
 
-    public void AlertPopup(string alertType)
-    {
-        string alertText = "";
-
-        switch (alertType)
-        {
-            case "health":
-                alertText = "You are already at full health.";
-                break;
-            case "speed":
-                alertText = "You are already affected by STIM. Try again later.";
-                break;
-            case "gas":
-                alertText = "You have already stopped the gas. Try again later.";
-                break;
-            case "gasEnded":
-                alertText = "The gas has already finished spreading.";
-                break;
-            case "gasCovered":
-                alertText = "The gas has covered the entire planet. The shop will now stop operating.";
-                break;
-            default:
-                break;
-        }
-        playerPanel.transform.Find("Alert").Find("Text").gameObject.GetComponent<TMP_Text>().text = alertText;
-        StopCoroutine(DisplayAlert());
-        StartCoroutine(DisplayAlert());
-    }
-
     public void UpdateStimTimerUI(float timer, float duration)
     {
         this.playerPanel.transform.Find("Stim Buff").gameObject.SetActive(true);
@@ -465,15 +417,6 @@ public class PlayerScript : MonoBehaviour
     {
         Vector2 mousePos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.up = (Vector3)(mousePos - new Vector2(transform.position.x, transform.position.y));
-    }
-
-    IEnumerator DisplayAlert()
-    {
-        audioSource.clip = Resources.Load<AudioClip>($"Audio/Alert");
-        audioSource.Play();
-        playerPanel.transform.Find("Alert").gameObject.SetActive(true);
-        yield return new WaitForSeconds(3);
-        playerPanel.transform.Find("Alert").gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

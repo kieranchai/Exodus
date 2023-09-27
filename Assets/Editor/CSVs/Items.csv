@@ -1,7 +1,0 @@
-1,Light Ammo,Replenishes your [type] by [primaryValue],LIGHT AMMO,60,NULL,50,UISprites/Light Ammo,YES
-2,Medium Ammo,Replenishes your [type] by [primaryValue],MEDIUM AMMO,60,NULL,168,UISprites/Medium Ammo,YES
-3,Heavy Ammo,Replenishes your [type] by [primaryValue],HEAVY AMMO,5,NULL,500,UISprites/Heavy Ammo,YES
-4,Bandage,Replenishes your HEALTH by [primaryValue] HP.,SMALL HEALTH,50,NULL,70,UISprites/Bandage,YES
-5,Med Kit,Replenishes your HEALTH by [primaryValue] HP.,BIG HEALTH,100,NULL,130,UISprites/Med Kit,YES
-6,Stim,Increases your [type] by [primaryValue] for [secondaryValue] seconds.,MOVEMENT SPEED,2,5,150,UISprites/Stim,YES
-7,Gas Stopper,Stops [type] for [primaryValue] seconds.,GAS,15,NULL,300,UISprites/Gas Stopper,YES

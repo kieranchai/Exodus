@@ -27,9 +27,12 @@ public class WeaponScript : MonoBehaviour
     private float reloadSpeed;
     private bool isReloading;
 
+    public Vector3 initialPos;
+
     private void Start()
     {
         audioSource.volume = 0.5f;
+        initialPos = transform.localPosition;
     }
     private void Update()
     {
@@ -42,10 +45,7 @@ public class WeaponScript : MonoBehaviour
 
     public void SetWeaponData(Weapon weaponData)
     {
-        if (isReloading)
-        {
-            StopAllCoroutines();
-        }
+        StopAllCoroutines();
 
         this.id = weaponData.id;
         this.weaponName = weaponData.weaponName;
@@ -74,9 +74,28 @@ public class WeaponScript : MonoBehaviour
         else
         {
             anim.enabled = false;
-            if (weaponData.currentAmmoCount <= 0) this.isReloading = true;
+            if (weaponData.currentAmmoCount <= 0)
+            {
+                this.isReloading = true;
+                StartCoroutine(Reload());
+            }
             else this.isReloading = false;
         }
+
+        if(gameObject.transform.name != "Akimbo Slot")
+        {
+            transform.localPosition = initialPos;
+            Vector3 eulerRotation = transform.rotation.eulerAngles;
+            transform.localRotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0);
+        }
+        limitAttack = true;
+        StartCoroutine(BufferTime());
+    }
+
+    IEnumerator BufferTime()
+    {
+        yield return new WaitForSeconds(this.cooldown);
+        limitAttack = false;
     }
 
     public void TryAttack()

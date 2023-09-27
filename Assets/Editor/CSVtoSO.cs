@@ -6,7 +6,6 @@ public class CSVtoSO
 {
     private static string playerCSVPath = "/Assets/Editor/CSVs/Player.csv";
     private static string weaponCSVPath = "/Assets/Editor/CSVs/Weapons.csv";
-    private static string itemCSVPath = "/Assets/Editor/CSVs/Items.csv";
     private static string enemyCSVPath = "/Assets/Editor/CSVs/Enemies.csv";
 
     [MenuItem("Utilities/Generate Player")]
@@ -67,37 +66,6 @@ public class CSVtoSO
             weapon.inShop = splitData[12];
 
             AssetDatabase.CreateAsset(weapon, $"Assets/Resources/ScriptableObjects/Weapons/{weapon.weaponName}.asset");
-        }
-
-        AssetDatabase.SaveAssets();
-    }
-
-    [MenuItem("Utilities/Generate Items")]
-    public static void GenerateItems()
-    {
-        string[] allLines = File.ReadAllLines(System.IO.Directory.GetCurrentDirectory() + itemCSVPath);
-
-        foreach (string s in allLines)
-        {
-            string[] splitData = s.Split(',');
-
-            if (splitData.Length != 9)
-            {
-                return;
-            }
-
-            Item item = ScriptableObject.CreateInstance<Item>();
-            item.id = int.Parse(splitData[0]);
-            item.itemName = splitData[1];
-            item.description = splitData[2];
-            item.type = splitData[3];
-            item.primaryValue = splitData[4];
-            item.secondaryValue = splitData[5];
-            item.cost = int.Parse(splitData[6]);
-            item.thumbnailPath = splitData[7];
-            item.inShop = splitData[8];
-
-            AssetDatabase.CreateAsset(item, $"Assets/Resources/ScriptableObjects/Items/{item.itemName}.asset");
         }
 
         AssetDatabase.SaveAssets();

@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject deathScreen;
 
-    private bool stimCD = false;
+    /*private bool stimCD = false;*/
 
     private bool hasLoadedEndCutscene = false;
 
@@ -141,6 +141,23 @@ public class GameController : MonoBehaviour
                 PlayerScript.instance.akimboSlot.TryAttack();
             }
         }
+
+        if (Input.GetAxis("Mouse ScrollWheel") != 0 && !isOverUI && PlayerScript.instance.inventory.Count > 1)
+        {
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            {
+                PlayerScript.instance.weaponNumber++;
+                if (PlayerScript.instance.weaponNumber >= PlayerScript.instance.inventory.Count) PlayerScript.instance.weaponNumber = 0;
+            }
+            if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            {
+                PlayerScript.instance.weaponNumber--;
+                if (PlayerScript.instance.weaponNumber < 0) PlayerScript.instance.weaponNumber = PlayerScript.instance.inventory.Count - 1;
+            }
+            PlayerScript.instance.EquipWeapon(PlayerScript.instance.inventory[PlayerScript.instance.weaponNumber]);
+            PlayerScript.instance.HideInventoryItemDetailUI();
+        }
+
         if (Input.GetKeyDown(KeyCode.Tab)) PlayerScript.instance.ToggleInventoryView();
         if (Input.GetKeyDown(KeyCode.E)) Interact();
 
@@ -382,58 +399,7 @@ public class GameController : MonoBehaviour
         isOverUI = false;
     }
 
-    public bool UseItem(Item itemData)
-    {
-        switch (itemData.type)
-        {
-            case "SMALL HEALTH":
-                if (PlayerScript.instance.currentHealth == PlayerScript.instance.maxHealth)
-                {
-                    PlayerScript.instance.AlertPopup("health");
-                    return false;
-                }
-                PlayerScript.instance.audioSource.clip = Resources.Load<AudioClip>($"Audio/Bandage");
-                PlayerScript.instance.audioSource.Play();
-                StartCoroutine(ItemHealth(itemData));
-                break;
-            case "BIG HEALTH":
-                if (PlayerScript.instance.currentHealth == PlayerScript.instance.maxHealth)
-                {
-                    PlayerScript.instance.AlertPopup("health");
-                    return false;
-                }
-                PlayerScript.instance.audioSource.clip = Resources.Load<AudioClip>($"Audio/Med Kit");
-                PlayerScript.instance.audioSource.Play();
-                StartCoroutine(ItemHealth(itemData));
-                break;
-            case "MOVEMENT SPEED":
-                if (this.stimCD)
-                {
-                    PlayerScript.instance.AlertPopup("speed");
-                    return false;
-                }
-                StartCoroutine(ItemStim(itemData));
-                break;
-            case "GAS":
-                if (PoisonGas.instance.hasReached)
-                {
-                    PlayerScript.instance.AlertPopup("gasEnded");
-                    return false;
-                }
-                else if (PoisonGas.instance.itemUsed)
-                {
-                    PlayerScript.instance.AlertPopup("gas");
-                    return false;
-                }
-                StartCoroutine(ItemGas(itemData));
-                break;
-            default:
-                break;
-        }
-        return true;
-    }
-
-    IEnumerator ItemHealth(Item itemData)
+    /*IEnumerator ItemHealth(Item itemData)
     {
         PlayerScript.instance.UpdateHealth(float.Parse(itemData.primaryValue));
         yield return null;
@@ -460,5 +426,5 @@ public class GameController : MonoBehaviour
         PoisonGas.instance.itemUsed = true;
         yield return new WaitForSeconds(float.Parse(itemData.primaryValue));
         PoisonGas.instance.itemUsed = false;
-    }
+    }*/
 }
