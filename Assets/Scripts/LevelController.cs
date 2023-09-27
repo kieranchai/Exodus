@@ -3,10 +3,7 @@ using System;
 public class LevelController : MonoBehaviour
 {
     public static LevelController instance { get; private set; }
-    public float xpNeeded;
-    public float healthBuff;
-    public Levels[] allLevels;
-    public bool isMaxLvl;
+    public int xpNeeded;
 
     private void Awake()
     {
@@ -20,26 +17,14 @@ public class LevelController : MonoBehaviour
 
     private void Start()
     {
-        allLevels = Resources.LoadAll<Levels>("ScriptableObjects/Levels");
-        Array.Sort(allLevels, (a, b) => a.levelId - b.levelId);
-        this.xpNeeded = allLevels[0].xpNeeded;
-        this.healthBuff = allLevels[0].healthBuff;
-        isMaxLvl = false;
+        this.xpNeeded = 0;
+        CalculateXpNeeded();
     }
 
-    public void UpdateLevelsModifier()
+    public void CalculateXpNeeded()
     {
-        for (int i = 0; i < allLevels.Length; i++)
-        {
-            if (PlayerScript.instance.level == allLevels[i].levelId)
-            {
-                this.xpNeeded = allLevels[i].xpNeeded;
-                this.healthBuff = allLevels[i].healthBuff;
-            } else if (PlayerScript.instance.level == allLevels[^1].levelId) {
-                this.xpNeeded = allLevels[i].xpNeeded;
-                this.healthBuff = allLevels[i].healthBuff;
-                isMaxLvl = true;
-            }
-        }
+        //xp = 100(1+0.1)^level
+        this.xpNeeded = (int)(100 * Math.Pow((1 + 0.1), PlayerScript.instance.level));
     }
 }
+ 

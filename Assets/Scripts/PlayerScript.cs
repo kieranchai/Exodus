@@ -23,7 +23,7 @@ public class PlayerScript : MonoBehaviour
 
     public float currentHealth;
     public int cash;
-    public float experience;
+    public int experience;
     public int level;
 
     private Vector3 moveDir;
@@ -242,27 +242,21 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void UpdateExperience(float experience)
+    public void UpdateExperience(int experience)
     {
         this.experience += experience;
 
         if (this.experience >= LevelController.instance.xpNeeded)
         {
-            if (LevelController.instance.isMaxLvl)
-            {
-                return;
-            }
             this.experience -= LevelController.instance.xpNeeded;
             level++;
+            LevelController.instance.CalculateXpNeeded();
 
             Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
             DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
             damagePopup.SetupLevelUp();
 
             playerPanel.transform.Find("Level").GetComponent<TMP_Text>().text = $"Lvl.{level}";
-            LevelController.instance.UpdateLevelsModifier();
-            maxHealth = LevelController.instance.healthBuff;
-            currentHealth = maxHealth;
         }
     }
 

@@ -16,7 +16,6 @@ public class ExperienceBar : MonoBehaviour
 
     private void XPBarFiller()
     {
-        experiencebar.fillAmount = Mathf.Lerp(experiencebar.fillAmount, PlayerScript.instance.experience / LevelController.instance.xpNeeded, lerpSpeed);
+        experiencebar.fillAmount = Mathf.Lerp(experiencebar.fillAmount, (float)PlayerScript.instance.experience / (float)LevelController.instance.xpNeeded, lerpSpeed);
     }
-
 }

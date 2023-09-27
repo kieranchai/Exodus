@@ -8,8 +8,6 @@ public class CSVtoSO
     private static string weaponCSVPath = "/Assets/Editor/CSVs/Weapons.csv";
     private static string itemCSVPath = "/Assets/Editor/CSVs/Items.csv";
     private static string enemyCSVPath = "/Assets/Editor/CSVs/Enemies.csv";
-    private static string levelsCSVPath = "/Assets/Editor/CSVs/Levels.csv";
-
 
     [MenuItem("Utilities/Generate Player")]
     public static void GeneratePlayer()
@@ -134,26 +132,6 @@ public class CSVtoSO
             AssetDatabase.CreateAsset(enemy, $"Assets/Resources/ScriptableObjects/Enemies/{enemy.id}.asset");
         }
 
-        AssetDatabase.SaveAssets();
-    }
-
-    [MenuItem("Utilities/Generate Levels")]
-    public static void GenerateLevels() {
-        string[] allLines = File.ReadAllLines(System.IO.Directory.GetCurrentDirectory() + levelsCSVPath);
-
-        foreach (string s in allLines) {
-            string[] splitData = s.Split(',');
-            if (splitData.Length != 3) {
-                return;
-            }
-
-            Levels level = ScriptableObject.CreateInstance<Levels>();
-            level.levelId = int.Parse(splitData[0]);
-            level.xpNeeded = float.Parse(splitData[1]);
-            level.healthBuff = float.Parse(splitData[2]);
-
-            AssetDatabase.CreateAsset(level, $"Assets/Resources/ScriptableObjects/Levels/{level.levelId}.asset");
-        }
         AssetDatabase.SaveAssets();
     }
 }
