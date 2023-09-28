@@ -56,11 +56,6 @@ public class InventoryItem : MonoBehaviour
         this.itemDetailPanel.transform.Find("Item Description").GetComponent<TMP_Text>().text = this.description;
         this.itemDetailPanel.transform.Find("Item Thumbnail").GetComponent<Image>().sprite = Resources.Load<Sprite>(this.thumbnailPath);
 
-        foreach (Transform child in this.itemDetailPanel.transform)
-        {
-            if (child.name.Contains("Weapon")) child.gameObject.SetActive(false);
-        }
-
         if (PlayerScript.instance.equippedWeapon == this.weaponData)
         {
             this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "UNEQUIP";

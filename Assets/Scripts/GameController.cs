@@ -142,8 +142,9 @@ public class GameController : MonoBehaviour
             }
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") != 0 && !isOverUI && PlayerScript.instance.inventory.Count > 1)
+        if (Input.GetAxis("Mouse ScrollWheel") != 0 && !isOverUI && PlayerScript.instance.inventory.Count > 0)
         {
+            if (PlayerScript.instance.inventory.Count == 1 && PlayerScript.instance.weaponNumber == PlayerScript.instance.inventory.Count - 1) return;
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
                 PlayerScript.instance.weaponNumber++;
