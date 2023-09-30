@@ -230,5 +230,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c41445ab672a31428a74f80e0bf2d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionRate: 15
+  explosionRate: 30
   audioSource: {fileID: 486856536470707718}
