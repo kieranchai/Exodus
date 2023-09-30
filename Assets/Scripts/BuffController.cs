@@ -17,6 +17,8 @@ public class BuffController : MonoBehaviour
     private GameObject buffSelectionPanel;
     private GameObject upgradeTokens;
 
+    private WeaponScript weaponScript;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -40,6 +42,7 @@ public class BuffController : MonoBehaviour
     {
         UpdatePlayerTokensDisplay();
         RandomiseBuffs();
+        weaponScript = PlayerScript.instance.weaponSlot;
     }
 
     public void UpdatePlayerTokensDisplay()
@@ -96,7 +99,7 @@ public class BuffController : MonoBehaviour
         }
 
         --PlayerScript.instance.buffTokens;
-        CalculatePlayerBuffs();
+        UpdatePlayerBuffs();
         UpdatePlayerTokensDisplay();
         RandomiseBuffs();
     }
@@ -107,7 +110,7 @@ public class BuffController : MonoBehaviour
         RandomiseBuffs();
     }
 
-    private void CalculatePlayerBuffs()
+    private void UpdatePlayerBuffs()
     {
         foreach (var buff in PlayerScript.instance.buffList)
         {
@@ -139,7 +142,7 @@ public class BuffController : MonoBehaviour
                             float dCDVal = 1 - float.Parse(buff.Key.value.Replace("%", "")) / 100; //0.9 = 1 - 0.1
                             //base rollcd = 3
                             //rollcd = 3 x 0.9 ^ count
-                            PlayerScript.instance.rollCD = (float) (3 * Math.Pow(dCDVal, buff.Value));
+                            PlayerScript.instance.rollCD = (float)(3 * Math.Pow(dCDVal, buff.Value));
                             break;
                         default:
                             break;
@@ -151,22 +154,40 @@ public class BuffController : MonoBehaviour
                     switch (buff.Key.type)
                     {
                         case "explode":
+                            float mExplodeDmg = float.Parse(buff.Key.value);
+                            weaponScript.meleeExplodeDmg = mExplodeDmg;
                             break;
                         case "lifesteal":
+                            //TODO
                             break;
                         case "crit":
+                            float mCrit = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
+                            float mCritDmg = float.Parse(buff.Key.secValue.Replace("%", "")) / 100;
+                            weaponScript.meleeCritDamageMultiplier = mCritDmg;
+                            weaponScript.meleeCritChance = (float)Math.Pow(mCrit, buff.Value); 
                             break;
                         case "special":
+                            //TODO
                             break;
                         case "fireRate":
+                            float mFRate = 1 - float.Parse(buff.Key.value.Replace("%", "")) / 100;
+                            weaponScript.meleeFireRateMultiplier = (float)Math.Pow(mFRate, buff.Value);
                             break;
                         case "dmgBlock":
+                            float mDBlock = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
+                            PlayerScript.instance.meleeDmgBlockMultiplier = (float)Math.Pow(mDBlock, buff.Value);
                             break;
                         case "bleed":
+                            float mBleed = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
+                            weaponScript.meleeBleedChance = (float)Math.Pow(mBleed, buff.Value);
+                            weaponScript.meleeBleedDmg = float.Parse(buff.Key.secValue);
                             break;
                         case "pickpocket":
+                            //TODO
                             break;
                         case "damage":
+                            float mDVal = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
+                            weaponScript.meleeDmgMultiplier = (float)Math.Pow(mDVal, buff.Value);
                             break;
                         default:
                             break;

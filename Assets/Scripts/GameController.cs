@@ -160,10 +160,6 @@ public class GameController : MonoBehaviour
         if (Input.GetMouseButton(0) && !isOverUI && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
         {
             PlayerScript.instance.weaponSlot.TryAttack();
-            if (PlayerScript.instance.equippedWeapon && PlayerScript.instance.equippedWeapon.weaponType == "akimbo")
-            {
-                PlayerScript.instance.akimboSlot.TryAttack();
-            }
         }
 
         if (Input.GetAxis("Mouse ScrollWheel") != 0 && !isOverUI && PlayerScript.instance.inventory.Count > 0)
@@ -211,10 +207,6 @@ public class GameController : MonoBehaviour
             if (Input.GetMouseButton(0) && !isOverUI && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
             {
                 PlayerScript.instance.weaponSlot.TryAttack();
-                if (PlayerScript.instance.equippedWeapon && PlayerScript.instance.equippedWeapon.weaponType == "akimbo")
-                {
-                    PlayerScript.instance.akimboSlot.TryAttack();
-                }
             }
         }
 

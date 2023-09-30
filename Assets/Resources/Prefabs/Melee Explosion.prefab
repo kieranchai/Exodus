@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 20186366220587446}
   - component: {fileID: 3800275632666989868}
   - component: {fileID: 1791877339114643183}
-  - component: {fileID: 451257616243125721}
-  - component: {fileID: 6899645881030666000}
+  - component: {fileID: 486856536470707718}
+  - component: {fileID: 1695750865486474161}
   m_Layer: 0
-  m_Name: Heretic Explosion
+  m_Name: Melee Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8387984150851301405}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.21318, y: 0.02282, z: 0}
+  m_LocalPosition: {x: 12.224, y: 0.012, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -122,21 +122,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.32
---- !u!114 &451257616243125721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8387984150851301405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2b588e70e0292f41916aac201ba9add, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosionRate: 30
-  audioSource: {fileID: 6899645881030666000}
---- !u!82 &6899645881030666000
+--- !u!82 &486856536470707718
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,3 +218,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1695750865486474161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8387984150851301405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c41445ab672a31428a74f80e0bf2d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionRate: 15
+  audioSource: {fileID: 486856536470707718}

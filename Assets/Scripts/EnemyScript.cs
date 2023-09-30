@@ -208,6 +208,7 @@ public class EnemyScript : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        if (this.currentHealth <= 0) return;
         Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
         DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
         damagePopup.Setup(damage);
@@ -281,5 +282,17 @@ public class EnemyScript : MonoBehaviour
             yield return null;
         }
         enemySprite.color = initialColor;
+    }
+
+    public IEnumerator Bleed(float damage)
+    {
+        for(int i = 0; i<5; i++)
+        {
+            this.TakeDamage(damage);
+            //TODO: Play particle/vfx etc
+            yield return new WaitForSeconds(1);
+        }
+
+        yield return null;
     }
 }

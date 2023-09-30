@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics.Contracts;
 using UnityEngine;
 
 public class WeaponScript : MonoBehaviour
@@ -28,6 +29,14 @@ public class WeaponScript : MonoBehaviour
     private bool isReloading;
 
     public Vector3 initialPos;
+
+    public float meleeDmgMultiplier = 1;
+    public float meleeBleedChance = 0;
+    public float meleeBleedDmg = 0;
+    public float meleeFireRateMultiplier = 1;
+    public float meleeCritChance = 0;
+    public float meleeCritDamageMultiplier = 0;
+    public float meleeExplodeDmg = 0;
 
     private void Start()
     {
@@ -82,12 +91,9 @@ public class WeaponScript : MonoBehaviour
             else this.isReloading = false;
         }
 
-        if(gameObject.transform.name != "Akimbo Slot")
-        {
-            transform.localPosition = initialPos;
-            Vector3 eulerRotation = transform.rotation.eulerAngles;
-            transform.localRotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0);
-        }
+        transform.localPosition = initialPos;
+        Vector3 eulerRotation = transform.rotation.eulerAngles;
+        transform.localRotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0);
         limitAttack = true;
         StartCoroutine(BufferTime());
     }
@@ -114,10 +120,6 @@ public class WeaponScript : MonoBehaviour
                     case "melee":
                         StartCoroutine(MeleeAttack());
                         break;
-                    case "akimbo":
-                        StartCoroutine(FlashMuzzleFlash());
-                        StartCoroutine(LineAttack());
-                        break;
                     default:
                         break;
                 }
@@ -140,17 +142,63 @@ public class WeaponScript : MonoBehaviour
         {
             if (collider.gameObject.CompareTag("Enemy"))
             {
-                collider.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower);
+                //Crit
+                if (this.meleeCritChance > 0 && Random.Range(0, 1f) < this.meleeCritChance - 1)
+                {
+                    collider.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier);
+                }
+                else
+                {
+                    collider.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier);
+                }
+
+                //Bleed
+                if (this.meleeBleedChance > 0 && Random.Range(0, 1f) < this.meleeBleedChance - 1)
+                {
+                    collider.gameObject.GetComponent<EnemyScript>().StartCoroutine(collider.gameObject.GetComponent<EnemyScript>().Bleed(this.meleeBleedDmg));
+                }
+
+                //Explode
+                if (this.meleeExplodeDmg > 0)
+                {
+                    ContactPoint2D[] contacts = new ContactPoint2D[1];
+                    collider.GetContacts(contacts);
+                    GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Melee Explosion"), contacts[0].point, Quaternion.identity);
+                    explosion.GetComponent<MeleeExplosion>().Initialise(this.meleeExplodeDmg);
+                }
             }
 
             if (collider.gameObject.CompareTag("Boss"))
             {
-                collider.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower);
+                //Crit
+                if (this.meleeCritChance > 0 && Random.Range(0, 1f) < this.meleeCritChance - 1)
+                {
+                    collider.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier);
+                }
+                else
+                {
+                    collider.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier);
+                }
+
+                //Bleed
+                if (this.meleeBleedChance > 0 && Random.Range(0, 1f) < this.meleeBleedChance - 1)
+                {
+                    collider.gameObject.GetComponent<MothershipScript>().StartCoroutine(collider.gameObject.GetComponent<MothershipScript>().Bleed(this.meleeBleedDmg));
+                }
+
+                //Explode
+                if (this.meleeExplodeDmg > 0)
+                {
+                    ContactPoint2D[] contacts = new ContactPoint2D[1];
+                    collider.GetContacts(contacts);
+                    GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Melee Explosion"), contacts[0].point, Quaternion.identity);
+                    explosion.GetComponent<MeleeExplosion>().Initialise(this.meleeExplodeDmg);
+                }
             }
 
             if (collider.gameObject.CompareTag("TargetDummy"))
             {
-                collider.gameObject.GetComponent<TargetDummyScript>().TakeDamage(this.attackPower);
+                collider.gameObject.GetComponent<TargetDummyScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier);
                 GameController.instance.dummyShot = true;
             }
         }
@@ -176,7 +224,7 @@ public class WeaponScript : MonoBehaviour
                 break;
         }
 
-        yield return new WaitForSeconds(this.cooldown);
+        yield return new WaitForSeconds(this.cooldown * this.meleeFireRateMultiplier);
         limitAttack = false;
         yield return null;
     }

@@ -117,15 +117,21 @@ public class MothershipScript : MonoBehaviour
     public void TakeDamage(float damage)
     {
         if (forceFieldUp) return;
+        if (currentHealth <= 0) return;
         Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
         DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
         damagePopup.Setup(damage);
 
         currentHealth -= damage;
+        StopCoroutine(MothershipHit());
         StartCoroutine(MothershipHit());
-        if (currentHealth <= 0)
+
+        if (this.currentHealth - damage > 0)
         {
-            //DIE
+            this.currentHealth -= damage;
+        }
+        else
+        {
             currentState = BOSS_STATE.DEAD;
         }
     }
@@ -477,5 +483,17 @@ public class MothershipScript : MonoBehaviour
             yield return null;
         }
         motherShipSprite.color = initialColor;
+    }
+
+    public IEnumerator Bleed(float damage)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            this.TakeDamage(damage);
+            //TODO: Play particle/vfx etc
+            yield return new WaitForSeconds(1);
+        }
+
+        yield return null;
     }
 }

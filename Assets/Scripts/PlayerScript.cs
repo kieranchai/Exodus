@@ -37,7 +37,6 @@ public class PlayerScript : MonoBehaviour
     private Player _data;
 
     public WeaponScript weaponSlot;
-    public WeaponScript akimboSlot;
     public Weapon equippedWeapon;
 
     public List<Weapon> inventory = new();
@@ -74,6 +73,7 @@ public class PlayerScript : MonoBehaviour
     public float maxHealthMultiplier = 1;
     public float evasionMultiplier = 0;
     public int regenValue = 0;
+    public float meleeDmgBlockMultiplier = 0;
 
     void Awake()
     {
@@ -90,7 +90,6 @@ public class PlayerScript : MonoBehaviour
         initialColor = playerSprite.color;
         initialHPFill = playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().sprite;
         weaponSlot = transform.GetChild(0).GetComponent<WeaponScript>();
-        akimboSlot = transform.GetChild(1).GetComponent<WeaponScript>();
         this.currentState = PLAYER_STATE.NORMAL;
         this.rollTimer = this.rollCD;
     }
@@ -240,12 +239,23 @@ public class PlayerScript : MonoBehaviour
     {
         if (GameController.instance.currentState == GameController.GAME_STATE.DEAD) return;
         if (this.currentState == PLAYER_STATE.ROLLING && fromZone == false) return;
+
         if (this.evasionMultiplier > 0 && fromZone == false)
         {
             if (Random.Range(0, 1f) < this.evasionMultiplier - 1)
             {
                 //TODO: Add DODGED Popup
                 Debug.Log("Evaded attack");
+                return;
+            }
+        }
+
+        if (this.equippedWeapon.weaponType == "melee" && this.meleeDmgBlockMultiplier > 0 && fromZone == false)
+        {
+            if (Random.Range(0, 1f) < this.meleeDmgBlockMultiplier - 1)
+            {
+                //TODO: Add BLOCKED Popup
+                Debug.Log("Blocked attack");
                 return;
             }
         }
@@ -328,11 +338,6 @@ public class PlayerScript : MonoBehaviour
         equippedWeapon = weaponData;
         weaponSlot.SetWeaponData(weaponData);
         transform.GetChild(1).gameObject.SetActive(false);
-        if (weaponData.weaponType == "akimbo")
-        {
-            transform.GetChild(1).gameObject.SetActive(true);
-            transform.GetChild(1).gameObject.GetComponent<WeaponScript>().SetWeaponData(weaponData);
-        }
         weaponNumber = inventory.FindIndex(a => a == weaponData);
         RefreshEquippedUI();
         RefreshInventoryUI();

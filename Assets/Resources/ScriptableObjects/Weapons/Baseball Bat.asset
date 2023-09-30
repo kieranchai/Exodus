@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
   m_Name: Baseball Bat
   m_EditorClassIdentifier: 
-  id: 7
+  id: 5
   weaponName: Baseball Bat
   description: Good for balls but great against aliens!
   attackPower: 5

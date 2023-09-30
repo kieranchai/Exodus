@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
   m_Name: Pincers
   m_EditorClassIdentifier: 
-  id: 10
+  id: 8
   weaponName: Pincers
   description: NULL
   attackPower: 2
