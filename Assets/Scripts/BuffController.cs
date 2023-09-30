@@ -158,13 +158,14 @@ public class BuffController : MonoBehaviour
                             weaponScript.meleeExplodeDmg = mExplodeDmg;
                             break;
                         case "lifesteal":
-                            //TODO
+                            float mLifeSteal = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
+                            weaponScript.meleeLifeStealMultiplier = (float)Math.Pow(mLifeSteal, buff.Value);
                             break;
                         case "crit":
                             float mCrit = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
                             float mCritDmg = float.Parse(buff.Key.secValue.Replace("%", "")) / 100;
                             weaponScript.meleeCritDamageMultiplier = mCritDmg;
-                            weaponScript.meleeCritChance = (float)Math.Pow(mCrit, buff.Value); 
+                            weaponScript.meleeCritChance = (float)Math.Pow(mCrit, buff.Value);
                             break;
                         case "special":
                             //TODO
@@ -182,9 +183,6 @@ public class BuffController : MonoBehaviour
                             weaponScript.meleeBleedChance = (float)Math.Pow(mBleed, buff.Value);
                             weaponScript.meleeBleedDmg = float.Parse(buff.Key.secValue);
                             break;
-                        case "pickpocket":
-                            //TODO
-                            break;
                         case "damage":
                             float mDVal = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
                             weaponScript.meleeDmgMultiplier = (float)Math.Pow(mDVal, buff.Value);
@@ -199,22 +197,38 @@ public class BuffController : MonoBehaviour
                     switch (buff.Key.type)
                     {
                         case "bleed":
+                            float gBleed = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
+                            weaponScript.gunBleedChance = (float)Math.Pow(gBleed, buff.Value);
+                            weaponScript.gunBleedDmg = float.Parse(buff.Key.secValue);
                             break;
                         case "burn":
                             break;
                         case "lightning":
+                            float lightningChance = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
+                            weaponScript.lightningChance = (float)Math.Pow(lightningChance, buff.Value);
+                            weaponScript.lightningDmg = float.Parse(buff.Key.secValue);
                             break;
                         case "reload":
+                            float instaReloadVal = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
+                            weaponScript.instaReloadChance = (float)Math.Pow(instaReloadVal, buff.Value);
                             break;
                         case "fireRate":
-                            break;
-                        case "clipSize":
+                            float gFRate = 1 - float.Parse(buff.Key.value.Replace("%", "")) / 100;
+                            weaponScript.gunFireRateMultiplier = (float)Math.Pow(gFRate, buff.Value);
                             break;
                         case "range":
+                            float rangeVal = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
+                            weaponScript.rangeMultiplier = (float)Math.Pow(rangeVal, buff.Value);
                             break;
                         case "pierce":
+                            float pierceVal = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
+                            weaponScript.pierceChance = (float)Math.Pow(pierceVal, buff.Value);
                             break;
                         case "crit":
+                            float gCrit = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
+                            float gCritDmg = float.Parse(buff.Key.secValue.Replace("%", "")) / 100;
+                            weaponScript.gunCritDamageMultiplier = gCritDmg;
+                            weaponScript.gunCritChance = (float)Math.Pow(gCrit, buff.Value);
                             break;
                         default:
                             break;

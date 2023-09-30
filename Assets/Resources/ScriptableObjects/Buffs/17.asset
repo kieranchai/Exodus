@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: 17
   m_EditorClassIdentifier: 
   id: 17
-  buffName: Crit Up
-  description: Adds [currentValue] + [value] chance to crit ([secValue] damage)
+  buffName: Melee Mastery
+  description: Hold and release MOUSE2 to perform a special attack.
   category: melee
-  type: crit
-  value: 35%
-  secValue: 150%
+  type: special
+  value: null
+  secValue: null

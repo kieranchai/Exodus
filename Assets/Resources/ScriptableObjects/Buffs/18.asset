@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: 18
   m_EditorClassIdentifier: 
   id: 18
-  buffName: Melee Mastery
-  description: Hold and release MOUSE2 to perform a special attack.
+  buffName: Faster Attacks
+  description: Increases attack speed by [currentValue] + [value]
   category: melee
-  type: special
-  value: null
+  type: fireRate
+  value: 20%
   secValue: null

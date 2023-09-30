@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: 20
   m_EditorClassIdentifier: 
   id: 20
-  buffName: Wonder Guard
-  description: Adds [currentValue] + [value] chance to block enemy damage.
+  buffName: Hemorrhage
+  description: Adds [currentValue] + [value] chance to cause enemies to bleed for
+    [secValue] per second.
   category: melee
-  type: dmgBlock
-  value: 10%
-  secValue: null
+  type: bleed
+  value: 15%
+  secValue: 10

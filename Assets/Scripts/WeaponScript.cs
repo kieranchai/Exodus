@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Diagnostics.Contracts;
 using UnityEngine;
 
 public class WeaponScript : MonoBehaviour
@@ -37,6 +36,18 @@ public class WeaponScript : MonoBehaviour
     public float meleeCritChance = 0;
     public float meleeCritDamageMultiplier = 0;
     public float meleeExplodeDmg = 0;
+    public float meleeLifeStealMultiplier = 0;
+
+    public float gunCritChance = 0;
+    public float gunCritDamageMultiplier = 0;
+    public float rangeMultiplier = 1;
+    public float gunFireRateMultiplier = 1;
+    public float instaReloadChance = 0;
+    public float gunBleedChance = 0;
+    public float gunBleedDmg = 0;
+    public float pierceChance = 0;
+    public float lightningChance = 0;
+    public float lightningDmg = 0;
 
     private void Start()
     {
@@ -129,7 +140,14 @@ public class WeaponScript : MonoBehaviour
 
     IEnumerator Reload()
     {
-        yield return new WaitForSeconds(this.reloadSpeed);
+        if (this.instaReloadChance > 0 && Random.Range(0, 1f) < this.instaReloadChance - 1)
+        {
+            yield return new WaitForSeconds(0);
+        }
+        else
+        {
+            yield return new WaitForSeconds(this.reloadSpeed);
+        }
         PlayerScript.instance.equippedWeapon.currentAmmoCount = this.clipSize;
         isReloading = false;
         yield return null;
@@ -146,10 +164,12 @@ public class WeaponScript : MonoBehaviour
                 if (this.meleeCritChance > 0 && Random.Range(0, 1f) < this.meleeCritChance - 1)
                 {
                     collider.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier);
+                    PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier * (this.meleeLifeStealMultiplier - 1));
                 }
                 else
                 {
                     collider.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier);
+                    PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * (this.meleeLifeStealMultiplier - 1));
                 }
 
                 //Bleed
@@ -174,10 +194,12 @@ public class WeaponScript : MonoBehaviour
                 if (this.meleeCritChance > 0 && Random.Range(0, 1f) < this.meleeCritChance - 1)
                 {
                     collider.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier);
+                    PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier * (this.meleeLifeStealMultiplier - 1));
                 }
                 else
                 {
                     collider.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier);
+                    PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * (this.meleeLifeStealMultiplier - 1));
                 }
 
                 //Bleed
@@ -238,12 +260,32 @@ public class WeaponScript : MonoBehaviour
             {
                 case "Sniper Rifle":
                     bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Sniper Bullet"), transform.position, transform.rotation);
-                    bullet.GetComponent<SniperBulletScript>().Initialise(this.attackPower, this.weaponRange);
+
+                    //Crit
+                    if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
+                    {
+                        bullet.GetComponent<SniperBulletScript>().Initialise(this.attackPower * this.gunCritDamageMultiplier, this.weaponRange * this.rangeMultiplier);
+                    }
+                    else
+                    {
+                        bullet.GetComponent<SniperBulletScript>().Initialise(this.attackPower, this.weaponRange * this.rangeMultiplier);
+                    }
+
                     --PlayerScript.instance.equippedWeapon.currentAmmoCount;
                     break;
                 default:
                     bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Bullet"), transform.position, transform.rotation);
-                    bullet.GetComponent<BulletScript>().Initialise(this.attackPower, this.weaponRange);
+
+                    //Crit
+                    if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
+                    {
+                        bullet.GetComponent<BulletScript>().Initialise(this.attackPower * this.gunCritDamageMultiplier, this.weaponRange * this.rangeMultiplier);
+                    }
+                    else
+                    {
+                        bullet.GetComponent<BulletScript>().Initialise(this.attackPower, this.weaponRange * this.rangeMultiplier);
+                    }
+
                     --PlayerScript.instance.equippedWeapon.currentAmmoCount;
                     break;
             }
@@ -256,13 +298,11 @@ public class WeaponScript : MonoBehaviour
                     audioSource.Play();
                     break;
                 case "Light Pistol":
-                case "Dual Elites":
                 case "Submachine Gun":
                     audioSource.clip = Resources.Load<AudioClip>($"Audio/Light Pistol");
                     audioSource.Play();
                     break;
                 case "Assault Rifle":
-                case "Dual ARs":
                     audioSource.clip = Resources.Load<AudioClip>($"Audio/Assault Rifle");
                     audioSource.Play();
                     break;
@@ -272,7 +312,7 @@ public class WeaponScript : MonoBehaviour
 
             //can add Projectile Speed to CSV (600 here)
             bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 600);
-            yield return new WaitForSeconds(this.cooldown);
+            yield return new WaitForSeconds(this.cooldown * this.gunFireRateMultiplier);
         }
         else
         {

@@ -311,7 +311,7 @@ public class PlayerScript : MonoBehaviour
     {
         this.currentHealth += value;
         if (this.currentHealth >= this.maxHealth) this.currentHealth = this.maxHealth;
-        if (value >= 0)
+        if (value > 0)
         {
             Transform healPopUpTransform = Instantiate(healPopUpPrefab, transform.position, Quaternion.identity);
             DamagePopup healPopUp = healPopUpTransform.GetComponent<DamagePopup>();

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: 14
   m_EditorClassIdentifier: 
   id: 14
-  buffName: Crit Up
-  description: Adds [currentValue] + [value] chance to crit ([secValue] damage)
-  category: gun
-  type: crit
-  value: 25%
-  secValue: 130%
+  buffName: Explosive Strength
+  description: Attacks explode on impact. Damages enemies in an area for [currentValue]
+    + [value].
+  category: melee
+  type: explode
+  value: 15
+  secValue: null

@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: 21
   m_EditorClassIdentifier: 
   id: 21
-  buffName: Hemorrhage
-  description: Adds [currentValue] + [value] chance to cause enemies to bleed for
-    [currentSecValue] + [secValue] per second.
+  buffName: Bloodlust
+  description: Increases your damage by [currentValue] + [value]
   category: melee
-  type: bleed
-  value: 15%
-  secValue: 10
+  type: damage
+  value: 25%
+  secValue: null

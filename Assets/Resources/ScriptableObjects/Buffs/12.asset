@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: 12
   m_EditorClassIdentifier: 
   id: 12
-  buffName: Range Up
-  description: Increases range by [currentValue] + [value]
+  buffName: Hollow Point
+  description: Adds [currentValue] + [value] chance to pierce enemies
   category: gun
-  type: range
-  value: 10%
+  type: pierce
+  value: 30%
   secValue: null

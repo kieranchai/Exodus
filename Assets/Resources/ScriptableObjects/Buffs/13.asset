@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: 13
   m_EditorClassIdentifier: 
   id: 13
-  buffName: Hollow Point
-  description: Adds [currentValue] + [value] chance to pierce enemies
+  buffName: Crit Up
+  description: Adds [currentValue] + [value] chance to crit ([secValue] damage)
   category: gun
-  type: pierce
-  value: 30%
-  secValue: null
+  type: crit
+  value: 25%
+  secValue: 130%

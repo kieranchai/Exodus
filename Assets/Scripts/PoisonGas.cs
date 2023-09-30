@@ -27,8 +27,6 @@ public class PoisonGas : MonoBehaviour
 
     private bool hasAlerted = false;
 
-    public bool itemUsed = false;
-
     void Awake()
     {
         if (instance != null && instance != this)
@@ -55,6 +53,7 @@ public class PoisonGas : MonoBehaviour
         {
             this.hasAlerted = true;
             //Event when gas touch safe zone
+            Debug.Log("lose");
         }
     }
 
@@ -63,7 +62,7 @@ public class PoisonGas : MonoBehaviour
         var currentPos = transform.position;
         while (t < 1)
         {
-            if(!itemUsed) this.t += Time.deltaTime / timeToMove;
+            this.t += Time.deltaTime / timeToMove;
             transform.position = Vector3.Lerp(currentPos, position, t);
             yield return null;
         }

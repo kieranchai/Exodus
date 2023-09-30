@@ -8,16 +8,14 @@
 8,Maelstrom,Adds [currentValue] + [value] chance to create a chain lightning that jumps to nearby targets. Damages them for [currentSecValue] + [secValue].,gun,lightning,10%,5
 9,Better Handling,Adds [currentValue] + [value] chance to instantly reload,gun,reload,5%,null
 10,Faster Fire Rate,Increases fire rate by [currentValue] + [value],gun,fireRate,20%,null
-11,Clip Size Up,Increases clip size by [currentValue] + [value],gun,clipSize,20%,null
-12,Range Up,Increases range by [currentValue] + [value],gun,range,10%,null
-13,Hollow Point,Adds [currentValue] + [value] chance to pierce enemies,gun,pierce,30%,null
-14,Crit Up,Adds [currentValue] + [value] chance to crit ([secValue] damage),gun,crit,25%,130%
-15,Explosive Strength,Attacks explode on impact. Damages enemies in an area for [currentValue] + [value].,melee,explode,15,null
-16,Vampiric Essence,Gain [currentValue] + [value] health on hit,melee,lifesteal,10,null
-17,Crit Up,Adds [currentValue] + [value] chance to crit ([secValue] damage),melee,crit,35%,150%
-18,Melee Mastery,Hold and release MOUSE2 to perform a special attack.,melee,special,null,null
-19,Faster Attacks,Increases attack speed by [currentValue] + [value],melee,fireRate,20%,null
-20,Wonder Guard,Adds [currentValue] + [value] chance to block enemy damage.,melee,dmgBlock,10%,null
-21,Hemorrhage,Adds [currentValue] + [value] chance to cause enemies to bleed for [currentSecValue] + [secValue] per second.,melee,bleed,15%,10
-22,Pickpocket,Gain [currentValue] + [value] more money per kill,melee,pickpocket,50%,null
-23,Bloodlust,Increases your damage by [currentValue] + [value],melee,damage,25%,null
+11,Range Up,Increases range by [currentValue] + [value],gun,range,10%,null
+12,Hollow Point,Adds [currentValue] + [value] chance to pierce enemies,gun,pierce,30%,null
+13,Crit Up,Adds [currentValue] + [value] chance to crit ([secValue] damage),gun,crit,25%,130%
+14,Explosive Strength,Attacks explode on impact. Damages enemies in an area for [currentValue] + [value].,melee,explode,15,null
+15,Vampiric Essence,Gain [currentValue] + [value] of your damage dealt as health.,melee,lifesteal,40%,null
+16,Crit Up,Adds [currentValue] + [value] chance to crit ([secValue] damage),melee,crit,35%,150%
+17,Melee Mastery,Hold and release MOUSE2 to perform a special attack.,melee,special,null,null
+18,Faster Attacks,Increases attack speed by [currentValue] + [value],melee,fireRate,20%,null
+19,Wonder Guard,Adds [currentValue] + [value] chance to block enemy damage.,melee,dmgBlock,10%,null
+20,Hemorrhage,Adds [currentValue] + [value] chance to cause enemies to bleed for [secValue] per second.,melee,bleed,15%,10
+21,Bloodlust,Increases your damage by [currentValue] + [value],melee,damage,25%,null
