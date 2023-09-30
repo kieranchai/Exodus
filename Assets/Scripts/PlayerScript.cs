@@ -29,7 +29,7 @@ public class PlayerScript : MonoBehaviour
     private Vector3 rollDir;
     private float rollSpeed;
     private Vector3 lastMoveDir;
-    private float rollCD = 3f;
+    public float rollCD = 3f;
     private float rollTimer;
     private bool rollOnCD = false;
 
@@ -66,6 +66,14 @@ public class PlayerScript : MonoBehaviour
     public PLAYER_STATE currentState;
 
     public int weaponNumber;
+    private float regenTimer = 0;
+
+    public Dictionary<Buff, int> buffList = new();
+    public int buffTokens = 0;
+    public float moveSpeedMultiplier = 1;
+    public float maxHealthMultiplier = 1;
+    public float evasionMultiplier = 0;
+    public int regenValue = 0;
 
     void Awake()
     {
@@ -178,6 +186,17 @@ public class PlayerScript : MonoBehaviour
                 this.rollOnCD = false;
                 this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.SetActive(false);
             }
+
+            //Regen
+            if (this.regenValue > 0 && this.currentHealth < this.maxHealth)
+            {
+                this.regenTimer += Time.deltaTime;
+                if (this.regenTimer >= 1)
+                {
+                    this.regenTimer = 0.0f;
+                    UpdateHealth(this.regenValue);
+                }
+            }
         }
     }
 
@@ -186,7 +205,7 @@ public class PlayerScript : MonoBehaviour
         switch (this.currentState)
         {
             case PLAYER_STATE.NORMAL:
-                this.rb.velocity = this.moveDir * (this.movementSpeed);
+                this.rb.velocity = this.moveDir * (this.movementSpeed * this.moveSpeedMultiplier);
                 break;
             case PLAYER_STATE.ROLLING:
                 this.rb.velocity = this.rollDir * this.rollSpeed;
@@ -221,6 +240,15 @@ public class PlayerScript : MonoBehaviour
     {
         if (GameController.instance.currentState == GameController.GAME_STATE.DEAD) return;
         if (this.currentState == PLAYER_STATE.ROLLING && fromZone == false) return;
+        if (this.evasionMultiplier > 0 && fromZone == false)
+        {
+            if (Random.Range(0, 1f) < this.evasionMultiplier - 1)
+            {
+                //TODO: Add DODGED Popup
+                Debug.Log("Evaded attack");
+                return;
+            }
+        }
 
         UpdateHealth(-damage);
         Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
@@ -252,6 +280,8 @@ public class PlayerScript : MonoBehaviour
             this.experience -= LevelController.instance.xpNeeded;
             level++;
             LevelController.instance.CalculateXpNeeded();
+            this.buffTokens++;
+            BuffController.instance.UpdatePlayerTokensDisplay();
 
             Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
             DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
@@ -259,6 +289,12 @@ public class PlayerScript : MonoBehaviour
 
             playerPanel.transform.Find("Level").GetComponent<TMP_Text>().text = $"Lvl.{level}";
         }
+    }
+
+    public void UpdateMaxHealth()
+    {
+        if (this.currentHealth == this.maxHealth) this.currentHealth = this.maxHealth * this.maxHealthMultiplier;
+        this.maxHealth *= this.maxHealthMultiplier;
     }
 
     public void UpdateHealth(float value)

@@ -7,6 +7,7 @@ public class CSVtoSO
     private static string playerCSVPath = "/Assets/Editor/CSVs/Player.csv";
     private static string weaponCSVPath = "/Assets/Editor/CSVs/Weapons.csv";
     private static string enemyCSVPath = "/Assets/Editor/CSVs/Enemies.csv";
+    private static string buffCSVPath = "/Assets/Editor/CSVs/Buffs.csv";
 
     [MenuItem("Utilities/Generate Player")]
     public static void GeneratePlayer()
@@ -98,6 +99,35 @@ public class CSVtoSO
             enemy.spawnChance = int.Parse(splitData[9]);
 
             AssetDatabase.CreateAsset(enemy, $"Assets/Resources/ScriptableObjects/Enemies/{enemy.id}.asset");
+        }
+
+        AssetDatabase.SaveAssets();
+    }
+
+    [MenuItem("Utilities/Generate Buffs")]
+    public static void GenerateBuffs()
+    {
+        string[] allLines = File.ReadAllLines(System.IO.Directory.GetCurrentDirectory() + buffCSVPath);
+
+        foreach (string s in allLines)
+        {
+            string[] splitData = s.Split(',');
+
+            if (splitData.Length != 7)
+            {
+                return;
+            }
+
+            Buff buff = ScriptableObject.CreateInstance<Buff>();
+            buff.id = int.Parse(splitData[0]);
+            buff.buffName = splitData[1];
+            buff.description = splitData[2];
+            buff.category = splitData[3];
+            buff.type = splitData[4];
+            buff.value = splitData[5];
+            buff.secValue = splitData[6];
+
+            AssetDatabase.CreateAsset(buff, $"Assets/Resources/ScriptableObjects/Buffs/{buff.id}.asset");
         }
 
         AssetDatabase.SaveAssets();

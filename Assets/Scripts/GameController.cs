@@ -24,6 +24,7 @@ public class GameController : MonoBehaviour
         PANNING,
         PAUSED,
         PLAYING,
+        CHOOSINGBUFF,
         TUTORIAL,
         DEAD,
         WIN
@@ -36,6 +37,9 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private GameObject deathScreen;
+
+    [SerializeField]
+    private GameObject buffSelectionPanel;
 
     /*private bool stimCD = false;*/
 
@@ -62,6 +66,9 @@ public class GameController : MonoBehaviour
                 break;
             case GAME_STATE.PAUSED:
                 PauseGame();
+                break;
+            case GAME_STATE.CHOOSINGBUFF:
+                ChoosingState();
                 break;
             case GAME_STATE.TUTORIAL:
                 StartTutorial();
@@ -100,10 +107,27 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void Choosing()
+    {
+        currentState = GAME_STATE.CHOOSINGBUFF;
+    }
+
+    private void ChoosingState()
+    {
+        Time.timeScale = 0.0f;
+        buffSelectionPanel.SetActive(true);
+        BuffController.instance.UpdatePlayerTokensDisplay();
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Q))
+        {
+            ResumeGame();
+        }
+    }
+
     public void ResumeGame()
     {
         CloseControls();
         pauseScreen.SetActive(false);
+        buffSelectionPanel.SetActive(false);
         Time.timeScale = 1.0f;
         currentState = GAME_STATE.PLAYING;
     }
@@ -161,7 +185,7 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab)) PlayerScript.instance.ToggleInventoryView();
         if (Input.GetKeyDown(KeyCode.E)) Interact();
-
+        if (Input.GetKeyDown(KeyCode.Q)) Choosing();
         //cheat
         if (Input.GetKeyDown(KeyCode.M)) PlayerScript.instance.UpdateCash(1000);
         if (Input.GetKeyDown(KeyCode.L)) PlayerScript.instance.UpdateExperience(10);

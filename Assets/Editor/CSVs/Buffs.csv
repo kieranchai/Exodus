@@ -1,0 +1,23 @@
+1,Health Up,Increases your max health by [currentValue] + [value],player,maxHealth,20%,null
+2,Speed Up,Increases your movement speed by [currentValue] + [value],player,movementSpeed,20%,null
+3,Evasion Up,Gains [currentValue] + [value] chance to evade enemy damage.,player,evasion,5%,null
+4,Regeneration,Passively gain [currentValue] + [value] health per second.,player,regeneration,1,null
+5,Faster Dodges,Decrease dodge cooldown by [currentValue] + [value],player,dodgeCd,10%,null
+6,Hemorrhage,Adds [currentValue] + [value] chance to cause enemies to bleed for [currentSecValue] + [secValue] per second.,gun,bleed,10%,10
+7,Fire Power,Adds [currentValue] + [value] chance to cause enemies to burn for [currentSecValue] + [secValue] per second.,gun,burn,10%,10
+8,Maelstrom,Adds [currentValue] + [value] chance to create a chain lightning that jumps to nearby targets. Damages them for [currentSecValue] + [secValue].,gun,lightning,10%,5
+9,Better Handling,Adds [currentValue] + [value] chance to instantly reload,gun,reload,5%,null
+10,Faster Fire Rate,Increases fire rate by [currentValue] + [value],gun,fireRate,20%,null
+11,Clip Size Up,Increases clip size by [currentValue] + [value],gun,clipSize,20%,null
+12,Range Up,Increases range by [currentValue] + [value],gun,range,10%,null
+13,Hollow Point,Adds [currentValue] + [value] chance to pierce enemies,gun,pierce,30%,null
+14,Crit Up,Adds [currentValue] + [value] chance to crit ([secValue] damage),gun,crit,25%,130%
+15,Explosive Strength,Attacks explode on impact. Damages enemies in an area for [currentValue] + [value].,melee,explode,15,null
+16,Vampiric Essence,Gain [currentValue] + [value] health on hit,melee,lifesteal,10,null
+17,Crit Up,Adds [currentValue] + [value] chance to crit ([secValue] damage),melee,crit,35%,150%
+18,Melee Mastery,Hold and release MOUSE2 to perform a special attack.,melee,special,null,null
+19,Faster Attacks,Increases attack speed by [currentValue] + [value],melee,fireRate,20%,null
+20,Wonder Guard,Adds [currentValue] + [value] chance to block enemy damage.,melee,dmgBlock,10%,null
+21,Hemorrhage,Adds [currentValue] + [value] chance to cause enemies to bleed for [currentSecValue] + [secValue] per second.,melee,bleed,15%,10
+22,Pickpocket,Gain [currentValue] + [value] more money per kill,melee,pickpocket,50%,null
+23,Bloodlust,Increases your damage by [currentValue] + [value],melee,damage,25%,null
