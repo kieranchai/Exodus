@@ -52,6 +52,7 @@ public class EnemyScript : MonoBehaviour
         WANDER,
         CHASE,
         ATTACK,
+        CHARGING,
         DEAD
     }
 
@@ -98,6 +99,10 @@ public class EnemyScript : MonoBehaviour
                 break;
             case ENEMY_STATE.ATTACK:
                 Attack();
+                break;
+            case ENEMY_STATE.CHARGING:
+                //Turn to player
+                transform.up = (PlayerScript.instance.transform.position - new Vector3(transform.position.x, transform.position.y));
                 break;
             case ENEMY_STATE.DEAD:
                 Dead();
@@ -178,6 +183,30 @@ public class EnemyScript : MonoBehaviour
         }
         transform.up = (PlayerScript.instance.transform.position - new Vector3(transform.position.x, transform.position.y));
         this.weaponSlot.TryAttack();
+    }
+
+    public void AttackCharging(float chargeTime)
+    {
+        this.currentState = ENEMY_STATE.CHARGING;
+        StartCoroutine(ChargingFlash(chargeTime));
+    }
+
+    IEnumerator ChargingFlash(float chargeTime)
+    {
+        bool isFlashing = true;
+        float timer = 0;
+        while (isFlashing)
+        {
+            timer += Time.deltaTime;
+            enemySprite.material = flashMaterial;
+            weaponSprite.material = flashMaterial;
+            yield return new WaitForSeconds(0.1f);
+            enemySprite.material = originalMaterial;
+            weaponSprite.material = originalMaterial;
+            yield return new WaitForSeconds(0.1f);
+            if (timer >= chargeTime) isFlashing = false;
+        }
+        this.currentState = ENEMY_STATE.CHASE;
     }
 
     public bool PlayerInSight()
@@ -273,7 +302,7 @@ public class EnemyScript : MonoBehaviour
 
     IEnumerator EnemyHit()
     {
-        float duration = 0.1f;
+        float duration = 0.05f;
         while (duration > 0)
         {
             duration -= Time.deltaTime;

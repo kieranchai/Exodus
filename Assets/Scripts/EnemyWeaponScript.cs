@@ -136,6 +136,10 @@ public class EnemyWeaponScript : MonoBehaviour
     IEnumerator SuicideAttack()
     {
         limitAttack = true;
+        //Charging state to stop enemy from moving
+        transform.parent.gameObject.GetComponent<EnemyScript>().AttackCharging(0.5f);
+        yield return new WaitForSeconds(0.5f);
+
         GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Heretic Explosion"), transform.position, Quaternion.identity);
         explosion.GetComponent<EnemyExplosionScript>().Initialise(attackPower, 4f);
         transform.parent.GetComponent<EnemyScript>().mySpawner.enemyCounter--;

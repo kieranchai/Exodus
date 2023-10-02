@@ -3831,6 +3831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 2417687027133140705}
+  flashMaterial: {fileID: 2100000, guid: 8affbc80abcd87d48be0fad9c6c40047, type: 2}
 --- !u!1 &6979374353954759338
 GameObject:
   m_ObjectHideFlags: 0

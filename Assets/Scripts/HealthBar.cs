@@ -7,15 +7,16 @@ public class HealthBar : MonoBehaviour
     [SerializeField]
     private Image healthBar;
 
-    private Sprite initial;
-
     private float lerpSpeed;
 
     private bool isFlashing = false;
 
+    private Material originalMaterial;
+    public Material flashMaterial;
+
     private void Start()
     {
-        initial = healthBar.sprite;
+        originalMaterial = healthBar.material;
     }
 
     private void Update()
@@ -42,13 +43,13 @@ public class HealthBar : MonoBehaviour
     {
         while (isFlashing)
         {
-            healthBar.sprite = Resources.Load<Sprite>("UISprites/Player HP Fill Flash");
+            healthBar.material = flashMaterial;
             yield return new WaitForSeconds(0.1f);
-            healthBar.sprite = initial;
+            healthBar.material = originalMaterial;
             yield return new WaitForSeconds(0.1f);
             if (PlayerScript.instance.currentHealth > PlayerScript.instance.maxHealth * 0.3) isFlashing = false;
         }
-        healthBar.sprite = initial;
+        healthBar.material = originalMaterial;
         yield return null;
     }
 }

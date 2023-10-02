@@ -472,7 +472,7 @@ public class MothershipScript : MonoBehaviour
 
     IEnumerator MothershipHit()
     {
-        float duration = 0.1f;
+        float duration = 0.05f;
         while (duration > 0)
         {
             duration -= Time.deltaTime;
