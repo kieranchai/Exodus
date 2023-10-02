@@ -8,8 +8,6 @@ public class MothershipScript : MonoBehaviour
     public float currentHealth;
 
     private SpriteRenderer motherShipSprite;
-    private Color initialColor;
-
     [SerializeField] private Transform damagePopupPrefab;
 
     [SerializeField]
@@ -33,6 +31,8 @@ public class MothershipScript : MonoBehaviour
     public bool hasShotHoming = false;
     private float turretOffset = 0.1f;
     public bool victory = false;
+    private Material originalMaterial;
+    public Material flashMaterial;
 
     public enum BOSS_STATE
     {
@@ -63,12 +63,12 @@ public class MothershipScript : MonoBehaviour
         maxHealth = 1000f;
         currentHealth = maxHealth;
         motherShipSprite = GetComponent<SpriteRenderer>();
-        initialColor = motherShipSprite.color;
         initialLeftTurretPos = leftTurret.transform.position;
         initialRightTurretPos = rightTurret.transform.position;
         newLeftTurretPos = initialLeftTurretPos;
         newRightTurretPos = initialRightTurretPos;
         currentState = BOSS_STATE.PAUSED;
+        originalMaterial = motherShipSprite.material;
     }
 
     void Update()
@@ -110,7 +110,7 @@ public class MothershipScript : MonoBehaviour
     public void Dead()
     {
         //Killed Boss
-        motherShipSprite.color = initialColor;
+        motherShipSprite.material = originalMaterial;
         victory = true;
     }
 
@@ -148,7 +148,7 @@ public class MothershipScript : MonoBehaviour
         if (currentHealth <= maxHealth / 3)
         {
             StopAllCoroutines();
-            motherShipSprite.color = initialColor;
+            motherShipSprite.material = originalMaterial;
             StartCoroutine(HealForceField(BOSS_STATE.STAGE2));
         }
     }
@@ -476,13 +476,10 @@ public class MothershipScript : MonoBehaviour
         while (duration > 0)
         {
             duration -= Time.deltaTime;
-
-            Color hitFlash = Color.red;
-            hitFlash.a = 0.7f;
-            motherShipSprite.color = hitFlash;
+            motherShipSprite.material = flashMaterial;
             yield return null;
         }
-        motherShipSprite.color = initialColor;
+        motherShipSprite.material = originalMaterial;
     }
 
     public IEnumerator Bleed(float damage)

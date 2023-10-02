@@ -10,6 +10,9 @@ public class EnemyScript : MonoBehaviour
     private Animator anim;
     private Collider2D enemyCollider;
     private SpriteRenderer enemySprite;
+    private SpriteRenderer weaponSprite;
+    private Material originalMaterial;
+    public Material flashMaterial;
 
     private string enemyName;
     private float maxHealth;
@@ -54,17 +57,16 @@ public class EnemyScript : MonoBehaviour
 
     public ENEMY_STATE currentState;
 
-    private Color initialColor;
     private void Start()
     {
         anim = GetComponent<Animator>();
         enemyCollider = GetComponent<Collider2D>();
         enemySprite = GetComponent<SpriteRenderer>();
-        initialColor = enemySprite.color;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         this.weaponSlot = gameObject.transform.Find("Weapon").gameObject.GetComponent<EnemyWeaponScript>();
+        weaponSprite = this.weaponSlot.GetComponent<SpriteRenderer>();
         SetEnemyData(_data);
         EquipWeapon(this.equippedWeapon);
         this.currentState = ENEMY_STATE.WANDER;
@@ -72,6 +74,7 @@ public class EnemyScript : MonoBehaviour
         this.sightRange = 5f;
 
         spawnParticle.Play();
+        originalMaterial = enemySprite.material;
     }
 
     void Update()
@@ -213,7 +216,6 @@ public class EnemyScript : MonoBehaviour
         DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
         damagePopup.Setup(damage);
 
-        enemySprite.color = initialColor;
         StopCoroutine(EnemyHit());
         StartCoroutine(EnemyHit());
 
@@ -275,13 +277,12 @@ public class EnemyScript : MonoBehaviour
         while (duration > 0)
         {
             duration -= Time.deltaTime;
-
-            Color hitFlash = Color.red;
-            hitFlash.a = 0.7f;
-            enemySprite.color = hitFlash;
+            enemySprite.material = flashMaterial;
+            weaponSprite.material = flashMaterial;
             yield return null;
         }
-        enemySprite.color = initialColor;
+        enemySprite.material = originalMaterial;
+        weaponSprite.material = originalMaterial;
     }
 
     public IEnumerator Bleed(float damage)

@@ -412,6 +412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49f29258dccae1f4e8ff828bbf3ab6e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 2100000, guid: 8affbc80abcd87d48be0fad9c6c40047, type: 2}
   spawnZone: 
   spawnChance: 0
   timer: 0
@@ -424,6 +425,7 @@ MonoBehaviour:
   xpCashPopupPrefab: {fileID: 4179147922126599982, guid: 35cce36764d8fe945b0bb43cf7dad78b, type: 3}
   mySpawner: {fileID: 0}
   spawnParticle: {fileID: 6641090011115357353}
+  currentState: 0
 --- !u!212 &7865783603933936253
 SpriteRenderer:
   m_ObjectHideFlags: 0

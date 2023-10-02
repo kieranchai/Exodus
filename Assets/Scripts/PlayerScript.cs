@@ -51,8 +51,8 @@ public class PlayerScript : MonoBehaviour
     public bool isInShop = false;
 
     public float initialMovementSpeed;
-    private Color initialColor;
-    private Sprite initialHPFill;
+    private Material originalMaterial;
+    public Material flashMaterial;
 
     public enum PLAYER_STATE
     {
@@ -87,8 +87,6 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
         playerSprite = GetComponent<SpriteRenderer>();
-        initialColor = playerSprite.color;
-        initialHPFill = playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().sprite;
         weaponSlot = transform.GetChild(0).GetComponent<WeaponScript>();
         this.currentState = PLAYER_STATE.NORMAL;
         this.rollTimer = this.rollCD;
@@ -101,6 +99,8 @@ public class PlayerScript : MonoBehaviour
         SetPlayerData(_data);
 
         EquipDefaultWeapon(Resources.Load<Weapon>($"ScriptableObjects/Weapons/{this.defaultWeapon}"));
+
+        originalMaterial = playerSprite.material;
     }
 
     private void Update()
@@ -265,11 +265,9 @@ public class PlayerScript : MonoBehaviour
         DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
         damagePopup.SetupPlayerDamage(damage);
 
-        playerSprite.color = initialColor;
         StopCoroutine(HitFlicker());
         StartCoroutine(HitFlicker());
 
-        playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().sprite = initialHPFill;
         StopCoroutine(FlashHealthBar());
         StartCoroutine(FlashHealthBar());
 
@@ -496,13 +494,10 @@ public class PlayerScript : MonoBehaviour
         while (duration > 0)
         {
             duration -= Time.deltaTime;
-
-            Color hitFlash = Color.red;
-            hitFlash.a = 0.7f;
-            playerSprite.color = hitFlash;
+            playerSprite.material = flashMaterial;
             yield return null;
         }
-        playerSprite.color = initialColor;
+        playerSprite.material = originalMaterial;
     }
 
     IEnumerator FlashHealthBar()
@@ -511,9 +506,9 @@ public class PlayerScript : MonoBehaviour
         while (duration > 0)
         {
             duration -= Time.deltaTime;
-            playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().sprite = Resources.Load<Sprite>("UISprites/Player HP Fill Flash");
+            playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().material = flashMaterial;
             yield return null;
         }
-        playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().sprite = initialHPFill;
+        playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().material = originalMaterial;
     }
 }
