@@ -6,7 +6,7 @@ public class EnemySpawner : MonoBehaviour
 {
     public string spawnZone;
     public GameObject[] zoneEnemies;
-
+    public bool canRespawn = true;
     public int enemyCounter;
 
     public int enemyLimit = 5;
@@ -18,6 +18,9 @@ public class EnemySpawner : MonoBehaviour
     private int random;
     private int cumulative;
     private GameObject chosenEnemy;
+
+    //For Shop Access
+    private bool zoneUnlocked = false;
 
     void Start()
     {
@@ -33,11 +36,14 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= duration)
+        if(canRespawn)
         {
-            SpawnRandomEnemy();
-            timer = 0;
+            timer += Time.deltaTime;
+            if (timer >= duration)
+            {
+                SpawnRandomEnemy();
+                timer = 0;
+            }
         }
     }
 
