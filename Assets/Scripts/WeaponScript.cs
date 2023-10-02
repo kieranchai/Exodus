@@ -29,31 +29,51 @@ public class WeaponScript : MonoBehaviour
 
     public Vector3 initialPos;
 
-    public float meleeDmgMultiplier = 1;
-    public float meleeBleedChance = 0;
-    public float meleeBleedDmg = 0;
-    public float meleeFireRateMultiplier = 1;
-    public float meleeCritChance = 0;
-    public float meleeCritDamageMultiplier = 0;
-    public float meleeExplodeDmg = 0;
-    public float meleeLifeStealMultiplier = 0;
+    public float meleeDmgMultiplier;
+    public float meleeBleedChance;
+    public float meleeBleedDmg;
+    public float meleeFireRateMultiplier;
+    public float meleeCritChance;
+    public float meleeCritDamageMultiplier;
+    public float meleeExplodeDmg;
+    public float meleeLifeStealMultiplier;
 
-    public float gunCritChance = 0;
-    public float gunCritDamageMultiplier = 0;
-    public float rangeMultiplier = 1;
-    public float gunFireRateMultiplier = 1;
-    public float instaReloadChance = 0;
-    public float gunBleedChance = 0;
-    public float gunBleedDmg = 0;
-    public float pierceChance = 0;
-    public float lightningChance = 0;
-    public float lightningDmg = 0;
+    public float gunCritChance;
+    public float gunCritDamageMultiplier;
+    public float rangeMultiplier;
+    public float gunFireRateMultiplier;
+    public float instaReloadChance;
+    public float gunBleedChance;
+    public float gunBleedDmg;
+    public float pierceChance;
+    public float lightningChance;
+    public float lightningDmg;
 
-    private void Start()
+    private void Awake()
     {
         audioSource.volume = 0.5f;
         initialPos = transform.localPosition;
+
+        meleeDmgMultiplier = 1;
+        meleeBleedChance = 0;
+        meleeBleedDmg = 0;
+        meleeFireRateMultiplier = 1;
+        meleeCritChance = 0;
+        meleeCritDamageMultiplier = 0;
+        meleeExplodeDmg = 0;
+        meleeLifeStealMultiplier = 0;
+        gunCritChance = 0;
+        gunCritDamageMultiplier = 0;
+        rangeMultiplier = 1;
+        gunFireRateMultiplier = 1;
+        instaReloadChance = 0;
+        gunBleedChance = 0;
+        gunBleedDmg = 0;
+        pierceChance = 0;
+        lightningChance = 0;
+        lightningDmg = 0;
     }
+
     private void Update()
     {
         if (PlayerScript.instance.equippedWeapon.weaponType != "melee" && isReloading == false && PlayerScript.instance.equippedWeapon.currentAmmoCount <= 0)

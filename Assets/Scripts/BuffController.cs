@@ -40,9 +40,9 @@ public class BuffController : MonoBehaviour
 
     private void Start()
     {
+        weaponScript = PlayerScript.instance.weaponSlot;
         UpdatePlayerTokensDisplay();
         RandomiseBuffs();
-        weaponScript = PlayerScript.instance.weaponSlot;
     }
 
     public void UpdatePlayerTokensDisplay()
@@ -81,7 +81,107 @@ public class BuffController : MonoBehaviour
         desc = desc.Replace("[value]", buff.value);
         desc = desc.Replace("[secValue]", buff.secValue);
 
-        //TODO: Calculate and format currentValue and currentSecValue
+        switch (buff.category)
+        {
+            //Player Buffs
+            case "player":
+                switch (buff.type)
+                {
+                    case "maxHealth":
+                        desc = desc.Replace("[currentValue]", ((PlayerScript.instance.maxHealthMultiplier - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    case "movementSpeed":
+                        desc = desc.Replace("[currentValue]", ((PlayerScript.instance.moveSpeedMultiplier - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    case "evasion":
+                        if (PlayerScript.instance.evasionMultiplier == 0) desc = desc.Replace("[currentValue]", PlayerScript.instance.evasionMultiplier + "%");
+                        desc = desc.Replace("[currentValue]", ((PlayerScript.instance.evasionMultiplier - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    case "regeneration":
+                        desc = desc.Replace("[currentValue]", PlayerScript.instance.regenValue.ToString());
+                        break;
+                    case "dodgeCd":
+                        desc = desc.Replace("[currentValue]", ((1 - (PlayerScript.instance.rollCD / 3)) * 100).ToString("0.##") + "%");
+                        break;
+                    default:
+                        break;
+                }
+                break;
+
+            //Melee Buffs
+            case "melee":
+                switch (buff.type)
+                {
+                    case "explode":
+                        desc = desc.Replace("[currentValue]", weaponScript.meleeExplodeDmg.ToString());
+                        break;
+                    case "lifesteal":
+                        if (weaponScript.meleeLifeStealMultiplier == 0) desc = desc.Replace("[currentValue]", weaponScript.meleeLifeStealMultiplier + "%");
+                        desc = desc.Replace("[currentValue]", ((weaponScript.meleeLifeStealMultiplier - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    case "crit":
+                        if (weaponScript.meleeCritChance == 0) desc = desc.Replace("[currentValue]", weaponScript.meleeCritChance + "%");
+                        desc = desc.Replace("[currentValue]", ((weaponScript.meleeCritChance - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    case "special":
+                        //TODO
+                        break;
+                    case "fireRate":
+                        desc = desc.Replace("[currentValue]", ((weaponScript.meleeFireRateMultiplier - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    case "dmgBlock":
+                        if (PlayerScript.instance.meleeDmgBlockMultiplier == 0) desc = desc.Replace("[currentValue]", PlayerScript.instance.meleeDmgBlockMultiplier + "%");
+                        desc = desc.Replace("[currentValue]", ((PlayerScript.instance.meleeDmgBlockMultiplier - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    case "bleed":
+                        if (weaponScript.meleeBleedChance == 0) desc = desc.Replace("[currentValue]", weaponScript.meleeBleedChance + "%");
+                        desc = desc.Replace("[currentValue]", ((weaponScript.meleeBleedChance - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    case "damage":
+                        desc = desc.Replace("[currentValue]", ((weaponScript.meleeDmgMultiplier - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    default:
+                        break;
+                }
+                break;
+
+            //Gun Buffs
+            case "gun":
+                switch (buff.type)
+                {
+                    case "bleed":
+                        if (weaponScript.gunBleedChance == 0) desc = desc.Replace("[currentValue]", weaponScript.gunBleedChance + "%");
+                        desc = desc.Replace("[currentValue]", ((weaponScript.gunBleedChance - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    case "burn":
+                        break;
+                    case "lightning":
+                        break;
+                    case "reload":
+                        if (weaponScript.instaReloadChance == 0) desc = desc.Replace("[currentValue]", weaponScript.instaReloadChance + "%");
+                        desc = desc.Replace("[currentValue]", ((weaponScript.instaReloadChance - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    case "fireRate":
+                        desc = desc.Replace("[currentValue]", ((weaponScript.gunFireRateMultiplier - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    case "range":
+                        desc = desc.Replace("[currentValue]", ((weaponScript.rangeMultiplier - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    case "pierce":
+                        if (weaponScript.pierceChance == 0) desc = desc.Replace("[currentValue]", weaponScript.pierceChance + "%");
+                        desc = desc.Replace("[currentValue]", ((weaponScript.pierceChance - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    case "crit":
+                        if (weaponScript.gunCritChance == 0) desc = desc.Replace("[currentValue]", weaponScript.gunCritChance + "%");
+                        desc = desc.Replace("[currentValue]", ((weaponScript.gunCritChance - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
         return desc;
     }
 
@@ -155,7 +255,7 @@ public class BuffController : MonoBehaviour
                     {
                         case "explode":
                             float mExplodeDmg = float.Parse(buff.Key.value);
-                            weaponScript.meleeExplodeDmg = mExplodeDmg;
+                            weaponScript.meleeExplodeDmg += mExplodeDmg;
                             break;
                         case "lifesteal":
                             float mLifeSteal = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
