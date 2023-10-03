@@ -90,8 +90,6 @@ public class ShopItem : MonoBehaviour
         this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "OWNED";
         this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.RemoveAllListeners();
         PlayerScript.instance.UpdateCash(-this.cost);
-        ShopController.instance.audioSource.clip = Resources.Load<AudioClip>($"Audio/Cash");
-        ShopController.instance.audioSource.Play();
     }
 
     public void Sell()
@@ -101,8 +99,6 @@ public class ShopItem : MonoBehaviour
         this.weaponData.currentAmmoCount = this.weaponData.clipSize;
         _data = this.weaponData;
         PlayerScript.instance.UpdateCash(this.weaponData.cost / 2);
-        ShopController.instance.audioSource.clip = Resources.Load<AudioClip>($"Audio/Cash");
-        ShopController.instance.audioSource.Play();
         PlayerScript.instance.RemoveFromInventory(_data);
         if (!PlayerScript.instance.inventory.Contains(_data))
         {

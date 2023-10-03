@@ -13,7 +13,6 @@ public class PlayerScript : MonoBehaviour
     public Collider2D coll;
     public SpriteRenderer playerSprite;
     [SerializeField] private ParticleSystem dustCloud;
-    public AudioSource audioSource;
 
     public string playerName;
     public float maxHealth;
@@ -94,8 +93,6 @@ public class PlayerScript : MonoBehaviour
 
     private void Start()
     {
-        audioSource.volume = 0.5f;
-
         SetPlayerData(_data);
 
         EquipDefaultWeapon(Resources.Load<Weapon>($"ScriptableObjects/Weapons/{this.defaultWeapon}"));
@@ -427,16 +424,6 @@ public class PlayerScript : MonoBehaviour
         {
             GameController.instance.CursorNotOverUI();
         }
-        else
-        {
-            RefreshShopUI();
-        }
-    }
-
-    public void RefreshShopUI()
-    {
-        ShopController.instance.DisplaySellPanel();
-        ShopController.instance.DisplayBuyPanel();
     }
 
     public void UpdateStimTimerUI(float timer, float duration)

@@ -10,14 +10,6 @@ public class MothershipTurretScript : MonoBehaviour
     public Sprite flash;
     public int framesToFlash = 2;
 
-    [SerializeField]
-    private AudioSource audioSource;
-
-    private void Start()
-    {
-        audioSource.volume = 0.5f;
-    }
-
     public void DoAttack(string attackType, float attackPower, float weaponRange, float cooldown)
     {
         if (!limitAttack)
@@ -49,9 +41,6 @@ public class MothershipTurretScript : MonoBehaviour
         GameObject bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Bullet"), transform.position, Quaternion.identity);
         bullet.GetComponent<EnemyBulletScript>().Initialise(attackPower, weaponRange);
 
-        audioSource.clip = Resources.Load<AudioClip>($"Audio/Turret Gun");
-        audioSource.Play();
-
         bullet.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
         yield return new WaitForSeconds(cooldown);
         limitAttack = false;
@@ -64,24 +53,18 @@ public class MothershipTurretScript : MonoBehaviour
         GameObject bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Bullet"), transform.position, Quaternion.identity);
         bullet.GetComponent<EnemyBulletScript>().Initialise(attackPower, weaponRange);
 
-        audioSource.clip = Resources.Load<AudioClip>($"Audio/Turret Gun");
-        audioSource.Play();
         bullet.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
         StartCoroutine(FlashMuzzleFlash());
         yield return new WaitForSeconds(0.05f);
         GameObject bullet2 = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Bullet"), transform.position, Quaternion.identity);
         bullet2.GetComponent<EnemyBulletScript>().Initialise(attackPower, weaponRange);
 
-        audioSource.clip = Resources.Load<AudioClip>($"Audio/Turret Gun");
-        audioSource.Play();
         bullet2.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
         StartCoroutine(FlashMuzzleFlash());
         yield return new WaitForSeconds(0.05f);
         GameObject bullet3 = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Bullet"), transform.position, Quaternion.identity);
         bullet3.GetComponent<EnemyBulletScript>().Initialise(attackPower, weaponRange);
 
-        audioSource.clip = Resources.Load<AudioClip>($"Audio/Turret Gun");
-        audioSource.Play();
         bullet3.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
         StartCoroutine(FlashMuzzleFlash());
         yield return new WaitForSeconds(cooldown);
@@ -96,8 +79,6 @@ public class MothershipTurretScript : MonoBehaviour
         GameObject rocket = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Rocket"), transform.position, Quaternion.identity);
         rocket.GetComponent<EnemyRocketScript>().Initialise(attackPower, weaponRange);
 
-        audioSource.clip = Resources.Load<AudioClip>($"Audio/Turret Rocket");
-        audioSource.Play();
         //can add Projectile Speed to CSV (600 here)
         rocket.GetComponent<Rigidbody2D>().AddForce(transform.up * 150);
 
@@ -113,8 +94,6 @@ public class MothershipTurretScript : MonoBehaviour
         GameObject rocket = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Homing Rocket"), transform.position, Quaternion.identity);
         rocket.GetComponent<EnemyHomingRocketScript>().Initialise(attackPower);
 
-        audioSource.clip = Resources.Load<AudioClip>($"Audio/Turret Rocket");
-        audioSource.Play();
         yield return new WaitForSeconds(0);
         limitAttack = false;
         yield return null;

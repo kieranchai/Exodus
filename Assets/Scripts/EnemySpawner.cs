@@ -20,15 +20,15 @@ public class EnemySpawner : MonoBehaviour
     private GameObject chosenEnemy;
 
     //For Shop Access
-    private bool zoneUnlocked = false;
+    public bool zoneUnlocked = false;
 
     void Start()
     {
         zoneEnemies = Resources.LoadAll<GameObject>($"Prefabs/Enemies/{spawnZone}");
-        Array.Sort(zoneEnemies, (a,b) => a.GetComponent<EnemyScript>()._data.spawnChance - b.GetComponent<EnemyScript>()._data.spawnChance);
+        Array.Sort(zoneEnemies, (a, b) => a.GetComponent<EnemyScript>()._data.spawnChance - b.GetComponent<EnemyScript>()._data.spawnChance);
         currentZone = gameObject.GetComponent<Collider2D>();
 
-        for(int i = 0; i < enemyLimit; i++)
+        for (int i = 0; i < enemyLimit; i++)
         {
             SpawnRandomEnemy();
         }
@@ -36,7 +36,7 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-        if(canRespawn)
+        if (canRespawn)
         {
             timer += Time.deltaTime;
             if (timer >= duration)
@@ -45,6 +45,19 @@ public class EnemySpawner : MonoBehaviour
                 timer = 0;
             }
         }
+
+        if (!zoneUnlocked)
+        {
+            zoneUnlocked = CheckIfZoneUnlocked();
+        }
+    }
+
+    private bool CheckIfZoneUnlocked()
+    {
+        if (enemyCounter > 0) return false;
+
+        //TODO: add effects when unlocked, can add heal over time when unlocked ontrigger
+        return true;
     }
 
     public void SpawnRandomEnemy()
@@ -52,10 +65,10 @@ public class EnemySpawner : MonoBehaviour
         if (enemyCounter == enemyLimit) return;
         Vector3 spawnLocation = RandomPointInZone(currentZone.bounds);
 
-        random = Random.Range(1,100);
+        random = Random.Range(1, 100);
         cumulative = 0;
 
-        for(int i = 0; i < zoneEnemies.Length; i++)
+        for (int i = 0; i < zoneEnemies.Length; i++)
         {
             cumulative += zoneEnemies[i].GetComponent<EnemyScript>()._data.spawnChance;
             if (random < cumulative)

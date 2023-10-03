@@ -21,7 +21,6 @@ public class WeaponScript : MonoBehaviour
     public Animator anim;
     public Transform circleOrigin;
     public float radius;
-    [SerializeField] private AudioSource audioSource;
 
     private int clipSize;
     private float reloadSpeed;
@@ -51,7 +50,6 @@ public class WeaponScript : MonoBehaviour
 
     private void Awake()
     {
-        audioSource.volume = 0.5f;
         initialPos = transform.localPosition;
 
         meleeDmgMultiplier = 1;
@@ -249,18 +247,12 @@ public class WeaponScript : MonoBehaviour
         {
             case "Fists":
                 anim.SetTrigger("Fists");
-                audioSource.clip = Resources.Load<AudioClip>($"Audio/Fists");
-                audioSource.Play();
                 break;
             case "Katana":
                 anim.SetTrigger("Katana");
-                audioSource.clip = Resources.Load<AudioClip>($"Audio/Katana");
-                audioSource.Play();
                 break;
             case "Baseball Bat":
                 anim.SetTrigger("Baseball");
-                audioSource.clip = Resources.Load<AudioClip>($"Audio/Baseball Bat");
-                audioSource.Play();
                 break;
             default:
                 break;
@@ -310,35 +302,9 @@ public class WeaponScript : MonoBehaviour
                     break;
             }
 
-            //Audio
-            switch (this.weaponName)
-            {
-                case "Sniper Rifle":
-                    audioSource.clip = Resources.Load<AudioClip>($"Audio/Sniper Rifle");
-                    audioSource.Play();
-                    break;
-                case "Light Pistol":
-                case "Submachine Gun":
-                    audioSource.clip = Resources.Load<AudioClip>($"Audio/Light Pistol");
-                    audioSource.Play();
-                    break;
-                case "Assault Rifle":
-                    audioSource.clip = Resources.Load<AudioClip>($"Audio/Assault Rifle");
-                    audioSource.Play();
-                    break;
-                default:
-                    break;
-            }
-
             //can add Projectile Speed to CSV (600 here)
             bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 600);
             yield return new WaitForSeconds(this.cooldown * this.gunFireRateMultiplier);
-        }
-        else
-        {
-            audioSource.Stop();
-            audioSource.clip = Resources.Load<AudioClip>($"Audio/Empty");
-            audioSource.Play();
         }
         limitAttack = false;
         yield return null;

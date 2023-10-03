@@ -5,19 +5,16 @@ public class EnemyExplosionScript : MonoBehaviour
     private float splashRange;
     public float explosionRate;
     private float attackPower;
-    [SerializeField] private AudioSource audioSource;
 
     void Start()
     {
         transform.localScale = new Vector3(0, 0, 0);
-        audioSource.volume = 0.5f;
     }
 
     public void Initialise(float attackPower, float splashRange)
     {
         this.attackPower = attackPower;
         this.splashRange = splashRange;
-        AudioSource.PlayClipAtPoint(audioSource.clip, transform.position);
     }
 
     void Update()

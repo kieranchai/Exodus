@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class ShopController : MonoBehaviour
 {
-    public static ShopController instance { get; private set; }
-
     [SerializeField]
     private GameObject shopItemPrefab;
 
@@ -22,17 +20,11 @@ public class ShopController : MonoBehaviour
 
     private GameObject shopButton;
 
-    public AudioSource audioSource;
+    [SerializeField]
+    private Weapon[] weaponsList;
 
     private void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        instance = this;
-
         buyPanel = shopPanel.transform.Find("Buy Panel").gameObject;
         buyPanel.SetActive(true);
         sellPanel = shopPanel.transform.Find("Sell Panel").gameObject;
@@ -41,13 +33,10 @@ public class ShopController : MonoBehaviour
 
     private void Start()
     {
-        audioSource.volume = 0.5f;
-        Weapon[] allWeapons = Resources.LoadAll<Weapon>("ScriptableObjects/Weapons");
-        Array.Sort(allWeapons, (a, b) => a.cost - b.cost);
-        foreach (Weapon weaponData in allWeapons)
+        Array.Sort(weaponsList, (a, b) => a.cost - b.cost);
+        foreach (Weapon weaponData in weaponsList)
         {
             weaponData.currentAmmoCount = weaponData.clipSize;
-            if (weaponData.inShop == "NO") continue;
             GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
             shopItem.GetComponent<ShopItem>().Initialise(weaponData, "buy");
         }
@@ -75,20 +64,43 @@ public class ShopController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            PlayerScript.instance.isInShop = true;
-            shopButton = Instantiate(shopButtonPrefab, PlayerScript.instance.transform.position + new Vector3(0, 0.5f), Quaternion.identity);
+            if (gameObject.transform.parent.GetComponent<EnemySpawner>().zoneUnlocked)
+            {
+                shopButton = Instantiate(shopButtonPrefab, PlayerScript.instance.transform.position + new Vector3(0, 0.5f), Quaternion.identity);
+                PlayerScript.instance.isInShop = true;
+                ResetShopPanels();
+            }
+            else
+            {
+                Debug.Log("Instantiated Locked shop button");
+                //TODO: Display alert cannot access yet
+            }
         }
+    }
+
+    private void ResetShopPanels()
+    {
+        DisplaySellPanel();
+        DisplayBuyPanel();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
+            if (gameObject.transform.parent.GetComponent<EnemySpawner>().zoneUnlocked)
+            {
+                Destroy(shopButton);
+                shopButton = null;
+            }
+            else
+            {
+                Debug.Log("Locked shop button destroyed");
+            }
+
             PlayerScript.instance.isInShop = false;
             if (PlayerScript.instance.CanSeeShop) GameController.instance.isOverUI = false;
             PlayerScript.instance.CanSeeShop = false;
-            Destroy(shopButton);
-            shopButton = null;
         }
     }
 
