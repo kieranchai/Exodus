@@ -17,6 +17,7 @@ MonoBehaviour:
   health: 6
   movementSpeed: 3
   equippedWeapon: Pincers
+  hpDrop: 5
   xpDrop: 5
   cashDrop: 10
   lootDrop: NULL

@@ -81,7 +81,7 @@ public class CSVtoSO
         {
             string[] splitData = s.Split(',');
 
-            if (splitData.Length != 10)
+            if (splitData.Length != 11)
             {
                 return;
             }
@@ -92,11 +92,12 @@ public class CSVtoSO
             enemy.health = float.Parse(splitData[2]);
             enemy.movementSpeed = float.Parse(splitData[3]);
             enemy.equippedWeapon = splitData[4];
-            enemy.xpDrop = int.Parse(splitData[5]);
-            enemy.cashDrop = int.Parse(splitData[6]);
-            enemy.lootDrop = splitData[7];
-            enemy.spawnZone = splitData[8];
-            enemy.spawnChance = int.Parse(splitData[9]);
+            enemy.hpDrop = int.Parse(splitData[5]);
+            enemy.xpDrop = int.Parse(splitData[6]);
+            enemy.cashDrop = int.Parse(splitData[7]);
+            enemy.lootDrop = splitData[8];
+            enemy.spawnZone = splitData[9];
+            enemy.spawnChance = int.Parse(splitData[10]);
 
             AssetDatabase.CreateAsset(enemy, $"Assets/Resources/ScriptableObjects/Enemies/{enemy.id}.asset");
         }

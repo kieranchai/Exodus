@@ -19,6 +19,7 @@ public class EnemyScript : MonoBehaviour
     private float movementSpeed;
     private float currentHealth;
     private int xpDrop;
+    private int hpDrop;
     private int cashDrop;
     private string lootDrop;
     public string spawnZone;
@@ -47,6 +48,12 @@ public class EnemyScript : MonoBehaviour
 
     [SerializeField]
     private ParticleSystem spawnParticle;
+
+    [SerializeField]
+    private GameObject healthOrbPrefab;
+
+    [SerializeField]
+    private GameObject cashOrbPrefab;
     public enum ENEMY_STATE
     {
         WANDER,
@@ -119,6 +126,7 @@ public class EnemyScript : MonoBehaviour
         this.movementSpeed = enemyData.movementSpeed;
         this.equippedWeapon = Resources.Load<Weapon>($"ScriptableObjects/Weapons/{enemyData.equippedWeapon}");
         this.xpDrop = enemyData.xpDrop;
+        this.hpDrop = enemyData.hpDrop;
         this.cashDrop = enemyData.cashDrop;
         this.lootDrop = enemyData.lootDrop;
         this.spawnChance = enemyData.spawnChance;
@@ -267,8 +275,16 @@ public class EnemyScript : MonoBehaviour
         DamagePopup xpCashPopup = xpCashPopupTransform.GetComponent<DamagePopup>();
         xpCashPopup.SetupXPCash(cashDrop, xpDrop);
 
-        PlayerScript.instance.UpdateExperience(xpDrop);
-        PlayerScript.instance.UpdateCash(cashDrop);
+        for (int i = 0; i < hpDrop/5; i++) {
+            GameObject orb = Instantiate(healthOrbPrefab, transform.position, transform.rotation);   
+            orb.GetComponent<Rigidbody2D>().AddRelativeForce(Random.onUnitSphere * 100f);
+        }
+
+        for (int i = 0; i < cashDrop/5; i++) {
+            GameObject orb = Instantiate(cashOrbPrefab, transform.position, transform.rotation);   
+            orb.GetComponent<Rigidbody2D>().AddRelativeForce(Random.onUnitSphere * 100f);
+        }
+
         --this.mySpawner.enemyCounter;
         this.currentState = ENEMY_STATE.DEAD;
     }

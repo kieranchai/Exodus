@@ -17,6 +17,7 @@ MonoBehaviour:
   health: 15
   movementSpeed: 4
   equippedWeapon: Alien Mouth
+  hpDrop: 10
   xpDrop: 10
   cashDrop: 30
   lootDrop: NULL

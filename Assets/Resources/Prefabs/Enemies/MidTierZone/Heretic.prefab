@@ -327,6 +327,8 @@ MonoBehaviour:
   xpCashPopupPrefab: {fileID: 4179147922126599982, guid: 35cce36764d8fe945b0bb43cf7dad78b, type: 3}
   mySpawner: {fileID: 0}
   spawnParticle: {fileID: 449303069872694247}
+  healthOrbPrefab: {fileID: 8666502702400235091, guid: e089aadca89f27c4daca18dd9e45252b, type: 3}
+  cashOrbPrefab: {fileID: 8666502702400235091, guid: 2f6dbdc67005c394c9c6e0419f562369, type: 3}
   currentState: 0
 --- !u!212 &7865783603933936253
 SpriteRenderer:

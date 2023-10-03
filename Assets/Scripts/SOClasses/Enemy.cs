@@ -8,6 +8,7 @@ public class Enemy : ScriptableObject
     public float health;
     public float movementSpeed;
     public string equippedWeapon;
+    public int hpDrop;
     public int xpDrop;
     public int cashDrop;
     public string lootDrop;

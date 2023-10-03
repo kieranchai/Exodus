@@ -19,6 +19,8 @@ TagManager:
   - Woods
   - Beach
   - Water
+  - HpOrb
+  - CashOrb
   layers:
   - Default
   - TransparentFX
@@ -33,7 +35,7 @@ TagManager:
   - Tilemap Collider
   - Boss
   - Forcefield
-  - 
+  - Orbs
   - 
   - 
   - 

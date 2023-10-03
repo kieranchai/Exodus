@@ -17,6 +17,7 @@ MonoBehaviour:
   health: 15
   movementSpeed: 6
   equippedWeapon: Suicide Bomb
+  hpDrop: 20
   xpDrop: 20
   cashDrop: 30
   lootDrop: NULL

@@ -17,6 +17,7 @@ MonoBehaviour:
   health: 30
   movementSpeed: 2.92
   equippedWeapon: Alien Pistol
+  hpDrop: 25
   xpDrop: 25
   cashDrop: 90
   lootDrop: NULL
