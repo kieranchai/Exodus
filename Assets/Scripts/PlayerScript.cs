@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -44,6 +45,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private GameObject inventoryItemPrefab;
     [SerializeField] private Transform damagePopupPrefab;
     [SerializeField] private Transform healPopUpPrefab;
+
+    public DamagePopup currentCashPopup;
 
     public bool CanSeeInventory = false;
     public bool CanSeeShop = false;
@@ -316,10 +319,15 @@ public class PlayerScript : MonoBehaviour
 
     public void UpdateCash(int value)
     {
-        if (value > 0)
+        if (value > 0 && currentCashPopup != null)
+        {
+            currentCashPopup.UpdateCash(value);
+        }
+        else if (value > 0)
         {
             Transform cashPopUpTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
             DamagePopup cashPopUp = cashPopUpTransform.GetComponent<DamagePopup>();
+            currentCashPopup = cashPopUp;
             cashPopUp.SetupCash(value);
         }
 
