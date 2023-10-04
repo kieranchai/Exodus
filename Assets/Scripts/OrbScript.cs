@@ -19,12 +19,18 @@ public class OrbScript : MonoBehaviour
                 rb.velocity = new Vector2(targetdirection.x, targetdirection.y) * moveSpeed;
             }
         }
-
     }
+
     public void SetTarget(Vector3 position)
     {
         targetPosition = position;
         hasTarget = true;
+    }
+
+    public void UnsetTarget()
+    {
+        hasTarget = false;
+        targetPosition = transform.position;
     }
 
     public bool PlayerInSight()

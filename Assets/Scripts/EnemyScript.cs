@@ -13,6 +13,7 @@ public class EnemyScript : MonoBehaviour
     private SpriteRenderer weaponSprite;
     private Material originalMaterial;
     public Material flashMaterial;
+    private Rigidbody2D rb;
 
     private string enemyName;
     private float maxHealth;
@@ -69,6 +70,7 @@ public class EnemyScript : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         enemyCollider = GetComponent<Collider2D>();
+        rb = GetComponent<Rigidbody2D>();
         enemySprite = GetComponent<SpriteRenderer>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
@@ -273,7 +275,7 @@ public class EnemyScript : MonoBehaviour
         // Drop XP, Cash, Loot
         Transform xpCashPopupTransform = Instantiate(xpCashPopupPrefab, transform.position + new Vector3(0.5f ,0), Quaternion.identity);
         DamagePopup xpCashPopup = xpCashPopupTransform.GetComponent<DamagePopup>();
-        xpCashPopup.SetupXPCash(cashDrop, xpDrop);
+        xpCashPopup.SetupXP(xpDrop);
 
         for (int i = 0; i < hpDrop/5; i++) {
             GameObject orb = Instantiate(healthOrbPrefab, transform.position, transform.rotation);   
@@ -294,6 +296,7 @@ public class EnemyScript : MonoBehaviour
         agent.isStopped = true;
         anim.enabled = false;
         enemyCollider.enabled = false;
+        rb.bodyType = RigidbodyType2D.Static;
         enemySprite.sprite = Resources.Load<Sprite>($"Sprites/{this.enemyName}_Death");
 
         Destroy(gameObject, 2f);

@@ -316,6 +316,13 @@ public class PlayerScript : MonoBehaviour
 
     public void UpdateCash(int value)
     {
+        if (value > 0)
+        {
+            Transform cashPopUpTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
+            DamagePopup cashPopUp = cashPopUpTransform.GetComponent<DamagePopup>();
+            cashPopUp.SetupCash(value);
+        }
+
         playerPanel.transform.Find("Cash").GetComponent<SlidingNumber>().AddToNumber(value);
         this.cash += value;
     }
@@ -332,7 +339,6 @@ public class PlayerScript : MonoBehaviour
     {
         equippedWeapon = weaponData;
         weaponSlot.SetWeaponData(weaponData);
-        transform.GetChild(1).gameObject.SetActive(false);
         weaponNumber = inventory.FindIndex(a => a == weaponData);
         RefreshEquippedUI();
         RefreshInventoryUI();
@@ -340,8 +346,6 @@ public class PlayerScript : MonoBehaviour
 
     public void UnequipWeapon()
     {
-        if (equippedWeapon.weaponType == "akimbo") transform.GetChild(1).gameObject.SetActive(false);
-
         // Set Equipped Weapon Data to FISTS
         weaponSlot.SetWeaponData(Resources.Load<Weapon>("ScriptableObjects/Weapons/Fists"));
         equippedWeapon = Resources.Load<Weapon>("ScriptableObjects/Weapons/Fists");

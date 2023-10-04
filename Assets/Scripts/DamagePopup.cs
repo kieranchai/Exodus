@@ -24,9 +24,15 @@ public class DamagePopup : MonoBehaviour
         textMesh.SetText("-"+(int)damageAmount);
     }
 
-    public void SetupXPCash(int cashAmount, int xpAmount)
+    public void SetupXP(int xpAmount)
     {
-        textMesh.SetText($"+${cashAmount}\n+{xpAmount}XP");
+        textMesh.SetText($"+{xpAmount}XP");
+        textColor = textMesh.color;
+    }
+
+    public void SetupCash(int cashAmount)
+    {
+        textMesh.SetText($"+${cashAmount}");
         textColor = textMesh.color;
     }
 
