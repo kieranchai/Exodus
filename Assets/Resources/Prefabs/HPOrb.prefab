@@ -164,3 +164,6 @@ MonoBehaviour:
   rb: {fileID: 1097697323190077912}
   value: 5
   moveSpeed: 8
+  timer: 5
+  isFlashing: 0
+  sr: {fileID: 8148381067163052571}
