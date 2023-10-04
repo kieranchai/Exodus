@@ -19,6 +19,8 @@ public class OrbScript : MonoBehaviour
     }
     void FixedUpdate()
     {
+        Vector3 vec = new Vector3(0.6f + Mathf.Sin(Time.time * 4f) * 0.05f, 0.6f + Mathf.Sin(Time.time * 4f) * 0.05f, 0.6f + Mathf.Sin(Time.time * 4f) * 0.05f);
+        transform.localScale = vec;
         if (timer > 0)
         {
             timer -= Time.deltaTime;
