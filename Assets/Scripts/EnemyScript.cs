@@ -278,14 +278,18 @@ public class EnemyScript : MonoBehaviour
         xpCashPopup.SetupXP(xpDrop);
 
         for (int i = 0; i < hpDrop/5; i++) {
-            GameObject orb = Instantiate(healthOrbPrefab, transform.position, transform.rotation);   
-            orb.GetComponent<Rigidbody2D>().AddRelativeForce(Random.onUnitSphere * 100f);
+            GameObject orb = Instantiate(healthOrbPrefab, transform.position, transform.rotation);
+            float explosion = 100f + Random.Range(-30, 30);
+            orb.GetComponent<Rigidbody2D>().AddRelativeForce(Random.onUnitSphere * explosion);
         }
 
         for (int i = 0; i < cashDrop/5; i++) {
-            GameObject orb = Instantiate(cashOrbPrefab, transform.position, transform.rotation);   
-            orb.GetComponent<Rigidbody2D>().AddRelativeForce(Random.onUnitSphere * 100f);
+            GameObject orb = Instantiate(cashOrbPrefab, transform.position, transform.rotation);
+            float explosion = 100f + Random.Range(-30, 30);
+            orb.GetComponent<Rigidbody2D>().AddRelativeForce(Random.onUnitSphere * explosion);
         }
+
+        PlayerScript.instance.UpdateExperience(xpDrop);
 
         --this.mySpawner.enemyCounter;
         this.currentState = ENEMY_STATE.DEAD;
