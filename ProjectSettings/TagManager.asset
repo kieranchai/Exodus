@@ -21,6 +21,11 @@ TagManager:
   - Water
   - HpOrb
   - CashOrb
+  - Beach_Shop
+  - Forest_Shop
+  - City_Shop
+  - Ghetto
+  - Ghetto_Shop
   layers:
   - Default
   - TransparentFX

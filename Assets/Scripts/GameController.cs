@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance { get; private set; }
     public bool isOverUI = false;
-    public BoxCollider2D[] Zones;
+    public Collider2D[] Zones;
 
     private bool tutorialStarted = false;
     private bool allowShooting = false;
