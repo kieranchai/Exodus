@@ -510,4 +510,8 @@ public class PlayerScript : MonoBehaviour
         }
         playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().material = originalMaterial;
     }
+
+    public void SetAnimation(AnimatorOverrideController overideController) {
+        anim.runtimeAnimatorController = overideController;
+    }
 }

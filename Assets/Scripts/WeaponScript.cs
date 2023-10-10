@@ -21,6 +21,9 @@ public class WeaponScript : MonoBehaviour
     public Animator anim;
     public Transform circleOrigin;
     public float radius;
+    public AnimatorOverrideController PistolAOC;
+    public AnimatorOverrideController RifleAOC;
+    public AnimatorOverrideController MeleeAOC;
 
     private int clipSize;
     private float reloadSpeed;
@@ -108,6 +111,7 @@ public class WeaponScript : MonoBehaviour
         {
             anim.enabled = true;
             this.isReloading = false;
+            PlayerScript.instance.SetAnimation(MeleeAOC);
         }
         else
         {
@@ -125,6 +129,18 @@ public class WeaponScript : MonoBehaviour
         transform.localRotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0);
         limitAttack = true;
         StartCoroutine(BufferTime());
+        switch (weaponData.weaponName) {
+            case ("Assault Rifle"):
+            case ("Submachine Gun"):
+            case ("Sniper Rifle"):
+                PlayerScript.instance.SetAnimation(RifleAOC);
+                break;
+            case ("Light Pistol"):
+                PlayerScript.instance.SetAnimation(PistolAOC);
+                break;
+            default:
+                break;
+        }
     }
 
     IEnumerator BufferTime()
