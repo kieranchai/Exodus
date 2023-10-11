@@ -34,12 +34,6 @@ public class ShopController : MonoBehaviour
     private void Start()
     {
         Array.Sort(weaponsList, (a, b) => a.cost - b.cost);
-        foreach (Weapon weaponData in weaponsList)
-        {
-            weaponData.currentAmmoCount = weaponData.clipSize;
-            GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
-            shopItem.GetComponent<ShopItem>().Initialise(weaponData, "buy");
-        }
     }
 
     private void Update()
@@ -66,6 +60,7 @@ public class ShopController : MonoBehaviour
         {
             if (gameObject.transform.parent.GetComponent<EnemySpawner>().zoneUnlocked)
             {
+                RefreshShop();
                 shopButton = Instantiate(shopButtonPrefab, PlayerScript.instance.transform.position + new Vector3(0, 0.5f), Quaternion.identity);
                 PlayerScript.instance.isInShop = true;
                 ResetShopPanels();
@@ -75,6 +70,32 @@ public class ShopController : MonoBehaviour
                 Debug.Log("Instantiated Locked shop button");
                 //TODO: Display alert cannot access yet
             }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            if (gameObject.transform.parent.GetComponent<EnemySpawner>().zoneUnlocked && !shopButton)
+            {
+                shopButton = Instantiate(shopButtonPrefab, PlayerScript.instance.transform.position + new Vector3(0, 0.5f), Quaternion.identity);
+            }
+        }
+    }
+
+    public void RefreshShop()
+    {
+        foreach (Transform child in buyPanel.transform.Find("Weapon Slots"))
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (Weapon weaponData in weaponsList)
+        {
+            weaponData.currentAmmoCount = weaponData.clipSize;
+            GameObject shopItem = Instantiate(shopItemPrefab, buyPanel.transform.Find("Weapon Slots"));
+            shopItem.GetComponent<ShopItem>().Initialise(weaponData, "buy");
         }
     }
 
