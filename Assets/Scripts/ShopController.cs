@@ -80,6 +80,9 @@ public class ShopController : MonoBehaviour
             if (gameObject.transform.parent.GetComponent<EnemySpawner>().zoneUnlocked && !shopButton)
             {
                 shopButton = Instantiate(shopButtonPrefab, PlayerScript.instance.transform.position + new Vector3(0, 0.5f), Quaternion.identity);
+                PlayerScript.instance.isInShop = true;
+                RefreshShop();
+                ResetShopPanels();
             }
         }
     }
