@@ -10,3 +10,4 @@
 10,Alien Rifle,NULL,3.3,Sprites/Alien Rifle,NULL,line,0.2,6.5,0,0,0,NO
 11,Alien Pistol,NULL,3,Sprites/Alien Pistol,NULL,line,0.6,3,0,0,0,NO
 12,Alien Mouth,NULL,3,Sprites/Alien Mouth,NULL,melee,0.6,1,0,0,0,NO
+13,Shop Turret,NULL,3.3,Sprites/Shop Keeper Turret,NULL,line,0.2,6.5,0,0,0,NO

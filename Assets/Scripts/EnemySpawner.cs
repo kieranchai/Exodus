@@ -21,30 +21,37 @@ public class EnemySpawner : MonoBehaviour
 
     //For Shop Access
     public bool zoneUnlocked = false;
+    public bool hasTurret = false;
 
     void Start()
     {
-        zoneEnemies = Resources.LoadAll<GameObject>($"Prefabs/Enemies/{spawnZone}");
-        Array.Sort(zoneEnemies, (a, b) => a.GetComponent<EnemyScript>()._data.spawnChance - b.GetComponent<EnemyScript>()._data.spawnChance);
-        currentZone = gameObject.GetComponent<Collider2D>();
-
-        for (int i = 0; i < enemyLimit; i++)
+        if (!hasTurret)
         {
-            SpawnRandomEnemy();
+            zoneEnemies = Resources.LoadAll<GameObject>($"Prefabs/Enemies/{spawnZone}");
+            Array.Sort(zoneEnemies, (a, b) => a.GetComponent<EnemyScript>()._data.spawnChance - b.GetComponent<EnemyScript>()._data.spawnChance);
+            currentZone = gameObject.GetComponent<Collider2D>();
+
+            for (int i = 0; i < enemyLimit; i++)
+            {
+                SpawnRandomEnemy();
+            }
+
         }
+
+        currentZone = gameObject.GetComponent<Collider2D>();
     }
 
     void Update()
     {
-        if (canRespawn)
-        {
-            timer += Time.deltaTime;
-            if (timer >= duration)
+            if (canRespawn)
             {
-                SpawnRandomEnemy();
-                timer = 0;
+                timer += Time.deltaTime;
+                if (timer >= duration)
+                {
+                    SpawnRandomEnemy();
+                    timer = 0;
+                }
             }
-        }
 
         if (!zoneUnlocked)
         {

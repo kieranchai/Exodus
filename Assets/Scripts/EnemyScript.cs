@@ -55,8 +55,10 @@ public class EnemyScript : MonoBehaviour
 
     [SerializeField]
     private GameObject cashOrbPrefab;
+    public bool stationary;
     public enum ENEMY_STATE
     {
+        SHOP,
         WANDER,
         CHASE,
         ATTACK,
@@ -65,7 +67,6 @@ public class EnemyScript : MonoBehaviour
     }
 
     public ENEMY_STATE currentState;
-
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -79,9 +80,17 @@ public class EnemyScript : MonoBehaviour
         weaponSprite = this.weaponSlot.GetComponent<SpriteRenderer>();
         SetEnemyData(_data);
         EquipWeapon(this.equippedWeapon);
-        this.currentState = ENEMY_STATE.WANDER;
         this.duration = 1f;
         this.sightRange = 5f;
+
+        if (stationary)
+        {
+            this.currentState = ENEMY_STATE.SHOP;
+        }
+        else
+        {
+            this.currentState = ENEMY_STATE.WANDER;
+        }
 
         spawnParticle.Play();
         originalMaterial = enemySprite.material;
@@ -89,13 +98,16 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
-        if (agent.velocity.magnitude > 0)
+        if (!stationary)
         {
-            anim.SetBool("isWalking", true);
-        }
-        else
-        {
-            anim.SetBool("isWalking", false);
+            if (agent.velocity.magnitude > 0)
+            {
+                anim.SetBool("isWalking", true);
+            }
+            else
+            {
+                anim.SetBool("isWalking", false);
+            }
         }
 
         switch (this.currentState)
@@ -115,6 +127,9 @@ public class EnemyScript : MonoBehaviour
                 break;
             case ENEMY_STATE.DEAD:
                 Dead();
+                break;
+            case ENEMY_STATE.SHOP:
+                Shop();
                 break;
             default:
                 break;
@@ -166,6 +181,17 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
+    public void Shop()
+    {
+        if (PlayerInSight())
+        {
+            transform.up = (PlayerScript.instance.transform.position - new Vector3(transform.position.x, transform.position.y));
+            if (PlayerInRange())
+            {
+                this.weaponSlot.TryAttack();
+            }
+        }
+    }
     public void Chase()
     {
         agent.SetDestination(PlayerScript.instance.transform.position);
@@ -273,11 +299,12 @@ public class EnemyScript : MonoBehaviour
     public void DeathEvent()
     {
         // Drop XP, Cash, Loot
-        Transform xpCashPopupTransform = Instantiate(xpCashPopupPrefab, transform.position + new Vector3(0.5f ,0), Quaternion.identity);
+        Transform xpCashPopupTransform = Instantiate(xpCashPopupPrefab, transform.position + new Vector3(0.5f, 0), Quaternion.identity);
         DamagePopup xpCashPopup = xpCashPopupTransform.GetComponent<DamagePopup>();
         xpCashPopup.SetupXP(xpDrop);
 
-        for (int i = 0; i < hpDrop/5; i++) {
+        for (int i = 0; i < hpDrop / 5; i++)
+        {
             float offset = Random.Range(-0.2f, 0.2f);
             Vector3 pos = new Vector3(transform.position.x + offset, transform.position.y + offset, transform.position.z);
 
@@ -286,7 +313,8 @@ public class EnemyScript : MonoBehaviour
             orb.GetComponent<Rigidbody2D>().AddRelativeForce(Random.onUnitSphere * explosion);
         }
 
-        for (int i = 0; i < cashDrop/5; i++) {
+        for (int i = 0; i < cashDrop / 5; i++)
+        {
             float offset = Random.Range(-0.2f, 0.2f);
             Vector3 pos = new Vector3(transform.position.x + offset, transform.position.y + offset, transform.position.z);
 
@@ -304,10 +332,10 @@ public class EnemyScript : MonoBehaviour
     public void Dead()
     {
         agent.isStopped = true;
-        anim.enabled = false;
+        if(!stationary)anim.enabled = false;
         enemyCollider.enabled = false;
         rb.bodyType = RigidbodyType2D.Static;
-        enemySprite.sprite = Resources.Load<Sprite>($"Sprites/{this.enemyName}_Death");
+        if(!stationary)enemySprite.sprite = Resources.Load<Sprite>($"Sprites/{this.enemyName}_Death");
 
         Destroy(gameObject, 2f);
     }
@@ -326,7 +354,8 @@ public class EnemyScript : MonoBehaviour
         {
             this.mySpawner = collision.gameObject.GetComponent<EnemySpawner>();
             this.hasSetSpawnZone = true;
-        }
+        } 
+        
     }
 
     IEnumerator EnemyHit()
@@ -345,7 +374,7 @@ public class EnemyScript : MonoBehaviour
 
     public IEnumerator Bleed(float damage)
     {
-        for(int i = 0; i<5; i++)
+        for (int i = 0; i < 5; i++)
         {
             this.TakeDamage(damage);
             //TODO: Play particle/vfx etc
