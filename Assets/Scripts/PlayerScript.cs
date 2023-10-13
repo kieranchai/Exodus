@@ -43,10 +43,6 @@ public class PlayerScript : MonoBehaviour
 
     public GameObject playerPanel;
     [SerializeField] private GameObject inventoryItemPrefab;
-    [SerializeField] private Transform damagePopupPrefab;
-    [SerializeField] private Transform healPopUpPrefab;
-
-    public DamagePopup currentCashPopup;
 
     public bool CanSeeInventory = false;
     public bool CanSeeShop = false;
@@ -261,9 +257,6 @@ public class PlayerScript : MonoBehaviour
         }
 
         UpdateHealth(-damage);
-        Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
-        DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
-        damagePopup.SetupPlayerDamage(damage);
 
         StopCoroutine(HitFlicker());
         StartCoroutine(HitFlicker());
@@ -291,10 +284,6 @@ public class PlayerScript : MonoBehaviour
             this.buffTokens++;
             BuffController.instance.UpdatePlayerTokensDisplay();
 
-            Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
-            DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
-            damagePopup.SetupLevelUp();
-
             playerPanel.transform.Find("Level").GetComponent<TMP_Text>().text = $"Lvl.{level}";
         }
     }
@@ -309,28 +298,10 @@ public class PlayerScript : MonoBehaviour
     {
         this.currentHealth += value;
         if (this.currentHealth >= this.maxHealth) this.currentHealth = this.maxHealth;
-        if (value > 0)
-        {
-            Transform healPopUpTransform = Instantiate(healPopUpPrefab, transform.position, Quaternion.identity);
-            DamagePopup healPopUp = healPopUpTransform.GetComponent<DamagePopup>();
-            healPopUp.SetupHeal(value);
-        }
     }
 
     public void UpdateCash(int value)
     {
-        if (value > 0 && currentCashPopup != null)
-        {
-            currentCashPopup.UpdateCash(value);
-        }
-        else if (value > 0)
-        {
-            Transform cashPopUpTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
-            DamagePopup cashPopUp = cashPopUpTransform.GetComponent<DamagePopup>();
-            currentCashPopup = cashPopUp;
-            cashPopUp.SetupCash(value);
-        }
-
         playerPanel.transform.Find("Cash").GetComponent<SlidingNumber>().AddToNumber(value);
         this.cash += value;
     }

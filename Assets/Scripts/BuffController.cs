@@ -153,8 +153,6 @@ public class BuffController : MonoBehaviour
                         if (weaponScript.gunBleedChance == 0) desc = desc.Replace("[currentValue]", weaponScript.gunBleedChance + "%");
                         desc = desc.Replace("[currentValue]", ((weaponScript.gunBleedChance - 1) * 100).ToString("0.##") + "%");
                         break;
-                    case "burn":
-                        break;
                     case "lightning":
                         break;
                     case "reload":
@@ -300,8 +298,6 @@ public class BuffController : MonoBehaviour
                             float gBleed = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
                             weaponScript.gunBleedChance = (float)Math.Pow(gBleed, buff.Value);
                             weaponScript.gunBleedDmg = float.Parse(buff.Key.secValue);
-                            break;
-                        case "burn":
                             break;
                         case "lightning":
                             float lightningChance = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;

@@ -8,7 +8,6 @@ public class MothershipScript : MonoBehaviour
     public float currentHealth;
 
     private SpriteRenderer motherShipSprite;
-    [SerializeField] private Transform damagePopupPrefab;
 
     [SerializeField]
     private GameObject leftTurret;
@@ -118,9 +117,6 @@ public class MothershipScript : MonoBehaviour
     {
         if (forceFieldUp) return;
         if (currentHealth <= 0) return;
-        Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
-        DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
-        damagePopup.Setup(damage);
 
         currentHealth -= damage;
         StopCoroutine(MothershipHit());

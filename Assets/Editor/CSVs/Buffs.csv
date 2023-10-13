@@ -4,7 +4,6 @@
 4,Regeneration,Passively gain [currentValue] + [value] health per second.,player,regeneration,1,null
 5,Faster Dodges,Decrease dodge cooldown by [currentValue] + [value],player,dodgeCd,10%,null
 6,Hemorrhage,Adds [currentValue] + [value] chance to cause enemies to bleed for [currentSecValue] + [secValue] per second.,gun,bleed,10%,10
-7,Fire Power,Adds [currentValue] + [value] chance to cause enemies to burn for [currentSecValue] + [secValue] per second.,gun,burn,10%,10
 8,Maelstrom,Adds [currentValue] + [value] chance to create a chain lightning that jumps to nearby targets. Damages them for [currentSecValue] + [secValue].,gun,lightning,10%,5
 9,Better Handling,Adds [currentValue] + [value] chance to instantly reload,gun,reload,5%,null
 10,Faster Fire Rate,Increases fire rate by [currentValue] + [value],gun,fireRate,20%,null

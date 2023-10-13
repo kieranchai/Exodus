@@ -40,10 +40,6 @@ public class EnemyScript : MonoBehaviour
     [SerializeField]
     private float wanderRadius;
 
-    [SerializeField]
-    private Transform damagePopupPrefab;
-    [SerializeField]
-    private Transform xpCashPopupPrefab;
     private bool hasSetSpawnZone = false;
     public EnemySpawner mySpawner;
 
@@ -277,9 +273,6 @@ public class EnemyScript : MonoBehaviour
     public void TakeDamage(float damage)
     {
         if (this.currentHealth <= 0) return;
-        Transform damagePopupTransform = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
-        DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
-        damagePopup.Setup(damage);
 
         StopCoroutine(EnemyHit());
         StartCoroutine(EnemyHit());
@@ -299,9 +292,6 @@ public class EnemyScript : MonoBehaviour
     public void DeathEvent()
     {
         // Drop XP, Cash, Loot
-        Transform xpCashPopupTransform = Instantiate(xpCashPopupPrefab, transform.position + new Vector3(0.5f, 0), Quaternion.identity);
-        DamagePopup xpCashPopup = xpCashPopupTransform.GetComponent<DamagePopup>();
-        xpCashPopup.SetupXP(xpDrop);
 
         for (int i = 0; i < hpDrop / 5; i++)
         {
@@ -374,13 +364,23 @@ public class EnemyScript : MonoBehaviour
 
     public IEnumerator Bleed(float damage)
     {
+        Debug.Log("Bleed applied");
         for (int i = 0; i < 5; i++)
         {
-            this.TakeDamage(damage);
             //TODO: Play particle/vfx etc
+
+            if (this.currentHealth - damage > 0)
+            {
+                this.currentHealth -= damage;
+            }
+            else
+            {
+                this.currentHealth -= damage;
+                DeathEvent();
+            }
             yield return new WaitForSeconds(1);
         }
-
+        Debug.Log("Bleed ended");
         yield return null;
     }
 }
