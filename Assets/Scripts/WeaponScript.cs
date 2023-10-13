@@ -197,7 +197,7 @@ public class WeaponScript : MonoBehaviour
                 //Crit
                 if (this.meleeCritChance > 0 && Random.Range(0, 1f) < this.meleeCritChance - 1)
                 {
-                    collider.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier);
+                    collider.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier, true);
                     PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier * (this.meleeLifeStealMultiplier - 1));
                 }
                 else
@@ -292,7 +292,7 @@ public class WeaponScript : MonoBehaviour
                     //Crit
                     if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
                     {
-                        bullet.GetComponent<SniperBulletScript>().Initialise(this.attackPower * this.gunCritDamageMultiplier, this.weaponRange * this.rangeMultiplier);
+                        bullet.GetComponent<SniperBulletScript>().Initialise(this.attackPower * this.gunCritDamageMultiplier, this.weaponRange * this.rangeMultiplier, true);
                     }
                     else
                     {
@@ -307,7 +307,7 @@ public class WeaponScript : MonoBehaviour
                     //Crit
                     if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
                     {
-                        bullet.GetComponent<BulletScript>().Initialise(this.attackPower * this.gunCritDamageMultiplier, this.weaponRange * this.rangeMultiplier);
+                        bullet.GetComponent<BulletScript>().Initialise(this.attackPower * this.gunCritDamageMultiplier, this.weaponRange * this.rangeMultiplier, true);
                     }
                     else
                     {

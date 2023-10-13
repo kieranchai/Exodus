@@ -4,12 +4,14 @@ public class SniperBulletScript : MonoBehaviour
 {
     private float attackPower;
     private float weaponRange;
+    private bool crit;
     private Vector3 initialPosition;
 
-    public void Initialise(float attackPower, float weaponRange)
+    public void Initialise(float attackPower, float weaponRange, bool crit = false)
     {
         this.attackPower = attackPower;
         this.weaponRange = weaponRange;
+        this.crit = crit;
         this.initialPosition = transform.localPosition;
     }
 
@@ -25,7 +27,7 @@ public class SniperBulletScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            collision.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower);
+            collision.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower, crit);
 
             //Bleed
             if (PlayerScript.instance.weaponSlot.gunBleedChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.gunBleedChance - 1)

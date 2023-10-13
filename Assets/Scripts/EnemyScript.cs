@@ -37,6 +37,8 @@ public class EnemyScript : MonoBehaviour
     public Weapon equippedWeapon;
     public EnemyWeaponScript weaponSlot;
 
+    private Transform popupPrefab;
+
     [SerializeField]
     private float wanderRadius;
 
@@ -65,6 +67,7 @@ public class EnemyScript : MonoBehaviour
     public ENEMY_STATE currentState;
     private void Start()
     {
+        popupPrefab = Resources.Load<RectTransform>("Prefabs/Popup");
         anim = GetComponent<Animator>();
         enemyCollider = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
@@ -270,12 +273,22 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, bool crit = false)
     {
         if (this.currentHealth <= 0) return;
 
         StopCoroutine(EnemyHit());
         StartCoroutine(EnemyHit());
+
+        Transform dmgNumber = Instantiate(popupPrefab, transform.position, Quaternion.identity);
+        if (crit)
+        {
+            dmgNumber.GetComponent<Popup>().SetCrit(damage);
+        }
+        else
+        {
+            dmgNumber.GetComponent<Popup>().SetDamageNumber(damage);
+        }
 
         if (this.currentHealth - damage > 0)
         {
@@ -322,10 +335,10 @@ public class EnemyScript : MonoBehaviour
     public void Dead()
     {
         agent.isStopped = true;
-        if(!stationary)anim.enabled = false;
+        if (!stationary) anim.enabled = false;
         enemyCollider.enabled = false;
         rb.bodyType = RigidbodyType2D.Static;
-        if(!stationary)enemySprite.sprite = Resources.Load<Sprite>($"Sprites/{this.enemyName}_Death");
+        if (!stationary) enemySprite.sprite = Resources.Load<Sprite>($"Sprites/{this.enemyName}_Death");
 
         Destroy(gameObject, 2f);
     }
@@ -344,8 +357,8 @@ public class EnemyScript : MonoBehaviour
         {
             this.mySpawner = collision.gameObject.GetComponent<EnemySpawner>();
             this.hasSetSpawnZone = true;
-        } 
-        
+        }
+
     }
 
     IEnumerator EnemyHit()

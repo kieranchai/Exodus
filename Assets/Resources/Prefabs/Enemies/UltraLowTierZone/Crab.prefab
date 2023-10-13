@@ -322,13 +322,13 @@ MonoBehaviour:
   _data: {fileID: 11400000, guid: 031224a9fb35a4e4798051dd5774030c, type: 2}
   equippedWeapon: {fileID: 0}
   weaponSlot: {fileID: 0}
+  damagePopupPrefab: {fileID: 1159120232590782226, guid: 5118fc318515be0459223463c2ee12be, type: 3}
   wanderRadius: 10
-  damagePopupPrefab: {fileID: 4179147922126599982, guid: 97dc3241655b26940be0f67604dbb62f, type: 3}
-  xpCashPopupPrefab: {fileID: 4179147922126599982, guid: 35cce36764d8fe945b0bb43cf7dad78b, type: 3}
   mySpawner: {fileID: 0}
   spawnParticle: {fileID: 445088440379574451}
   healthOrbPrefab: {fileID: 8666502702400235091, guid: e089aadca89f27c4daca18dd9e45252b, type: 3}
   cashOrbPrefab: {fileID: 8666502702400235091, guid: 2f6dbdc67005c394c9c6e0419f562369, type: 3}
+  stationary: 0
   currentState: 0
 --- !u!212 &7865783603933936253
 SpriteRenderer:
