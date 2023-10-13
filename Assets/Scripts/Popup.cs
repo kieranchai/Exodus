@@ -3,12 +3,17 @@ using UnityEngine;
 
 public class Popup : MonoBehaviour
 {
-    private float destroyTimer = 1f;
+    private float destroyTimer = 0.3f;
 
     private Color textColor;
     private TextMeshPro textMesh;
 
     private Vector3 RandomizeIntensity = new Vector3(0.3f, 0.1f, 0);
+
+    private void Awake()
+    {
+        textMesh = gameObject.GetComponent<TextMeshPro>();
+    }
 
     private void Start()
     {
@@ -19,27 +24,27 @@ public class Popup : MonoBehaviour
 
     public void SetDamageNumber(float damage)
     {
-        textMesh = gameObject.GetComponent<TextMeshPro>();
         textMesh.text = damage.ToString();
         textColor = textMesh.color;
+        destroyTimer = 0.3f;
     }
 
     public void SetCrit(float damage)
     {
         gameObject.GetComponent<Animator>().SetBool("isCrit", true);
-        textMesh = gameObject.GetComponent<TextMeshPro>();
+        textColor = new Color32(255, 37, 37, 255);
+        textMesh.color = textColor;
         textMesh.text = damage.ToString();
-
+        destroyTimer = 0.3f;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         destroyTimer -= Time.deltaTime;
         if (destroyTimer < 0)
         {
-            float destroySpeed = 3f;
+            float destroySpeed = 2f;
             textColor.a -= destroySpeed * Time.deltaTime;
-            gameObject.transform.localScale /= 2f;
             textMesh.color = textColor;
             if (textColor.a < 0)
             {

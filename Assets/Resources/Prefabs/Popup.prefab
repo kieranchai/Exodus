@@ -110,7 +110,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278462207
+    rgba: 4279483891
   m_fontColor: {r: 0.9529412, g: 0.74107623, b: 0.074509814, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}

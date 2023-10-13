@@ -328,7 +328,7 @@ public class EnemyScript : MonoBehaviour
 
         PlayerScript.instance.UpdateExperience(xpDrop);
 
-        --this.mySpawner.enemyCounter;
+        if(this.mySpawner) --this.mySpawner.enemyCounter;
         this.currentState = ENEMY_STATE.DEAD;
     }
 
