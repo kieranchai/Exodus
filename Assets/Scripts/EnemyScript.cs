@@ -3,6 +3,8 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
+using System.Threading;
+using UnityEngine.PlayerLoop;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -54,6 +56,7 @@ public class EnemyScript : MonoBehaviour
     [SerializeField]
     private GameObject cashOrbPrefab;
     public bool stationary;
+    public Vector3 originalRotation;
     public enum ENEMY_STATE
     {
         SHOP,
@@ -85,6 +88,7 @@ public class EnemyScript : MonoBehaviour
         if (stationary)
         {
             this.currentState = ENEMY_STATE.SHOP;
+            originalRotation = transform.eulerAngles;
         }
         else
         {
@@ -189,8 +193,13 @@ public class EnemyScript : MonoBehaviour
             {
                 this.weaponSlot.TryAttack();
             }
+        }else{
+            Quaternion targetRotation = Quaternion.Euler(originalRotation.x, originalRotation.y, 70 * Mathf.Sin(Time.time * 0.8f) + originalRotation.z);
+            transform.localRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * 90f);
         }
     }
+
+
     public void Chase()
     {
         agent.SetDestination(PlayerScript.instance.transform.position);
