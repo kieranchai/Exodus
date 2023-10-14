@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using System;
 using Random = UnityEngine.Random;
 using TMPro;
-using System.Collections.Generic;
 
 public class BuffController : MonoBehaviour
 {
@@ -55,6 +54,7 @@ public class BuffController : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             availableBuffs[i] = allBuffs[Random.Range(0, allBuffs.Length)];
+            //TODO add buff chance
         }
 
         RefreshAvailableBuffsUI();

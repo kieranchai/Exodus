@@ -34,7 +34,7 @@ public class MeleeExplosion : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            collision.gameObject.GetComponent<EnemyScript>().TakeDamage(attackPower);
+            collision.gameObject.GetComponent<EnemyScript>().TakeDamage(attackPower, false, true);
         }
     }
 }

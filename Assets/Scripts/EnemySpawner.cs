@@ -63,7 +63,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (enemyCounter > 0) return false;
         if (!GameController.instance.tutorialFlag2) GameController.instance.tutorialFlag2 = true;
-        //TODO: add effects when unlocked, can add heal over time when unlocked ontrigger
+        //TODO: add effects when unlocked
         return true;
     }
 

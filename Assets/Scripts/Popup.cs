@@ -31,10 +31,27 @@ public class Popup : MonoBehaviour
         destroyTimer = 0.2f;
     }
 
+    public void SetExplosion(float damage)
+    {
+        textColor = new Color32(255, 138, 0, 255);
+        textMesh.color = textColor;
+        textMesh.text = damage.ToString();
+        destroyTimer = 0.2f;
+    }
+
+    public void SetBleed(float damage)
+    {
+        gameObject.GetComponent<Animator>().SetBool("isBleed", true);
+        textColor = new Color32(100, 149, 237, 255);
+        textMesh.color = textColor;
+        textMesh.text = damage.ToString();
+        destroyTimer = 0.2f;
+    }
+
     public void SetCrit(float damage)
     {
         gameObject.GetComponent<Animator>().SetBool("isCrit", true);
-        textColor = new Color32(243, 189, 19, 255);
+        textColor = new Color32(254, 148, 79, 255);
         textMesh.color = textColor;
         textMesh.text = damage.ToString();
         destroyTimer = 0.2f;

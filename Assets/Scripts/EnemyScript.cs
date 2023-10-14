@@ -273,7 +273,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage, bool crit = false)
+    public void TakeDamage(float damage, bool crit = false, bool explosion = false)
     {
         if (this.currentHealth <= 0) return;
 
@@ -284,6 +284,10 @@ public class EnemyScript : MonoBehaviour
         if (crit)
         {
             dmgNumber.GetComponent<Popup>().SetCrit(damage);
+        }
+        else if (explosion)
+        {
+            dmgNumber.GetComponent<Popup>().SetExplosion(damage);
         }
         else
         {
@@ -328,7 +332,7 @@ public class EnemyScript : MonoBehaviour
 
         PlayerScript.instance.UpdateExperience(xpDrop);
 
-        if(this.mySpawner) --this.mySpawner.enemyCounter;
+        if (this.mySpawner) --this.mySpawner.enemyCounter;
         this.currentState = ENEMY_STATE.DEAD;
     }
 
@@ -381,10 +385,11 @@ public class EnemyScript : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             //TODO: Play particle/vfx etc
-
             if (this.currentHealth - damage > 0)
             {
                 this.currentHealth -= damage;
+                Transform bleedDmgNumber = Instantiate(popupPrefab, transform.position, Quaternion.identity);
+                bleedDmgNumber.GetComponent<Popup>().SetBleed(damage);
             }
             else
             {
