@@ -34,6 +34,14 @@ public class SniperBulletScript : MonoBehaviour
             {
                 collision.gameObject.GetComponent<EnemyScript>().StartCoroutine(collision.gameObject.GetComponent<EnemyScript>().Bleed(PlayerScript.instance.weaponSlot.gunBleedDmg));
             }
+
+            //Lightning
+            if (PlayerScript.instance.weaponSlot.lightningChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.lightningChance - 1)
+            {
+                GameObject chainLightningEffect = Resources.Load<GameObject>("Prefabs/Chain Lightning");
+                chainLightningEffect.GetComponent<ChainLightningScript>().damage = PlayerScript.instance.weaponSlot.lightningDmg;
+                Instantiate(chainLightningEffect, collision.transform.position, Quaternion.identity);
+            }
         }
 
         if (collision.gameObject.CompareTag("Tilemap Collider") || collision.gameObject.CompareTag("Forcefield"))

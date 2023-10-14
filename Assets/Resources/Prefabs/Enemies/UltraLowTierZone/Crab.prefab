@@ -322,7 +322,6 @@ MonoBehaviour:
   _data: {fileID: 11400000, guid: 031224a9fb35a4e4798051dd5774030c, type: 2}
   equippedWeapon: {fileID: 0}
   weaponSlot: {fileID: 0}
-  damagePopupPrefab: {fileID: 1159120232590782226, guid: 5118fc318515be0459223463c2ee12be, type: 3}
   wanderRadius: 10
   mySpawner: {fileID: 0}
   spawnParticle: {fileID: 445088440379574451}

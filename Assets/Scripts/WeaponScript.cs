@@ -113,7 +113,7 @@ public class WeaponScript : MonoBehaviour
         } else
         {
             line.enabled = true;
-            line.SetPosition(1, new Vector3(transform.localPosition.x, transform.localPosition.y + this.weaponRange));
+            line.SetPosition(1, new Vector3(transform.localPosition.x, transform.localPosition.y + (this.weaponRange*this.rangeMultiplier)));
         }
 
         weaponSprite = gameObject.GetComponent<SpriteRenderer>();
