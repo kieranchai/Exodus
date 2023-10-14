@@ -3,8 +3,6 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
-using System.Threading;
-using UnityEngine.PlayerLoop;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -55,11 +53,11 @@ public class EnemyScript : MonoBehaviour
 
     [SerializeField]
     private GameObject cashOrbPrefab;
-    public bool stationary;
+    public bool isTurret;
     public Vector3 originalRotation;
     public enum ENEMY_STATE
     {
-        SHOP,
+        TURRET,
         WANDER,
         CHASE,
         ATTACK,
@@ -85,9 +83,9 @@ public class EnemyScript : MonoBehaviour
         this.duration = 1f;
         this.sightRange = 5f;
 
-        if (stationary)
+        if (isTurret)
         {
-            this.currentState = ENEMY_STATE.SHOP;
+            this.currentState = ENEMY_STATE.TURRET;
             originalRotation = transform.eulerAngles;
         }
         else
@@ -101,7 +99,7 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
-        if (!stationary)
+        if (!isTurret)
         {
             if (agent.velocity.magnitude > 0)
             {
@@ -131,8 +129,8 @@ public class EnemyScript : MonoBehaviour
             case ENEMY_STATE.DEAD:
                 Dead();
                 break;
-            case ENEMY_STATE.SHOP:
-                Shop();
+            case ENEMY_STATE.TURRET:
+                TurretWander();
                 break;
             default:
                 break;
@@ -184,18 +182,14 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    public void Shop()
+    public void TurretWander()
     {
-        if (PlayerInSight())
+        Quaternion targetRotation = Quaternion.Euler(originalRotation.x, originalRotation.y, 70 * Mathf.Sin(Time.time * 0.8f) + originalRotation.z);
+        transform.localRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * 90f);
+
+        if (PlayerInSight() && PlayerInRange())
         {
-            transform.up = (PlayerScript.instance.transform.position - new Vector3(transform.position.x, transform.position.y));
-            if (PlayerInRange())
-            {
-                this.weaponSlot.TryAttack();
-            }
-        }else{
-            Quaternion targetRotation = Quaternion.Euler(originalRotation.x, originalRotation.y, 70 * Mathf.Sin(Time.time * 0.8f) + originalRotation.z);
-            transform.localRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * 90f);
+            this.currentState = ENEMY_STATE.ATTACK;
         }
     }
 
@@ -223,7 +217,14 @@ public class EnemyScript : MonoBehaviour
     {
         if (!PlayerInRange() || !PlayerInSight())
         {
-            this.currentState = ENEMY_STATE.CHASE;
+            if (this.isTurret)
+            {
+                this.currentState = ENEMY_STATE.TURRET;
+            }
+            else
+            {
+                this.currentState = ENEMY_STATE.CHASE;
+            }
         }
         transform.up = (PlayerScript.instance.transform.position - new Vector3(transform.position.x, transform.position.y));
         this.weaponSlot.TryAttack();
@@ -310,6 +311,7 @@ public class EnemyScript : MonoBehaviour
         if (this.currentHealth - damage > 0)
         {
             this.currentHealth -= damage;
+            if (this.isTurret) { this.currentState = ENEMY_STATE.ATTACK; return; }
             this.currentState = ENEMY_STATE.CHASE;
         }
         else
@@ -352,10 +354,10 @@ public class EnemyScript : MonoBehaviour
     public void Dead()
     {
         agent.isStopped = true;
-        if (!stationary) anim.enabled = false;
+        if (anim) anim.enabled = false;
         enemyCollider.enabled = false;
         rb.bodyType = RigidbodyType2D.Static;
-        if (!stationary) enemySprite.sprite = Resources.Load<Sprite>($"Sprites/{this.enemyName}_Death");
+        enemySprite.sprite = Resources.Load<Sprite>($"Sprites/{this.enemyName}_Death");
 
         Destroy(gameObject, 2f);
     }
