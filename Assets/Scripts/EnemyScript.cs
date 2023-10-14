@@ -273,7 +273,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage, bool crit = false, bool explosion = false)
+    public void TakeDamage(float damage, bool crit = false, bool explosion = false, bool lightning = false)
     {
         if (this.currentHealth <= 0) return;
 
@@ -288,6 +288,10 @@ public class EnemyScript : MonoBehaviour
         else if (explosion)
         {
             dmgNumber.GetComponent<Popup>().SetExplosion(damage);
+        }
+        else if (lightning)
+        {
+            dmgNumber.GetComponent<Popup>().SetLightning(damage);
         }
         else
         {

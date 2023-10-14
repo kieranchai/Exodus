@@ -185,6 +185,7 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M)) PlayerScript.instance.UpdateCash(1000);
         if (Input.GetKeyDown(KeyCode.L)) PlayerScript.instance.UpdateExperience(10);
         if (Input.GetKeyDown(KeyCode.H)) PlayerScript.instance.UpdateHealth(PlayerScript.instance.maxHealth);
+        if (Input.GetKeyDown(KeyCode.T)) SkipTutorial();
     }
 
     private void Exit()
@@ -330,6 +331,15 @@ public class GameController : MonoBehaviour
         yield return StartCoroutine(Typewriter("I estimate you only have about 10 minutes, so get going!"));
         tutorialBarrier2.enabled = false;
         yield return new WaitForSeconds(1f);
+        tutorialDialogue.SetActive(false);
+        PoisonGas.instance.StartGas();
+    }
+
+    private void SkipTutorial()
+    {
+        StopCoroutine(Tutorial());
+        tutorialBarrier1.enabled = false;
+        tutorialBarrier2.enabled = false;
         tutorialDialogue.SetActive(false);
         PoisonGas.instance.StartGas();
     }

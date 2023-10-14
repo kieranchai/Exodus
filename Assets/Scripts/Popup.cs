@@ -39,6 +39,14 @@ public class Popup : MonoBehaviour
         destroyTimer = 0.2f;
     }
 
+    public void SetLightning(float damage)
+    {
+        textColor = new Color32(255, 52, 249, 255);
+        textMesh.color = textColor;
+        textMesh.text = damage.ToString();
+        destroyTimer = 0.2f;
+    }
+
     public void SetBleed(float damage)
     {
         gameObject.GetComponent<Animator>().SetBool("isBleed", true);

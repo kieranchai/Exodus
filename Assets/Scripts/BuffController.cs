@@ -154,6 +154,8 @@ public class BuffController : MonoBehaviour
                         desc = desc.Replace("[currentValue]", ((weaponScript.gunBleedChance - 1) * 100).ToString("0.##") + "%");
                         break;
                     case "lightning":
+                        if (weaponScript.lightningChance == 0) desc = desc.Replace("[currentValue]", weaponScript.lightningChance + "%");
+                        desc = desc.Replace("[currentValue]", ((weaponScript.lightningChance - 1) * 100).ToString("0.##") + "%");
                         break;
                     case "reload":
                         if (weaponScript.instaReloadChance == 0) desc = desc.Replace("[currentValue]", weaponScript.instaReloadChance + "%");
