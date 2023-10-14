@@ -50,6 +50,8 @@ public class WeaponScript : MonoBehaviour
     public float pierceChance;
     public float lightningChance;
     public float lightningDmg;
+    public float shotgunSpread;
+    public float shotgunCount;
 
     private LineRenderer line;
 
@@ -147,6 +149,7 @@ public class WeaponScript : MonoBehaviour
             case ("Assault Rifle"):
             case ("Submachine Gun"):
             case ("Sniper Rifle"):
+            case ("Shotgun"):
                 PlayerScript.instance.SetAnimation(RifleAOC);
                 break;
             case ("Light Pistol"):
@@ -178,6 +181,10 @@ public class WeaponScript : MonoBehaviour
                         break;
                     case "melee":
                         StartCoroutine(MeleeAttack());
+                        break;
+                    case "spread":
+                        StartCoroutine(FlashMuzzleFlash());
+                        StartCoroutine(SpreadAttack());
                         break;
                     default:
                         break;
@@ -330,6 +337,30 @@ public class WeaponScript : MonoBehaviour
             bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 600);
             yield return new WaitForSeconds(this.cooldown * this.gunFireRateMultiplier);
         }
+        limitAttack = false;
+        yield return null;
+    }
+
+    IEnumerator SpreadAttack()
+    {
+        limitAttack = true;
+        for (int i = 0; i < shotgunCount; i++)
+        {
+            float spread = Random.Range(-shotgunSpread, shotgunSpread);
+            GameObject bullet;
+            bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Bullet"), transform.position, Quaternion.Euler(0, 0, spread));
+            if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
+                    {   
+                        bullet.GetComponent<BulletScript>().Initialise(this.attackPower * this.gunCritDamageMultiplier, this.weaponRange * this.rangeMultiplier, true);
+                    }
+                    else
+                    {
+                        bullet.GetComponent<BulletScript>().Initialise(this.attackPower, this.weaponRange * this.rangeMultiplier);
+                    }
+            bullet.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
+        }
+        --PlayerScript.instance.equippedWeapon.currentAmmoCount;
+        yield return new WaitForSeconds(this.cooldown * this.gunFireRateMultiplier);
         limitAttack = false;
         yield return null;
     }
