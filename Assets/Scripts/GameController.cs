@@ -11,26 +11,29 @@ public class GameController : MonoBehaviour
     public bool isOverUI = false;
     public Collider2D[] Zones;
 
-    private bool tutorialStarted = false;
-    private bool allowShooting = false;
-    [SerializeField] private GameObject tutorialDialogueBox;
-    [SerializeField] private TMP_Text tutorialDialogueText;
-    [SerializeField] private Collider2D area1Collider;
-    public bool passedArea2 = false;
-    public bool dummyShot = false;
-
     public enum GAME_STATE
     {
         PANNING,
         PAUSED,
         PLAYING,
         CHOOSINGBUFF,
-        TUTORIAL,
         DEAD,
         WIN
     }
 
     public GAME_STATE currentState = GAME_STATE.PLAYING;
+
+    [SerializeField]
+    private GameObject tutorialDialogue;
+
+    [SerializeField]
+    private Collider2D tutorialBarrier1;
+
+    [SerializeField]
+    private Collider2D tutorialBarrier2;
+
+    public bool tutorialFlag1 = false;
+    public bool tutorialFlag2 = false;
 
     [SerializeField]
     private GameObject pauseScreen;
@@ -69,10 +72,6 @@ public class GameController : MonoBehaviour
                 break;
             case GAME_STATE.CHOOSINGBUFF:
                 ChoosingState();
-                break;
-            case GAME_STATE.TUTORIAL:
-                StartTutorial();
-                if (tutorialStarted) HandleTutorialInput();
                 break;
             case GAME_STATE.DEAD:
                 GameOver();
@@ -188,182 +187,6 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.H)) PlayerScript.instance.UpdateHealth(PlayerScript.instance.maxHealth);
     }
 
-    private void StartTutorial()
-    {
-        if (tutorialStarted) return;
-        tutorialStarted = true;
-
-        StartCoroutine(Tutorial());
-    }
-
-    private void HandleTutorialInput()
-    {
-        PlayerScript.instance.LookAtMouse();
-
-        //Movement Input WASD+LEFT SHIFT is in PlayerScript Update/FixedUpdate
-
-        if (allowShooting)
-        {
-            if (Input.GetMouseButton(0) && !isOverUI && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
-            {
-                PlayerScript.instance.weaponSlot.TryAttack();
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Tab)) PlayerScript.instance.ToggleInventoryView();
-        if (Input.GetKeyDown(KeyCode.E)) Interact();
-    }
-
-    IEnumerator Tutorial()
-    {
-        tutorialDialogueBox.SetActive(true);
-        yield return StartCoroutine(Typewriter("Good morning, soldier! Welcome to your training."));
-        yield return StartCoroutine(Typewriter("First, try running around with WASD."));
-        bool hasMoved = false;
-        while (!hasMoved)
-        {
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
-            {
-                hasMoved = true;
-            }
-            yield return null;
-        }
-        tutorialDialogueBox.SetActive(false);
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(true);
-        yield return StartCoroutine(Typewriter("Amazing work!"));
-        yield return StartCoroutine(Typewriter("Next, try pressing SHIFT to dodge."));
-        bool hasDodged = false;
-        while (!hasDodged)
-        {
-            if (PlayerScript.instance.currentState == PlayerScript.PLAYER_STATE.ROLLING)
-            {
-                hasDodged = true;
-            }
-            yield return null;
-        }
-        tutorialDialogueBox.SetActive(false);
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(true);
-        yield return StartCoroutine(Typewriter("Bravo!"));
-        yield return StartCoroutine(Typewriter("If timed well, dodging allows you to avoid taking enemy damage."));
-        yield return StartCoroutine(Typewriter("You can only dodge once every 3 seconds, so use your dodges carefully!"));
-        yield return StartCoroutine(Typewriter("Proceed over to the next area."));
-        area1Collider.enabled = false;
-        while (!passedArea2)
-        {
-            yield return null;
-        }
-        tutorialDialogueBox.SetActive(false);
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(true);
-        yield return StartCoroutine(Typewriter("Good work."));
-        PlayerScript.instance.AddToInventory(Resources.Load<Weapon>("ScriptableObjects/Weapons/Light Pistol"));
-        yield return StartCoroutine(Typewriter("A weapon has been given to you."));
-        yield return StartCoroutine(Typewriter("Press TAB to open your inventory."));
-        bool hasPressed = false;
-        while (!hasPressed)
-        {
-            if (PlayerScript.instance.CanSeeInventory)
-            {
-                hasPressed = true;
-            }
-            yield return null;
-        }
-        tutorialDialogueBox.SetActive(false);
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(true);
-        yield return StartCoroutine(Typewriter("Now, select the gun and equip it."));
-        bool hasDone = false;
-        while (!hasDone)
-        {
-            if (PlayerScript.instance.equippedWeapon == Resources.Load<Weapon>("ScriptableObjects/Weapons/Light Pistol"))
-            {
-                hasDone = true;
-            }
-            yield return null;
-        }
-        tutorialDialogueBox.SetActive(false);
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(true);
-        yield return StartCoroutine(Typewriter("You're a natural!"));
-        yield return StartCoroutine(Typewriter("Notice that there are 3 different types of ammo shown in your inventory."));
-        yield return StartCoroutine(Typewriter("Different weapons will require different types of ammo."));
-        yield return StartCoroutine(Typewriter("You can purchase ammo from the shop."));
-        yield return StartCoroutine(Typewriter("Try opening the shop panel by pressing E near the shop."));
-        PlayerScript.instance.UpdateCash(150);
-        hasDone = false;
-        while (!hasDone)
-        {
-            if (PlayerScript.instance.CanSeeShop)
-            {
-                hasDone = true;
-            }
-            yield return null;
-        }
-        tutorialDialogueBox.SetActive(false);
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(true);
-        yield return StartCoroutine(Typewriter("You've been given some cash."));
-        yield return StartCoroutine(Typewriter("Cash can only be earned by killing aliens, and can only be used at the shop to purchase weapons and items."));
-        yield return StartCoroutine(Typewriter("Use the cash to purchase ammo for your weapon."));
-        hasDone = false;
-        while (!hasDone)
-        {
-            if (PlayerScript.instance.cash != 150)
-            {
-                hasDone = true;
-            }
-            yield return null;
-        }
-        tutorialDialogueBox.SetActive(false);
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(true);
-        yield return StartCoroutine(Typewriter("Great."));
-        yield return StartCoroutine(Typewriter("Press MOUSE1 to shoot the target dummy in front of you"));
-        yield return StartCoroutine(Typewriter("You can try unequipping your weapon and pressing MOUSE1 to punch as well."));
-        allowShooting = true;
-        hasDone = false;
-        while (!hasDone)
-        {
-            if (this.dummyShot)
-            {
-                hasDone = true;
-            }
-            yield return null;
-        }
-        PoisonGas.instance.StartGas();
-        tutorialDialogueBox.SetActive(false);
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(true);
-        yield return StartCoroutine(Typewriter("Awesome!"));
-        yield return new WaitForSeconds(2f);
-        yield return StartCoroutine(Typewriter("You might be wondering what the bar on the left of your minimap represents."));
-        yield return StartCoroutine(Typewriter("Well... it represents the progress of the poisonous gas."));
-        yield return StartCoroutine(Typewriter("The closer the gas is to the end of the bar, the closer to Earth's doom!"));
-        yield return StartCoroutine(Typewriter("Once the gas reaches the end, you will be unable to buy anything from the shop."));
-        yield return StartCoroutine(Typewriter("Luckily, you can stop it, and save Earth, by finding and destroying the alien mothership responsible for spreading the poisonous gas."));
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Typewriter("What are you waiting for? Tutorial's over, now time to save Earth!"));
-        yield return new WaitForSeconds(1f);
-        tutorialDialogueBox.SetActive(false);
-        SceneManager.LoadScene("Game");
-        yield return null;
-    }
-
-    IEnumerator Typewriter(string text)
-    {
-        tutorialDialogueText.text = "";
-        var waitTimer = new WaitForSeconds(.05f);
-        foreach (char c in text)
-        {
-            tutorialDialogueText.text += c;
-            yield return waitTimer;
-        }
-        yield return new WaitForSeconds(0.5f);
-    }
-
-
     private void Exit()
     {
         if (PlayerScript.instance.CanSeeShop || PlayerScript.instance.CanSeeInventory)
@@ -414,6 +237,101 @@ public class GameController : MonoBehaviour
     public void CursorNotOverUI()
     {
         isOverUI = false;
+    }
+
+    public void StartTutorial()
+    {
+        StartCoroutine(Tutorial());
+    }
+
+    IEnumerator Typewriter(string text)
+    {
+        tutorialDialogue.GetComponent<TMP_Text>().text = "";
+        var waitTimer = new WaitForSeconds(.05f);
+        foreach (char c in text)
+        {
+            tutorialDialogue.GetComponent<TMP_Text>().text += c;
+            yield return waitTimer;
+        }
+        yield return new WaitForSeconds(0.5f);
+    }
+
+    IEnumerator Tutorial()
+    {
+        tutorialDialogue.SetActive(true);
+        yield return StartCoroutine(Typewriter("Good morning, soldier! Let's get you up to speed."));
+        yield return StartCoroutine(Typewriter("First, try running around with WASD."));
+        bool hasMoved = false;
+        while (!hasMoved)
+        {
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+            {
+                hasMoved = true;
+            }
+            yield return null;
+        }
+        tutorialDialogue.SetActive(false);
+        yield return new WaitForSeconds(1f);
+        tutorialDialogue.SetActive(true);
+        yield return StartCoroutine(Typewriter("Next, try pressing SHIFT to dodge."));
+        bool hasDodged = false;
+        while (!hasDodged)
+        {
+            if (PlayerScript.instance.currentState == PlayerScript.PLAYER_STATE.ROLLING)
+            {
+                hasDodged = true;
+            }
+            yield return null;
+        }
+        tutorialDialogue.SetActive(false);
+        yield return new WaitForSeconds(1f);
+        tutorialDialogue.SetActive(true);
+        yield return StartCoroutine(Typewriter("You can press SHIFT in conjunction with any directional key to dodge in that direction."));
+        yield return StartCoroutine(Typewriter("If timed well, dodging allows you to avoid taking enemy damage."));
+        yield return StartCoroutine(Typewriter("Proceed over to the bridge."));
+        tutorialBarrier1.enabled = false;
+        while (!tutorialFlag1)
+        {
+            yield return null;
+        }
+        yield return StartCoroutine(Typewriter("The alien crabs on your left seem to be guarding a vending machine."));
+        yield return StartCoroutine(Typewriter("You can attack them by pressing MOUSE1."));
+        yield return StartCoroutine(Typewriter("Defeat the alien crabs in order to unlock access to the vending machine."));
+        while (!tutorialFlag2)
+        {
+            yield return null;
+        }
+        yield return StartCoroutine(Typewriter("Amazing work!"));
+        yield return StartCoroutine(Typewriter("When defeated, aliens drop cash, health, and experience points."));
+        yield return StartCoroutine(Typewriter("Use the cash you've earned to purchase weapons at vending machines scattered across the map."));
+        yield return StartCoroutine(Typewriter("Purchase a weapon from the vending machine."));
+        while (PlayerScript.instance.inventory.Count == 0)
+        {
+            yield return false;
+        }
+        yield return StartCoroutine(Typewriter("A fine choice."));
+        yield return StartCoroutine(Typewriter("Whenever you purchase a weapon, your current weapon will be moved into your inventory."));
+        yield return StartCoroutine(Typewriter("You can press TAB to access your inventory."));
+        bool hasPressed = false;
+        while (!hasPressed)
+        {
+            if (PlayerScript.instance.CanSeeInventory)
+            {
+                hasPressed = true;
+            }
+            yield return null;
+        }
+        yield return StartCoroutine(Typewriter("Great!"));
+        yield return StartCoroutine(Typewriter("It seems that you are ready to venture out into the wilderness."));
+        yield return StartCoroutine(Typewriter("The aliens will only get stronger the further you journey out from here."));
+        yield return StartCoroutine(Typewriter("However, there are some things you have to know before you can proceed. Pay attention!"));
+        yield return StartCoroutine(Typewriter("The alien mothership has been spreading a poisonous gas throughout the planet."));
+        yield return StartCoroutine(Typewriter("Once this gas covers the entire planet, it's game over."));
+        yield return StartCoroutine(Typewriter("I estimate you only have about 10 minutes, so get going!"));
+        tutorialBarrier2.enabled = false;
+        yield return new WaitForSeconds(1f);
+        tutorialDialogue.SetActive(false);
+        PoisonGas.instance.StartGas();
     }
 
     /*IEnumerator ItemHealth(Item itemData)

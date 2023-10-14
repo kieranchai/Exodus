@@ -64,14 +64,5 @@ public class BulletScript : MonoBehaviour
             }
             Destroy(gameObject);
         }
-
-        if (collision.gameObject.CompareTag("TargetDummy"))
-        {
-            GameController.instance.dummyShot = true;
-            collision.gameObject.GetComponent<TargetDummyScript>().TakeDamage(this.attackPower);
-            Destroy(gameObject);
-        }
-
     }
-
 }

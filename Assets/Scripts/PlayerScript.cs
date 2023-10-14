@@ -103,7 +103,7 @@ public class PlayerScript : MonoBehaviour
 
     private void Update()
     {
-        if (GameController.instance.currentState == GameController.GAME_STATE.PLAYING || GameController.instance.currentState == GameController.GAME_STATE.TUTORIAL)
+        if (GameController.instance.currentState == GameController.GAME_STATE.PLAYING)
         {
             switch (this.currentState)
             {
@@ -437,17 +437,6 @@ public class PlayerScript : MonoBehaviour
         transform.up = (Vector3)(mousePos - new Vector2(transform.position.x, transform.position.y));
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (GameController.instance.currentState == GameController.GAME_STATE.TUTORIAL)
-        {
-            if (collision.gameObject.CompareTag("Tutorial Area 2"))
-            {
-                GameController.instance.passedArea2 = true;
-            }
-        }
-    }
-
     public IEnumerator SpawnFlicker()
     {
         Color initialColor = playerSprite.color;
@@ -494,5 +483,13 @@ public class PlayerScript : MonoBehaviour
     public void SetAnimation(AnimatorOverrideController overideController)
     {
         anim.runtimeAnimatorController = overideController;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Tutorial Area 2"))
+        {
+            GameController.instance.tutorialFlag1 = true;
+        }
     }
 }

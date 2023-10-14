@@ -39,11 +39,6 @@ public class CameraController : MonoBehaviour
         initialZoom = Camera.main.orthographicSize;
         animator = this.gameObject.transform.GetChild(0).GetComponent<Animator>();
         if (GameController.instance.currentState == GameController.GAME_STATE.PANNING) StartCoroutine(StartGame());
-        if (GameController.instance.currentState == GameController.GAME_STATE.TUTORIAL)
-        {
-            target = playerTarget;
-            smoothTime = playerSmoothTime;
-        }
     }
 
     private void Update()
@@ -73,10 +68,6 @@ public class CameraController : MonoBehaviour
         {
             target = zonesTarget[i];
             yield return new WaitForSeconds(2.5f);
-/*            tutorialDialogueBox.SetActive(false);
-            yield return new WaitForSeconds(1f);
-            tutorialDialogueBox.SetActive(true);
-            yield return StartCoroutine(Typewriter("This is the MOTHERSHIP!"));*/
         }
 
         target = playerTarget;
@@ -99,8 +90,8 @@ public class CameraController : MonoBehaviour
     {
         GameController.instance.currentState = GameController.GAME_STATE.PLAYING;
         PlayerScript.instance.playerPanel.gameObject.SetActive(true);
-        PoisonGas.instance.StartGas();
         PlayerScript.instance.StartCoroutine(PlayerScript.instance.SpawnFlicker());
+        GameController.instance.StartTutorial();
     }
 
     IEnumerator ZoomInCamera()
@@ -114,17 +105,5 @@ public class CameraController : MonoBehaviour
             Camera.main.orthographicSize = Mathf.Lerp(currentZoom, initialZoom, t);
             yield return null;
         }
-    }
-
-    IEnumerator Typewriter(string text)
-    {
-/*        tutorialDialogueText.text = "";*/
-        var waitTimer = new WaitForSeconds(.05f);
-        foreach (char c in text)
-        {
-/*            tutorialDialogueText.text += c;*/
-            yield return waitTimer;
-        }
-        yield return new WaitForSeconds(0.5f);
     }
 }

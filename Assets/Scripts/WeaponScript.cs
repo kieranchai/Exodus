@@ -265,12 +265,6 @@ public class WeaponScript : MonoBehaviour
                     explosion.GetComponent<MeleeExplosion>().Initialise(this.meleeExplodeDmg);
                 }
             }
-
-            if (collider.gameObject.CompareTag("TargetDummy"))
-            {
-                collider.gameObject.GetComponent<TargetDummyScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier);
-                GameController.instance.dummyShot = true;
-            }
         }
 
         switch (this.weaponName)

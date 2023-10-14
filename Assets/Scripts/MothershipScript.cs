@@ -119,8 +119,6 @@ public class MothershipScript : MonoBehaviour
         if (currentHealth <= 0) return;
 
         currentHealth -= damage;
-        StopCoroutine(MothershipHit());
-        StartCoroutine(MothershipHit());
 
         if (this.currentHealth - damage > 0)
         {
@@ -464,18 +462,6 @@ public class MothershipScript : MonoBehaviour
         newRightTurretPos = initialRightTurretPos;
 
         yield return StartCoroutine(Stage2Cycle());
-    }
-
-    IEnumerator MothershipHit()
-    {
-        float duration = 0.05f;
-        while (duration > 0)
-        {
-            duration -= Time.deltaTime;
-            motherShipSprite.material = flashMaterial;
-            yield return null;
-        }
-        motherShipSprite.material = originalMaterial;
     }
 
     public IEnumerator Bleed(float damage)

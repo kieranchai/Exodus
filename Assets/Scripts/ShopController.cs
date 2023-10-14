@@ -143,10 +143,7 @@ public class ShopController : MonoBehaviour
     {
         buyPanel.SetActive(false);
         shopPanel.transform.Find("Item Detail Panel").gameObject.SetActive(false);
-        if (GameController.instance.currentState != GameController.GAME_STATE.TUTORIAL)
-        {
-            UpdateSellInventory();
-        }
+        UpdateSellInventory();
         shopPanel.transform.Find("Sell Button").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("UISprites/Button Shop Selected");
         shopPanel.transform.Find("Sell Button").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>().color = Color.black;
         shopPanel.transform.Find("Buy Button").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>().color = Color.white;
