@@ -14,6 +14,7 @@ public class PlayerScript : MonoBehaviour
     public Collider2D coll;
     public SpriteRenderer playerSprite;
     [SerializeField] private ParticleSystem dustCloud;
+    private Transform popUpPrefab;
 
     public string playerName;
     public float maxHealth;
@@ -82,6 +83,7 @@ public class PlayerScript : MonoBehaviour
         }
         instance = this;
 
+        popUpPrefab = Resources.Load<RectTransform>("Prefabs/Popup");
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
         playerSprite = GetComponent<SpriteRenderer>();
@@ -235,14 +237,14 @@ public class PlayerScript : MonoBehaviour
     {
         if (GameController.instance.currentState == GameController.GAME_STATE.DEAD) return;
         if (this.currentState == PLAYER_STATE.ROLLING && fromZone == false) return;
-
+        bool evaded = false;
+        bool blocked = false;
         if (this.evasionMultiplier > 0 && fromZone == false)
         {
             if (Random.Range(0, 1f) < this.evasionMultiplier - 1)
             {
-                //TODO: Add DODGED Popup
-                Debug.Log("Evaded attack");
-                return;
+                damage = 0;
+                evaded = true;
             }
         }
 
@@ -250,13 +252,15 @@ public class PlayerScript : MonoBehaviour
         {
             if (Random.Range(0, 1f) < this.meleeDmgBlockMultiplier - 1)
             {
-                //TODO: Add BLOCKED Popup
-                Debug.Log("Blocked attack");
-                return;
+                damage = 0;
+                blocked = true;
             }
         }
 
         UpdateHealth(-damage);
+
+        Transform dmgNumber = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
+        dmgNumber.GetComponent<Popup>().SetPlayerDamage(damage, evaded, blocked);
 
         StopCoroutine(HitFlicker());
         StartCoroutine(HitFlicker());
@@ -298,6 +302,11 @@ public class PlayerScript : MonoBehaviour
     {
         this.currentHealth += value;
         if (this.currentHealth >= this.maxHealth) this.currentHealth = this.maxHealth;
+        if (value > 0)
+        {
+            Transform healNumber = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
+            healNumber.GetComponent<Popup>().SetHeal(value);
+        }
     }
 
     public void UpdateCash(int value)
@@ -482,7 +491,8 @@ public class PlayerScript : MonoBehaviour
         playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().material = originalMaterial;
     }
 
-    public void SetAnimation(AnimatorOverrideController overideController) {
+    public void SetAnimation(AnimatorOverrideController overideController)
+    {
         anim.runtimeAnimatorController = overideController;
     }
 }

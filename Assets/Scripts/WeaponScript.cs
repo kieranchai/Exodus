@@ -51,10 +51,15 @@ public class WeaponScript : MonoBehaviour
     public float lightningChance;
     public float lightningDmg;
 
+    private LineRenderer line;
+
     private void Awake()
     {
         initialPos = transform.localPosition;
-
+        line = GetComponent<LineRenderer>();
+        line.enabled = false;
+        line.SetPosition(0, transform.localPosition);
+        line.positionCount = 2;
         meleeDmgMultiplier = 1;
         meleeBleedChance = 0;
         meleeBleedDmg = 0;
@@ -102,11 +107,19 @@ public class WeaponScript : MonoBehaviour
         this.reloadSpeed = weaponData.reloadSpeed;
         this.clipSize = weaponData.clipSize;
 
+        if(this.weaponType == "melee")
+        {
+            line.enabled = false;
+        } else
+        {
+            line.enabled = true;
+            line.SetPosition(1, new Vector3(transform.localPosition.x, transform.localPosition.y + this.weaponRange));
+        }
+
         weaponSprite = gameObject.GetComponent<SpriteRenderer>();
         sprite = Resources.Load<Sprite>(this.spritePath);
         flash = Resources.Load<Sprite>(this.spritePath + " Flash");
         weaponSprite.sprite = sprite;
-
         if (weaponData.weaponType == "melee")
         {
             anim.enabled = true;
@@ -129,7 +142,8 @@ public class WeaponScript : MonoBehaviour
         transform.localRotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0);
         limitAttack = true;
         StartCoroutine(BufferTime());
-        switch (weaponData.weaponName) {
+        switch (weaponData.weaponName)
+        {
             case ("Assault Rifle"):
             case ("Submachine Gun"):
             case ("Sniper Rifle"):
