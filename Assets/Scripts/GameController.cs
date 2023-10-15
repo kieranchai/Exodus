@@ -44,6 +44,8 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject buffSelectionPanel;
 
+    public Transform announcementContainer;
+
     /*private bool stimCD = false;*/
 
     private bool hasLoadedEndCutscene = false;
@@ -329,6 +331,8 @@ public class GameController : MonoBehaviour
         yield return StartCoroutine(Typewriter("The alien mothership has been spreading a poisonous gas throughout the planet."));
         yield return StartCoroutine(Typewriter("Once this gas covers the entire planet, it's game over."));
         yield return StartCoroutine(Typewriter("I estimate you only have about 10 minutes, so get going!"));
+        GameObject announcement = Instantiate(Resources.Load<GameObject>("Prefabs/Announcement"), announcementContainer);
+        announcement.GetComponent<AnnouncementScript>().SetText("GAME START!");
         tutorialBarrier2.enabled = false;
         yield return new WaitForSeconds(1f);
         tutorialDialogue.SetActive(false);

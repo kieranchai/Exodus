@@ -284,6 +284,8 @@ public class PlayerScript : MonoBehaviour
         {
             this.experience -= LevelController.instance.xpNeeded;
             level++;
+            GameObject announcement = Instantiate(Resources.Load<GameObject>("Prefabs/Announcement"), GameController.instance.announcementContainer);
+            announcement.GetComponent<AnnouncementScript>().SetText("LEVEL UP!");
             LevelController.instance.CalculateXpNeeded();
             this.buffTokens++;
             BuffController.instance.UpdatePlayerTokensDisplay();

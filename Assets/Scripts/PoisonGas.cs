@@ -52,6 +52,7 @@ public class PoisonGas : MonoBehaviour
         if (this.hasReached && !this.hasAlerted)
         {
             this.hasAlerted = true;
+            PlayerScript.instance.currentState = PlayerScript.PLAYER_STATE.DEAD;
             GameController.instance.currentState = GameController.GAME_STATE.DEAD;
         }
     }

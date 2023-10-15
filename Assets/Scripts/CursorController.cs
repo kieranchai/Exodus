@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class CursorController : MonoBehaviour
 {
-    [SerializeField] private Sprite crosshair;
     private SpriteRenderer spriteRenderer;
 
     private void Awake()
