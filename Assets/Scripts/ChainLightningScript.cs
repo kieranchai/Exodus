@@ -22,10 +22,20 @@ public class ChainLightningScript : MonoBehaviour
 
     public int singleSpawns;
 
+    private AudioSource SFXSource;
+    [Header("Lightning Audio Clip")]
+    public AudioClip lightning;
+
+    private void Awake()
+    {
+        SFXSource = GetComponent<AudioSource>();
+    }
+
     void Start()
     {
         if (amountToChain == 0) Destroy(gameObject);
 
+        SFXSource.PlayOneShot(lightning);
         coll = GetComponent<CircleCollider2D>();
         anim = GetComponent<Animator>();
         particleSys = GetComponent<ParticleSystem>();

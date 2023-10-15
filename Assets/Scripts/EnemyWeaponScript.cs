@@ -18,6 +18,20 @@ public class EnemyWeaponScript : MonoBehaviour
     public Transform circleOrigin;
     public float radius;
 
+    private AudioSource SFXSource;
+    [Header("Enemy Weapon Audio Clips")]
+    public AudioClip pincerHit;
+    public AudioClip suicideBombTrigger;
+    public AudioClip alienRifleFire;
+    public AudioClip alienPistolFire;
+    public AudioClip alienMouthHit;
+    public AudioClip shopTurretFire;
+
+    private void Awake()
+    {
+        SFXSource = GetComponent<AudioSource>();
+    }
+
     public void SetWeaponData(Weapon weaponData)
     {
         this.weaponName = weaponData.name;
@@ -72,6 +86,22 @@ public class EnemyWeaponScript : MonoBehaviour
         GameObject bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Bullet"), transform.position, Quaternion.Euler(0, 0, spread));
         bullet.GetComponent<EnemyBulletScript>().Initialise(this.attackPower, this.weaponRange);
 
+        //Audio
+        switch (this.weaponName)
+        {
+            case "Alien Rifle":
+                SFXSource.PlayOneShot(alienRifleFire);
+                break;
+            case "Alien Pistol":
+                SFXSource.PlayOneShot(alienPistolFire);
+                break;
+            case "Shop Turret":
+                SFXSource.PlayOneShot(shopTurretFire);
+                break;
+            default:
+                break;
+        }
+
         bullet.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
         yield return new WaitForSeconds(this.cooldown);
         limitAttack = false;
@@ -87,7 +117,19 @@ public class EnemyWeaponScript : MonoBehaviour
             {
                 PlayerScript.instance.TakeDamage(this.attackPower, false);
             }
+        }
 
+        //Audio
+        switch (this.weaponName)
+        {
+            case "Pincers":
+                SFXSource.PlayOneShot(pincerHit);
+                break;
+            case "Alien Mouth":
+                SFXSource.PlayOneShot(alienMouthHit);
+                break;
+            default:
+                break;
         }
 
         yield return new WaitForSeconds(this.cooldown);
@@ -100,6 +142,7 @@ public class EnemyWeaponScript : MonoBehaviour
         limitAttack = true;
         //Charging state to stop enemy from moving
         transform.parent.gameObject.GetComponent<EnemyScript>().AttackCharging(0.5f);
+        SFXSource.PlayOneShot(suicideBombTrigger);
         yield return new WaitForSeconds(0.5f);
 
         GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Heretic Explosion"), transform.position, Quaternion.identity);

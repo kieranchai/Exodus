@@ -110,6 +110,7 @@ public class GameController : MonoBehaviour
 
     private void Choosing()
     {
+        AudioManager.instance.PlaySFX(AudioManager.instance.menuOpen);
         currentState = GAME_STATE.CHOOSINGBUFF;
     }
 
@@ -192,6 +193,7 @@ public class GameController : MonoBehaviour
 
     private void Exit()
     {
+        AudioManager.instance.PlaySFX(AudioManager.instance.menuOpen);
         if (PlayerScript.instance.CanSeeShop || PlayerScript.instance.CanSeeInventory)
         {
             PlayerScript.instance.TurnOffAllViews();

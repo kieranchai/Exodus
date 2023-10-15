@@ -66,9 +66,16 @@ public class EnemyScript : MonoBehaviour
     }
 
     public ENEMY_STATE currentState;
+
+    private AudioSource SFXSource;
+    [Header("Enemy Audio Clips")]
+    public AudioClip enemyHit;
+    public AudioClip enemyDeath;
+
     private void Start()
     {
         popupPrefab = Resources.Load<RectTransform>("Prefabs/Popup");
+        SFXSource = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
         enemyCollider = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
@@ -311,6 +318,7 @@ public class EnemyScript : MonoBehaviour
         if (this.currentHealth - damage > 0)
         {
             this.currentHealth -= damage;
+            SFXSource.PlayOneShot(enemyHit);
             if (this.isTurret) { this.currentState = ENEMY_STATE.ATTACK; return; }
             this.currentState = ENEMY_STATE.CHASE;
         }
@@ -348,6 +356,7 @@ public class EnemyScript : MonoBehaviour
         PlayerScript.instance.UpdateExperience(xpDrop);
 
         if (this.mySpawner) --this.mySpawner.enemyCounter;
+        SFXSource.PlayOneShot(enemyDeath);
         this.currentState = ENEMY_STATE.DEAD;
     }
 

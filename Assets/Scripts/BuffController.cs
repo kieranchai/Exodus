@@ -187,7 +187,11 @@ public class BuffController : MonoBehaviour
 
     private void SelectBuff(Buff buff)
     {
-        if (PlayerScript.instance.buffTokens <= 0) return;
+        if (PlayerScript.instance.buffTokens <= 0)
+        {
+            AudioManager.instance.PlaySFX(AudioManager.instance.actionFailed);
+            return;
+        };
 
         if (PlayerScript.instance.buffList.ContainsKey(buff))
         {
@@ -199,6 +203,7 @@ public class BuffController : MonoBehaviour
         }
 
         --PlayerScript.instance.buffTokens;
+        AudioManager.instance.PlaySFX(AudioManager.instance.buffPressed);
         UpdatePlayerBuffs();
         UpdatePlayerTokensDisplay();
         RandomiseBuffs();
@@ -207,6 +212,7 @@ public class BuffController : MonoBehaviour
     public void Reroll()
     {
         //TODO: Reroll costs money
+        AudioManager.instance.PlaySFX(AudioManager.instance.buffReroll);
         RandomiseBuffs();
     }
 

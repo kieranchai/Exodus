@@ -60,6 +60,7 @@ public class ShopController : MonoBehaviour
         {
             if (gameObject.transform.parent.GetComponent<EnemySpawner>().zoneUnlocked)
             {
+                AudioManager.instance.PlaySFX(AudioManager.instance.shopEntered);
                 RefreshShop();
                 shopButton = Instantiate(shopButtonPrefab, PlayerScript.instance.transform.position + new Vector3(0, 0.5f), Quaternion.identity);
                 PlayerScript.instance.isInShop = true;
@@ -79,6 +80,7 @@ public class ShopController : MonoBehaviour
         {
             if (gameObject.transform.parent.GetComponent<EnemySpawner>().zoneUnlocked && !shopButton)
             {
+                AudioManager.instance.PlaySFX(AudioManager.instance.shopEntered);
                 shopButton = Instantiate(shopButtonPrefab, PlayerScript.instance.transform.position + new Vector3(0, 0.5f), Quaternion.identity);
                 PlayerScript.instance.isInShop = true;
                 RefreshShop();

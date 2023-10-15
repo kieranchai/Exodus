@@ -83,9 +83,15 @@ public class ShopItem : MonoBehaviour
 
     public void Buy()
     {
-        if (PlayerScript.instance.cash < this.cost) return;
+        if (PlayerScript.instance.cash < this.cost)
+        {
+            AudioManager.instance.PlaySFX(AudioManager.instance.actionFailed);
+            return;
+        };
+
         if (PlayerScript.instance.inventory.Contains(this.weaponData) || PlayerScript.instance.equippedWeapon == this.weaponData) return;
 
+        AudioManager.instance.PlaySFX(AudioManager.instance.shopPurchase);
         PlayerScript.instance.AddToInventory(this.weaponData);
         this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "OWNED";
         this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.RemoveAllListeners();
@@ -100,6 +106,7 @@ public class ShopItem : MonoBehaviour
         _data = this.weaponData;
         PlayerScript.instance.UpdateCash(this.weaponData.cost / 2);
         PlayerScript.instance.RemoveFromInventory(_data);
+        AudioManager.instance.PlaySFX(AudioManager.instance.shopPurchase);
         if (!PlayerScript.instance.inventory.Contains(_data))
         {
             this.itemDetailPanel.SetActive(false);

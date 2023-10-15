@@ -6,6 +6,9 @@ public class EnemyExplosionScript : MonoBehaviour
     public float explosionRate;
     private float attackPower;
 
+    [Header("Enemy Explosion Audio Clip")]
+    public AudioClip explosion;
+
     void Start()
     {
         transform.localScale = new Vector3(0, 0, 0);
@@ -15,6 +18,7 @@ public class EnemyExplosionScript : MonoBehaviour
     {
         this.attackPower = attackPower;
         this.splashRange = splashRange;
+        AudioSource.PlayClipAtPoint(explosion, transform.position);
     }
 
     void Update()

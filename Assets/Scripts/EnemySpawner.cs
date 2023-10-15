@@ -64,6 +64,8 @@ public class EnemySpawner : MonoBehaviour
         if (enemyCounter > 0) return false;
         if (!GameController.instance.tutorialFlag2) GameController.instance.tutorialFlag2 = true;
         //TODO: add effects when unlocked
+        GameObject announcement = Instantiate(Resources.Load<GameObject>("Prefabs/Announcement"), GameController.instance.announcementContainer);
+        announcement.GetComponent<AnnouncementScript>().SetText("VENDING MACHINE UNLOCKED!");
         return true;
     }
 

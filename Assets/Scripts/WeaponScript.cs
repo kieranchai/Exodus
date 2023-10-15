@@ -55,9 +55,24 @@ public class WeaponScript : MonoBehaviour
 
     private LineRenderer line;
 
+    private AudioSource SFXSource;
+    [Header("Weapon Audio Clips")]
+    public AudioClip weaponReload;
+    public AudioClip weaponEquip;
+    public AudioClip emptyWeapon;
+    public AudioClip assaultRifleFire;
+    public AudioClip lightPistolFire;
+    public AudioClip smgFire;
+    public AudioClip sniperFire;
+    public AudioClip shotgunFire;
+    public AudioClip katanaSwing;
+    public AudioClip baseballBatSwing;
+    public AudioClip fistSwing;
+
     private void Awake()
     {
         initialPos = transform.localPosition;
+        SFXSource = GetComponent<AudioSource>();
         line = GetComponent<LineRenderer>();
         line.enabled = false;
         line.SetPosition(0, transform.localPosition);
@@ -109,13 +124,16 @@ public class WeaponScript : MonoBehaviour
         this.reloadSpeed = weaponData.reloadSpeed;
         this.clipSize = weaponData.clipSize;
 
-        if(this.weaponType == "melee")
+        SFXSource.clip = weaponEquip;
+        SFXSource.Play();
+        if (this.weaponType == "melee")
         {
             line.enabled = false;
-        } else
+        }
+        else
         {
             line.enabled = true;
-            line.SetPosition(1, new Vector3(transform.localPosition.x, transform.localPosition.y + (this.weaponRange*this.rangeMultiplier)));
+            line.SetPosition(1, new Vector3(transform.localPosition.x, transform.localPosition.y + (this.weaponRange * this.rangeMultiplier)));
         }
 
         weaponSprite = gameObject.GetComponent<SpriteRenderer>();
@@ -195,6 +213,9 @@ public class WeaponScript : MonoBehaviour
 
     IEnumerator Reload()
     {
+        SFXSource.Stop();
+        SFXSource.clip = weaponReload;
+        SFXSource.Play();
         if (this.instaReloadChance > 0 && Random.Range(0, 1f) < this.instaReloadChance - 1)
         {
             yield return new WaitForSeconds(0);
@@ -205,6 +226,7 @@ public class WeaponScript : MonoBehaviour
         }
         PlayerScript.instance.equippedWeapon.currentAmmoCount = this.clipSize;
         isReloading = false;
+        SFXSource.Stop();
         yield return null;
     }
 
@@ -278,12 +300,15 @@ public class WeaponScript : MonoBehaviour
         {
             case "Fists":
                 anim.SetTrigger("Fists");
+                SFXSource.PlayOneShot(fistSwing);
                 break;
             case "Katana":
                 anim.SetTrigger("Katana");
+                SFXSource.PlayOneShot(katanaSwing);
                 break;
             case "Baseball Bat":
                 anim.SetTrigger("Baseball");
+                SFXSource.PlayOneShot(baseballBatSwing);
                 break;
             default:
                 break;
@@ -333,9 +358,32 @@ public class WeaponScript : MonoBehaviour
                     break;
             }
 
+            //Audio
+            switch (this.weaponName)
+            {
+                case "Sniper Rifle":
+                    SFXSource.PlayOneShot(sniperFire);
+                    break;
+                case "Light Pistol":
+                    SFXSource.PlayOneShot(lightPistolFire);
+                    break;
+                case "Submachine Gun":
+                    SFXSource.PlayOneShot(smgFire);
+                    break;
+                case "Assault Rifle":
+                    SFXSource.PlayOneShot(assaultRifleFire);
+                    break;
+                default:
+                    break;
+            }
+
             //can add Projectile Speed to CSV (600 here)
             bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 600);
             yield return new WaitForSeconds(this.cooldown * this.gunFireRateMultiplier);
+        }
+        else
+        {
+            SFXSource.PlayOneShot(emptyWeapon);
         }
         limitAttack = false;
         yield return null;
@@ -344,23 +392,32 @@ public class WeaponScript : MonoBehaviour
     IEnumerator SpreadAttack()
     {
         limitAttack = true;
-        for (int i = 0; i < shotgunCount; i++)
+        SFXSource.PlayOneShot(shotgunFire);
+        if (PlayerScript.instance.equippedWeapon.currentAmmoCount > 0)
         {
-            float spread = Random.Range(-shotgunSpread, shotgunSpread);
-            GameObject bullet;
-            bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Bullet"), transform.position, Quaternion.Euler(0, 0, spread));
-            if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
-                    {   
-                        bullet.GetComponent<BulletScript>().Initialise(this.attackPower * this.gunCritDamageMultiplier, this.weaponRange * this.rangeMultiplier, true);
-                    }
-                    else
-                    {
-                        bullet.GetComponent<BulletScript>().Initialise(this.attackPower, this.weaponRange * this.rangeMultiplier);
-                    }
-            bullet.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
+            for (int i = 0; i < shotgunCount; i++)
+            {
+                float spread = Random.Range(-shotgunSpread, shotgunSpread);
+                GameObject bullet;
+                bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Bullet"), transform.position, Quaternion.Euler(0, 0, spread));
+                if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
+                {
+                    bullet.GetComponent<BulletScript>().Initialise(this.attackPower * this.gunCritDamageMultiplier, this.weaponRange * this.rangeMultiplier, true);
+                }
+                else
+                {
+                    bullet.GetComponent<BulletScript>().Initialise(this.attackPower, this.weaponRange * this.rangeMultiplier);
+                }
+                bullet.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
+            }
+            --PlayerScript.instance.equippedWeapon.currentAmmoCount;
+            yield return new WaitForSeconds(this.cooldown * this.gunFireRateMultiplier);
         }
-        --PlayerScript.instance.equippedWeapon.currentAmmoCount;
-        yield return new WaitForSeconds(this.cooldown * this.gunFireRateMultiplier);
+        else
+        {
+            SFXSource.PlayOneShot(emptyWeapon);
+        }
+
         limitAttack = false;
         yield return null;
     }

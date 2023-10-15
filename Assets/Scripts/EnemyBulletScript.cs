@@ -8,6 +8,16 @@ public class EnemyBulletScript : MonoBehaviour
     private float weaponRange;
     private Vector3 initialPosition;
 
+    private AudioSource SFXSource;
+    [Header("Enemy Bullet Audio Clips")]
+    public AudioClip tilemapImpact;
+    public AudioClip playerImpact;
+
+    private void Awake()
+    {
+        SFXSource = GetComponent<AudioSource>();
+    }
+
     public void Initialise(float attackPower, float weaponRange)
     {
         this.attackPower = attackPower;
@@ -26,12 +36,14 @@ public class EnemyBulletScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            SFXSource.PlayOneShot(playerImpact);
             PlayerScript.instance.TakeDamage(this.attackPower, false);
             Destroy(gameObject);
         }
 
         if (collision.gameObject.CompareTag("Tilemap Collider"))
         {
+            SFXSource.PlayOneShot(tilemapImpact);
             Destroy(gameObject);
         }
     }

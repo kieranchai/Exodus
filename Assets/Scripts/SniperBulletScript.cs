@@ -7,6 +7,16 @@ public class SniperBulletScript : MonoBehaviour
     private bool crit;
     private Vector3 initialPosition;
 
+    private AudioSource SFXSource;
+    [Header("Bullet Audio Clips")]
+    public AudioClip tilemapImpact;
+    public AudioClip enemyImpact;
+
+    private void Awake()
+    {
+        SFXSource = GetComponent<AudioSource>();
+    }
+
     public void Initialise(float attackPower, float weaponRange, bool crit = false)
     {
         this.attackPower = attackPower;
@@ -27,6 +37,7 @@ public class SniperBulletScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            SFXSource.PlayOneShot(enemyImpact);
             collision.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower, crit);
 
             //Bleed
@@ -46,6 +57,7 @@ public class SniperBulletScript : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Tilemap Collider") || collision.gameObject.CompareTag("Forcefield"))
         {
+            SFXSource.PlayOneShot(tilemapImpact);
             Destroy(gameObject);
         }
 

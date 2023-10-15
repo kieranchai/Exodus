@@ -8,6 +8,9 @@ public class MeleeExplosion : MonoBehaviour
     public float explosionRate;
     private float attackPower;
 
+    [Header("Explosion Audio Clip")]
+    public AudioClip explosion;
+
     void Start()
     {
         transform.localScale = new Vector3(0, 0, 0);
@@ -16,6 +19,7 @@ public class MeleeExplosion : MonoBehaviour
     public void Initialise(float attackPower)
     {
         this.attackPower = attackPower;
+        AudioSource.PlayClipAtPoint(explosion, transform.position);
     }
 
     void Update()

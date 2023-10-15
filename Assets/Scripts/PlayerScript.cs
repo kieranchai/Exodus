@@ -74,6 +74,13 @@ public class PlayerScript : MonoBehaviour
     public int regenValue = 0;
     public float meleeDmgBlockMultiplier = 0;
 
+    private AudioSource SFXSource;
+    [Header("Player Audio Clips")]
+    public AudioClip playerHit;
+    public AudioClip playerDash;
+    public AudioClip playerDeath;
+    public AudioClip playerHeal;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -86,6 +93,7 @@ public class PlayerScript : MonoBehaviour
         popUpPrefab = Resources.Load<RectTransform>("Prefabs/Popup");
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
+        SFXSource = GetComponent<AudioSource>();
         playerSprite = GetComponent<SpriteRenderer>();
         weaponSlot = transform.GetChild(0).GetComponent<WeaponScript>();
         this.currentState = PLAYER_STATE.NORMAL;
@@ -150,6 +158,7 @@ public class PlayerScript : MonoBehaviour
                         this.rollOnCD = true;
                         this.playerPanel.transform.Find("Roll").Find("Roll Image").Find("Cooldown").gameObject.SetActive(true);
                         //Play Roll Anims
+                        SFXSource.PlayOneShot(playerDash);
                         dustCloud.Play();
                     }
                     break;
@@ -258,6 +267,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         UpdateHealth(-damage);
+        SFXSource.PlayOneShot(playerHit);
 
         Transform dmgNumber = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
         dmgNumber.GetComponent<Popup>().SetPlayerDamage(damage, evaded, blocked);
@@ -271,6 +281,7 @@ public class PlayerScript : MonoBehaviour
         CameraController.instance.animator.SetTrigger("CameraShake");
         if (currentHealth <= 0)
         {
+            SFXSource.PlayOneShot(playerDeath);
             this.currentState = PLAYER_STATE.DEAD;
             GameController.instance.currentState = GameController.GAME_STATE.DEAD;
         }
@@ -289,7 +300,7 @@ public class PlayerScript : MonoBehaviour
             LevelController.instance.CalculateXpNeeded();
             this.buffTokens++;
             BuffController.instance.UpdatePlayerTokensDisplay();
-
+            AudioManager.instance.PlaySFX(AudioManager.instance.levelUp);
             playerPanel.transform.Find("Level").GetComponent<TMP_Text>().text = $"Lvl.{level}";
         }
     }
@@ -308,6 +319,7 @@ public class PlayerScript : MonoBehaviour
         {
             Transform healNumber = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
             healNumber.GetComponent<Popup>().SetHeal(value);
+            SFXSource.PlayOneShot(playerHeal);
         }
     }
 
