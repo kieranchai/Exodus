@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class EnemyExplosionScript : MonoBehaviour
 {
@@ -6,7 +7,7 @@ public class EnemyExplosionScript : MonoBehaviour
     public float explosionRate;
     private float attackPower;
 
-    [Header("Enemy Explosion Audio Clip")]
+    [Header("Explosion Audio Clip")]
     public AudioClip explosion;
 
     void Start()

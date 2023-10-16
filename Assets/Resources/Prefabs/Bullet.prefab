@@ -101,6 +101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 101a45cc71839df40a0e55613268e8aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilemapImpact: {fileID: 0}
+  enemyImpact: {fileID: 8300000, guid: 77f0f6c660cf8b34d8addd993437a681, type: 3}
 --- !u!50 &8566565413560509346
 Rigidbody2D:
   serializedVersion: 4

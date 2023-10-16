@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class BulletScript : MonoBehaviour
 {
@@ -8,15 +9,9 @@ public class BulletScript : MonoBehaviour
     private Vector3 initialPosition;
     private bool isPiercing = false;
 
-    private AudioSource SFXSource;
     [Header("Bullet Audio Clips")]
     public AudioClip tilemapImpact;
     public AudioClip enemyImpact;
-
-    private void Awake()
-    {
-        SFXSource = GetComponent<AudioSource>();
-    }
 
     public void Initialise(float attackPower, float weaponRange, bool crit = false)
     {
@@ -42,7 +37,9 @@ public class BulletScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            SFXSource.PlayOneShot(enemyImpact);
+            AudioSource.PlayClipAtPoint(enemyImpact, collision.transform.position);
+
+            AudioSource.PlayClipAtPoint(enemyImpact, collision.transform.position);
             collision.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower, crit);
 
             //Bleed
@@ -64,7 +61,7 @@ public class BulletScript : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Tilemap Collider") || collision.gameObject.CompareTag("Forcefield"))
         {
-            SFXSource.PlayOneShot(tilemapImpact);
+            AudioSource.PlayClipAtPoint(tilemapImpact, collision.transform.position);
             Destroy(gameObject);
         }
 

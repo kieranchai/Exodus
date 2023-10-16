@@ -186,7 +186,7 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q)) Choosing();
         //cheat
         if (Input.GetKeyDown(KeyCode.M)) PlayerScript.instance.UpdateCash(1000);
-        if (Input.GetKeyDown(KeyCode.L)) PlayerScript.instance.UpdateExperience(10);
+        if (Input.GetKeyDown(KeyCode.L)) PlayerScript.instance.UpdateExperience(50);
         if (Input.GetKeyDown(KeyCode.H)) PlayerScript.instance.UpdateHealth(PlayerScript.instance.maxHealth);
         if (Input.GetKeyDown(KeyCode.T)) SkipTutorial();
     }
