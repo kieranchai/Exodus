@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
@@ -22,7 +23,9 @@ public class EnemySpawner : MonoBehaviour
     //For Shop Access
     public bool zoneUnlocked = false;
     public bool hasTurret = false;
-
+    public Tile[] activeShopTiles;
+    public Vector3Int[] shopPosition;
+    public Tilemap tilemap;
     void Start()
     {
         if (!hasTurret)
@@ -66,6 +69,7 @@ public class EnemySpawner : MonoBehaviour
         //TODO: add effects when unlocked
         GameObject announcement = Instantiate(Resources.Load<GameObject>("Prefabs/Announcement"), GameController.instance.announcementContainer);
         announcement.GetComponent<AnnouncementScript>().SetText("VENDING MACHINE UNLOCKED!");
+        ChangeShopSprite();
         return true;
     }
 
@@ -101,4 +105,10 @@ public class EnemySpawner : MonoBehaviour
         );
     }
 
+    public void ChangeShopSprite() {
+        // tilemap.SetTile(position,)
+        for(int i =0; i<4; i++) {
+            tilemap.SetTile(shopPosition[i],activeShopTiles[i]);
+        } 
+    }
 }
