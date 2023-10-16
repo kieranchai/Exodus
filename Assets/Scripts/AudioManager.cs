@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip menuOpen;
     public AudioClip shopEntered;
     public AudioClip shopPurchase;
+    public AudioClip shopSell;
     public AudioClip buffPressed;
     public AudioClip buffReroll;
     public AudioClip actionFailed;

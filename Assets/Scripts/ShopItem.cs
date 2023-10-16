@@ -106,7 +106,7 @@ public class ShopItem : MonoBehaviour
         _data = this.weaponData;
         PlayerScript.instance.UpdateCash(this.weaponData.cost / 2);
         PlayerScript.instance.RemoveFromInventory(_data);
-        AudioManager.instance.PlaySFX(AudioManager.instance.shopPurchase);
+        AudioManager.instance.PlaySFX(AudioManager.instance.shopSell);
         if (!PlayerScript.instance.inventory.Contains(_data))
         {
             this.itemDetailPanel.SetActive(false);

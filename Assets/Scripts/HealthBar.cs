@@ -21,8 +21,13 @@ public class HealthBar : MonoBehaviour
 
     private Vignette lowHealthVignette;
 
+    private AudioSource SFXSource;
+    [Header("Health Audio Clip")]
+    public AudioClip heartbeat;
+
     private void Start()
     {
+        SFXSource = GetComponent<AudioSource>();
         originalMaterial = healthBar.material;
         lowHealthVolume.profile.TryGet(out lowHealthVignette);
     }
@@ -36,6 +41,8 @@ public class HealthBar : MonoBehaviour
             if (!isFlashing)
             {
                 isFlashing = true;
+                SFXSource.clip = heartbeat;
+                SFXSource.Play();
                 StartCoroutine(FlashHealth());
             }
         }
@@ -69,6 +76,7 @@ public class HealthBar : MonoBehaviour
             if (PlayerScript.instance.currentHealth > PlayerScript.instance.maxHealth * 0.3)
             {
                 isFlashing = false;
+                SFXSource.Stop();
             }
         }
         healthBar.material = originalMaterial;
