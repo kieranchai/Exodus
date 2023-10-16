@@ -20,3 +20,4 @@ MonoBehaviour:
   type: bleed
   value: 10%
   secValue: 10
+  rollChance: 0.4

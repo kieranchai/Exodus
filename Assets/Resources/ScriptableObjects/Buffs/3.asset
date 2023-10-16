@@ -19,3 +19,4 @@ MonoBehaviour:
   type: evasion
   value: 5%
   secValue: null
+  rollChance: 0.3

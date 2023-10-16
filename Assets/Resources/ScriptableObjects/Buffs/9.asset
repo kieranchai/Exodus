@@ -19,3 +19,4 @@ MonoBehaviour:
   type: reload
   value: 5%
   secValue: null
+  rollChance: 0.3

@@ -19,3 +19,4 @@ MonoBehaviour:
   type: maxHealth
   value: 20%
   secValue: null
+  rollChance: 0.5

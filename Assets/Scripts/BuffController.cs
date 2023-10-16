@@ -18,6 +18,8 @@ public class BuffController : MonoBehaviour
 
     private WeaponScript weaponScript;
 
+    private int rerollPrice = 200;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -53,8 +55,16 @@ public class BuffController : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            availableBuffs[i] = allBuffs[Random.Range(0, allBuffs.Length)];
-            //TODO add buff chance
+            availableBuffs[i] = null;
+
+            while (!availableBuffs[i])
+            {
+                Buff rolledBuff = allBuffs[Random.Range(0, allBuffs.Length)];
+                if (Random.Range(0f, 1f) < rolledBuff.rollChance)
+                {
+                    availableBuffs[i] = allBuffs[Random.Range(0, allBuffs.Length)];
+                }
+            }
         }
 
         RefreshAvailableBuffsUI();
@@ -211,7 +221,10 @@ public class BuffController : MonoBehaviour
 
     public void Reroll()
     {
-        //TODO: Reroll costs money
+        if (rerollPrice > PlayerScript.instance.cash) return;
+
+        PlayerScript.instance.UpdateCash(-rerollPrice);
+        rerollPrice = (int) (rerollPrice * 1.05f);
         AudioManager.instance.PlaySFX(AudioManager.instance.buffReroll);
         RandomiseBuffs();
     }
@@ -261,7 +274,7 @@ public class BuffController : MonoBehaviour
                     {
                         case "explode":
                             float mExplodeDmg = float.Parse(buff.Key.value);
-                            weaponScript.meleeExplodeDmg += mExplodeDmg;
+                            weaponScript.meleeExplodeDmg = mExplodeDmg + (mExplodeDmg / 2 * (buff.Value - 1));
                             break;
                         case "lifesteal":
                             float mLifeSteal = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;

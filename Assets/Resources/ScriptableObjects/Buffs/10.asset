@@ -19,3 +19,4 @@ MonoBehaviour:
   type: fireRate
   value: 20%
   secValue: null
+  rollChance: 0.5

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: 18
   m_EditorClassIdentifier: 
   id: 18
-  buffName: Faster Attacks
-  description: Increases attack speed by [currentValue] + [value]
+  buffName: Wonder Guard
+  description: Adds [currentValue] + [value] chance to block enemy damage.
   category: melee
-  type: fireRate
-  value: 20%
+  type: dmgBlock
+  value: 10%
   secValue: null
+  rollChance: 0.4

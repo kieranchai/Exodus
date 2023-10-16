@@ -19,3 +19,4 @@ MonoBehaviour:
   type: dodgeCd
   value: 10%
   secValue: null
+  rollChance: 0.3

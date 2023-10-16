@@ -20,3 +20,4 @@ MonoBehaviour:
   type: lightning
   value: 10%
   secValue: 5
+  rollChance: 0.2

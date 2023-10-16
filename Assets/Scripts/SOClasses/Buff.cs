@@ -10,4 +10,5 @@ public class Buff : ScriptableObject
     public string type;
     public string value;
     public string secValue;
+    public float rollChance;
 }

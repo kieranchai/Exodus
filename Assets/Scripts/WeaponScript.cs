@@ -50,6 +50,7 @@ public class WeaponScript : MonoBehaviour
     public float pierceChance;
     public float lightningChance;
     public float lightningDmg;
+
     public float shotgunSpread;
     public float shotgunCount;
 

@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: 19
   m_EditorClassIdentifier: 
   id: 19
-  buffName: Wonder Guard
-  description: Adds [currentValue] + [value] chance to block enemy damage.
+  buffName: Internal Bruising
+  description: Adds [currentValue] + [value] chance to cause enemies to bleed for
+    [secValue] per second.
   category: melee
-  type: dmgBlock
-  value: 10%
-  secValue: null
+  type: bleed
+  value: 15%
+  secValue: 10
+  rollChance: 0.4

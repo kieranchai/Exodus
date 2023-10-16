@@ -19,3 +19,4 @@ MonoBehaviour:
   type: pierce
   value: 30%
   secValue: null
+  rollChance: 0.4

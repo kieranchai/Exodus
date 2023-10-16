@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: 15
   m_EditorClassIdentifier: 
   id: 15
-  buffName: Vampiric Essence
-  description: Gain [currentValue] + [value] of your damage dealt as health.
+  buffName: Crit Up
+  description: Adds [currentValue] + [value] chance to crit ([secValue] damage)
   category: melee
-  type: lifesteal
-  value: 40%
-  secValue: null
+  type: crit
+  value: 35%
+  secValue: 150%
+  rollChance: 0.5

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: 14
   m_EditorClassIdentifier: 
   id: 14
-  buffName: Explosive Strength
-  description: Attacks explode on impact. Damages enemies in an area for [currentValue]
-    + [value].
+  buffName: Vampiric Essence
+  description: Gain [currentValue] + [value] of your damage dealt as health.
   category: melee
-  type: explode
-  value: 15
+  type: lifesteal
+  value: 40%
   secValue: null
+  rollChance: 0.3

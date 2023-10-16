@@ -19,3 +19,4 @@ MonoBehaviour:
   type: regeneration
   value: 1
   secValue: null
+  rollChance: 0.3
