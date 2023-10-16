@@ -36,14 +36,14 @@ public class EnemyBulletScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            SFXSource.PlayOneShot(playerImpact);
+            AudioSource.PlayClipAtPoint(playerImpact, collision.transform.position);
             PlayerScript.instance.TakeDamage(this.attackPower, false);
             Destroy(gameObject);
         }
 
         if (collision.gameObject.CompareTag("Tilemap Collider"))
         {
-            SFXSource.PlayOneShot(tilemapImpact);
+            AudioSource.PlayClipAtPoint(tilemapImpact, collision.transform.position);
             Destroy(gameObject);
         }
     }

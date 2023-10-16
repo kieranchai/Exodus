@@ -223,7 +223,7 @@ MonoBehaviour:
   suicideBombTrigger: {fileID: 0}
   alienRifleFire: {fileID: 0}
   alienPistolFire: {fileID: 0}
-  alienMouthHit: {fileID: 0}
+  alienMouthHit: {fileID: 8300000, guid: 731a854b65e21ea4f96980406061b248, type: 3}
   shopTurretFire: {fileID: 0}
 --- !u!95 &5558768969037890725
 Animator:

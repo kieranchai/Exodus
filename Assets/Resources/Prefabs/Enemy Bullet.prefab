@@ -276,6 +276,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd65b4233cd2e3419cb2ec2ea60ae8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilemapImpact: {fileID: 0}
+  playerImpact: {fileID: 8300000, guid: e445ea10183b66040985730b8d8fd32a, type: 3}
 --- !u!82 &7365412755506359897
 AudioSource:
   m_ObjectHideFlags: 0

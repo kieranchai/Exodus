@@ -219,6 +219,12 @@ MonoBehaviour:
   anim: {fileID: 4363125417230634710}
   circleOrigin: {fileID: 2458899830098038588}
   radius: 0.3
+  pincerHit: {fileID: 8300000, guid: b1ffc7f59258c544f89cfc8021e6b076, type: 3}
+  suicideBombTrigger: {fileID: 0}
+  alienRifleFire: {fileID: 0}
+  alienPistolFire: {fileID: 0}
+  alienMouthHit: {fileID: 0}
+  shopTurretFire: {fileID: 0}
 --- !u!95 &4363125417230634710
 Animator:
   serializedVersion: 5

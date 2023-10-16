@@ -38,8 +38,6 @@ public class BulletScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             AudioSource.PlayClipAtPoint(enemyImpact, collision.transform.position);
-
-            AudioSource.PlayClipAtPoint(enemyImpact, collision.transform.position);
             collision.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower, crit);
 
             //Bleed

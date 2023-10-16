@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionRate: 15
-  explosion: {fileID: 0}
+  explosion: {fileID: 8300000, guid: fd87d5c5d34a1ba498d2921fc48a2f9a, type: 3}
 --- !u!82 &-4602109920288857551
 AudioSource:
   m_ObjectHideFlags: 0

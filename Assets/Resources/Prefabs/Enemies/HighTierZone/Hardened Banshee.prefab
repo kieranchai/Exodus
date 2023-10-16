@@ -190,8 +190,8 @@ MonoBehaviour:
   radius: 0
   pincerHit: {fileID: 0}
   suicideBombTrigger: {fileID: 0}
-  alienRifleFire: {fileID: 0}
-  alienPistolFire: {fileID: 0}
+  alienRifleFire: {fileID: 8300000, guid: 82ddad6718286194e9732d0b123f078e, type: 3}
+  alienPistolFire: {fileID: 8300000, guid: 82ddad6718286194e9732d0b123f078e, type: 3}
   alienMouthHit: {fileID: 0}
   shopTurretFire: {fileID: 0}
 --- !u!95 &4992496832141483539

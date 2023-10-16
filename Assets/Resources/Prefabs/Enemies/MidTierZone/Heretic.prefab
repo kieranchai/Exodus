@@ -220,7 +220,7 @@ MonoBehaviour:
   circleOrigin: {fileID: 4384971715240071022}
   radius: 0
   pincerHit: {fileID: 0}
-  suicideBombTrigger: {fileID: 0}
+  suicideBombTrigger: {fileID: 8300000, guid: 4507f38e493b70948945a74a596268e9, type: 3}
   alienRifleFire: {fileID: 0}
   alienPistolFire: {fileID: 0}
   alienMouthHit: {fileID: 0}
