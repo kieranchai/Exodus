@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8624372836433268640}
   - component: {fileID: 6006694181186171679}
   m_Layer: 7
-  m_Name: Shop Turret
+  m_Name: Banshee Turret
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

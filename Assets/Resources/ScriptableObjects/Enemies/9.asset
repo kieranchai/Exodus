@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: 9
   m_EditorClassIdentifier: 
   id: 9
-  enemyName: Shop Turret
+  enemyName: Banhee Turret
   health: 60
   movementSpeed: 0
-  equippedWeapon: Shop Turret
+  equippedWeapon: Banshee Turret
   hpDrop: 50
   xpDrop: 40
   cashDrop: 100

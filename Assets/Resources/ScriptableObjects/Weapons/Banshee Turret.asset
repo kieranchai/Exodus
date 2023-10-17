@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
-  m_Name: Shop Turret
+  m_Name: Banshee Turret
   m_EditorClassIdentifier: 
   id: 13
-  weaponName: Shop Turret
+  weaponName: Banshee Turret
   description: NULL
   attackPower: 3.3
   spritePath: Sprites/Shop Keeper Turret
