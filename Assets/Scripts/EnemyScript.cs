@@ -47,13 +47,14 @@ public class EnemyScript : MonoBehaviour
 
     [SerializeField]
     private ParticleSystem spawnParticle;
-
+    
     [SerializeField]
     private GameObject healthOrbPrefab;
 
     [SerializeField]
     private GameObject cashOrbPrefab;
     public bool isTurret;
+    public bool isMagnet;
     public Vector3 originalRotation;
     public enum ENEMY_STATE
     {
@@ -203,6 +204,10 @@ public class EnemyScript : MonoBehaviour
 
     public void Chase()
     {
+        if (this.isMagnet)
+        {
+            this.weaponSlot.MagnetDisable();
+        }
         agent.SetDestination(PlayerScript.instance.transform.position);
         transform.up = (PlayerScript.instance.transform.position - new Vector3(transform.position.x, transform.position.y));
         if (PlayerInSight())
@@ -234,7 +239,14 @@ public class EnemyScript : MonoBehaviour
             }
         }
         transform.up = (PlayerScript.instance.transform.position - new Vector3(transform.position.x, transform.position.y));
-        this.weaponSlot.TryAttack();
+        if (this.isMagnet)
+        {
+            this.weaponSlot.MagnetActive();
+        }
+        else
+        {
+            this.weaponSlot.TryAttack();
+        }
     }
 
     public void AttackCharging(float chargeTime)

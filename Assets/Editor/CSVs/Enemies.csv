@@ -7,3 +7,4 @@
 7,Crab,6,3,Pincers,5,5,10,NULL,UltraLowTierZone,100
 8,Heretic,15,6,Suicide Bomb,20,20,30,NULL,MidTierZone,30
 9,Banhee Turret,60,0,Banshee Turret,50,40,100,NULL,NULL,0
+10,Magnet Head,50,2.41,Magnet,50,40,100,NULL,HighTierZone,20

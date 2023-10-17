@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Drawing;
 using UnityEngine;
 
 public class EnemyWeaponScript : MonoBehaviour
@@ -17,6 +18,14 @@ public class EnemyWeaponScript : MonoBehaviour
     public Animator anim;
     public Transform circleOrigin;
     public float radius;
+
+    // magnet enemy type
+    private PointEffector2D PointEffector;
+    public bool magnetDamageActive;
+    private float savedTimer = 0;
+    private float damageInterval = 1f;
+    float multiplier = 1;
+    public ParticleSystem MagnetParticle;
 
     private AudioSource SFXSource;
     [Header("Enemy Weapon Audio Clips")]
@@ -46,13 +55,18 @@ public class EnemyWeaponScript : MonoBehaviour
         flash = Resources.Load<Sprite>(this.spritePath + " Flash");
         weaponSprite.sprite = sprite;
 
-        if (weaponData.weaponType == "melee")
+        if (weaponData.weaponType == "melee" || weaponData.weaponType == "magnet")
         {
             anim.enabled = true;
         }
         else
         {
             anim.enabled = false;
+        }
+
+        if (weaponData.weaponType == "magnet") {
+            this.PointEffector = this.gameObject.GetComponent<PointEffector2D>();
+            PointEffector.enabled = false;
         }
     }
 
@@ -124,9 +138,11 @@ public class EnemyWeaponScript : MonoBehaviour
         {
             case "Pincers":
                 SFXSource.PlayOneShot(pincerHit);
+                anim.SetTrigger("Pincers");
                 break;
             case "Alien Mouth":
                 SFXSource.PlayOneShot(alienMouthHit);
+                anim.SetTrigger("Mouth");
                 break;
             default:
                 break;
@@ -137,6 +153,21 @@ public class EnemyWeaponScript : MonoBehaviour
         yield return null;
     }
 
+    public void MagnetActive() {
+        if (!magnetDamageActive) {
+            PointEffector.enabled = true;
+            magnetDamageActive = true;
+            anim.SetBool("MagnetActive", true);
+            MagnetParticle.Play();
+        }
+    }
+
+    public void MagnetDisable() {
+            PointEffector.enabled = false;
+            magnetDamageActive = false;
+            anim.SetBool("MagnetActive", false);
+            MagnetParticle.Stop();
+    }
     IEnumerator SuicideAttack()
     {
         limitAttack = true;
@@ -168,9 +199,21 @@ public class EnemyWeaponScript : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.blue;
+        Gizmos.color = UnityEngine.Color.blue;
         Vector3 position = circleOrigin.position;
         Gizmos.DrawWireSphere(position, radius);
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!magnetDamageActive) return;
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if ((Time.time - savedTimer) > damageInterval)
+            {
+                savedTimer = Time.time;
+                collision.GetComponent<PlayerScript>().TakeDamage(this.attackPower, false);
+            }
+        }
+    }
 }

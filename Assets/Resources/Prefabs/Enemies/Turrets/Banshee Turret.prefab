@@ -89,6 +89,7 @@ MonoBehaviour:
   healthOrbPrefab: {fileID: 8666502702400235091, guid: e089aadca89f27c4daca18dd9e45252b, type: 3}
   cashOrbPrefab: {fileID: 8666502702400235091, guid: 2f6dbdc67005c394c9c6e0419f562369, type: 3}
   isTurret: 1
+  isMagnet: 0
   originalRotation: {x: 0, y: 0, z: 0}
   currentState: 0
   enemyHit: {fileID: 0}
