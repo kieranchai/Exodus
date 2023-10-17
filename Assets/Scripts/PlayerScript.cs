@@ -301,7 +301,7 @@ public class PlayerScript : MonoBehaviour
             this.buffTokens++;
             BuffController.instance.UpdatePlayerTokensDisplay();
             AudioManager.instance.PlaySFX(AudioManager.instance.levelUp);
-            playerPanel.transform.Find("Level").GetComponent<TMP_Text>().text = $"Lvl.{level}";
+            playerPanel.transform.Find("Level").GetComponent<TMP_Text>().text = $"{level}";
         }
     }
 
