@@ -367,7 +367,6 @@ public class EnemyScript : MonoBehaviour
         enemyCollider.enabled = false;
         rb.bodyType = RigidbodyType2D.Static;
         enemySprite.sprite = Resources.Load<Sprite>($"Sprites/{this.enemyName}_Death");
-
         Destroy(gameObject, 2f);
     }
 
