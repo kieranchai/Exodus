@@ -74,11 +74,14 @@ public class ShopItem : MonoBehaviour
             this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => Sell());
         }
 
-        this.itemDetailPanel.transform.Find("Weapon AP").GetComponent<TMP_Text>().text = "<color=#fff000>" + this.attackPower + "dmg</color>";
-        this.itemDetailPanel.transform.Find("Weapon CD").GetComponent<TMP_Text>().text = "<color=#fff000>" + this.cooldown + "/s</color>";
-        this.itemDetailPanel.transform.Find("Weapon Range").GetComponent<TMP_Text>().text = "<color=#fff000>" + this.range + "m</color>";
+        this.itemDetailPanel.transform.Find("Weapon AP").GetComponent<TMP_Text>().text = this.attackPower + "dmg";
+        this.itemDetailPanel.transform.Find("Weapon CD").GetComponent<TMP_Text>().text = this.cooldown + "/s";
+        this.itemDetailPanel.transform.Find("Weapon Range").GetComponent<TMP_Text>().text = this.range + "m";
 
-        this.itemDetailPanel.SetActive(true);
+        foreach (Transform child in this.itemDetailPanel.transform)
+        {
+            child.gameObject.SetActive(true);
+        }
     }
 
     public void Buy()
@@ -109,7 +112,10 @@ public class ShopItem : MonoBehaviour
         AudioManager.instance.PlaySFX(AudioManager.instance.shopSell);
         if (!PlayerScript.instance.inventory.Contains(_data))
         {
-            this.itemDetailPanel.SetActive(false);
+            foreach (Transform child in this.itemDetailPanel.transform)
+            {
+                child.gameObject.SetActive(false);
+            }
             Destroy(gameObject);
             return;
         }

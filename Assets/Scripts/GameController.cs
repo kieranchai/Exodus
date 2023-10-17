@@ -16,7 +16,6 @@ public class GameController : MonoBehaviour
         PANNING,
         PAUSED,
         PLAYING,
-        CHOOSINGBUFF,
         DEAD,
         WIN
     }
@@ -50,6 +49,8 @@ public class GameController : MonoBehaviour
 
     private bool hasLoadedEndCutscene = false;
 
+    private bool isBuffOpen = false;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -71,9 +72,6 @@ public class GameController : MonoBehaviour
                 break;
             case GAME_STATE.PAUSED:
                 PauseGame();
-                break;
-            case GAME_STATE.CHOOSINGBUFF:
-                ChoosingState();
                 break;
             case GAME_STATE.DEAD:
                 GameOver();
@@ -111,18 +109,9 @@ public class GameController : MonoBehaviour
     private void Choosing()
     {
         AudioManager.instance.PlaySFX(AudioManager.instance.menuOpen);
-        currentState = GAME_STATE.CHOOSINGBUFF;
-    }
-
-    private void ChoosingState()
-    {
-        Time.timeScale = 0.0f;
-        buffSelectionPanel.SetActive(true);
-        BuffController.instance.UpdatePlayerTokensDisplay();
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Q))
-        {
-            ResumeGame();
-        }
+        isBuffOpen = !isBuffOpen;
+        buffSelectionPanel.SetActive(isBuffOpen);
+        if(isBuffOpen == true) BuffController.instance.UpdatePlayerTokensDisplay();
     }
 
     public void ResumeGame()
@@ -164,6 +153,12 @@ public class GameController : MonoBehaviour
             PlayerScript.instance.weaponSlot.TryAttack();
         }
 
+        if (Input.GetKeyDown(KeyCode.R) && PlayerScript.instance.weaponSlot.weaponType != "melee" && PlayerScript.instance.equippedWeapon.currentAmmoCount < PlayerScript.instance.weaponSlot.clipSize && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
+        {
+            PlayerScript.instance.weaponSlot.isReloading = true;
+            PlayerScript.instance.weaponSlot.StartCoroutine(PlayerScript.instance.weaponSlot.Reload());
+        }
+
         if (Input.GetAxis("Mouse ScrollWheel") != 0 && !isOverUI && PlayerScript.instance.inventory.Count > 0)
         {
             if (PlayerScript.instance.inventory.Count == 1 && PlayerScript.instance.weaponNumber == PlayerScript.instance.inventory.Count - 1) return;
@@ -184,6 +179,9 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab)) PlayerScript.instance.ToggleInventoryView();
         if (Input.GetKeyDown(KeyCode.E)) Interact();
         if (Input.GetKeyDown(KeyCode.Q)) Choosing();
+        if (isBuffOpen && Input.GetKeyDown(KeyCode.Space)) BuffController.instance.Reroll();
+
+
         //cheat
         if (Input.GetKeyDown(KeyCode.M)) PlayerScript.instance.UpdateCash(1000);
         if (Input.GetKeyDown(KeyCode.L)) PlayerScript.instance.UpdateExperience(50);

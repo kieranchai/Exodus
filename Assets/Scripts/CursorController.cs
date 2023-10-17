@@ -13,7 +13,6 @@ public class CursorController : MonoBehaviour
     private void Update()
     {
         if (GameController.instance.currentState == GameController.GAME_STATE.PAUSED ||
-            GameController.instance.currentState == GameController.GAME_STATE.CHOOSINGBUFF ||
             GameController.instance.currentState == GameController.GAME_STATE.DEAD ||
             GameController.instance.currentState == GameController.GAME_STATE.WIN ||
             GameController.instance.currentState == GameController.GAME_STATE.PANNING ||

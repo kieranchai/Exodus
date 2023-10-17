@@ -17,6 +17,11 @@ public class InventoryItem : MonoBehaviour
     public Weapon weaponData;
     private GameObject itemDetailPanel;
 
+    [SerializeField]
+    private Sprite unEquipped;
+    [SerializeField]
+    private Sprite equipped;
+
     public void Initialise(Weapon weaponData)
     {
         this.weaponData = weaponData;
@@ -38,13 +43,15 @@ public class InventoryItem : MonoBehaviour
 
     public void Check()
     {
-        transform.GetComponent<Image>().color = Color.white;
+        transform.GetComponent<Image>().sprite = unEquipped;
         this.Name.text = this.weaponData.weaponName;
+        this.Name.color = new Color32(1, 253, 189, 255);
         this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "EQUIP";
         if (PlayerScript.instance.equippedWeapon == this.weaponData)
         {
-            transform.GetComponent<Image>().color = Color.green;
+            transform.GetComponent<Image>().sprite = equipped;
             this.Name.text = $"[EQUIPPED] {this.weaponData.weaponName}";
+            this.Name.color = Color.black;
             this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "UNEQUIP";
         }
     }
@@ -67,11 +74,14 @@ public class InventoryItem : MonoBehaviour
             this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => UseWeapon());
         }
 
-        this.itemDetailPanel.transform.Find("Weapon AP").GetComponent<TMP_Text>().text = "<color=#fff000>" + this.attackPower + "dmg</color>";
-        this.itemDetailPanel.transform.Find("Weapon CD").GetComponent<TMP_Text>().text = "<color=#fff000>" + this.cooldown + "/s</color>";
-        this.itemDetailPanel.transform.Find("Weapon Range").GetComponent<TMP_Text>().text = "<color=#fff000>" + this.range + "m</color>";
+        this.itemDetailPanel.transform.Find("Weapon AP").GetComponent<TMP_Text>().text =  this.attackPower + "dmg";
+        this.itemDetailPanel.transform.Find("Weapon CD").GetComponent<TMP_Text>().text = this.cooldown + "/s";
+        this.itemDetailPanel.transform.Find("Weapon Range").GetComponent<TMP_Text>().text = this.range + "m";
 
-        this.itemDetailPanel.SetActive(true);
+        foreach (Transform child in this.itemDetailPanel.transform)
+        {
+            child.gameObject.SetActive(true);
+        }
     }
 
     public void UseWeapon()
@@ -86,23 +96,6 @@ public class InventoryItem : MonoBehaviour
         {
             PlayerScript.instance.EquipWeapon(this.weaponData);
             this.itemDetailPanel.transform.Find("Action Button").GetChild(0).GetComponent<TMP_Text>().text = "UNEQUIP";
-        }
-
-        foreach (Transform child in transform.parent)
-        {
-            if (child.GetComponent<InventoryItem>().weaponData)
-            {
-                if (child.GetComponent<InventoryItem>().weaponData == PlayerScript.instance.equippedWeapon)
-                {
-                    child.GetComponent<InventoryItem>().Name.text = $"[EQUIPPED] {child.GetComponent<InventoryItem>().weaponData.weaponName}";
-                    child.GetComponent<Image>().color = Color.green;
-                }
-                else
-                {
-                    child.GetComponent<InventoryItem>().Name.text = child.GetComponent<InventoryItem>().weaponData.weaponName;
-                    child.GetComponent<Image>().color = Color.white;
-                }
-            }
         }
     }
 }

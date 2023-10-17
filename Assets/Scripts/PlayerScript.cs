@@ -354,6 +354,7 @@ public class PlayerScript : MonoBehaviour
         weaponNumber = -1;
 
         RefreshEquippedUI();
+        RefreshInventoryUI();
     }
 
     public void AddToInventory(Weapon weaponData)
@@ -375,7 +376,10 @@ public class PlayerScript : MonoBehaviour
 
     public void HideInventoryItemDetailUI()
     {
-        playerPanel.transform.Find("Inventory Panel").Find("Item Detail Panel").gameObject.SetActive(false);
+        foreach (Transform child in playerPanel.transform.Find("Inventory Panel").Find("Item Detail Panel"))
+        {
+            child.gameObject.SetActive(false);
+        }
     }
 
     public void RefreshInventoryUI()
@@ -393,6 +397,25 @@ public class PlayerScript : MonoBehaviour
         {
             playerPanel.transform.Find("Equipped Weapon").Find("Weapon Name").GetComponent<TMP_Text>().text = equippedWeapon.weaponName;
             playerPanel.transform.Find("Equipped Weapon").Find("Weapon Image").Find("Weapon").GetComponent<Image>().sprite = Resources.Load<Sprite>(equippedWeapon.thumbnailPath);
+            RefreshAmmoCount();
+        }
+    }
+
+    public void RefreshAmmoCount(bool reload = false)
+    {
+        if (reload)
+        {
+            playerPanel.transform.Find("Equipped Weapon").Find("Current Ammo").GetComponent<TMP_Text>().text = "RELOADING";
+            return;
+        }
+
+        if (equippedWeapon.weaponType == "melee")
+        {
+            playerPanel.transform.Find("Equipped Weapon").Find("Current Ammo").GetComponent<TMP_Text>().text = "MELEE";
+        }
+        else
+        {
+            playerPanel.transform.Find("Equipped Weapon").Find("Current Ammo").GetComponent<TMP_Text>().text = equippedWeapon.currentAmmoCount.ToString();
         }
     }
 

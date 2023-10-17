@@ -45,7 +45,10 @@ public class ShopController : MonoBehaviour
         else
         {
             shopPanel.SetActive(false);
-            shopPanel.transform.Find("Item Detail Panel").gameObject.SetActive(false);
+            foreach (Transform child in shopPanel.transform.Find("Item Detail Panel"))
+            {
+                child.gameObject.SetActive(false);
+            }
         }
 
         if (shopButton)
@@ -133,23 +136,21 @@ public class ShopController : MonoBehaviour
     public void DisplayBuyPanel()
     {
         sellPanel.SetActive(false);
-        shopPanel.transform.Find("Sell Button").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("UISprites/Button BG");
-        shopPanel.transform.Find("Buy Button").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>().color = Color.black;
-        shopPanel.transform.Find("Sell Button").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>().color = Color.white;
-        shopPanel.transform.Find("Buy Button").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("UISprites/Button Shop Selected");
-        shopPanel.transform.Find("Item Detail Panel").gameObject.SetActive(false);
+        foreach (Transform child in shopPanel.transform.Find("Item Detail Panel"))
+        {
+            child.gameObject.SetActive(false);
+        }
         buyPanel.SetActive(true);
     }
 
     public void DisplaySellPanel()
     {
         buyPanel.SetActive(false);
-        shopPanel.transform.Find("Item Detail Panel").gameObject.SetActive(false);
+        foreach (Transform child in shopPanel.transform.Find("Item Detail Panel"))
+        {
+            child.gameObject.SetActive(false);
+        }
         UpdateSellInventory();
-        shopPanel.transform.Find("Sell Button").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("UISprites/Button Shop Selected");
-        shopPanel.transform.Find("Sell Button").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>().color = Color.black;
-        shopPanel.transform.Find("Buy Button").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>().color = Color.white;
-        shopPanel.transform.Find("Buy Button").gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("UISprites/Button BG");
         sellPanel.SetActive(true);
     }
 

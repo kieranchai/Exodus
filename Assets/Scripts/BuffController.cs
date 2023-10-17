@@ -15,6 +15,7 @@ public class BuffController : MonoBehaviour
     [SerializeField]
     private GameObject buffSelectionPanel;
     private GameObject upgradeTokens;
+    private GameObject rerollPriceUI;
 
     private WeaponScript weaponScript;
 
@@ -30,13 +31,14 @@ public class BuffController : MonoBehaviour
         instance = this;
 
         allBuffs = Resources.LoadAll<Buff>("ScriptableObjects/Buffs");
-        slots = new GameObject[buffSelectionPanel.transform.Find("Buffs").childCount];
-        for (int i = 0; i < buffSelectionPanel.transform.Find("Buffs").childCount; i++)
+        slots = new GameObject[buffSelectionPanel.transform.Find("BuffList").Find("Buffs").childCount];
+        for (int i = 0; i < buffSelectionPanel.transform.Find("BuffList").Find("Buffs").childCount; i++)
         {
-            slots[i] = buffSelectionPanel.transform.Find("Buffs").GetChild(i).gameObject;
+            slots[i] = buffSelectionPanel.transform.Find("BuffList").Find("Buffs").GetChild(i).gameObject;
         }
 
-        upgradeTokens = buffSelectionPanel.transform.Find("Upgrade Tokens").gameObject;
+        upgradeTokens = PlayerScript.instance.playerPanel.transform.Find("Upgrades").Find("Upgrades Image").Find("Buff Tokens").gameObject;
+        rerollPriceUI = buffSelectionPanel.transform.Find("Reroll").Find("Reroll Image").Find("Reroll Price").gameObject;
     }
 
     private void Start()
@@ -44,11 +46,13 @@ public class BuffController : MonoBehaviour
         weaponScript = PlayerScript.instance.weaponSlot;
         UpdatePlayerTokensDisplay();
         RandomiseBuffs();
+        rerollPriceUI.GetComponent<TMP_Text>().text = "$"+this.rerollPrice.ToString();
+        upgradeTokens.GetComponent<TMP_Text>().text = $"{PlayerScript.instance.buffTokens}";
     }
 
     public void UpdatePlayerTokensDisplay()
     {
-        upgradeTokens.GetComponent<TMP_Text>().text = $"Upgrade Tokens:{PlayerScript.instance.buffTokens}";
+        upgradeTokens.GetComponent<TMP_Text>().text = $"{PlayerScript.instance.buffTokens}";
     }
 
     public void RandomiseBuffs()
@@ -225,6 +229,7 @@ public class BuffController : MonoBehaviour
 
         PlayerScript.instance.UpdateCash(-rerollPrice);
         rerollPrice = (int) (rerollPrice * 1.05f);
+        rerollPriceUI.GetComponent<TMP_Text>().text = "$"+this.rerollPrice.ToString();
         AudioManager.instance.PlaySFX(AudioManager.instance.buffReroll);
         RandomiseBuffs();
     }

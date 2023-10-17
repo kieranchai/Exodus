@@ -25,9 +25,9 @@ public class WeaponScript : MonoBehaviour
     public AnimatorOverrideController RifleAOC;
     public AnimatorOverrideController MeleeAOC;
 
-    private int clipSize;
+    public int clipSize;
     private float reloadSpeed;
-    private bool isReloading;
+    public bool isReloading;
 
     public Vector3 initialPos;
 
@@ -212,11 +212,13 @@ public class WeaponScript : MonoBehaviour
         }
     }
 
-    IEnumerator Reload()
+    public IEnumerator Reload()
     {
         SFXSource.Stop();
         SFXSource.clip = weaponReload;
         SFXSource.Play();
+        PlayerScript.instance.RefreshAmmoCount(true);
+
         if (this.instaReloadChance > 0 && Random.Range(0, 1f) < this.instaReloadChance - 1)
         {
             yield return new WaitForSeconds(0);
@@ -227,6 +229,7 @@ public class WeaponScript : MonoBehaviour
         }
         PlayerScript.instance.equippedWeapon.currentAmmoCount = this.clipSize;
         isReloading = false;
+        PlayerScript.instance.RefreshAmmoCount();
         SFXSource.Stop();
         yield return null;
     }
@@ -380,6 +383,7 @@ public class WeaponScript : MonoBehaviour
 
             //can add Projectile Speed to CSV (600 here)
             bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 600);
+            PlayerScript.instance.RefreshAmmoCount();
             yield return new WaitForSeconds(this.cooldown * this.gunFireRateMultiplier);
         }
         else
@@ -412,6 +416,7 @@ public class WeaponScript : MonoBehaviour
                 bullet.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
             }
             --PlayerScript.instance.equippedWeapon.currentAmmoCount;
+            PlayerScript.instance.RefreshAmmoCount();
             yield return new WaitForSeconds(this.cooldown * this.gunFireRateMultiplier);
         }
         else
