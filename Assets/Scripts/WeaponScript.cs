@@ -245,12 +245,13 @@ public class WeaponScript : MonoBehaviour
                 if (this.meleeCritChance > 0 && Random.Range(0, 1f) < this.meleeCritChance - 1)
                 {
                     collider.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier, true);
-                    PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier * (this.meleeLifeStealMultiplier - 1));
+                    if (this.meleeLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier * (this.meleeLifeStealMultiplier - 1));
                 }
                 else
                 {
                     collider.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier);
-                    PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * (this.meleeLifeStealMultiplier - 1));
+
+                    if (this.meleeLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * (this.meleeLifeStealMultiplier - 1));
                 }
 
                 //Bleed
@@ -275,12 +276,12 @@ public class WeaponScript : MonoBehaviour
                 if (this.meleeCritChance > 0 && Random.Range(0, 1f) < this.meleeCritChance - 1)
                 {
                     collider.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier);
-                    PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier * (this.meleeLifeStealMultiplier - 1));
+                    if (this.meleeLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier * (this.meleeLifeStealMultiplier - 1));
                 }
                 else
                 {
                     collider.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier);
-                    PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * (this.meleeLifeStealMultiplier - 1));
+                    if (this.meleeLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * (this.meleeLifeStealMultiplier - 1));
                 }
 
                 //Bleed
