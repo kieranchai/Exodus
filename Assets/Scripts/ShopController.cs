@@ -133,8 +133,9 @@ public class ShopController : MonoBehaviour
         }
     }
 
-    public void DisplayBuyPanel()
+    public void DisplayBuyPanel(bool clicked = false)
     {
+        if (clicked) AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
         sellPanel.SetActive(false);
         foreach (Transform child in shopPanel.transform.Find("Item Detail Panel"))
         {
@@ -143,8 +144,9 @@ public class ShopController : MonoBehaviour
         buyPanel.SetActive(true);
     }
 
-    public void DisplaySellPanel()
+    public void DisplaySellPanel(bool clicked = false)
     {
+        if (clicked) AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
         buyPanel.SetActive(false);
         foreach (Transform child in shopPanel.transform.Find("Item Detail Panel"))
         {

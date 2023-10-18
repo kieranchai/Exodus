@@ -303,7 +303,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 999
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -5727,7 +5727,6 @@ MonoBehaviour:
   shotgunCount: 5
   weaponReload: {fileID: 0}
   weaponEquip: {fileID: 8300000, guid: 33cfd2115e9ff6c40b49df3900d16c85, type: 3}
-  emptyWeapon: {fileID: 8300000, guid: 12de47892561090479ff17d6ddbe0fcb, type: 3}
   assaultRifleFire: {fileID: 8300000, guid: a9cd5d7452a21b249919facf3e23e532, type: 3}
   lightPistolFire: {fileID: 8300000, guid: 9241b16bef12e9848abdb5a844f1cfc7, type: 3}
   smgFire: {fileID: 8300000, guid: 786b6440f02acea4ebe5de2236d7cc50, type: 3}

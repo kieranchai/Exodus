@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Linq;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -420,6 +419,7 @@ public class PlayerScript : MonoBehaviour
 
     public void TurnOffAllViews()
     {
+        AudioManager.instance.PlaySFX(AudioManager.instance.menuClose);
         playerPanel.transform.Find("Inventory Panel").gameObject.SetActive(false);
         playerPanel.transform.parent.Find("Shop Panel").gameObject.SetActive(false);
         CanSeeInventory = false;
@@ -433,12 +433,14 @@ public class PlayerScript : MonoBehaviour
         CanSeeInventory = !CanSeeInventory;
         if (!CanSeeInventory)
         {
+            AudioManager.instance.PlaySFX(AudioManager.instance.menuClose);
             GameController.instance.CursorNotOverUI();
         }
         else
         {
             RefreshInventoryUI();
             HideInventoryItemDetailUI();
+            AudioManager.instance.PlaySFX(AudioManager.instance.menuOpen);
         }
 
         playerPanel.transform.Find("Inventory Panel").gameObject.SetActive(CanSeeInventory);
@@ -450,7 +452,11 @@ public class PlayerScript : MonoBehaviour
         CanSeeShop = !CanSeeShop;
         if (!CanSeeShop)
         {
+            AudioManager.instance.PlaySFX(AudioManager.instance.menuClose);
             GameController.instance.CursorNotOverUI();
+        } else
+        {
+            AudioManager.instance.PlaySFX(AudioManager.instance.menuOpen);
         }
     }
 

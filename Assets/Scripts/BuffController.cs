@@ -46,7 +46,7 @@ public class BuffController : MonoBehaviour
         weaponScript = PlayerScript.instance.weaponSlot;
         UpdatePlayerTokensDisplay();
         RandomiseBuffs();
-        rerollPriceUI.GetComponent<TMP_Text>().text = "$"+this.rerollPrice.ToString();
+        rerollPriceUI.GetComponent<TMP_Text>().text = "$" + this.rerollPrice.ToString();
         upgradeTokens.GetComponent<TMP_Text>().text = $"{PlayerScript.instance.buffTokens}";
     }
 
@@ -217,7 +217,7 @@ public class BuffController : MonoBehaviour
         }
 
         --PlayerScript.instance.buffTokens;
-        AudioManager.instance.PlaySFX(AudioManager.instance.buffPressed);
+        AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
         UpdatePlayerBuffs();
         UpdatePlayerTokensDisplay();
         RandomiseBuffs();
@@ -225,11 +225,15 @@ public class BuffController : MonoBehaviour
 
     public void Reroll()
     {
-        if (rerollPrice > PlayerScript.instance.cash) return;
+        if (rerollPrice > PlayerScript.instance.cash)
+        {
+            AudioManager.instance.PlaySFX(AudioManager.instance.actionFailed);
+            return;
+        };
 
         PlayerScript.instance.UpdateCash(-rerollPrice);
-        rerollPrice = (int) (rerollPrice * 1.05f);
-        rerollPriceUI.GetComponent<TMP_Text>().text = "$"+this.rerollPrice.ToString();
+        rerollPrice = (int)(rerollPrice * 1.05f);
+        rerollPriceUI.GetComponent<TMP_Text>().text = "$" + this.rerollPrice.ToString();
         AudioManager.instance.PlaySFX(AudioManager.instance.buffReroll);
         RandomiseBuffs();
     }

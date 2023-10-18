@@ -219,12 +219,16 @@ MonoBehaviour:
   anim: {fileID: 5558768969037890725}
   circleOrigin: {fileID: 4384971715240071022}
   radius: 0.3
+  magnetDamageActive: 0
+  MagnetParticle: {fileID: 0}
   pincerHit: {fileID: 0}
   suicideBombTrigger: {fileID: 0}
   alienRifleFire: {fileID: 0}
   alienPistolFire: {fileID: 0}
   alienMouthHit: {fileID: 8300000, guid: 731a854b65e21ea4f96980406061b248, type: 3}
   shopTurretFire: {fileID: 0}
+  magnetEffect: {fileID: 0}
+  playingmagnetSound: 0
 --- !u!95 &5558768969037890725
 Animator:
   serializedVersion: 5
@@ -255,7 +259,7 @@ AudioSource:
   m_GameObject: {fileID: 7330187264894817030}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -5540233464666758145, guid: 0e729c1dcccbde24fa18d24a8e26d073, type: 2}
+  OutputAudioMixerGroup: {fileID: -8056074387376319134, guid: 0e729c1dcccbde24fa18d24a8e26d073, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -432,6 +436,7 @@ MonoBehaviour:
   healthOrbPrefab: {fileID: 8666502702400235091, guid: e089aadca89f27c4daca18dd9e45252b, type: 3}
   cashOrbPrefab: {fileID: 8666502702400235091, guid: 2f6dbdc67005c394c9c6e0419f562369, type: 3}
   isTurret: 0
+  isMagnet: 0
   originalRotation: {x: 0, y: 0, z: 0}
   currentState: 0
   enemyHit: {fileID: 0}

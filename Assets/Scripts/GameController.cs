@@ -101,8 +101,10 @@ public class GameController : MonoBehaviour
     {
         Time.timeScale = 0.0f;
         pauseScreen.SetActive(true);
+        AudioManager.instance.LowerMixerVol();
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            AudioManager.instance.SetInitialMixerVol();
             ResumeGame();
             AudioManager.instance.PlaySFX(AudioManager.instance.menuClose);
         }
@@ -209,7 +211,6 @@ public class GameController : MonoBehaviour
     {
         if (PlayerScript.instance.isInShop)
         {
-            AudioManager.instance.PlaySFX(AudioManager.instance.menuOpen);
             PlayerScript.instance.ToggleShopView();
             return;
         }
@@ -221,17 +222,19 @@ public class GameController : MonoBehaviour
     {
         PlayerScript.instance.coll.enabled = false;
         PlayerScript.instance.anim.SetBool("isWalking", false);
-
+        AudioManager.instance.LowerMixerVol();
         deathScreen.SetActive(true);
     }
 
     public void Quit()
     {
+        AudioManager.instance.SetInitialMixerVol();
         SceneManager.LoadScene("MainMenu");
     }
 
     public void Retry()
     {
+        AudioManager.instance.SetInitialMixerVol();
         SceneManager.LoadScene("Game");
     }
 

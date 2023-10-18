@@ -394,6 +394,7 @@ public class EnemyScript : MonoBehaviour
         if (this.mySpawner) --this.mySpawner.enemyCounter;
         SFXSource.PlayOneShot(enemyDeath);
         this.currentState = ENEMY_STATE.DEAD;
+        if (weaponSlot.magnetDamageActive) weaponSlot.MagnetDisable();
         Destroy(gameObject, 2f);
         AudioManager.instance.threatLevel--;
     }

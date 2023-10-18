@@ -182,7 +182,7 @@ AudioSource:
   m_GameObject: {fileID: 486635203327354737}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -5540233464666758145, guid: 0e729c1dcccbde24fa18d24a8e26d073, type: 2}
+  OutputAudioMixerGroup: {fileID: -8056074387376319134, guid: 0e729c1dcccbde24fa18d24a8e26d073, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -364,7 +364,7 @@ PointEffector2D:
   m_ColliderMask:
     serializedVersion: 2
     m_Bits: 8
-  m_ForceMagnitude: -100
+  m_ForceMagnitude: -80000
   m_ForceVariation: 0
   m_DistanceScale: 1
   m_ForceSource: 1

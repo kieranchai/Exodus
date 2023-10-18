@@ -227,6 +227,8 @@ MonoBehaviour:
   alienPistolFire: {fileID: 8300000, guid: c9f82274af26c0f4eb34dc532b980207, type: 3}
   alienMouthHit: {fileID: 0}
   shopTurretFire: {fileID: 8300000, guid: f0a83346dd5ceb349ac05e69a6c5ae52, type: 3}
+  magnetEffect: {fileID: 0}
+  playingmagnetSound: 0
 --- !u!95 &4363125417230634710
 Animator:
   serializedVersion: 5
@@ -257,7 +259,7 @@ AudioSource:
   m_GameObject: {fileID: 7330187264894817030}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -5540233464666758145, guid: 0e729c1dcccbde24fa18d24a8e26d073, type: 2}
+  OutputAudioMixerGroup: {fileID: -8056074387376319134, guid: 0e729c1dcccbde24fa18d24a8e26d073, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

@@ -24,7 +24,6 @@ public class EnemyWeaponScript : MonoBehaviour
     public bool magnetDamageActive;
     private float savedTimer = 0;
     private float damageInterval = 1f;
-    float multiplier = 1;
     public ParticleSystem MagnetParticle;
 
     private AudioSource SFXSource;

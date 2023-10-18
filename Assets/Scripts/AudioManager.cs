@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
@@ -17,12 +18,13 @@ public class AudioManager : MonoBehaviour
     public AudioClip shopEntered;
     public AudioClip shopPurchase;
     public AudioClip shopSell;
-    public AudioClip buffPressed;
+    public AudioClip buttonPressed;
     public AudioClip buffReroll;
     public AudioClip actionFailed;
     public AudioClip levelUp;
     public AudioClip zoneUnlocked;
 
+    [Header("Threat Level")]
     public int threatLevel;
     private enum Threat
     {
@@ -34,6 +36,11 @@ public class AudioManager : MonoBehaviour
     private Threat threat;
     private bool isPlayingCombat = false;
     public AudioClip lastPlayedBGM;
+
+    public AudioMixer audioMixer;
+    private float BGMVol;
+    private float EnemyWeaponVol;
+    private float EffectsVol;
 
     void Awake()
     {
@@ -48,6 +55,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
+        GetInitialMixerVol();
         musicSource.clip = backgroundMusic;
         musicSource.Play();
     }
@@ -103,11 +111,32 @@ public class AudioManager : MonoBehaviour
         SFXSource.PlayOneShot(clip);
     }
 
+    public void GetInitialMixerVol()
+    {
+        audioMixer.GetFloat("BGM", out BGMVol);
+        audioMixer.GetFloat("EnemyWeapon", out EnemyWeaponVol);
+        audioMixer.GetFloat("Effects", out EffectsVol);
+    }
+
+    public void SetInitialMixerVol()
+    {
+        audioMixer.SetFloat("BGM", BGMVol);
+        audioMixer.SetFloat("EnemyWeapon", EnemyWeaponVol);
+        audioMixer.SetFloat("Effects", EffectsVol);
+
+    }
+
+    public void LowerMixerVol()
+    {
+        audioMixer.SetFloat("EnemyWeapon", -80);
+        audioMixer.SetFloat("Effects", -80);
+    }
+
     /** Experimental **/
     public void CrossFadeBGM(AudioClip clip)
     {
         Fade(clip, 1f);
-        if(!isPlayingCombat)
+        if (!isPlayingCombat)
         {
             DetermineLastPlayedBGM(clip);
         }
