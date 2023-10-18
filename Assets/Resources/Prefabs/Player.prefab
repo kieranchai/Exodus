@@ -303,7 +303,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
-  m_Mass: 99999
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -5702,6 +5702,8 @@ MonoBehaviour:
   PistolAOC: {fileID: 0}
   RifleAOC: {fileID: 0}
   MeleeAOC: {fileID: 0}
+  clipSize: 0
+  isReloading: 0
   initialPos: {x: 0, y: 0, z: 0}
   meleeDmgMultiplier: 0
   meleeBleedChance: 0
@@ -5725,6 +5727,7 @@ MonoBehaviour:
   shotgunCount: 0
   weaponReload: {fileID: 0}
   weaponEquip: {fileID: 0}
+  emptyWeapon: {fileID: 0}
   assaultRifleFire: {fileID: 0}
   lightPistolFire: {fileID: 0}
   smgFire: {fileID: 0}

@@ -362,13 +362,13 @@ PointEffector2D:
   m_ColliderMask:
     serializedVersion: 2
     m_Bits: 8
-  m_ForceMagnitude: -200
+  m_ForceMagnitude: -100
   m_ForceVariation: 0
   m_DistanceScale: 1
   m_ForceSource: 1
   m_ForceTarget: 0
   m_ForceMode: 1
-  m_Drag: 3
+  m_Drag: 10
   m_AngularDrag: 0
 --- !u!1 &3441886814477914582
 GameObject:
@@ -757,11 +757,19 @@ PrefabInstance:
       value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
+      propertyPath: TrailModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
       propertyPath: SizeModule.enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
       propertyPath: ColorModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
+      propertyPath: TrailModule.enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
@@ -789,12 +797,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
+      propertyPath: TrailModule.dieWithParticles
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
+      propertyPath: TrailModule.minVertexDistance
+      value: 3.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
       value: 3.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
+      propertyPath: TrailModule.widthOverTrail.scalar
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
@@ -818,6 +838,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
+      propertyPath: TrailModule.colorOverLifetime.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
+      propertyPath: TrailModule.colorOverLifetime.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
+      propertyPath: TrailModule.colorOverLifetime.maxColor.r
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1745068545010688461, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
@@ -957,9 +989,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7756391949860445060, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756391949860445060, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a8381c53104f0444aaffd17a6143738b, type: 2}
+    - target: {fileID: 7756391949860445060, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 8934114265803885057, guid: 29a352a01b5d3e9448924a474b7f1489, type: 3}
       propertyPath: m_Name
       value: Magnet Effect
