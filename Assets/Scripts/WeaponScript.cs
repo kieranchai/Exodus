@@ -60,7 +60,6 @@ public class WeaponScript : MonoBehaviour
     [Header("Weapon Audio Clips")]
     public AudioClip weaponReload;
     public AudioClip weaponEquip;
-    public AudioClip emptyWeapon;
     public AudioClip assaultRifleFire;
     public AudioClip lightPistolFire;
     public AudioClip smgFire;
@@ -387,10 +386,6 @@ public class WeaponScript : MonoBehaviour
             PlayerScript.instance.RefreshAmmoCount();
             yield return new WaitForSeconds(this.cooldown * this.gunFireRateMultiplier);
         }
-        else
-        {
-            SFXSource.PlayOneShot(emptyWeapon);
-        }
         limitAttack = false;
         yield return null;
     }
@@ -420,11 +415,6 @@ public class WeaponScript : MonoBehaviour
             PlayerScript.instance.RefreshAmmoCount();
             yield return new WaitForSeconds(this.cooldown * this.gunFireRateMultiplier);
         }
-        else
-        {
-            SFXSource.PlayOneShot(emptyWeapon);
-        }
-
         limitAttack = false;
         yield return null;
     }

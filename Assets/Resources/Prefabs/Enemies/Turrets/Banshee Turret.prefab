@@ -408,12 +408,14 @@ MonoBehaviour:
   anim: {fileID: 6066206958836057988}
   circleOrigin: {fileID: 453997526514895260}
   radius: 0
+  magnetDamageActive: 0
+  MagnetParticle: {fileID: 0}
   pincerHit: {fileID: 0}
   suicideBombTrigger: {fileID: 0}
   alienRifleFire: {fileID: 0}
   alienPistolFire: {fileID: 0}
   alienMouthHit: {fileID: 0}
-  shopTurretFire: {fileID: 0}
+  shopTurretFire: {fileID: 8300000, guid: f0a83346dd5ceb349ac05e69a6c5ae52, type: 3}
 --- !u!95 &6066206958836057988
 Animator:
   serializedVersion: 5

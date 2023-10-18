@@ -4,12 +4,14 @@ using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Audio;
 
 public class GameController : MonoBehaviour
 {
     public static GameController instance { get; private set; }
     public bool isOverUI = false;
     public Collider2D[] Zones;
+    public AudioMixer AudioMixer;
 
     public enum GAME_STATE
     {
@@ -99,10 +101,10 @@ public class GameController : MonoBehaviour
     {
         Time.timeScale = 0.0f;
         pauseScreen.SetActive(true);
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             ResumeGame();
+            AudioManager.instance.PlaySFX(AudioManager.instance.menuClose);
         }
     }
 
@@ -207,6 +209,7 @@ public class GameController : MonoBehaviour
     {
         if (PlayerScript.instance.isInShop)
         {
+            AudioManager.instance.PlaySFX(AudioManager.instance.menuOpen);
             PlayerScript.instance.ToggleShopView();
             return;
         }

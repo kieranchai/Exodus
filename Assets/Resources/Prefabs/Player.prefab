@@ -364,7 +364,7 @@ MonoBehaviour:
   regenValue: 0
   meleeDmgBlockMultiplier: 0
   playerHit: {fileID: 0}
-  playerDash: {fileID: 0}
+  playerDash: {fileID: 8300000, guid: dda392695dac3904ab2ca09114c25070, type: 3}
   playerDeath: {fileID: 0}
   playerHeal: {fileID: 0}
 --- !u!95 &3076397973958977063
@@ -5699,9 +5699,9 @@ MonoBehaviour:
   anim: {fileID: 2995370258158405136}
   circleOrigin: {fileID: 1013084815220272563}
   radius: 0.21
-  PistolAOC: {fileID: 0}
-  RifleAOC: {fileID: 0}
-  MeleeAOC: {fileID: 0}
+  PistolAOC: {fileID: 22100000, guid: bddad2f16f0669b4a9e24dd7647738d4, type: 2}
+  RifleAOC: {fileID: 22100000, guid: 907a6bbd54601f4479e69b659f252b1a, type: 2}
+  MeleeAOC: {fileID: 22100000, guid: c0ed799633de67b45893f554343d49fe, type: 2}
   clipSize: 0
   isReloading: 0
   initialPos: {x: 0, y: 0, z: 0}
@@ -5723,19 +5723,19 @@ MonoBehaviour:
   pierceChance: 0
   lightningChance: 0
   lightningDmg: 0
-  shotgunSpread: 0
-  shotgunCount: 0
+  shotgunSpread: 13
+  shotgunCount: 5
   weaponReload: {fileID: 0}
-  weaponEquip: {fileID: 0}
-  emptyWeapon: {fileID: 0}
-  assaultRifleFire: {fileID: 0}
-  lightPistolFire: {fileID: 0}
-  smgFire: {fileID: 0}
-  sniperFire: {fileID: 0}
-  shotgunFire: {fileID: 0}
-  katanaSwing: {fileID: 0}
-  baseballBatSwing: {fileID: 0}
-  fistSwing: {fileID: 0}
+  weaponEquip: {fileID: 8300000, guid: 33cfd2115e9ff6c40b49df3900d16c85, type: 3}
+  emptyWeapon: {fileID: 8300000, guid: 12de47892561090479ff17d6ddbe0fcb, type: 3}
+  assaultRifleFire: {fileID: 8300000, guid: a9cd5d7452a21b249919facf3e23e532, type: 3}
+  lightPistolFire: {fileID: 8300000, guid: 9241b16bef12e9848abdb5a844f1cfc7, type: 3}
+  smgFire: {fileID: 8300000, guid: 786b6440f02acea4ebe5de2236d7cc50, type: 3}
+  sniperFire: {fileID: 8300000, guid: fbfdb26ec2c6997469cbe5a47db81329, type: 3}
+  shotgunFire: {fileID: 8300000, guid: b43f3f01c2f1c3141aae3420e411c3e1, type: 3}
+  katanaSwing: {fileID: 8300000, guid: a5e5247ab7dd276458988a8e24530ad1, type: 3}
+  baseballBatSwing: {fileID: 8300000, guid: e3a8249f4ed80244fbab7cf4fbe016ad, type: 3}
+  fistSwing: {fileID: 8300000, guid: 8c904e363d57df14395ee3263c88fcde, type: 3}
 --- !u!95 &2995370258158405136
 Animator:
   serializedVersion: 5

@@ -294,6 +294,8 @@ MonoBehaviour:
   alienPistolFire: {fileID: 0}
   alienMouthHit: {fileID: 0}
   shopTurretFire: {fileID: 0}
+  magnetEffect: {fileID: 8300000, guid: 7a362e52d7c2bc24d8f818e96114b38b, type: 3}
+  playingmagnetSound: 0
 --- !u!95 &6144630743753890504
 Animator:
   serializedVersion: 5

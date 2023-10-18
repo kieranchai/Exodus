@@ -4970,6 +4970,7 @@ MonoBehaviour:
   endObject: {fileID: 0}
   particleSys: {fileID: 4046301248554821979}
   singleSpawns: 0
+  lightning: {fileID: 8300000, guid: 7756641f97edd4745ae7e63f4910b5f0, type: 3}
 --- !u!82 &7565001318766457693
 AudioSource:
   m_ObjectHideFlags: 0

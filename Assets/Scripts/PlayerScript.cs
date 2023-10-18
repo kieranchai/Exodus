@@ -319,7 +319,6 @@ public class PlayerScript : MonoBehaviour
         {
             Transform healNumber = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
             healNumber.GetComponent<Popup>().SetHeal(value);
-            SFXSource.PlayOneShot(playerHeal);
         }
     }
 

@@ -219,12 +219,14 @@ MonoBehaviour:
   anim: {fileID: 4363125417230634710}
   circleOrigin: {fileID: 2458899830098038588}
   radius: 0.3
+  magnetDamageActive: 0
+  MagnetParticle: {fileID: 0}
   pincerHit: {fileID: 8300000, guid: b1ffc7f59258c544f89cfc8021e6b076, type: 3}
-  suicideBombTrigger: {fileID: 0}
-  alienRifleFire: {fileID: 0}
-  alienPistolFire: {fileID: 0}
+  suicideBombTrigger: {fileID: 8300000, guid: 4507f38e493b70948945a74a596268e9, type: 3}
+  alienRifleFire: {fileID: 8300000, guid: 5c305a6f1b3b7694d859be38b8008084, type: 3}
+  alienPistolFire: {fileID: 8300000, guid: c9f82274af26c0f4eb34dc532b980207, type: 3}
   alienMouthHit: {fileID: 0}
-  shopTurretFire: {fileID: 0}
+  shopTurretFire: {fileID: 8300000, guid: f0a83346dd5ceb349ac05e69a6c5ae52, type: 3}
 --- !u!95 &4363125417230634710
 Animator:
   serializedVersion: 5
@@ -432,6 +434,7 @@ MonoBehaviour:
   healthOrbPrefab: {fileID: 8666502702400235091, guid: e089aadca89f27c4daca18dd9e45252b, type: 3}
   cashOrbPrefab: {fileID: 8666502702400235091, guid: 2f6dbdc67005c394c9c6e0419f562369, type: 3}
   isTurret: 0
+  isMagnet: 0
   originalRotation: {x: 0, y: 0, z: 0}
   currentState: 0
   enemyHit: {fileID: 0}

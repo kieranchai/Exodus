@@ -3,7 +3,16 @@ guid: 61cdb5406b03b934fac6e10996870b8a
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - anim: {instanceID: 0}
+  - circleOrigin: {instanceID: 0}
+  - MagnetParticle: {instanceID: 0}
+  - pincerHit: {fileID: 8300000, guid: b1ffc7f59258c544f89cfc8021e6b076, type: 3}
+  - suicideBombTrigger: {instanceID: 0}
+  - alienRifleFire: {fileID: 8300000, guid: 5c305a6f1b3b7694d859be38b8008084, type: 3}
+  - alienPistolFire: {fileID: 8300000, guid: c9f82274af26c0f4eb34dc532b980207, type: 3}
+  - alienMouthHit: {instanceID: 0}
+  - shopTurretFire: {fileID: 8300000, guid: f0a83346dd5ceb349ac05e69a6c5ae52, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

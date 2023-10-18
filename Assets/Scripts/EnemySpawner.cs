@@ -68,6 +68,7 @@ public class EnemySpawner : MonoBehaviour
         if (!GameController.instance.tutorialFlag2) GameController.instance.tutorialFlag2 = true;
         if (canRespawn == true) return false;
         //TODO: add effects when unlocked
+        AudioManager.instance.PlaySFX(AudioManager.instance.zoneUnlocked);
         GameObject announcement = Instantiate(Resources.Load<GameObject>("Prefabs/Announcement"), GameController.instance.announcementContainer);
         announcement.GetComponent<AnnouncementScript>().SetText("VENDING MACHINE UNLOCKED!");
         ChangeShopSprite();

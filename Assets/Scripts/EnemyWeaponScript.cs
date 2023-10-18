@@ -35,7 +35,9 @@ public class EnemyWeaponScript : MonoBehaviour
     public AudioClip alienPistolFire;
     public AudioClip alienMouthHit;
     public AudioClip shopTurretFire;
+    public AudioClip magnetEffect;
 
+    public bool playingmagnetSound = false;
     private void Awake()
     {
         SFXSource = GetComponent<AudioSource>();
@@ -64,7 +66,8 @@ public class EnemyWeaponScript : MonoBehaviour
             anim.enabled = false;
         }
 
-        if (weaponData.weaponType == "magnet") {
+        if (weaponData.weaponType == "magnet")
+        {
             this.PointEffector = this.gameObject.GetComponent<PointEffector2D>();
             PointEffector.enabled = false;
         }
@@ -109,7 +112,7 @@ public class EnemyWeaponScript : MonoBehaviour
             case "Alien Pistol":
                 SFXSource.PlayOneShot(alienPistolFire);
                 break;
-            case "Shop Turret":
+            case "Banshee Turret":
                 SFXSource.PlayOneShot(shopTurretFire);
                 break;
             default:
@@ -153,8 +156,15 @@ public class EnemyWeaponScript : MonoBehaviour
         yield return null;
     }
 
-    public void MagnetActive() {
-        if (!magnetDamageActive) {
+    public void MagnetActive()
+    {
+        if (!magnetDamageActive)
+        {
+            if (!playingmagnetSound)
+            {
+                SFXSource.PlayOneShot(magnetEffect);
+                playingmagnetSound = true;
+            }
             PointEffector.enabled = true;
             magnetDamageActive = true;
             anim.SetBool("MagnetActive", true);
@@ -162,11 +172,14 @@ public class EnemyWeaponScript : MonoBehaviour
         }
     }
 
-    public void MagnetDisable() {
-            PointEffector.enabled = false;
-            magnetDamageActive = false;
-            anim.SetBool("MagnetActive", false);
-            MagnetParticle.Stop();
+    public void MagnetDisable()
+    {
+        playingmagnetSound = false;
+        SFXSource.Stop();
+        PointEffector.enabled = false;
+        magnetDamageActive = false;
+        anim.SetBool("MagnetActive", false);
+        MagnetParticle.Stop();
     }
     IEnumerator SuicideAttack()
     {

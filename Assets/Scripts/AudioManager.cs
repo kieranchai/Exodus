@@ -13,6 +13,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip backgroundMusic;
     public AudioClip backgroundMusic2;
     public AudioClip menuOpen;
+    public AudioClip menuClose;
     public AudioClip shopEntered;
     public AudioClip shopPurchase;
     public AudioClip shopSell;
@@ -20,6 +21,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip buffReroll;
     public AudioClip actionFailed;
     public AudioClip levelUp;
+    public AudioClip zoneUnlocked;
 
     public int threatLevel;
     private enum Threat
