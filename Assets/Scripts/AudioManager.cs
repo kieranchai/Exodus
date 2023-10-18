@@ -21,6 +21,18 @@ public class AudioManager : MonoBehaviour
     public AudioClip actionFailed;
     public AudioClip levelUp;
 
+    public int threatLevel;
+    private enum Threat
+    {
+        None,
+        Low,
+        Medium,
+        High
+    }
+    private Threat threat;
+    private bool isPlayingCombat = false;
+    public AudioClip lastPlayedBGM;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -38,6 +50,52 @@ public class AudioManager : MonoBehaviour
         musicSource.Play();
     }
 
+    private void Update()
+    {
+        switch (threatLevel)
+        {
+            case int n when (n <= 0):
+                threat = Threat.None;
+                if (isPlayingCombat)
+                {
+                    isPlayingCombat = false;
+                    CrossFadeBGM(lastPlayedBGM);
+                }
+                break;
+            case int n when (n > 0 && n < 5):
+                threat = Threat.Low;
+                if (!isPlayingCombat)
+                {
+                    isPlayingCombat = true;
+                    /*CrossFadeBGM(lowCombat);*/
+                }
+                break;
+            case int n when (n >= 5 && n < 8):
+                threat = Threat.Medium;
+                if (!isPlayingCombat)
+                {
+                    isPlayingCombat = true;
+                    /*CrossFadeBGM(mediumCombat);*/
+                }
+                break;
+            case int n when (n >= 8):
+                threat = Threat.High;
+                if (!isPlayingCombat)
+                {
+                    isPlayingCombat = true;
+                    /*CrossFadeBGM(highCombat);*/
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void DetermineLastPlayedBGM(AudioClip clip)
+    {
+        lastPlayedBGM = clip;
+    }
+
     public void PlaySFX(AudioClip clip)
     {
         SFXSource.PlayOneShot(clip);
@@ -47,6 +105,10 @@ public class AudioManager : MonoBehaviour
     public void CrossFadeBGM(AudioClip clip)
     {
         Fade(clip, 1f);
+        if(!isPlayingCombat)
+        {
+            DetermineLastPlayedBGM(clip);
+        }
     }
 
     public void Fade(AudioClip clip, float volume)

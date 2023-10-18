@@ -47,7 +47,7 @@ public class EnemyScript : MonoBehaviour
 
     [SerializeField]
     private ParticleSystem spawnParticle;
-    
+
     [SerializeField]
     private GameObject healthOrbPrefab;
 
@@ -72,6 +72,8 @@ public class EnemyScript : MonoBehaviour
     [Header("Enemy Audio Clips")]
     public AudioClip enemyHit;
     public AudioClip enemyDeath;
+
+    private bool isChasing = false;
 
     private void Start()
     {
@@ -197,6 +199,11 @@ public class EnemyScript : MonoBehaviour
 
         if (PlayerInSight() && PlayerInRange())
         {
+            if (!isChasing)
+            {
+                isChasing = true;
+                AudioManager.instance.threatLevel++;
+            }
             this.currentState = ENEMY_STATE.ATTACK;
         }
     }
@@ -204,6 +211,11 @@ public class EnemyScript : MonoBehaviour
 
     public void Chase()
     {
+        if (!isChasing)
+        {
+            isChasing = true;
+            AudioManager.instance.threatLevel++;
+        }
         if (this.isMagnet)
         {
             this.weaponSlot.MagnetDisable();
@@ -221,7 +233,13 @@ public class EnemyScript : MonoBehaviour
         else
         {
             this.timer += Time.deltaTime;
-            if (this.timer >= this.duration) this.currentState = ENEMY_STATE.WANDER;
+            if (this.timer >= this.duration)
+            {
+                AudioManager.instance.threatLevel--;
+                isChasing = false;
+                this.currentState = ENEMY_STATE.WANDER;
+            }
+
         }
     }
 
@@ -231,6 +249,12 @@ public class EnemyScript : MonoBehaviour
         {
             if (this.isTurret)
             {
+                if (isChasing)
+                {
+                    AudioManager.instance.threatLevel--;
+                    isChasing = false;
+                }
+
                 this.currentState = ENEMY_STATE.TURRET;
             }
             else
@@ -371,6 +395,7 @@ public class EnemyScript : MonoBehaviour
         SFXSource.PlayOneShot(enemyDeath);
         this.currentState = ENEMY_STATE.DEAD;
         Destroy(gameObject, 2f);
+        AudioManager.instance.threatLevel--;
     }
 
     public void Dead()
