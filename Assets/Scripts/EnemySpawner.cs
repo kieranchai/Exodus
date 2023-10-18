@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
     public string spawnZone;
     public GameObject[] zoneEnemies;
     public bool canRespawn = true;
-    public int enemyCounter;
+    public float enemyCounter;
 
     public int enemyLimit = 5;
     public Collider2D currentZone;

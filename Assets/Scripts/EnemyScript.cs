@@ -55,6 +55,7 @@ public class EnemyScript : MonoBehaviour
     private GameObject cashOrbPrefab;
     public bool isTurret;
     public bool isMagnet;
+    public bool isMini;
     public Vector3 originalRotation;
     public enum ENEMY_STATE
     {
@@ -97,6 +98,10 @@ public class EnemyScript : MonoBehaviour
         {
             this.currentState = ENEMY_STATE.TURRET;
             originalRotation = transform.eulerAngles;
+        }
+        else if (isMini)
+        {
+            this.currentState = ENEMY_STATE.CHASE;
         }
         else
         {
@@ -391,7 +396,31 @@ public class EnemyScript : MonoBehaviour
 
         PlayerScript.instance.UpdateExperience(xpDrop);
 
-        if (this.mySpawner) --this.mySpawner.enemyCounter;
+        if (this.enemyName == "Splitter")
+        {
+            // Vector3 offset = new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f), 0);
+            Vector3 offset = new Vector3(0.25f, 0, 0);
+            GameObject whiteMini = Instantiate(Resources.Load("Prefabs/Enemies/White Mini Splitter", typeof(GameObject)), transform.position + offset, transform.rotation) as GameObject;
+            GameObject blackMini = Instantiate(Resources.Load("Prefabs/Enemies/Black Mini Splitter", typeof(GameObject)), transform.position - offset, transform.rotation) as GameObject;
+            whiteMini.GetComponent<EnemyScript>().mySpawner = this.mySpawner;
+            whiteMini.GetComponent<EnemyScript>().spawnZone = this.spawnZone;
+            whiteMini.GetComponent<EnemyScript>().hasSetSpawnZone = true;
+            blackMini.GetComponent<EnemyScript>().mySpawner = this.mySpawner;
+            blackMini.GetComponent<EnemyScript>().hasSetSpawnZone = true;
+            blackMini.GetComponent<EnemyScript>().spawnZone = this.spawnZone;
+        }
+        else
+        {
+            if (this.enemyName == "White Mini Splitter" || this.enemyName == "Black Mini Splitter")
+            {
+                this.mySpawner.enemyCounter -= 0.5f;
+            }
+            else
+            {
+                if (this.mySpawner) --this.mySpawner.enemyCounter;
+            }
+        }
+
         SFXSource.PlayOneShot(enemyDeath);
         this.currentState = ENEMY_STATE.DEAD;
         if (weaponSlot.magnetDamageActive) weaponSlot.MagnetDisable();

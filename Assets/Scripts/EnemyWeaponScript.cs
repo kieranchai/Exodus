@@ -23,7 +23,8 @@ public class EnemyWeaponScript : MonoBehaviour
     private PointEffector2D PointEffector;
     public bool magnetDamageActive;
     private float savedTimer = 0;
-    private float damageInterval = 1f;
+    private float magnetdamageInterval = 1f;
+    private float collisiondamageInterval = 0.5f;    
     public ParticleSystem MagnetParticle;
 
     private AudioSource SFXSource;
@@ -218,13 +219,27 @@ public class EnemyWeaponScript : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (!magnetDamageActive) return;
-        if (collision.gameObject.CompareTag("Player"))
+        if (this.weaponType == "magnet")
         {
-            if ((Time.time - savedTimer) > damageInterval)
+            if (!magnetDamageActive) return;
+            if (collision.gameObject.CompareTag("Player"))
             {
-                savedTimer = Time.time;
-                collision.GetComponent<PlayerScript>().TakeDamage(this.attackPower, false);
+                if ((Time.time - savedTimer) > magnetdamageInterval)
+                {
+                    savedTimer = Time.time;
+                    collision.GetComponent<PlayerScript>().TakeDamage(this.attackPower, false);
+                }
+            }
+        }
+        if (this.weaponType == "collision")
+        {
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                if ((Time.time - savedTimer) > collisiondamageInterval)
+                {
+                    savedTimer = Time.time;
+                    collision.GetComponent<PlayerScript>().TakeDamage(this.attackPower, false);
+                }
             }
         }
     }

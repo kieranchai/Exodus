@@ -13,3 +13,5 @@
 13,Banshee Turret,NULL,3.3,Sprites/Shop Keeper Turret,NULL,line,0.2,6.5,0,0,0,NO
 14,Shotgun,Standard issue pumpee. ,2,Sprites/Shotgun,UISprites/Shotgun,spread,1.5,4.5,8,2,300,YES
 15,Magnet,NULL,10,NULL,NULL,magnet,0,4,0,0,0,NO
+16,Splitter Weapon,NULL,10,NULL,NULL,collision,0,0,0,0,0,NO
+17,Mini Splitter Weapon,NULL,5,NULL,NULL,collision,0,0,0,0,0,NO
