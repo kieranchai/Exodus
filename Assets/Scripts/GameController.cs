@@ -115,7 +115,7 @@ public class GameController : MonoBehaviour
         AudioManager.instance.PlaySFX(AudioManager.instance.menuOpen);
         isBuffOpen = !isBuffOpen;
         buffSelectionPanel.SetActive(isBuffOpen);
-        if(isBuffOpen == true) BuffController.instance.UpdatePlayerTokensDisplay();
+        if (isBuffOpen == true) BuffController.instance.UpdatePlayerTokensDisplay();
     }
 
     public void ResumeGame()
@@ -183,7 +183,13 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab)) PlayerScript.instance.ToggleInventoryView();
         if (Input.GetKeyDown(KeyCode.E)) Interact();
         if (Input.GetKeyDown(KeyCode.Q)) Choosing();
-        if (isBuffOpen && Input.GetKeyDown(KeyCode.Space)) BuffController.instance.Reroll();
+        if (isBuffOpen)
+        {
+            if (Input.GetKeyDown(KeyCode.Space)) BuffController.instance.Reroll();
+            if (Input.GetKeyDown(KeyCode.Alpha1)) BuffController.instance.SelectBuff(BuffController.instance.availableBuffs[0]);
+            if (Input.GetKeyDown(KeyCode.Alpha2)) BuffController.instance.SelectBuff(BuffController.instance.availableBuffs[1]);
+            if (Input.GetKeyDown(KeyCode.Alpha3)) BuffController.instance.SelectBuff(BuffController.instance.availableBuffs[2]);
+        }
 
 
         //cheat

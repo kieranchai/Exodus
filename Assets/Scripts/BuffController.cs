@@ -9,7 +9,7 @@ public class BuffController : MonoBehaviour
     public static BuffController instance { get; private set; }
 
     private Buff[] allBuffs;
-    private Buff[] availableBuffs = new Buff[3];
+    public Buff[] availableBuffs = new Buff[3];
     private GameObject[] slots;
 
     [SerializeField]
@@ -199,13 +199,15 @@ public class BuffController : MonoBehaviour
         return desc;
     }
 
-    private void SelectBuff(Buff buff)
+    public void SelectBuff(Buff buff)
     {
         if (PlayerScript.instance.buffTokens <= 0)
         {
             AudioManager.instance.PlaySFX(AudioManager.instance.actionFailed);
             return;
         };
+
+        Debug.Log(buff.buffName);
 
         if (PlayerScript.instance.buffList.ContainsKey(buff))
         {
@@ -217,6 +219,7 @@ public class BuffController : MonoBehaviour
         }
 
         --PlayerScript.instance.buffTokens;
+        if (PlayerScript.instance.buffTokens == 0) PlayerScript.instance.playerPanel.transform.Find("Upgrades").GetComponent<Image>().sprite = Resources.Load<Sprite>("UISprites/NEW UI/HUD Large Button");
         AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
         UpdatePlayerBuffs();
         UpdatePlayerTokensDisplay();

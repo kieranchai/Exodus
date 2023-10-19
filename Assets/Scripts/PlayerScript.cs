@@ -299,6 +299,7 @@ public class PlayerScript : MonoBehaviour
             LevelController.instance.CalculateXpNeeded();
             this.buffTokens++;
             BuffController.instance.UpdatePlayerTokensDisplay();
+            playerPanel.transform.Find("Upgrades").GetComponent<Image>().sprite = Resources.Load<Sprite>("UISprites/NEW UI/HUD Large Button Glowing");
             AudioManager.instance.PlaySFX(AudioManager.instance.levelUp);
             playerPanel.transform.Find("Level").GetComponent<TMP_Text>().text = $"{level}";
         }
