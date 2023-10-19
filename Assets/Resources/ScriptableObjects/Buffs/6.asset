@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 6
   buffName: Hemorrhage
-  description: Adds [currentValue] + [value] chance to cause enemies to bleed for
-    [currentSecValue] + [secValue] per second.
+  description: +[value] chance to bleed enemies.
   category: gun
   type: bleed
   value: 10%

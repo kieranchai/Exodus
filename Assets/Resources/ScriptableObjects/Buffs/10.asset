@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 10
   buffName: Faster Fire Rate
-  description: Increases fire rate by [currentValue] + [value]
+  description: +[value] weapon fire rate.
   category: gun
   type: fireRate
   value: 20%

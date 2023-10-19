@@ -89,7 +89,7 @@ public class Popup : MonoBehaviour
         isHeal = true;
         textColor = new Color32(150, 255, 126, 255);
         textMesh.color = textColor;
-        textMesh.text = $"+{heal}";
+        textMesh.text = $"+{Mathf.Round(heal * 10.0f) * 0.1f}";
         destroyTimer = 0.2f;
     }
 

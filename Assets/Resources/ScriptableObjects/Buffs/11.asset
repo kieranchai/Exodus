@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 11
   buffName: Range Up
-  description: Increases range by [currentValue] + [value]
+  description: +[value] weapon range.
   category: gun
   type: range
   value: 10%

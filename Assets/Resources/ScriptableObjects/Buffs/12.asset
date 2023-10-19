@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 12
   buffName: Hollow Point
-  description: Adds [currentValue] + [value] chance to pierce enemies
+  description: +[value] chance to pierce enemies.
   category: gun
   type: pierce
   value: 30%

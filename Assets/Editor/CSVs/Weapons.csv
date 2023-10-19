@@ -2,16 +2,14 @@
 2,Light Pistol,Light and portable handgun.,6,Sprites/Light Pistol,UISprites/Light Pistol,line,0.6,3,15,1,50,YES
 3,Submachine Gun,Also known as the RAD1000 - Rapid Alien Dispatcher.,2,Sprites/Submachine Gun,UISprites/Submachine Gun,line,0.1,4.5,60,1.5,230,YES
 4,Sniper Rifle,Highly precise weapon that does devastating amounts of damage. Pierces through enemies.,100,Sprites/Sniper RIfle,UISprites/Sniper RIfle,line,1.5,8,10,3,2000,YES
-5,Baseball Bat,Good for balls but great against aliens!,5,Sprites/Baseball Bat,UISprites/Baseball Bat,melee,0.8,0,0,0,30,YES
-6,Katana,A samurai should always be prepared for death.,50,Sprites/Katana,UISprites/Katana,melee,0.2,0,0,0,1200,YES
-7,Fists,Catch these hands.,3,NULL,UISprites/Fists,melee,0.6,0,0,0,0,NO
-8,Pincers,NULL,2,NULL,NULL,melee,0.6,1,0,0,0,NO
-9,Suicide Bomb,NULL,20,NULL,NULL,suicide,0,1,0,0,0,NO
-10,Alien Rifle,NULL,3.3,Sprites/Alien Rifle,NULL,line,0.2,6.5,0,0,0,NO
-11,Alien Pistol,NULL,3,Sprites/Alien Pistol,NULL,line,0.6,3,0,0,0,NO
-12,Alien Mouth,NULL,3,Sprites/Alien Mouth,NULL,melee,0.6,1,0,0,0,NO
-13,Banshee Turret,NULL,3.3,Sprites/Shop Keeper Turret,NULL,line,0.2,6.5,0,0,0,NO
-14,Shotgun,Standard issue pumpee. ,2,Sprites/Shotgun,UISprites/Shotgun,spread,1.5,4.5,8,2,300,YES
-15,Magnet,NULL,10,NULL,NULL,magnet,0,4,0,0,0,NO
-16,Splitter Weapon,NULL,10,NULL,NULL,collision,0,0,0,0,0,NO
-17,Mini Splitter Weapon,NULL,5,NULL,NULL,collision,0,0,0,0,0,NO
+5,Fists,Catch these hands.,3,NULL,UISprites/Fists,melee,0.6,0,0,0,0,NO
+6,Pincers,NULL,2,NULL,NULL,melee,0.6,1,0,0,0,NO
+7,Suicide Bomb,NULL,20,NULL,NULL,suicide,0,1,0,0,0,NO
+8,Alien Rifle,NULL,3.3,Sprites/Alien Rifle,NULL,line,0.2,6.5,0,0,0,NO
+9,Alien Pistol,NULL,3,Sprites/Alien Pistol,NULL,line,0.6,3,0,0,0,NO
+10,Alien Mouth,NULL,3,Sprites/Alien Mouth,NULL,melee,0.6,1,0,0,0,NO
+11,Banshee Turret,NULL,3.3,Sprites/Shop Keeper Turret,NULL,line,0.2,6.5,0,0,0,NO
+12,Shotgun,Standard issue pumpee. ,2,Sprites/Shotgun,UISprites/Shotgun,spread,1.5,4.5,8,2,300,YES
+13,Magnet,NULL,10,NULL,NULL,magnet,0,0,0,0,0,NO
+14,Splitter Weapon,NULL,10,NULL,NULL,collision,0,0,0,0,0,NO
+15,Mini Splitter Weapon,NULL,5,NULL,NULL,collision,0,0,0,0,0,NO

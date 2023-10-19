@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 3
   buffName: Evasion Up
-  description: Gains [currentValue] + [value] chance to evade enemy damage.
+  description: +[value] chance to evade attacks.
   category: player
   type: evasion
   value: 5%

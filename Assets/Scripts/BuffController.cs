@@ -122,43 +122,6 @@ public class BuffController : MonoBehaviour
                 }
                 break;
 
-            //Melee Buffs
-            case "melee":
-                switch (buff.type)
-                {
-                    case "explode":
-                        desc = desc.Replace("[currentValue]", weaponScript.meleeExplodeDmg.ToString());
-                        break;
-                    case "lifesteal":
-                        if (weaponScript.meleeLifeStealMultiplier == 0) desc = desc.Replace("[currentValue]", weaponScript.meleeLifeStealMultiplier + "%");
-                        desc = desc.Replace("[currentValue]", ((weaponScript.meleeLifeStealMultiplier - 1) * 100).ToString("0.##") + "%");
-                        break;
-                    case "crit":
-                        if (weaponScript.meleeCritChance == 0) desc = desc.Replace("[currentValue]", weaponScript.meleeCritChance + "%");
-                        desc = desc.Replace("[currentValue]", ((weaponScript.meleeCritChance - 1) * 100).ToString("0.##") + "%");
-                        break;
-                    case "special":
-                        //TODO
-                        break;
-                    case "fireRate":
-                        desc = desc.Replace("[currentValue]", ((weaponScript.meleeFireRateMultiplier - 1) * 100).ToString("0.##") + "%");
-                        break;
-                    case "dmgBlock":
-                        if (PlayerScript.instance.meleeDmgBlockMultiplier == 0) desc = desc.Replace("[currentValue]", PlayerScript.instance.meleeDmgBlockMultiplier + "%");
-                        desc = desc.Replace("[currentValue]", ((PlayerScript.instance.meleeDmgBlockMultiplier - 1) * 100).ToString("0.##") + "%");
-                        break;
-                    case "bleed":
-                        if (weaponScript.meleeBleedChance == 0) desc = desc.Replace("[currentValue]", weaponScript.meleeBleedChance + "%");
-                        desc = desc.Replace("[currentValue]", ((weaponScript.meleeBleedChance - 1) * 100).ToString("0.##") + "%");
-                        break;
-                    case "damage":
-                        desc = desc.Replace("[currentValue]", ((weaponScript.meleeDmgMultiplier - 1) * 100).ToString("0.##") + "%");
-                        break;
-                    default:
-                        break;
-                }
-                break;
-
             //Gun Buffs
             case "gun":
                 switch (buff.type)
@@ -188,6 +151,10 @@ public class BuffController : MonoBehaviour
                     case "crit":
                         if (weaponScript.gunCritChance == 0) desc = desc.Replace("[currentValue]", weaponScript.gunCritChance + "%");
                         desc = desc.Replace("[currentValue]", ((weaponScript.gunCritChance - 1) * 100).ToString("0.##") + "%");
+                        break;
+                    case "lifesteal":
+                        if (weaponScript.gunLifeStealMultiplier == 0) desc = desc.Replace("[currentValue]", weaponScript.gunLifeStealMultiplier + "%");
+                        desc = desc.Replace("[currentValue]", ((weaponScript.gunLifeStealMultiplier - 1) * 100).ToString("0.##") + "%");
                         break;
                     default:
                         break;
@@ -280,49 +247,6 @@ public class BuffController : MonoBehaviour
                     }
                     break;
 
-                //Melee Buffs
-                case "melee":
-                    switch (buff.Key.type)
-                    {
-                        case "explode":
-                            float mExplodeDmg = float.Parse(buff.Key.value);
-                            weaponScript.meleeExplodeDmg = mExplodeDmg + (mExplodeDmg / 2 * (buff.Value - 1));
-                            break;
-                        case "lifesteal":
-                            float mLifeSteal = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
-                            weaponScript.meleeLifeStealMultiplier = (float)Math.Pow(mLifeSteal, buff.Value);
-                            break;
-                        case "crit":
-                            float mCrit = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
-                            float mCritDmg = float.Parse(buff.Key.secValue.Replace("%", "")) / 100;
-                            weaponScript.meleeCritDamageMultiplier = mCritDmg;
-                            weaponScript.meleeCritChance = (float)Math.Pow(mCrit, buff.Value);
-                            break;
-                        case "special":
-                            //TODO
-                            break;
-                        case "fireRate":
-                            float mFRate = 1 - float.Parse(buff.Key.value.Replace("%", "")) / 100;
-                            weaponScript.meleeFireRateMultiplier = (float)Math.Pow(mFRate, buff.Value);
-                            break;
-                        case "dmgBlock":
-                            float mDBlock = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
-                            PlayerScript.instance.meleeDmgBlockMultiplier = (float)Math.Pow(mDBlock, buff.Value);
-                            break;
-                        case "bleed":
-                            float mBleed = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
-                            weaponScript.meleeBleedChance = (float)Math.Pow(mBleed, buff.Value);
-                            weaponScript.meleeBleedDmg = float.Parse(buff.Key.secValue);
-                            break;
-                        case "damage":
-                            float mDVal = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
-                            weaponScript.meleeDmgMultiplier = (float)Math.Pow(mDVal, buff.Value);
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-
                 //Gun Buffs
                 case "gun":
                     switch (buff.Key.type)
@@ -358,6 +282,10 @@ public class BuffController : MonoBehaviour
                             float gCritDmg = float.Parse(buff.Key.secValue.Replace("%", "")) / 100;
                             weaponScript.gunCritDamageMultiplier = gCritDmg;
                             weaponScript.gunCritChance = (float)Math.Pow(gCrit, buff.Value);
+                            break;
+                        case "lifesteal":
+                            float gLifeSteal = 1 + float.Parse(buff.Key.value.Replace("%", "")) / 100;
+                            weaponScript.gunLifeStealMultiplier = (float)Math.Pow(gLifeSteal, buff.Value);
                             break;
                         default:
                             break;

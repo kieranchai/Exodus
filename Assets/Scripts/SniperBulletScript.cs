@@ -48,6 +48,9 @@ public class SniperBulletScript : MonoBehaviour
                 chainLightningEffect.GetComponent<ChainLightningScript>().damage = PlayerScript.instance.weaponSlot.lightningDmg;
                 Instantiate(chainLightningEffect, collision.transform.position, Quaternion.identity);
             }
+
+            //Lifesteal
+            if (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier - 1));
         }
 
         if (collision.gameObject.CompareTag("Tilemap Collider") || collision.gameObject.CompareTag("Forcefield"))
@@ -64,6 +67,18 @@ public class SniperBulletScript : MonoBehaviour
             {
                 collision.gameObject.GetComponent<MothershipScript>().StartCoroutine(collision.gameObject.GetComponent<MothershipScript>().Bleed(PlayerScript.instance.weaponSlot.gunBleedDmg));
             }
+
+            //Lightning
+            if (PlayerScript.instance.weaponSlot.lightningChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.lightningChance - 1)
+            {
+                GameObject chainLightningEffect = Resources.Load<GameObject>("Prefabs/Chain Lightning");
+                chainLightningEffect.GetComponent<ChainLightningScript>().damage = PlayerScript.instance.weaponSlot.lightningDmg;
+                Instantiate(chainLightningEffect, collision.transform.position, Quaternion.identity);
+            }
+
+            //Lifesteal
+            if (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier - 1));
+
             Destroy(gameObject);
         }
     }

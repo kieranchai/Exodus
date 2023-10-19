@@ -71,7 +71,6 @@ public class PlayerScript : MonoBehaviour
     public float maxHealthMultiplier = 1;
     public float evasionMultiplier = 0;
     public int regenValue = 0;
-    public float meleeDmgBlockMultiplier = 0;
 
     private AudioSource SFXSource;
     [Header("Player Audio Clips")]
@@ -253,15 +252,6 @@ public class PlayerScript : MonoBehaviour
             {
                 damage = 0;
                 evaded = true;
-            }
-        }
-
-        if (this.equippedWeapon.weaponType == "melee" && this.meleeDmgBlockMultiplier > 0 && fromZone == false)
-        {
-            if (Random.Range(0, 1f) < this.meleeDmgBlockMultiplier - 1)
-            {
-                damage = 0;
-                blocked = true;
             }
         }
 

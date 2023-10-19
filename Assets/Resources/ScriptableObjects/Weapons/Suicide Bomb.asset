@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
   m_Name: Suicide Bomb
   m_EditorClassIdentifier: 
-  id: 9
+  id: 7
   weaponName: Suicide Bomb
   description: NULL
   attackPower: 20

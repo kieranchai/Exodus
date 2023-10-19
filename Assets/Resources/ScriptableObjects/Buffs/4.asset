@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 4
   buffName: Regeneration
-  description: Passively gain [currentValue] + [value] health per second.
+  description: +[value] health per second.
   category: player
   type: regeneration
   value: 1

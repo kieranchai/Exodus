@@ -31,15 +31,7 @@ public class WeaponScript : MonoBehaviour
 
     public Vector3 initialPos;
 
-    public float meleeDmgMultiplier;
-    public float meleeBleedChance;
-    public float meleeBleedDmg;
-    public float meleeFireRateMultiplier;
-    public float meleeCritChance;
-    public float meleeCritDamageMultiplier;
-    public float meleeExplodeDmg;
-    public float meleeLifeStealMultiplier;
-
+    public float gunLifeStealMultiplier;
     public float gunCritChance;
     public float gunCritDamageMultiplier;
     public float rangeMultiplier;
@@ -65,8 +57,6 @@ public class WeaponScript : MonoBehaviour
     public AudioClip smgFire;
     public AudioClip sniperFire;
     public AudioClip shotgunFire;
-    public AudioClip katanaSwing;
-    public AudioClip baseballBatSwing;
     public AudioClip fistSwing;
 
     private void Awake()
@@ -77,14 +67,7 @@ public class WeaponScript : MonoBehaviour
         line.enabled = false;
         line.SetPosition(0, transform.localPosition);
         line.positionCount = 2;
-        meleeDmgMultiplier = 1;
-        meleeBleedChance = 0;
-        meleeBleedDmg = 0;
-        meleeFireRateMultiplier = 1;
-        meleeCritChance = 0;
-        meleeCritDamageMultiplier = 0;
-        meleeExplodeDmg = 0;
-        meleeLifeStealMultiplier = 0;
+        gunLifeStealMultiplier = 0;
         gunCritChance = 0;
         gunCritDamageMultiplier = 0;
         rangeMultiplier = 1;
@@ -240,63 +223,12 @@ public class WeaponScript : MonoBehaviour
         {
             if (collider.gameObject.CompareTag("Enemy"))
             {
-                //Crit
-                if (this.meleeCritChance > 0 && Random.Range(0, 1f) < this.meleeCritChance - 1)
-                {
-                    collider.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier, true);
-                    if (this.meleeLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier * (this.meleeLifeStealMultiplier - 1));
-                }
-                else
-                {
-                    collider.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier);
-
-                    if (this.meleeLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * (this.meleeLifeStealMultiplier - 1));
-                }
-
-                //Bleed
-                if (this.meleeBleedChance > 0 && Random.Range(0, 1f) < this.meleeBleedChance - 1)
-                {
-                    collider.gameObject.GetComponent<EnemyScript>().StartCoroutine(collider.gameObject.GetComponent<EnemyScript>().Bleed(this.meleeBleedDmg));
-                }
-
-                //Explode
-                if (this.meleeExplodeDmg > 0)
-                {
-                    ContactPoint2D[] contacts = new ContactPoint2D[1];
-                    collider.GetContacts(contacts);
-                    GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Melee Explosion"), contacts[0].point, Quaternion.identity);
-                    explosion.GetComponent<MeleeExplosion>().Initialise(this.meleeExplodeDmg);
-                }
+                collider.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower);
             }
 
             if (collider.gameObject.CompareTag("Boss"))
             {
-                //Crit
-                if (this.meleeCritChance > 0 && Random.Range(0, 1f) < this.meleeCritChance - 1)
-                {
-                    collider.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier);
-                    if (this.meleeLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * this.meleeCritDamageMultiplier * (this.meleeLifeStealMultiplier - 1));
-                }
-                else
-                {
-                    collider.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower * this.meleeDmgMultiplier);
-                    if (this.meleeLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * this.meleeDmgMultiplier * (this.meleeLifeStealMultiplier - 1));
-                }
-
-                //Bleed
-                if (this.meleeBleedChance > 0 && Random.Range(0, 1f) < this.meleeBleedChance - 1)
-                {
-                    collider.gameObject.GetComponent<MothershipScript>().StartCoroutine(collider.gameObject.GetComponent<MothershipScript>().Bleed(this.meleeBleedDmg));
-                }
-
-                //Explode
-                if (this.meleeExplodeDmg > 0)
-                {
-                    ContactPoint2D[] contacts = new ContactPoint2D[1];
-                    collider.GetContacts(contacts);
-                    GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Melee Explosion"), contacts[0].point, Quaternion.identity);
-                    explosion.GetComponent<MeleeExplosion>().Initialise(this.meleeExplodeDmg);
-                }
+                collider.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower);
             }
         }
 
@@ -306,19 +238,11 @@ public class WeaponScript : MonoBehaviour
                 anim.SetTrigger("Fists");
                 SFXSource.PlayOneShot(fistSwing);
                 break;
-            case "Katana":
-                anim.SetTrigger("Katana");
-                SFXSource.PlayOneShot(katanaSwing);
-                break;
-            case "Baseball Bat":
-                anim.SetTrigger("Baseball");
-                SFXSource.PlayOneShot(baseballBatSwing);
-                break;
             default:
                 break;
         }
 
-        yield return new WaitForSeconds(this.cooldown * this.meleeFireRateMultiplier);
+        yield return new WaitForSeconds(this.cooldown);
         limitAttack = false;
         yield return null;
     }

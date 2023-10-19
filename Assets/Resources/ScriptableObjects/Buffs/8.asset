@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 8
   buffName: Maelstrom
-  description: Adds [currentValue] + [value] chance to create a chain lightning that
-    jumps to nearby targets. Damages them for [currentSecValue] + [secValue].
+  description: +[value] chance to create a lightning bolt that bounces to nearby
+    enemies.
   category: gun
   type: lightning
   value: 10%

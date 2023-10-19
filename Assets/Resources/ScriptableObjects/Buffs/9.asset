@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 9
   buffName: Better Handling
-  description: Adds [currentValue] + [value] chance to instantly reload
+  description: +[value] chance to instantly reload.
   category: gun
   type: reload
   value: 5%

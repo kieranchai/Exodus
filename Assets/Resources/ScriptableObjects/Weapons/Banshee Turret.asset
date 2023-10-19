@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
   m_Name: Banshee Turret
   m_EditorClassIdentifier: 
-  id: 13
+  id: 11
   weaponName: Banshee Turret
   description: NULL
   attackPower: 3.3

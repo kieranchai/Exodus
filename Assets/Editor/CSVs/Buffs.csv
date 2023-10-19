@@ -1,20 +1,13 @@
-1,Health Up,Increases your max health by [currentValue] + [value],player,maxHealth,20%,null,0.5
-2,Speed Up,Increases your movement speed by [currentValue] + [value],player,movementSpeed,20%,null,0.5
-3,Evasion Up,Gains [currentValue] + [value] chance to evade enemy damage.,player,evasion,5%,null,0.3
-4,Regeneration,Passively gain [currentValue] + [value] health per second.,player,regeneration,1,null,0.3
-5,Faster Dodges,Decrease dodge cooldown by [currentValue] + [value],player,dodgeCd,10%,null,0.3
-6,Hemorrhage,Adds [currentValue] + [value] chance to cause enemies to bleed for [currentSecValue] + [secValue] per second.,gun,bleed,10%,10,0.4
-7,Crit Up,Adds [currentValue] + [value] chance to crit ([secValue] damage),gun,crit,25%,130%,0.4
-8,Maelstrom,Adds [currentValue] + [value] chance to create a chain lightning that jumps to nearby targets. Damages them for [currentSecValue] + [secValue].,gun,lightning,10%,5,0.2
-9,Better Handling,Adds [currentValue] + [value] chance to instantly reload,gun,reload,5%,null,0.3
-10,Faster Fire Rate,Increases fire rate by [currentValue] + [value],gun,fireRate,20%,null,0.5
-11,Range Up,Increases range by [currentValue] + [value],gun,range,10%,null,0.5
-12,Hollow Point,Adds [currentValue] + [value] chance to pierce enemies,gun,pierce,30%,null,0.4
-13,Explosive Strength,Attacks explode on impact. Damages enemies in an area for [currentValue] + [value].,melee,explode,15,null,0.2
-14,Vampiric Essence,Gain [currentValue] + [value] of your damage dealt as health.,melee,lifesteal,40%,null,0.3
-15,Crit Up,Adds [currentValue] + [value] chance to crit ([secValue] damage),melee,crit,35%,150%,0.5
-16,Melee Mastery,Hold and release MOUSE2 to perform a special attack.,melee,special,null,null,0.1
-17,Faster Attacks,Increases attack speed by [currentValue] + [value],melee,fireRate,20%,null,0.5
-18,Wonder Guard,Adds [currentValue] + [value] chance to block enemy damage.,melee,dmgBlock,10%,null,0.4
-19,Internal Bruising,Adds [currentValue] + [value] chance to cause enemies to bleed for [secValue] per second.,melee,bleed,15%,10,0.4
-20,Bloodlust,Increases your damage by [currentValue] + [value],melee,damage,25%,null,0.5
+1,Health Up,+[value] maximum health.,player,maxHealth,20%,null,0.5
+2,Speed Up,+[value] movement speed.,player,movementSpeed,20%,null,0.5
+3,Evasion Up,+[value] chance to evade attacks.,player,evasion,5%,null,0.3
+4,Regeneration,+[value] health per second.,player,regeneration,1,null,0.3
+5,Faster Dodges,-[value] dodge cooldown.,player,dodgeCd,10%,null,0.3
+6,Hemorrhage,+[value] chance to bleed enemies.,gun,bleed,10%,10,0.4
+7,Crit Up,+[value] chance to crit for [secValue] damage.,gun,crit,25%,130%,0.4
+8,Maelstrom,+[value] chance to create a lightning bolt that bounces to nearby enemies.,gun,lightning,10%,5,0.2
+9,Better Handling,+[value] chance to instantly reload.,gun,reload,5%,null,0.3
+10,Faster Fire Rate,+[value] weapon fire rate.,gun,fireRate,20%,null,0.5
+11,Range Up,+[value] weapon range.,gun,range,10%,null,0.5
+12,Hollow Point,+[value] chance to pierce enemies.,gun,pierce,30%,null,0.4
+13,Vampiric Essence,+[value] lifesteal.,gun,lifesteal,5%,null,0.3

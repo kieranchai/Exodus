@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 7
   buffName: Crit Up
-  description: Adds [currentValue] + [value] chance to crit ([secValue] damage)
+  description: +[value] chance to crit for [secValue] damage.
   category: gun
   type: crit
   value: 25%

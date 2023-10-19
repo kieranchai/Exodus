@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   buffName: Health Up
-  description: Increases your max health by [currentValue] + [value]
+  description: +[value] maximum health.
   category: player
   type: maxHealth
   value: 20%

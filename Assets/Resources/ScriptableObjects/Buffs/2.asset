@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   buffName: Speed Up
-  description: Increases your movement speed by [currentValue] + [value]
+  description: +[value] movement speed.
   category: player
   type: movementSpeed
   value: 20%

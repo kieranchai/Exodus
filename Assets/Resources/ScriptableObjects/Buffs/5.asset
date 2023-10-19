@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 5
   buffName: Faster Dodges
-  description: Decrease dodge cooldown by [currentValue] + [value]
+  description: -[value] dodge cooldown.
   category: player
   type: dodgeCd
   value: 10%

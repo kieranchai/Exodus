@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
   m_Name: Magnet
   m_EditorClassIdentifier: 
-  id: 15
+  id: 13
   weaponName: Magnet
   description: NULL
   attackPower: 10
@@ -20,7 +20,7 @@ MonoBehaviour:
   thumbnailPath: NULL
   weaponType: magnet
   cooldown: 0
-  weaponRange: 4
+  weaponRange: 0
   clipSize: 0
   reloadSpeed: 0
   cost: 0
