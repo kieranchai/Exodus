@@ -38,6 +38,7 @@ public class PlayerScript : MonoBehaviour
 
     public WeaponScript weaponSlot;
     public Weapon equippedWeapon;
+    public Equipment equippedEquipment;
 
     public List<Weapon> inventory = new();
 
@@ -71,6 +72,11 @@ public class PlayerScript : MonoBehaviour
     public float maxHealthMultiplier = 1;
     public float evasionMultiplier = 0;
     public int regenValue = 0;
+
+    private float stimBuff = 1;
+    public float fireRateBuff = 1;
+    private bool isBarrierEnabled = false;
+    public bool isCritEnabled = false;
 
     private AudioSource SFXSource;
     [Header("Player Audio Clips")]
@@ -209,7 +215,7 @@ public class PlayerScript : MonoBehaviour
         switch (this.currentState)
         {
             case PLAYER_STATE.NORMAL:
-                this.rb.velocity = this.moveDir * (this.movementSpeed * this.moveSpeedMultiplier);
+                this.rb.velocity = this.moveDir * (this.movementSpeed * this.moveSpeedMultiplier * this.stimBuff);
                 break;
             case PLAYER_STATE.ROLLING:
                 this.rb.velocity = this.rollDir * this.rollSpeed;
@@ -245,7 +251,6 @@ public class PlayerScript : MonoBehaviour
         if (GameController.instance.currentState == GameController.GAME_STATE.DEAD) return;
         if (this.currentState == PLAYER_STATE.ROLLING && fromZone == false) return;
         bool evaded = false;
-        bool blocked = false;
         if (this.evasionMultiplier > 0 && fromZone == false)
         {
             if (Random.Range(0, 1f) < this.evasionMultiplier - 1)
@@ -255,19 +260,28 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
+        if (isBarrierEnabled && fromZone == false)
+        {
+            damage = 0;
+        }
+
         UpdateHealth(-damage);
         SFXSource.PlayOneShot(playerHit);
 
         Transform dmgNumber = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
-        dmgNumber.GetComponent<Popup>().SetPlayerDamage(damage, evaded, blocked);
+        dmgNumber.GetComponent<Popup>().SetPlayerDamage(damage, evaded, isBarrierEnabled);
 
-        StopCoroutine(HitFlicker());
-        StartCoroutine(HitFlicker());
+        if (!evaded && !isBarrierEnabled)
+        {
+            StopCoroutine(HitFlicker());
+            StartCoroutine(HitFlicker());
 
-        StopCoroutine(FlashHealthBar());
-        StartCoroutine(FlashHealthBar());
+            StopCoroutine(FlashHealthBar());
+            StartCoroutine(FlashHealthBar());
 
-        CameraController.instance.animator.SetTrigger("CameraShake");
+            CameraController.instance.animator.SetTrigger("CameraShake");
+        }
+
         if (currentHealth <= 0)
         {
             SFXSource.PlayOneShot(playerDeath);
@@ -316,6 +330,100 @@ public class PlayerScript : MonoBehaviour
     {
         playerPanel.transform.Find("Cash").GetComponent<SlidingNumber>().AddToNumber(value);
         this.cash += value;
+    }
+
+    public void EquipEquipment(Equipment equipment)
+    {
+        //Drop current equipped
+
+        //Replace with new equipment
+        equippedEquipment = equipment;
+
+        //Refresh HUD
+    }
+
+    public void UseEquipment()
+    {
+        if (equippedEquipment.currentCooldown > 0) return;
+        switch (equippedEquipment.type)
+        {
+            case "heal":
+                UpdateHealth(int.Parse(equippedEquipment.value));
+                break;
+            case "speed":
+                StartCoroutine(Stim(equippedEquipment));
+                break;
+            case "barrier":
+                StartCoroutine(Barrier(equippedEquipment));
+                break;
+            case "fireRate":
+                StartCoroutine(FireRate(equippedEquipment));
+                break;
+            case "critChance":
+                StartCoroutine(Crit(equippedEquipment));
+                break;
+            case "grenade":
+                ThrowGrenade(equippedEquipment);
+                break;
+            default:
+                break;
+        }
+        equippedEquipment.currentCooldown = equippedEquipment.cooldown;
+    }
+
+    IEnumerator Stim(Equipment stim)
+    {
+        stimBuff += float.Parse(stim.value.Replace("%", "")) / 100;
+        float stimTimer = 0;
+        while (stimTimer < float.Parse(stim.secValue))
+        {
+            stimTimer += Time.deltaTime;
+            yield return null;
+        }
+        stimBuff -= float.Parse(stim.value.Replace("%", "")) / 100;
+    }
+
+    IEnumerator Barrier(Equipment barrier)
+    {
+        isBarrierEnabled = true;
+        float barrierTimer = 0;
+        while (barrierTimer < float.Parse(barrier.value))
+        {
+            barrierTimer += Time.deltaTime;
+            yield return null;
+        }
+        isBarrierEnabled = false;
+    }
+
+    IEnumerator FireRate(Equipment fireRate)
+    {
+        fireRateBuff -= float.Parse(fireRate.value.Replace("%", "")) / 100;
+        float fireRateTimer = 0;
+        while (fireRateTimer < float.Parse(fireRate.secValue))
+        {
+            fireRateTimer += Time.deltaTime;
+            yield return null;
+        }
+        fireRateBuff += float.Parse(fireRate.value.Replace("%", "")) / 100;
+    }
+
+    IEnumerator Crit(Equipment crit)
+    {
+        isCritEnabled = true;
+        float critTimer = 0;
+        while (critTimer < float.Parse(crit.value))
+        {
+            critTimer += Time.deltaTime;
+            yield return null;
+        }
+        isCritEnabled = false;
+    }
+
+    public void ThrowGrenade(Equipment grenade)
+    {
+        GameObject nade = Instantiate(Resources.Load<GameObject>("Prefabs/Grenade"), transform.position, transform.rotation);
+        nade.GetComponent<GrenadeScript>().Initialise(float.Parse(grenade.value));
+        nade.GetComponent<Rigidbody2D>().AddForce(transform.up * 300);
     }
 
     public void EquipDefaultWeapon(Weapon weaponData)
@@ -445,23 +553,11 @@ public class PlayerScript : MonoBehaviour
         {
             AudioManager.instance.PlaySFX(AudioManager.instance.menuClose);
             GameController.instance.CursorNotOverUI();
-        } else
+        }
+        else
         {
             AudioManager.instance.PlaySFX(AudioManager.instance.menuOpen);
         }
-    }
-
-    public void UpdateStimTimerUI(float timer, float duration)
-    {
-        this.playerPanel.transform.Find("Stim Buff").gameObject.SetActive(true);
-        this.playerPanel.transform.Find("Stim Buff").Find("Timer").gameObject.GetComponent<Image>().fillAmount = Mathf.Lerp(
-            this.playerPanel.transform.Find("Stim Buff").Find("Timer").gameObject.GetComponent<Image>().fillAmount, 1 - timer / duration, 10f * Time.deltaTime);
-    }
-
-    public void HideStimTimerUI()
-    {
-        this.playerPanel.transform.Find("Stim Buff").Find("Timer").gameObject.GetComponent<Image>().fillAmount = 1;
-        this.playerPanel.transform.Find("Stim Buff").gameObject.SetActive(false);
     }
 
     public void LookAtMouse()

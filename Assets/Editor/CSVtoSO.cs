@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 using System.IO;
+using static Codice.Client.Common.Connection.AskCredentialsToUser;
 
 public class CSVtoSO
 {
@@ -8,6 +9,7 @@ public class CSVtoSO
     private static string weaponCSVPath = "/Assets/Editor/CSVs/Weapons.csv";
     private static string enemyCSVPath = "/Assets/Editor/CSVs/Enemies.csv";
     private static string buffCSVPath = "/Assets/Editor/CSVs/Buffs.csv";
+    private static string equipmentCSVPath = "/Assets/Editor/CSVs/Equipment.csv";
 
     [MenuItem("Utilities/Generate Player")]
     public static void GeneratePlayer()
@@ -130,6 +132,37 @@ public class CSVtoSO
             buff.rollChance = float.Parse(splitData[7]);
 
             AssetDatabase.CreateAsset(buff, $"Assets/Resources/ScriptableObjects/Buffs/{buff.id}.asset");
+        }
+
+        AssetDatabase.SaveAssets();
+    }
+
+    [MenuItem("Utilities/Generate Equipment")]
+    public static void GenerateEquipment()
+    {
+        string[] allLines = File.ReadAllLines(System.IO.Directory.GetCurrentDirectory() + equipmentCSVPath);
+
+        foreach (string s in allLines)
+        {
+            string[] splitData = s.Split(',');
+
+            if (splitData.Length != 8)
+            {
+                return;
+            }
+
+            Equipment equipment = ScriptableObject.CreateInstance<Equipment>();
+            equipment.id = int.Parse(splitData[0]);
+            equipment.equipmentName = splitData[1];
+            equipment.description = splitData[2];
+            equipment.type = splitData[3];
+            equipment.value = splitData[4];
+            equipment.secValue = splitData[5];
+            equipment.cooldown = int.Parse(splitData[6]);
+            equipment.thumbnailPath = splitData[7];
+            equipment.currentCooldown = 0;
+
+            AssetDatabase.CreateAsset(equipment, $"Assets/Resources/ScriptableObjects/Equipment/{equipment.id}.asset");
         }
 
         AssetDatabase.SaveAssets();

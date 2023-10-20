@@ -257,8 +257,14 @@ public class WeaponScript : MonoBehaviour
                 case "Sniper Rifle":
                     bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Sniper Bullet"), transform.position, transform.rotation);
 
+
+                    //Crit Equipment
+                    if (PlayerScript.instance.isCritEnabled)
+                    {
+                        bullet.GetComponent<SniperBulletScript>().Initialise(this.attackPower * 1.5f, this.weaponRange * this.rangeMultiplier, true);
+                    }
                     //Crit
-                    if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
+                    else if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
                     {
                         bullet.GetComponent<SniperBulletScript>().Initialise(this.attackPower * this.gunCritDamageMultiplier, this.weaponRange * this.rangeMultiplier, true);
                     }
@@ -272,8 +278,13 @@ public class WeaponScript : MonoBehaviour
                 default:
                     bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Bullet"), transform.position, transform.rotation);
 
+                    //Crit Equipment
+                    if (PlayerScript.instance.isCritEnabled)
+                    {
+                        bullet.GetComponent<BulletScript>().Initialise(this.attackPower * 1.5f, this.weaponRange * this.rangeMultiplier, true);
+                    }
                     //Crit
-                    if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
+                    else if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
                     {
                         bullet.GetComponent<BulletScript>().Initialise(this.attackPower * this.gunCritDamageMultiplier, this.weaponRange * this.rangeMultiplier, true);
                     }
@@ -308,7 +319,7 @@ public class WeaponScript : MonoBehaviour
             //can add Projectile Speed to CSV (600 here)
             bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 600);
             PlayerScript.instance.RefreshAmmoCount();
-            yield return new WaitForSeconds(this.cooldown * this.gunFireRateMultiplier);
+            yield return new WaitForSeconds(this.cooldown * this.gunFireRateMultiplier * PlayerScript.instance.fireRateBuff);
         }
         limitAttack = false;
         yield return null;
@@ -325,7 +336,13 @@ public class WeaponScript : MonoBehaviour
                 float spread = Random.Range(-shotgunSpread, shotgunSpread);
                 GameObject bullet;
                 bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Bullet"), transform.position, Quaternion.Euler(0, 0, spread));
-                if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
+
+                //Crit Equipment
+                if (PlayerScript.instance.isCritEnabled)
+                {
+                    bullet.GetComponent<BulletScript>().Initialise(this.attackPower * 1.5f, this.weaponRange * this.rangeMultiplier, true);
+                }
+                else if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
                 {
                     bullet.GetComponent<BulletScript>().Initialise(this.attackPower * this.gunCritDamageMultiplier, this.weaponRange * this.rangeMultiplier, true);
                 }
@@ -337,7 +354,7 @@ public class WeaponScript : MonoBehaviour
             }
             --PlayerScript.instance.equippedWeapon.currentAmmoCount;
             PlayerScript.instance.RefreshAmmoCount();
-            yield return new WaitForSeconds(this.cooldown * this.gunFireRateMultiplier);
+            yield return new WaitForSeconds(this.cooldown * this.gunFireRateMultiplier * PlayerScript.instance.fireRateBuff);
         }
         limitAttack = false;
         yield return null;

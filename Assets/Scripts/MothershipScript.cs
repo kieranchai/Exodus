@@ -26,8 +26,6 @@ public class MothershipScript : MonoBehaviour
 
     private bool isTargeted = false;
     public bool forceFieldUp = false;
-    public bool isHoming = false;
-    public bool hasShotHoming = false;
     private float turretOffset = 0.1f;
     public bool victory = false;
     private Material originalMaterial;
@@ -152,7 +150,6 @@ public class MothershipScript : MonoBehaviour
         if (!hasStartedStage2)
         {
             hasStartedStage2 = true;
-            StartCoroutine(Stage2Cycle());
         }
     }
 
@@ -340,128 +337,6 @@ public class MothershipScript : MonoBehaviour
         forceField.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         forceField.SetActive(false);
-    }
-
-    IEnumerator Stage2Cycle()
-    {
-        //Slow Rocket Attack
-        float targetTime = 0;
-        float targetDuration = 5f;
-        while (targetTime < targetDuration)
-        {
-            isTargeted = true;
-            targetTime += Time.deltaTime;
-            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("rocket", 10, 10, 0.8f);
-            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("rocket", 10, 10, 0.8f);
-            yield return null;
-        }
-        isTargeted = false;
-
-        //Fast Rocket Attack
-        targetTime = 0;
-        targetDuration = 5f;
-        while (targetTime < targetDuration)
-        {
-            isTargeted = true;
-            targetTime += Time.deltaTime;
-            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("rocket", 10, 10, 0.6f);
-            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("rocket", 10, 10, 0.6f);
-            yield return null;
-        }
-        isTargeted = false;
-
-        //Faster Rocket Attack
-        targetTime = 0;
-        targetDuration = 5f;
-        while (targetTime < targetDuration)
-        {
-            isTargeted = true;
-            targetTime += Time.deltaTime;
-            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("rocket", 10, 10, 0.3f);
-            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("rocket", 10, 10, 0.3f);
-            yield return null;
-        }
-        isTargeted = false;
-
-        yield return new WaitForSeconds(1);
-
-        //Guided Rocket Attack
-        isTargeted = true;
-        isHoming = true;
-        leftTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
-        rightTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
-        while (isHoming)
-        {
-            forceFieldUp = true;
-            forceField.SetActive(true);
-            currentHealth += 50f * Time.deltaTime;
-            if (!hasShotHoming)
-            {
-                hasShotHoming = true;
-                leftTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
-            }
-            yield return null;
-        }
-        if (currentHealth >= maxHealth) currentHealth = maxHealth;
-        hasShotHoming = false;
-        isTargeted = false;
-        yield return FlickerForcefield();
-        forceFieldUp = false;
-
-        //Guided Rocket Attack
-        isTargeted = true;
-        isHoming = true;
-        leftTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
-        rightTurret.GetComponent<MothershipTurretScript>().limitAttack = false;
-        while (isHoming)
-        {
-            forceFieldUp = true;
-            forceField.SetActive(true);
-            currentHealth += 50f * Time.deltaTime;
-            if (!hasShotHoming)
-            {
-                hasShotHoming = true;
-                rightTurret.GetComponent<MothershipTurretScript>().DoAttack("homingrocket", 10, 0, 0);
-            }
-            yield return null;
-        }
-        if (currentHealth >= maxHealth) currentHealth = maxHealth;
-        hasShotHoming = false;
-        isTargeted = false;
-        yield return FlickerForcefield();
-        forceFieldUp = false;
-
-        //Sweeping Attack LEFT->RIGHT RIGHT<-LEFT
-        float sweepTime = 0;
-        float sweepDuration = 1f;
-        while (sweepTime < sweepDuration)
-        {
-            sweepTime += Time.deltaTime;
-            leftTurret.transform.position = Vector3.Lerp(newLeftTurretPos, initialRightTurretPos, sweepTime / sweepDuration);
-            rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialLeftTurretPos, sweepTime / sweepDuration);
-            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.2f);
-            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.2f);
-            yield return null;
-        }
-        newLeftTurretPos = initialRightTurretPos;
-        newRightTurretPos = initialLeftTurretPos;
-
-        //Sweeping Attack RIGHT->LEFT LEFT<-RIGHT
-        sweepTime = 0;
-        sweepDuration = 1f;
-        while (sweepTime < sweepDuration)
-        {
-            sweepTime += Time.deltaTime;
-            leftTurret.transform.position = Vector3.Lerp(newLeftTurretPos, initialLeftTurretPos, sweepTime / sweepDuration);
-            rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialRightTurretPos, sweepTime / sweepDuration);
-            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.2f);
-            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.2f);
-            yield return null;
-        }
-        newLeftTurretPos = initialLeftTurretPos;
-        newRightTurretPos = initialRightTurretPos;
-
-        yield return StartCoroutine(Stage2Cycle());
     }
 
     public IEnumerator Bleed(float damage)

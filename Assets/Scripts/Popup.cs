@@ -69,13 +69,13 @@ public class Popup : MonoBehaviour
     {
         textColor = new Color32(255, 37, 37, 255);
         textMesh.color = textColor;
-        if (evaded)
-        {
-            textMesh.text = "EVADED";
-        }
-        else if (blocked)
+        if (blocked)
         {
             textMesh.text = "BLOCKED";
+        }
+        else if (evaded)
+        {
+            textMesh.text = "EVADED";
         }
         else
         {

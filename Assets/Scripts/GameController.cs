@@ -47,8 +47,6 @@ public class GameController : MonoBehaviour
 
     public Transform announcementContainer;
 
-    /*private bool stimCD = false;*/
-
     private bool hasLoadedEndCutscene = false;
 
     private bool isBuffOpen = false;
@@ -61,6 +59,11 @@ public class GameController : MonoBehaviour
             return;
         }
         instance = this;
+
+        foreach (Equipment equipment in Resources.LoadAll<Equipment>("ScriptableObjects/Equipment"))
+        {
+            equipment.currentCooldown = 0;
+        }
     }
 
     private void Update()
@@ -155,6 +158,10 @@ public class GameController : MonoBehaviour
         if (Input.GetMouseButton(0) && !isOverUI && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
         {
             PlayerScript.instance.weaponSlot.TryAttack();
+        }
+        if (Input.GetKeyDown(KeyCode.F) && PlayerScript.instance.equippedEquipment)
+        {
+            PlayerScript.instance.UseEquipment();
         }
 
         if (Input.GetKeyDown(KeyCode.R) && PlayerScript.instance.weaponSlot.weaponType != "melee" && PlayerScript.instance.equippedWeapon.currentAmmoCount < PlayerScript.instance.weaponSlot.clipSize && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
@@ -359,33 +366,4 @@ public class GameController : MonoBehaviour
         tutorialDialogue.SetActive(false);
         PoisonGas.instance.StartGas();
     }
-
-    /*IEnumerator ItemHealth(Item itemData)
-    {
-        PlayerScript.instance.UpdateHealth(float.Parse(itemData.primaryValue));
-        yield return null;
-    }
-
-    IEnumerator ItemStim(Item itemData)
-    {
-        this.stimCD = true;
-        PlayerScript.instance.movementSpeed += float.Parse(itemData.primaryValue);
-        float stimTimer = 0;
-        while (stimTimer < float.Parse(itemData.secondaryValue))
-        {
-            stimTimer += Time.deltaTime;
-            PlayerScript.instance.UpdateStimTimerUI(stimTimer, float.Parse(itemData.secondaryValue));
-            yield return null;
-        }
-        PlayerScript.instance.HideStimTimerUI();
-        PlayerScript.instance.movementSpeed = PlayerScript.instance.initialMovementSpeed;
-        this.stimCD = false;
-    }
-
-    IEnumerator ItemGas(Item itemData)
-    {
-        PoisonGas.instance.itemUsed = true;
-        yield return new WaitForSeconds(float.Parse(itemData.primaryValue));
-        PoisonGas.instance.itemUsed = false;
-    }*/
 }

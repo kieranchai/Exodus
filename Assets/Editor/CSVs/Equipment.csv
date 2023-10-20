@@ -1,0 +1,7 @@
+1,Medkit,Instantly heal for [value] health,heal,80,null,45,UISprites/Medkit
+2,Stim,Increases your movement speed by [value] for [secValue] seconds,speed,30%,5,45,UISprites/Stim
+3,Barrier,Gain a protective shield for [value] seconds,barrier,5,null,60,UISprites/Barrier
+4,Overload,Increases your fire rate by [value] for [secValue] seconds,fireRate,50%,5,60,UISprites/Overload
+5,Ocular HUD,Gain 100% CRIT CHANCE for [value] seconds,critChance,5,null,45,UISprites/OcularHud
+6,Leech,Heal for [value] of the damage you deal for [value] seconds,lifesteal,10%,5,60,UISprites/Leech
+7,Grenade,Tosses a grenade that damages enemies.,grenade,30,null,45,UISprites/Grenade

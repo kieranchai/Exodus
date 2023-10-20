@@ -22,12 +22,6 @@ public class MothershipTurretScript : MonoBehaviour
                 case "burst":
                     StartCoroutine(BurstAttack(attackPower, weaponRange, cooldown));
                     break;
-                case "rocket":
-                    StartCoroutine(RocketAttack(attackPower, weaponRange, cooldown));
-                    break;
-                case "homingrocket":
-                    StartCoroutine(HomingRocketAttack(attackPower));
-                    break;
                 default:
                     break;
             }
@@ -68,33 +62,6 @@ public class MothershipTurretScript : MonoBehaviour
         bullet3.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
         StartCoroutine(FlashMuzzleFlash());
         yield return new WaitForSeconds(cooldown);
-        limitAttack = false;
-        yield return null;
-    }
-
-    IEnumerator RocketAttack(float attackPower, float weaponRange, float cooldown)
-    {
-        limitAttack = true;
-        StartCoroutine(FlashMuzzleFlash());
-        GameObject rocket = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Rocket"), transform.position, Quaternion.identity);
-        rocket.GetComponent<EnemyRocketScript>().Initialise(attackPower, weaponRange);
-
-        //can add Projectile Speed to CSV (600 here)
-        rocket.GetComponent<Rigidbody2D>().AddForce(transform.up * 150);
-
-        yield return new WaitForSeconds(cooldown);
-        limitAttack = false;
-        yield return null;
-    }
-
-    IEnumerator HomingRocketAttack(float attackPower)
-    {
-        limitAttack = true;
-        StartCoroutine(FlashMuzzleFlash());
-        GameObject rocket = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Homing Rocket"), transform.position, Quaternion.identity);
-        rocket.GetComponent<EnemyHomingRocketScript>().Initialise(attackPower);
-
-        yield return new WaitForSeconds(0);
         limitAttack = false;
         yield return null;
     }
