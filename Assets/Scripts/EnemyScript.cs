@@ -394,7 +394,7 @@ public class EnemyScript : MonoBehaviour
             orb.GetComponent<Rigidbody2D>().AddRelativeForce(Random.onUnitSphere * explosion);
         }
 
-        if(lootDrop != "NULL")
+        if (lootDrop != "NULL")
         {
             float offset = Random.Range(-0.2f, 0.2f);
             Vector3 pos = new Vector3(transform.position.x + offset, transform.position.y + offset, transform.position.z);
@@ -433,7 +433,7 @@ public class EnemyScript : MonoBehaviour
         this.currentState = ENEMY_STATE.DEAD;
         if (weaponSlot.magnetDamageActive) weaponSlot.MagnetDisable();
         Destroy(gameObject, 2f);
-        AudioManager.instance.threatLevel--;
+        if (AudioManager.instance.threatLevel > 0) AudioManager.instance.threatLevel--;
     }
 
     public void Dead()

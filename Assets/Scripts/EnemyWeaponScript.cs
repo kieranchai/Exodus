@@ -193,6 +193,7 @@ public class EnemyWeaponScript : MonoBehaviour
         explosion.GetComponent<EnemyExplosionScript>().Initialise(attackPower, 4f);
         transform.parent.GetComponent<EnemyScript>().mySpawner.enemyCounter--;
         limitAttack = false;
+        AudioManager.instance.threatLevel--;
         Destroy(transform.parent.gameObject);
         yield return null;
     }

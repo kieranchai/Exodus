@@ -18,6 +18,7 @@ public class CollectorScript : MonoBehaviour
         if (collision.gameObject.CompareTag("CashOrb"))
         {
             PlayerScript.instance.UpdateCash(collision.gameObject.GetComponent<OrbScript>().value);
+            SFXSource.pitch = Random.Range(0.8f, 1.2f);
             SFXSource.PlayOneShot(cashCollect);
             Destroy(collision.gameObject);
         }
