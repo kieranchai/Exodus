@@ -11,5 +11,5 @@ public class Equipment : ScriptableObject
     public string secValue;
     public int cooldown;
     public string thumbnailPath;
-    public int currentCooldown;
+    public float currentCooldown;
 }

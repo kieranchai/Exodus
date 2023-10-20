@@ -207,6 +207,25 @@ public class PlayerScript : MonoBehaviour
                     UpdateHealth(this.regenValue);
                 }
             }
+
+            if (equippedEquipment)
+            {
+                if (equippedEquipment.currentCooldown > 0)
+                {
+                    equippedEquipment.currentCooldown -= Time.deltaTime;
+                    this.playerPanel.transform.Find("Equipment").Find("Equipment CD").Find("Equipment Timer").gameObject.SetActive(true);
+                    this.playerPanel.transform.Find("Equipment").Find("Equipment CD").Find("Equipment Timer").GetComponent<TMP_Text>().text = ((int)equippedEquipment.currentCooldown).ToString();
+                    this.playerPanel.transform.Find("Equipment").Find("Equipment CD").gameObject.GetComponent<Image>().fillAmount = Mathf.Lerp(
+                    this.playerPanel.transform.Find("Equipment").Find("Equipment CD").gameObject.GetComponent<Image>().fillAmount, equippedEquipment.currentCooldown / equippedEquipment.cooldown, 10f * Time.deltaTime);
+                }
+                else if (equippedEquipment.currentCooldown <= 0)
+                {
+                    equippedEquipment.currentCooldown = 0;
+                    this.playerPanel.transform.Find("Equipment").Find("Equipment CD").Find("Equipment Timer").GetComponent<TMP_Text>().text = "0";
+                    this.playerPanel.transform.Find("Equipment").Find("Equipment CD").Find("Equipment Timer").gameObject.SetActive(false);
+                    this.playerPanel.transform.Find("Equipment").Find("Equipment CD").gameObject.GetComponent<Image>().fillAmount = 0;
+                }
+            }
         }
     }
 
@@ -383,6 +402,8 @@ public class PlayerScript : MonoBehaviour
                 break;
         }
         equippedEquipment.currentCooldown = equippedEquipment.cooldown;
+        this.playerPanel.transform.Find("Equipment").Find("Equipment CD").gameObject.GetComponent<Image>().fillAmount = 1;
+        this.playerPanel.transform.Find("Equipment").Find("Equipment CD").Find("Equipment Timer").gameObject.SetActive(true);
     }
 
     IEnumerator Stim(Equipment stim)
