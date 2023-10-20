@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 9
   m_EditorClassIdentifier: 
   id: 9
-  enemyName: Banhee Turret
+  enemyName: Banshee Turret
   health: 60
   movementSpeed: 0
   equippedWeapon: Banshee Turret
