@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29308966cf669ba47bf20d392571cb18, type: 3}
+  m_Name: Ocular HUD
+  m_EditorClassIdentifier: 
+  id: 5
+  equipmentName: Ocular HUD
+  description: Gain 100% CRIT CHANCE for [value] seconds
+  type: critChance
+  value: 5
+  secValue: null
+  cooldown: 45
+  thumbnailPath: UISprites/OcularHud
+  currentCooldown: 0

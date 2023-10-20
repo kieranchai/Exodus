@@ -335,11 +335,25 @@ public class PlayerScript : MonoBehaviour
     public void EquipEquipment(Equipment equipment)
     {
         //Drop current equipped
+        if (equippedEquipment)
+        {
+            float offset = Random.Range(-0.2f, 0.2f);
+            Vector3 pos = new Vector3(transform.position.x + offset, transform.position.y + offset, transform.position.z);
+            GameObject loot = Instantiate(Resources.Load<GameObject>("Prefabs/Loot Drop"), pos, Quaternion.identity);
+            loot.GetComponent<LootDrop>().Initialise(equippedEquipment);
+        }
 
         //Replace with new equipment
         equippedEquipment = equipment;
 
         //Refresh HUD
+        RefreshEquipmentUI();
+    }
+
+    public void RefreshEquipmentUI()
+    {
+        playerPanel.transform.Find("Equipment").Find("Equipment Image").GetComponent<Image>().sprite = Resources.Load<Sprite>(equippedEquipment.thumbnailPath);
+        playerPanel.transform.Find("Equipment").Find("Equipment Name").GetComponent<TMP_Text>().text = equippedEquipment.equipmentName;
     }
 
     public void UseEquipment()

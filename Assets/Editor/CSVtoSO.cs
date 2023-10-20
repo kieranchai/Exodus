@@ -162,7 +162,7 @@ public class CSVtoSO
             equipment.thumbnailPath = splitData[7];
             equipment.currentCooldown = 0;
 
-            AssetDatabase.CreateAsset(equipment, $"Assets/Resources/ScriptableObjects/Equipment/{equipment.id}.asset");
+            AssetDatabase.CreateAsset(equipment, $"Assets/Resources/ScriptableObjects/Equipment/{equipment.equipmentName}.asset");
         }
 
         AssetDatabase.SaveAssets();
