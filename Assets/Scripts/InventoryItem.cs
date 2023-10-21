@@ -74,7 +74,7 @@ public class InventoryItem : MonoBehaviour
             this.itemDetailPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => UseWeapon());
         }
 
-        this.itemDetailPanel.transform.Find("Weapon AP").GetComponent<TMP_Text>().text =  this.attackPower + "dmg";
+        this.itemDetailPanel.transform.Find("Weapon AP").GetComponent<TMP_Text>().text =  this.attackPower.ToString();
         this.itemDetailPanel.transform.Find("Weapon CD").GetComponent<TMP_Text>().text = this.cooldown + "/s";
         this.itemDetailPanel.transform.Find("Weapon Range").GetComponent<TMP_Text>().text = this.range + "m";
 

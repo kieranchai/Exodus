@@ -172,8 +172,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 122.8, y: -23.551}
-  m_SizeDelta: {x: 135.1478, y: 37.8985}
+  m_AnchoredPosition: {x: -30.352, y: -16.5}
+  m_SizeDelta: {x: 135.1478, y: 33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &586352405115628202
 CanvasRenderer:
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -381,8 +381,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 43.5881, y: 16.5}
-  m_SizeDelta: {x: 283.0286, y: 33}
+  m_AnchoredPosition: {x: 44.970093, y: 16.5}
+  m_SizeDelta: {x: 285.7922, y: 33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1315478785245764296
 CanvasRenderer:
@@ -414,8 +414,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: SUBMACHINE GUN
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0174da012622f404897c34fe950f86f0, type: 2}
-  m_sharedMaterial: {fileID: 1307736904935630963, guid: 0174da012622f404897c34fe950f86f0, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e89214fd3c850a64a9acc10b0a37ea11, type: 2}
+  m_sharedMaterial: {fileID: 3589376492074032427, guid: e89214fd3c850a64a9acc10b0a37ea11, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -439,8 +439,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
