@@ -69,6 +69,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (AudioManager.instance.musicSource.clip != AudioManager.instance.ambientMusic) AudioManager.instance.PlayBGM(AudioManager.instance.ambientMusic);
+    }
+
     private void Update()
     {
         switch (currentState)
@@ -110,10 +115,21 @@ public class GameController : MonoBehaviour
         Time.timeScale = 0.0f;
         pauseScreen.SetActive(true);
         AudioManager.instance.LowerMixerVol();
+        AudioManager.instance.musicSource.Pause();
+        if (AudioManager.instance.GetComponent<AudioSource>())
+        {
+            AudioManager.instance.GetComponent<AudioSource>().Pause();
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             AudioManager.instance.SetInitialMixerVol();
             ResumeGame();
+            AudioManager.instance.musicSource.Play();
+            if (AudioManager.instance.GetComponent<AudioSource>())
+            {
+                AudioManager.instance.GetComponent<AudioSource>().Play();
+            }
             AudioManager.instance.PlaySFX(AudioManager.instance.menuClose);
         }
     }

@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour
         Time.timeScale = 1.0f;
         AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
         SceneManager.LoadScene("Game");
+        AudioManager.instance.PlayBGM(AudioManager.instance.ambientMusic);
     }
 
     public void ShowControls()
