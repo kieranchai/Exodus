@@ -37,12 +37,12 @@ public class BuffController : MonoBehaviour
             slots[i] = buffSelectionPanel.transform.Find("BuffList").Find("Buffs").GetChild(i).gameObject;
         }
 
-        upgradeTokens = PlayerScript.instance.playerPanel.transform.Find("Upgrades").Find("Upgrades Image").Find("Buff Tokens").gameObject;
         rerollPriceUI = buffSelectionPanel.transform.Find("Reroll").Find("Reroll Image").Find("Reroll Price").gameObject;
     }
 
     private void Start()
     {
+        upgradeTokens = PlayerScript.instance.playerPanel.transform.Find("Upgrades").Find("Upgrades Image").Find("Buff Tokens").gameObject;
         weaponScript = PlayerScript.instance.weaponSlot;
         UpdatePlayerTokensDisplay();
         RandomiseBuffs();

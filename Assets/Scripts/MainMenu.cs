@@ -1,28 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void LoadScene()
+
+    [SerializeField]
+    private GameObject mainMenu;
+
+    [SerializeField]
+    private GameObject controlsMenu;
+
+    public void LoadGame()
     {
         Time.timeScale = 1.0f;
+        AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
         SceneManager.LoadScene("Game");
     }
 
     public void ShowControls()
     {
-        SceneManager.LoadScene("Controls");
+        AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
+        mainMenu.SetActive(false);
+        controlsMenu.SetActive(true);
     }
 
-    public void ShowMainMenu()
+    public void HideControls()
     {
-        SceneManager.LoadScene("MainMenu");
+        AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
+        controlsMenu.SetActive(false);
+        mainMenu.SetActive(true);
     }
 
     public void Quit()
     {
+        AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #endif

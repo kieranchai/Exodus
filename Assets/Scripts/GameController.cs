@@ -51,6 +51,9 @@ public class GameController : MonoBehaviour
 
     private bool isBuffOpen = false;
 
+    private float timer = 0;
+    private int timePlayed = 0;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -74,6 +77,8 @@ public class GameController : MonoBehaviour
                 break;
             case GAME_STATE.PLAYING:
                 HandleInput();
+                timer += Time.deltaTime;
+                timePlayed = (int)timer;
                 break;
             case GAME_STATE.PAUSED:
                 PauseGame();
@@ -125,27 +130,22 @@ public class GameController : MonoBehaviour
     {
         CloseControls();
         pauseScreen.SetActive(false);
-        buffSelectionPanel.SetActive(false);
         Time.timeScale = 1.0f;
         currentState = GAME_STATE.PLAYING;
     }
 
     public void ShowControls()
     {
-        pauseScreen.transform.Find("Paused").gameObject.SetActive(false);
-        pauseScreen.transform.Find("Resume").gameObject.SetActive(false);
-        pauseScreen.transform.Find("Controls").gameObject.SetActive(false);
-        pauseScreen.transform.Find("Exit").gameObject.SetActive(false);
-        pauseScreen.transform.Find("Controls Screen").gameObject.SetActive(true);
+        AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
+        pauseScreen.transform.Find("Pause Menu").gameObject.SetActive(false);
+        pauseScreen.transform.Find("Controls Menu").gameObject.SetActive(true);
     }
 
     public void CloseControls()
     {
-        pauseScreen.transform.Find("Paused").gameObject.SetActive(true);
-        pauseScreen.transform.Find("Resume").gameObject.SetActive(true);
-        pauseScreen.transform.Find("Controls").gameObject.SetActive(true);
-        pauseScreen.transform.Find("Exit").gameObject.SetActive(true);
-        pauseScreen.transform.Find("Controls Screen").gameObject.SetActive(false);
+        AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
+        pauseScreen.transform.Find("Controls Menu").gameObject.SetActive(false);
+        pauseScreen.transform.Find("Pause Menu").gameObject.SetActive(true);
     }
 
     private void HandleInput()
@@ -217,6 +217,11 @@ public class GameController : MonoBehaviour
         }
 
         //If no panel is open, then PAUSE game when ESC
+        int minutes = Mathf.FloorToInt(timePlayed / 60F);
+        int seconds = Mathf.FloorToInt(timePlayed - minutes * 60);
+        pauseScreen.transform.Find("Pause Menu").Find("Playtime").GetComponent<TMP_Text>().text = string.Format("{0:0}:{1:00}", minutes, seconds); ;
+        pauseScreen.transform.Find("Pause Menu").Find("Level").GetComponent<TMP_Text>().text = PlayerScript.instance.level.ToString();
+        pauseScreen.transform.Find("Pause Menu").Find("Kills").GetComponent<TMP_Text>().text = PlayerScript.instance.kills.ToString();
         currentState = GAME_STATE.PAUSED;
     }
 
@@ -236,18 +241,27 @@ public class GameController : MonoBehaviour
         PlayerScript.instance.coll.enabled = false;
         PlayerScript.instance.anim.SetBool("isWalking", false);
         AudioManager.instance.LowerMixerVol();
+        int minutes = Mathf.FloorToInt(timePlayed / 60F);
+        int seconds = Mathf.FloorToInt(timePlayed - minutes * 60);
+        deathScreen.transform.Find("Playtime").GetComponent<TMP_Text>().text = string.Format("{0:0}:{1:00}", minutes, seconds); ;
+        deathScreen.transform.Find("Level").GetComponent<TMP_Text>().text = PlayerScript.instance.level.ToString();
+        deathScreen.transform.Find("Kills").GetComponent<TMP_Text>().text = PlayerScript.instance.kills.ToString();
         deathScreen.SetActive(true);
     }
 
     public void Quit()
     {
+        AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
         AudioManager.instance.SetInitialMixerVol();
         SceneManager.LoadScene("MainMenu");
     }
 
     public void Retry()
     {
+        AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
         AudioManager.instance.SetInitialMixerVol();
+        Time.timeScale = 1.0f;
+        currentState = GAME_STATE.PLAYING;
         SceneManager.LoadScene("Game");
     }
 

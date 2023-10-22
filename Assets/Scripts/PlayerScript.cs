@@ -24,6 +24,7 @@ public class PlayerScript : MonoBehaviour
     public int cash;
     public int experience;
     public int level;
+    public int kills;
 
     private Vector3 moveDir;
     private Vector3 rollDir;

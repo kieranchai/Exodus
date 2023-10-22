@@ -430,6 +430,7 @@ public class EnemyScript : MonoBehaviour
         }
 
         SFXSource.PlayOneShot(enemyDeath);
+        PlayerScript.instance.kills++;
         this.currentState = ENEMY_STATE.DEAD;
         if (weaponSlot.magnetDamageActive) weaponSlot.MagnetDisable();
         Destroy(gameObject, 2f);
