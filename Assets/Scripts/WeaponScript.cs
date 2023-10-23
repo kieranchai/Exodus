@@ -1,5 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEditor.Experimental;
+
 
 public class WeaponScript : MonoBehaviour
 {
@@ -45,7 +48,14 @@ public class WeaponScript : MonoBehaviour
 
     public float shotgunSpread;
     public float shotgunCount;
+    public bool flameOn = false;
+    public float savedTimer = 0;
+    private float flamedamageInterval = 0.2f;
 
+    public HashSet<Collider2D> colliders = new HashSet<Collider2D>();
+    public HashSet<Collider2D> GetColliders() { return colliders; }
+
+    public ParticleSystem FlameParticle;
     private LineRenderer line;
 
     private AudioSource SFXSource;
@@ -86,7 +96,16 @@ public class WeaponScript : MonoBehaviour
         if (PlayerScript.instance.equippedWeapon.weaponType != "melee" && isReloading == false && PlayerScript.instance.equippedWeapon.currentAmmoCount <= 0)
         {
             isReloading = true;
+            if (PlayerScript.instance.equippedWeapon.weaponType == "fire") {flameDisable();};
             StartCoroutine(Reload());
+        }
+
+        if (flameOn && PlayerScript.instance.equippedWeapon.currentAmmoCount > 0 && isReloading == false && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
+        {
+            flameDamageActive();
+        }else if (PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING);
+        {
+            flameDisable();
         }
     }
 
@@ -118,6 +137,15 @@ public class WeaponScript : MonoBehaviour
         {
             line.enabled = true;
             line.SetPosition(1, new Vector3(transform.localPosition.x, transform.localPosition.y + (this.weaponRange * this.rangeMultiplier)));
+        }
+
+        if (this.weaponType == "fire")
+        {
+            GameController.instance.flameThrowerEquipped = true;
+        }
+        else
+        {
+            GameController.instance.flameThrowerEquipped = false;
         }
 
         weaponSprite = gameObject.GetComponent<SpriteRenderer>();
@@ -153,6 +181,7 @@ public class WeaponScript : MonoBehaviour
             case ("Sniper Rifle"):
             case ("Shotgun"):
             case ("Machine Gun"):
+            case ("Flame Thrower"):
                 PlayerScript.instance.SetAnimation(RifleAOC);
                 break;
             case ("Light Pistol"):
@@ -365,23 +394,101 @@ public class WeaponScript : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator FlashMuzzleFlash()
+    public void flameActive()
     {
-        weaponSprite.sprite = flash;
-        int ratio = (int)((1 / Time.deltaTime) / 60);
-        if (ratio < 1) ratio = 1;
-        int dynamicflash = (framesToFlash * ratio);
-        for (int i = 0; i < dynamicflash; i++)
+        if (!flameOn)
         {
-            yield return 0;
+            FlameParticle.Play();
+            flameOn = true;
         }
-        weaponSprite.sprite = sprite;
     }
 
-    private void OnDrawGizmosSelected()
+    public void flameDisable()
     {
-        Gizmos.color = Color.blue;
-        Vector3 position = circleOrigin.position;
-        Gizmos.DrawWireSphere(position, radius);
+        FlameParticle.Stop();
+        flameOn = false;
     }
+
+    public void flameDamageActive()
+    {
+        if ((Time.time - savedTimer) > flamedamageInterval)
+        {
+            savedTimer = Time.time;
+            foreach (Collider2D collision in colliders)
+            {
+                if (!EnemyInSight(collision.gameObject.transform.position)) continue;
+                if (collision == null) continue; 
+
+                if (PlayerScript.instance.isCritEnabled)
+                {
+                    collision.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * 1.5f, true, false, false);
+                }
+                else if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
+                {
+                    collision.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * this.gunCritDamageMultiplier, true, false, false);
+                }
+                else if (this.gunBleedChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.gunBleedChance - 1)
+                {
+                    collision.gameObject.GetComponent<EnemyScript>().StartCoroutine(collision.gameObject.GetComponent<EnemyScript>().Bleed(PlayerScript.instance.weaponSlot.gunBleedDmg));
+                }
+                else if (this.gunLifeStealMultiplier > 0)
+                {
+                    PlayerScript.instance.UpdateHealth(this.attackPower * (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier - 1));
+                }
+                else if (PlayerScript.instance.weaponSlot.lightningChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.lightningChance - 1)
+                {
+                    GameObject chainLightningEffect = Resources.Load<GameObject>("Prefabs/Chain Lightning");
+                    chainLightningEffect.GetComponent<ChainLightningScript>().damage = PlayerScript.instance.weaponSlot.lightningDmg;
+                    Instantiate(chainLightningEffect, collision.transform.position, Quaternion.identity);
+                }
+                else { collision.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower, false, false, false); }
+            }
+            --PlayerScript.instance.equippedWeapon.currentAmmoCount;
+            PlayerScript.instance.RefreshAmmoCount();
+        }
+    }
+
+    IEnumerator FlashMuzzleFlash()
+{
+    weaponSprite.sprite = flash;
+    int ratio = (int)((1 / Time.deltaTime) / 60);
+    if (ratio < 1) ratio = 1;
+    int dynamicflash = (framesToFlash * ratio);
+    for (int i = 0; i < dynamicflash; i++)
+    {
+        yield return 0;
+    }
+    weaponSprite.sprite = sprite;
+}
+
+private void OnDrawGizmosSelected()
+{
+    Gizmos.color = Color.blue;
+    Vector3 position = circleOrigin.position;
+    Gizmos.DrawWireSphere(position, radius);
+}
+
+private void OnTriggerEnter2D(Collider2D other)
+{
+    if (other.gameObject.CompareTag("Enemy")) {
+        colliders.Add(other);
+    }
+}
+
+private void OnTriggerExit2D(Collider2D other)
+{
+    if (other.gameObject.CompareTag("Enemy")) {
+        colliders.Remove(other);
+    }
+}
+
+public bool EnemyInSight(Vector2 enemy){
+    int mask1 = 1 << LayerMask.NameToLayer("Tilemap Collider");
+        RaycastHit2D hit = Physics2D.Linecast(transform.position, enemy, mask1);
+        if (hit.collider != null)
+        {
+            return false;
+        }
+        return true;
+}
 }

@@ -53,7 +53,7 @@ public class GameController : MonoBehaviour
 
     private float timer = 0;
     private int timePlayed = 0;
-
+    public bool flameThrowerEquipped = false;
     void Awake()
     {
         if (instance != null && instance != this)
@@ -173,7 +173,15 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) Exit();
         if (Input.GetMouseButton(0) && !isOverUI && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
         {
-            PlayerScript.instance.weaponSlot.TryAttack();
+            if (flameThrowerEquipped && PlayerScript.instance.weaponSlot.isReloading == false) {
+                PlayerScript.instance.weaponSlot.flameActive();
+            }else {
+                PlayerScript.instance.weaponSlot.TryAttack();
+            }
+        }
+        if (Input.GetMouseButtonUp(0) && !isOverUI && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING && flameThrowerEquipped)
+        {
+            PlayerScript.instance.weaponSlot.flameDisable();
         }
         if (Input.GetKeyDown(KeyCode.F) && PlayerScript.instance.equippedEquipment)
         {
@@ -184,6 +192,7 @@ public class GameController : MonoBehaviour
         {
             PlayerScript.instance.weaponSlot.isReloading = true;
             PlayerScript.instance.weaponSlot.StartCoroutine(PlayerScript.instance.weaponSlot.Reload());
+            PlayerScript.instance.weaponSlot.flameDisable();
         }
 
         if (Input.GetAxis("Mouse ScrollWheel") != 0 && !isOverUI && PlayerScript.instance.inventory.Count > 0)
