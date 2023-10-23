@@ -4,6 +4,12 @@ public class CursorController : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
 
+    [SerializeField]
+    private Sprite defaultCrosshair;
+
+    [SerializeField]
+    private Sprite enemyCrosshair;
+
     private void Awake()
     {
         Cursor.visible = false;
@@ -27,6 +33,22 @@ public class CursorController : MonoBehaviour
             spriteRenderer.enabled = true;
             Vector2 mouseCursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = mouseCursorPos;
+            RaycastHit2D rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition));
+            if (rayHit.collider != null)
+            {
+                if (rayHit.collider.CompareTag("Enemy") || rayHit.collider.CompareTag("Boss"))
+                {
+                    spriteRenderer.sprite = enemyCrosshair;
+                }
+                else
+                {
+                    spriteRenderer.sprite = defaultCrosshair;
+                }
+            }
+            else
+            {
+                spriteRenderer.sprite = defaultCrosshair;
+            }
         }
     }
 }

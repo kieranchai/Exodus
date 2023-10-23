@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 459447777536864460}
@@ -343,10 +343,12 @@ MonoBehaviour:
   cash: 0
   experience: 0
   level: 0
+  kills: 0
   rollCD: 3
   _data: {fileID: 11400000, guid: b0ec09c74486dc44286165c53c675807, type: 2}
   weaponSlot: {fileID: 0}
   equippedWeapon: {fileID: 0}
+  equippedEquipment: {fileID: 0}
   inventory: []
   playerPanel: {fileID: 0}
   inventoryItemPrefab: {fileID: 111435379396932244, guid: add3bc8f1e2345a42ab1ba3efe957f4d, type: 3}
@@ -362,7 +364,8 @@ MonoBehaviour:
   maxHealthMultiplier: 1
   evasionMultiplier: 0
   regenValue: 0
-  meleeDmgBlockMultiplier: 0
+  fireRateBuff: 1
+  isCritEnabled: 0
   playerHit: {fileID: 0}
   playerDash: {fileID: 8300000, guid: dda392695dac3904ab2ca09114c25070, type: 3}
   playerDeath: {fileID: 0}
@@ -5705,14 +5708,7 @@ MonoBehaviour:
   clipSize: 0
   isReloading: 0
   initialPos: {x: 0, y: 0, z: 0}
-  meleeDmgMultiplier: 0
-  meleeBleedChance: 0
-  meleeBleedDmg: 0
-  meleeFireRateMultiplier: 0
-  meleeCritChance: 0
-  meleeCritDamageMultiplier: 0
-  meleeExplodeDmg: 0
-  meleeLifeStealMultiplier: 0
+  gunLifeStealMultiplier: 0
   gunCritChance: 0
   gunCritDamageMultiplier: 0
   rangeMultiplier: 0
@@ -5732,8 +5728,6 @@ MonoBehaviour:
   smgFire: {fileID: 8300000, guid: 786b6440f02acea4ebe5de2236d7cc50, type: 3}
   sniperFire: {fileID: 8300000, guid: fbfdb26ec2c6997469cbe5a47db81329, type: 3}
   shotgunFire: {fileID: 8300000, guid: b43f3f01c2f1c3141aae3420e411c3e1, type: 3}
-  katanaSwing: {fileID: 8300000, guid: a5e5247ab7dd276458988a8e24530ad1, type: 3}
-  baseballBatSwing: {fileID: 8300000, guid: e3a8249f4ed80244fbab7cf4fbe016ad, type: 3}
   fistSwing: {fileID: 8300000, guid: 8c904e363d57df14395ee3263c88fcde, type: 3}
 --- !u!95 &2995370258158405136
 Animator:
@@ -5821,8 +5815,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.9339623, g: 0.18062477, b: 0.18062477, a: 1}
-      key1: {r: 0.94600445, g: 0.33004025, b: 0.33004025, a: 0.38039216}
+      key0: {r: 0.8867924, g: 0.004182993, b: 0.004182993, a: 1}
+      key1: {r: 0.6132076, g: 0, b: 0, a: 0.5019608}
       key2: {r: 1, g: 1, b: 1, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -5830,7 +5824,7 @@ LineRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 64764
+      ctime1: 65535
       ctime2: 65535
       ctime3: 0
       ctime4: 0
