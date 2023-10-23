@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b31190974d3661545863ab1420a496fd, type: 3}
-  m_Name: Magnet
+  m_Name: Machine Gun
   m_EditorClassIdentifier: 
-  id: 13
-  weaponName: Magnet
-  description: NULL
-  attackPower: 10
-  spritePath: NULL
-  thumbnailPath: NULL
-  weaponType: magnet
-  cooldown: 0
-  weaponRange: 0
-  clipSize: 0
-  reloadSpeed: 0
-  cost: 0
-  currentAmmoCount: 0
-  inShop: NO
+  id: 16
+  weaponName: Machine Gun
+  description: High damage low accuracy
+  attackPower: 8
+  spritePath: Sprites/Machine Gun
+  thumbnailPath: UISprites/Machine Gun
+  weaponType: line
+  cooldown: 0.1
+  weaponRange: 6.5
+  clipSize: 60
+  reloadSpeed: 3
+  cost: 800
+  currentAmmoCount: 60
+  inShop: YES
