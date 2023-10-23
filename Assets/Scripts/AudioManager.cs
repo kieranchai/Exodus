@@ -52,6 +52,13 @@ public class AudioManager : MonoBehaviour
     private float timer = 0;
     private bool isPlayingSomething = true;
 
+    /* Experimental */
+    private float bpm = 140f;
+    private float bps;
+    private float timeTillNextBeat;
+
+
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -61,6 +68,8 @@ public class AudioManager : MonoBehaviour
         }
         instance = this;
         DontDestroyOnLoad(this.gameObject);
+
+        bps = bpm / 60f;
     }
 
     private void Start()
@@ -89,12 +98,17 @@ public class AudioManager : MonoBehaviour
                 threat = Threat.None;
                 if (isPlayingCombat)
                 {
-                    musicSource.Stop();
-                    musicSource.clip = null;
-                    musicSource.PlayOneShot(endMediumCombat);
-                    isPlayingCombat = false;
-                    isPlayingSomething = false;
-                    timer = 10;
+                    timeTillNextBeat = musicSource.time % bps;
+                    if (timeTillNextBeat < 0.1f) timeTillNextBeat = 0;
+                    if (timeTillNextBeat == 0)
+                    {
+                        musicSource.Stop();
+                        musicSource.clip = null;
+                        musicSource.PlayOneShot(endMediumCombat);
+                        isPlayingCombat = false;
+                        isPlayingSomething = false;
+                        timer = 10;
+                    }
                 }
                 break;
             case int n when (n >= 5):
