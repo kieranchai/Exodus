@@ -58,6 +58,7 @@ public class WeaponScript : MonoBehaviour
     public AudioClip sniperFire;
     public AudioClip shotgunFire;
     public AudioClip fistSwing;
+    public AudioClip machineGunFire;
 
     private void Awake()
     {
@@ -151,6 +152,7 @@ public class WeaponScript : MonoBehaviour
             case ("Submachine Gun"):
             case ("Sniper Rifle"):
             case ("Shotgun"):
+            case ("Machine Gun"):
                 PlayerScript.instance.SetAnimation(RifleAOC);
                 break;
             case ("Light Pistol"):
@@ -311,6 +313,9 @@ public class WeaponScript : MonoBehaviour
                     break;
                 case "Assault Rifle":
                     SFXSource.PlayOneShot(assaultRifleFire);
+                    break;
+                case "Machine Gun":
+                    SFXSource.PlayOneShot(machineGunFire);
                     break;
                 default:
                     break;
