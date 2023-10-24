@@ -182,6 +182,12 @@ public class GameController : MonoBehaviour
                 PlayerScript.instance.weaponSlot.TryAttack();
             }
         }
+
+        if (Input.GetMouseButtonUp(0) && !isOverUI && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING && flameThrowerEquipped)
+        {
+            PlayerScript.instance.weaponSlot.flameDisable();
+        }
+
         if (Input.GetKeyDown(KeyCode.F) && PlayerScript.instance.equippedEquipment)
         {
             PlayerScript.instance.UseEquipment();

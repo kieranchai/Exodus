@@ -104,7 +104,7 @@ public class WeaponScript : MonoBehaviour
         {
             flameDamageActive();
         }
-        else if (PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING) ;
+        else if (PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
         {
             flameDisable();
         }
@@ -440,10 +440,6 @@ public class WeaponScript : MonoBehaviour
                 {
                     collision.gameObject.GetComponent<EnemyScript>().StartCoroutine(collision.gameObject.GetComponent<EnemyScript>().Bleed(PlayerScript.instance.weaponSlot.gunBleedDmg));
                 }
-                else if (this.gunLifeStealMultiplier > 0)
-                {
-                    PlayerScript.instance.UpdateHealth(this.attackPower * (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier - 1));
-                }
                 else if (PlayerScript.instance.weaponSlot.lightningChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.lightningChance - 1)
                 {
                     GameObject chainLightningEffect = Resources.Load<GameObject>("Prefabs/Chain Lightning");
@@ -451,6 +447,11 @@ public class WeaponScript : MonoBehaviour
                     Instantiate(chainLightningEffect, collision.transform.position, Quaternion.identity);
                 }
                 else { collision.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower, false, false, false); }
+
+                if (this.gunLifeStealMultiplier > 0)
+                {
+                    PlayerScript.instance.UpdateHealth(this.attackPower * (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier - 1));
+                }
             }
             --PlayerScript.instance.equippedWeapon.currentAmmoCount;
             PlayerScript.instance.RefreshAmmoCount();
