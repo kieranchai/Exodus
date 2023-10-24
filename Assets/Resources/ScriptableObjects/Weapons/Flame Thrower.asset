@@ -19,10 +19,10 @@ MonoBehaviour:
   spritePath: Sprites/Flame Thrower
   thumbnailPath: UISprites/Flame Thrower
   weaponType: fire
-  cooldown: 0
+  cooldown: 0.2
   weaponRange: 0
   clipSize: 40
   reloadSpeed: 3
   cost: 2000
-  currentAmmoCount: 40
+  currentAmmoCount: 2
   inShop: YES

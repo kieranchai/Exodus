@@ -50,7 +50,6 @@ public class WeaponScript : MonoBehaviour
     public float shotgunCount;
     public bool flameOn = false;
     public float savedTimer = 0;
-    private float flamedamageInterval = 0.2f;
 
     public HashSet<Collider2D> colliders = new HashSet<Collider2D>();
     public HashSet<Collider2D> GetColliders() { return colliders; }
@@ -420,7 +419,7 @@ public class WeaponScript : MonoBehaviour
 
     public void flameDamageActive()
     {
-        if ((Time.time - savedTimer) > flamedamageInterval)
+        if ((Time.time - savedTimer) > this.cooldown)
         {
             savedTimer = Time.time;
             foreach (Collider2D collision in colliders)
