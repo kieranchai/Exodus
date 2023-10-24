@@ -68,6 +68,8 @@ public class WeaponScript : MonoBehaviour
     public AudioClip shotgunFire;
     public AudioClip fistSwing;
     public AudioClip machineGunFire;
+    public AudioClip crossbowFire;
+    public AudioClip silencedPistolFire;
 
     private void Awake()
     {
@@ -182,9 +184,11 @@ public class WeaponScript : MonoBehaviour
             case ("Shotgun"):
             case ("Machine Gun"):
             case ("Flame Thrower"):
+            case ("Crossbow"):
                 PlayerScript.instance.SetAnimation(RifleAOC);
                 break;
             case ("Light Pistol"):
+            case ("Silenced Pistol"):
                 PlayerScript.instance.SetAnimation(PistolAOC);
                 break;
             default:
@@ -306,6 +310,27 @@ public class WeaponScript : MonoBehaviour
 
                     --PlayerScript.instance.equippedWeapon.currentAmmoCount;
                     break;
+                case "Crossbow":
+                    bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Sniper Bullet"), transform.position, transform.rotation);
+
+
+                    //Crit Equipment
+                    if (PlayerScript.instance.isCritEnabled)
+                    {
+                        bullet.GetComponent<SniperBulletScript>().Initialise(this.attackPower * 1.5f, this.weaponRange * this.rangeMultiplier, true);
+                    }
+                    //Crit
+                    else if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
+                    {
+                        bullet.GetComponent<SniperBulletScript>().Initialise(this.attackPower * this.gunCritDamageMultiplier, this.weaponRange * this.rangeMultiplier, true);
+                    }
+                    else
+                    {
+                        bullet.GetComponent<SniperBulletScript>().Initialise(this.attackPower, this.weaponRange * this.rangeMultiplier);
+                    }
+
+                    --PlayerScript.instance.equippedWeapon.currentAmmoCount;
+                    break;
                 default:
                     bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Bullet"), transform.position, transform.rotation);
 
@@ -345,6 +370,12 @@ public class WeaponScript : MonoBehaviour
                     break;
                 case "Machine Gun":
                     SFXSource.PlayOneShot(machineGunFire);
+                    break;
+                case "Crossbow":
+                    SFXSource.PlayOneShot(crossbowFire);
+                    break;
+                case "Silenced Pistol":
+                    SFXSource.PlayOneShot(silencedPistolFire);
                     break;
                 default:
                     break;
@@ -424,8 +455,13 @@ public class WeaponScript : MonoBehaviour
             savedTimer = Time.time;
             foreach (Collider2D collision in colliders)
             {
+                if (collision == null) continue; 
+                if (!EnemyInSight(collision.gameObject.transform.position)) continue;
+
+
                 if (!EnemyInSight(collision.gameObject.transform.position)) continue;
                 if (collision == null) continue;
+
 
                 if (PlayerScript.instance.isCritEnabled)
                 {

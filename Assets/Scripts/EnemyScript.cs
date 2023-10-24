@@ -428,7 +428,9 @@ public class EnemyScript : MonoBehaviour
                 if (this.mySpawner) --this.mySpawner.enemyCounter;
             }
         }
-
+        // if (PlayerScript.instance.equippedWeapon.weaponType == "fire") {
+        //     PlayerScript.instance.weaponSlot.GetComponent<WeaponScript>().colliders.Remove(GetComponent<Collider2D>());
+        // }
         SFXSource.PlayOneShot(enemyDeath);
         PlayerScript.instance.kills++;
         this.currentState = ENEMY_STATE.DEAD;
