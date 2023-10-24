@@ -96,14 +96,15 @@ public class WeaponScript : MonoBehaviour
         if (PlayerScript.instance.equippedWeapon.weaponType != "melee" && isReloading == false && PlayerScript.instance.equippedWeapon.currentAmmoCount <= 0)
         {
             isReloading = true;
-            if (PlayerScript.instance.equippedWeapon.weaponType == "fire") {flameDisable();};
+            if (PlayerScript.instance.equippedWeapon.weaponType == "fire") { flameDisable(); };
             StartCoroutine(Reload());
         }
 
         if (flameOn && PlayerScript.instance.equippedWeapon.currentAmmoCount > 0 && isReloading == false && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
         {
             flameDamageActive();
-        }else if (PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING);
+        }
+        else if (PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING) ;
         {
             flameDisable();
         }
@@ -394,13 +395,21 @@ public class WeaponScript : MonoBehaviour
         yield return null;
     }
 
-    public void flameActive()
+    public void TryFlameActive()
     {
-        if (!flameOn)
+        if (!isReloading)
         {
-            FlameParticle.Play();
-            flameOn = true;
+            if (!flameOn)
+            {
+                FlameParticle.Play();
+                flameOn = true;
+            }
         }
+        else
+        {
+            flameDisable();
+        }
+
     }
 
     public void flameDisable()
@@ -417,7 +426,7 @@ public class WeaponScript : MonoBehaviour
             foreach (Collider2D collision in colliders)
             {
                 if (!EnemyInSight(collision.gameObject.transform.position)) continue;
-                if (collision == null) continue; 
+                if (collision == null) continue;
 
                 if (PlayerScript.instance.isCritEnabled)
                 {
@@ -449,46 +458,49 @@ public class WeaponScript : MonoBehaviour
     }
 
     IEnumerator FlashMuzzleFlash()
-{
-    weaponSprite.sprite = flash;
-    int ratio = (int)((1 / Time.deltaTime) / 60);
-    if (ratio < 1) ratio = 1;
-    int dynamicflash = (framesToFlash * ratio);
-    for (int i = 0; i < dynamicflash; i++)
     {
-        yield return 0;
+        weaponSprite.sprite = flash;
+        int ratio = (int)((1 / Time.deltaTime) / 60);
+        if (ratio < 1) ratio = 1;
+        int dynamicflash = (framesToFlash * ratio);
+        for (int i = 0; i < dynamicflash; i++)
+        {
+            yield return 0;
+        }
+        weaponSprite.sprite = sprite;
     }
-    weaponSprite.sprite = sprite;
-}
 
-private void OnDrawGizmosSelected()
-{
-    Gizmos.color = Color.blue;
-    Vector3 position = circleOrigin.position;
-    Gizmos.DrawWireSphere(position, radius);
-}
-
-private void OnTriggerEnter2D(Collider2D other)
-{
-    if (other.gameObject.CompareTag("Enemy")) {
-        colliders.Add(other);
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Vector3 position = circleOrigin.position;
+        Gizmos.DrawWireSphere(position, radius);
     }
-}
 
-private void OnTriggerExit2D(Collider2D other)
-{
-    if (other.gameObject.CompareTag("Enemy")) {
-        colliders.Remove(other);
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            colliders.Add(other);
+        }
     }
-}
 
-public bool EnemyInSight(Vector2 enemy){
-    int mask1 = 1 << LayerMask.NameToLayer("Tilemap Collider");
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            colliders.Remove(other);
+        }
+    }
+
+    public bool EnemyInSight(Vector2 enemy)
+    {
+        int mask1 = 1 << LayerMask.NameToLayer("Tilemap Collider");
         RaycastHit2D hit = Physics2D.Linecast(transform.position, enemy, mask1);
         if (hit.collider != null)
         {
             return false;
         }
         return true;
-}
+    }
 }

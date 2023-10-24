@@ -173,15 +173,14 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) Exit();
         if (Input.GetMouseButton(0) && !isOverUI && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
         {
-            if (flameThrowerEquipped && PlayerScript.instance.weaponSlot.isReloading == false) {
-                PlayerScript.instance.weaponSlot.flameActive();
-            }else {
+            if (flameThrowerEquipped)
+            {
+                PlayerScript.instance.weaponSlot.TryFlameActive();
+            }
+            else
+            {
                 PlayerScript.instance.weaponSlot.TryAttack();
             }
-        }
-        if (Input.GetMouseButtonUp(0) && !isOverUI && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING && flameThrowerEquipped)
-        {
-            PlayerScript.instance.weaponSlot.flameDisable();
         }
         if (Input.GetKeyDown(KeyCode.F) && PlayerScript.instance.equippedEquipment)
         {
