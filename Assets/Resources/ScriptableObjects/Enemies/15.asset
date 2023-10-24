@@ -20,6 +20,6 @@ MonoBehaviour:
   hpDrop: 10
   xpDrop: 10
   cashDrop: 30
-  lootDrop: NULL
+  lootDrop: Barrier/Overload
   spawnZone: LowTierZone
   spawnChance: 5

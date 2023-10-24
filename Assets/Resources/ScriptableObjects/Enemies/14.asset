@@ -20,6 +20,6 @@ MonoBehaviour:
   hpDrop: 5
   xpDrop: 5
   cashDrop: 10
-  lootDrop: NULL
+  lootDrop: Medkit/Stim
   spawnZone: UltraLowTierZone
   spawnChance: 5

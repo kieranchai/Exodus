@@ -20,6 +20,6 @@ MonoBehaviour:
   hpDrop: 20
   xpDrop: 20
   cashDrop: 70
-  lootDrop: NULL
+  lootDrop: Ocular HUD
   spawnZone: MidTierZone
   spawnChance: 5

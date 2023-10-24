@@ -395,10 +395,12 @@ public class EnemyScript : MonoBehaviour
 
         if (lootDrop != "NULL")
         {
+            string[] loots = lootDrop.Split('/');
+            string spawnedloot = loots[Random.Range(0,loots.Length)];
             float offset = Random.Range(-0.2f, 0.2f);
             Vector3 pos = new Vector3(transform.position.x + offset, transform.position.y + offset, transform.position.z);
             GameObject loot = Instantiate(Resources.Load<GameObject>("Prefabs/Loot Drop"), pos, Quaternion.identity);
-            loot.GetComponent<LootDrop>().Initialise(Resources.Load<Equipment>($"ScriptableObjects/Equipment/{lootDrop}"));
+            loot.GetComponent<LootDrop>().Initialise(Resources.Load<Equipment>($"ScriptableObjects/Equipment/{spawnedloot}"));
         }
 
         PlayerScript.instance.UpdateExperience(xpDrop);

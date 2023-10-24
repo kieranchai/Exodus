@@ -20,6 +20,6 @@ MonoBehaviour:
   hpDrop: 30
   xpDrop: 30
   cashDrop: 110
-  lootDrop: NULL
+  lootDrop: Grenade
   spawnZone: HighTierZone
   spawnChance: 5
