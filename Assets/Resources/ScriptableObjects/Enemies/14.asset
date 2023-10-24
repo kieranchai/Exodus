@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a5c7a2cfc43c9248a5a36bfb68096a3, type: 3}
-  m_Name: 7
+  m_Name: 14
   m_EditorClassIdentifier: 
-  id: 7
-  enemyName: Crab
+  id: 14
+  enemyName: Gold Crab
   health: 6
   movementSpeed: 3
   equippedWeapon: Pincers
@@ -22,4 +22,4 @@ MonoBehaviour:
   cashDrop: 10
   lootDrop: NULL
   spawnZone: UltraLowTierZone
-  spawnChance: 100
+  spawnChance: 5

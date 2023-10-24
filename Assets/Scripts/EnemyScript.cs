@@ -14,7 +14,6 @@ public class EnemyScript : MonoBehaviour
     private Material originalMaterial;
     public Material flashMaterial;
     private Rigidbody2D rb;
-
     private string enemyName;
     private float maxHealth;
     private float movementSpeed;

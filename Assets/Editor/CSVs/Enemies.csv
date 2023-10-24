@@ -11,3 +11,7 @@
 11,Splitter,20,5,Splitter Weapon,0,0,0,NULL,HighTierZone,10
 12,White Mini Splitter,10,6,Mini Splitter Weapon,10,20,100,NULL,HighTierZone,0
 13,Black Mini Splitter,10,6,Mini Splitter Weapon,10,20,100,NULL,HighTierZone,0
+14,Gold Crab,6,3,Pincers,5,5,10,NULL,UltraLowTierZone,5
+15,Gold Grunt ,15,4,Alien Mouth,10,10,30,NULL,LowTierZone,5
+16,Gold Banshee,45,2.5,Alien Rifle,30,30,110,NULL,HighTierZone,5
+17,Gold Wraith,25,3.16,Alien Pistol,20,20,70,NULL,MidTierZone,5
