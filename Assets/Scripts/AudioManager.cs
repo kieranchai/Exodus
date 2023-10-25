@@ -75,8 +75,6 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         GetInitialMixerVol();
-        musicSource.clip = mainMenuMusic;
-        musicSource.Play();
     }
 
     private void Update()

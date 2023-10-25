@@ -10,6 +10,11 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private GameObject controlsMenu;
 
+    private void Start()
+    {
+        AudioManager.instance.PlayBGM(AudioManager.instance.mainMenuMusic);
+    }
+
     public void LoadGame()
     {
         Time.timeScale = 1.0f;
