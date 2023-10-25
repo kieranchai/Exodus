@@ -205,11 +205,13 @@ public class GameController : MonoBehaviour
             if (PlayerScript.instance.inventory.Count == 1 && PlayerScript.instance.weaponNumber == PlayerScript.instance.inventory.Count - 1) return;
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
+                PlayerScript.instance.weaponSlot.flameDisable();
                 PlayerScript.instance.weaponNumber++;
                 if (PlayerScript.instance.weaponNumber >= PlayerScript.instance.inventory.Count) PlayerScript.instance.weaponNumber = 0;
             }
             if (Input.GetAxis("Mouse ScrollWheel") < 0)
             {
+                PlayerScript.instance.weaponSlot.flameDisable();
                 PlayerScript.instance.weaponNumber--;
                 if (PlayerScript.instance.weaponNumber < 0) PlayerScript.instance.weaponNumber = PlayerScript.instance.inventory.Count - 1;
             }
