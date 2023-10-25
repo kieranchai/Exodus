@@ -1,9 +1,8 @@
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class GrenadeExplosion : MonoBehaviour
 {
-    private float splashRange = 3f;
+    private float splashRange = 6f;
     public float explosionRate;
     private float attackPower;
 

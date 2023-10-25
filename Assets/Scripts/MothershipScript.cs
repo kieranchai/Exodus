@@ -30,6 +30,7 @@ public class MothershipScript : MonoBehaviour
     public bool victory = false;
     private Material originalMaterial;
     public Material flashMaterial;
+    private Transform popupPrefab;
 
     public enum BOSS_STATE
     {
@@ -59,6 +60,7 @@ public class MothershipScript : MonoBehaviour
     {
         maxHealth = 1000f;
         currentHealth = maxHealth;
+        popupPrefab = Resources.Load<RectTransform>("Prefabs/Popup");
         motherShipSprite = GetComponent<SpriteRenderer>();
         initialLeftTurretPos = leftTurret.transform.position;
         initialRightTurretPos = rightTurret.transform.position;
@@ -111,16 +113,33 @@ public class MothershipScript : MonoBehaviour
         victory = true;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, bool crit = false, bool explosion = false, bool lightning = false)
     {
         if (forceFieldUp) return;
-        if (currentHealth <= 0) return;
+        if (this.currentHealth <= 0) return;
 
-        currentHealth -= damage;
+        Transform dmgNumber = Instantiate(popupPrefab, transform.position, Quaternion.identity);
+        if (crit)
+        {
+            dmgNumber.GetComponent<Popup>().SetCrit(damage);
+        }
+        else if (explosion)
+        {
+            dmgNumber.GetComponent<Popup>().SetExplosion(damage);
+        }
+        else if (lightning)
+        {
+            dmgNumber.GetComponent<Popup>().SetLightning(damage);
+        }
+        else
+        {
+            dmgNumber.GetComponent<Popup>().SetDamageNumber(damage);
+        }
 
         if (this.currentHealth - damage > 0)
         {
             this.currentHealth -= damage;
+            /*SFXSource.PlayOneShot(enemyHit);*/
         }
         else
         {
@@ -341,13 +360,23 @@ public class MothershipScript : MonoBehaviour
 
     public IEnumerator Bleed(float damage)
     {
+        Debug.Log("Bleed applied");
         for (int i = 0; i < 5; i++)
         {
-            this.TakeDamage(damage);
             //TODO: Play particle/vfx etc
+            if (this.currentHealth - damage > 0)
+            {
+                this.currentHealth -= damage;
+                Transform bleedDmgNumber = Instantiate(popupPrefab, transform.position, Quaternion.identity);
+                bleedDmgNumber.GetComponent<Popup>().SetBleed(damage);
+            }
+            else
+            {
+                currentState = BOSS_STATE.DEAD;
+            }
             yield return new WaitForSeconds(1);
         }
-
+        Debug.Log("Bleed ended");
         yield return null;
     }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 322736345313327692}
   - component: {fileID: 1097697323190077912}
   - component: {fileID: 7532663358721634919}
+  - component: {fileID: 5280913414036064627}
   m_Layer: 13
   m_Name: HPOrb
   m_TagString: HpOrb
@@ -167,3 +168,15 @@ MonoBehaviour:
   timer: 30
   isFlashing: 0
   sr: {fileID: 8148381067163052571}
+--- !u!210 &5280913414036064627
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8666502702400235091}
+  m_Enabled: 1
+  m_SortingLayerID: 511315325
+  m_SortingLayer: 1
+  m_SortingOrder: 0
+  m_SortAtRoot: 0

@@ -440,6 +440,7 @@ GameObject:
   - component: {fileID: 8257942281639282389}
   - component: {fileID: 2255962964838322856}
   - component: {fileID: 1758240714991738957}
+  - component: {fileID: 7212482766481829137}
   m_Layer: 0
   m_Name: Loot Drop
   m_TagString: Untagged
@@ -518,7 +519,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -563,3 +564,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loot: {fileID: 0}
+--- !u!210 &7212482766481829137
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6883099422744169549}
+  m_Enabled: 1
+  m_SortingLayerID: 511315325
+  m_SortingLayer: 1
+  m_SortingOrder: 0
+  m_SortAtRoot: 0

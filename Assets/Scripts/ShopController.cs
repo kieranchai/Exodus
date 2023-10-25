@@ -69,11 +69,6 @@ public class ShopController : MonoBehaviour
                 PlayerScript.instance.isInShop = true;
                 ResetShopPanels();
             }
-            else
-            {
-                Debug.Log("Instantiated Locked shop button");
-                //TODO: Display alert cannot access yet
-            }
         }
     }
 
@@ -121,10 +116,6 @@ public class ShopController : MonoBehaviour
             {
                 Destroy(shopButton);
                 shopButton = null;
-            }
-            else
-            {
-                Debug.Log("Locked shop button destroyed");
             }
 
             PlayerScript.instance.isInShop = false;

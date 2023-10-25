@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
@@ -46,15 +48,15 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-            if (canRespawn)
+        if (canRespawn)
+        {
+            timer += Time.deltaTime;
+            if (timer >= duration)
             {
-                timer += Time.deltaTime;
-                if (timer >= duration)
-                {
-                    SpawnRandomEnemy();
-                    timer = 0;
-                }
+                SpawnRandomEnemy();
+                timer = 0;
             }
+        }
 
         if (!zoneUnlocked)
         {
@@ -67,12 +69,25 @@ public class EnemySpawner : MonoBehaviour
         if (enemyCounter > 0) return false;
         if (!GameController.instance.tutorialFlag2) GameController.instance.tutorialFlag2 = true;
         if (canRespawn == true) return false;
-        //TODO: add effects when unlocked
+        StartCoroutine(FlickerLED());
         AudioManager.instance.PlaySFX(AudioManager.instance.zoneUnlocked);
         GameObject announcement = Instantiate(Resources.Load<GameObject>("Prefabs/Announcement"), GameController.instance.announcementContainer);
         announcement.GetComponent<AnnouncementScript>().SetText("VENDING MACHINE UNLOCKED!");
         ChangeShopSprite();
         return true;
+    }
+
+    IEnumerator FlickerLED()
+    {
+        this.gameObject.transform.Find("Shop").Find("LED").GetComponent<Light2D>().intensity = 1f;
+        yield return new WaitForSeconds(0.1f);
+        this.gameObject.transform.Find("Shop").Find("LED").GetComponent<Light2D>().intensity = 0f;
+        yield return new WaitForSeconds(0.1f); 
+        this.gameObject.transform.Find("Shop").Find("LED").GetComponent<Light2D>().intensity = 4f;
+        yield return new WaitForSeconds(0.1f);
+        this.gameObject.transform.Find("Shop").Find("LED").GetComponent<Light2D>().intensity = 1f;
+        yield return new WaitForSeconds(0.1f);
+        this.gameObject.transform.Find("Shop").Find("LED").GetComponent<Light2D>().intensity = 7.46f;
     }
 
     public void SpawnRandomEnemy()
@@ -107,10 +122,12 @@ public class EnemySpawner : MonoBehaviour
         );
     }
 
-    public void ChangeShopSprite() {
+    public void ChangeShopSprite()
+    {
         // tilemap.SetTile(position,)
-        for(int i =0; i<4; i++) {
-            tilemap.SetTile(shopPosition[i],activeShopTiles[i]);
-        } 
+        for (int i = 0; i < 4; i++)
+        {
+            tilemap.SetTile(shopPosition[i], activeShopTiles[i]);
+        }
     }
 }

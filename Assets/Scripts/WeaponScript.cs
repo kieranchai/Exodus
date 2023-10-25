@@ -70,6 +70,9 @@ public class WeaponScript : MonoBehaviour
     public AudioClip machineGunFire;
     public AudioClip crossbowFire;
     public AudioClip silencedPistolFire;
+    public AudioClip flameThrower;
+
+    private bool hasPlayedFlame = false;
 
     private void Awake()
     {
@@ -444,48 +447,165 @@ public class WeaponScript : MonoBehaviour
 
     public void flameDisable()
     {
+        if (hasPlayedFlame)
+        {
+            hasPlayedFlame = false;
+            SFXSource.clip = null;
+            SFXSource.Stop();
+            SFXSource.loop = false;
+        }
         FlameParticle.Stop();
         flameOn = false;
     }
 
     public void flameDamageActive()
     {
+        if (!hasPlayedFlame)
+        {
+            hasPlayedFlame = true;
+            SFXSource.clip = flameThrower;
+            SFXSource.loop = true;
+            SFXSource.Play();
+        }
+
         if ((Time.time - savedTimer) > this.cooldown)
         {
             savedTimer = Time.time;
             foreach (Collider2D collision in colliders)
             {
-                if (collision == null) continue; 
+                if (collision == null) continue;
                 if (!EnemyInSight(collision.gameObject.transform.position)) continue;
 
 
                 if (!EnemyInSight(collision.gameObject.transform.position)) continue;
                 if (collision == null) continue;
 
+                if (collision.CompareTag("Enemy"))
+                {
+                    if (PlayerScript.instance.isCritEnabled)
+                    {
+                        collision.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * 1.5f, true, false, false);
+                        //Bleed
+                        if (PlayerScript.instance.weaponSlot.gunBleedChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.gunBleedChance - 1)
+                        {
+                            collision.gameObject.GetComponent<EnemyScript>().StartCoroutine(collision.gameObject.GetComponent<EnemyScript>().Bleed(PlayerScript.instance.weaponSlot.gunBleedDmg));
+                        }
 
-                if (PlayerScript.instance.isCritEnabled)
-                {
-                    collision.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * 1.5f, true, false, false);
-                }
-                else if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
-                {
-                    collision.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * this.gunCritDamageMultiplier, true, false, false);
-                }
-                else if (this.gunBleedChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.gunBleedChance - 1)
-                {
-                    collision.gameObject.GetComponent<EnemyScript>().StartCoroutine(collision.gameObject.GetComponent<EnemyScript>().Bleed(PlayerScript.instance.weaponSlot.gunBleedDmg));
-                }
-                else if (PlayerScript.instance.weaponSlot.lightningChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.lightningChance - 1)
-                {
-                    GameObject chainLightningEffect = Resources.Load<GameObject>("Prefabs/Chain Lightning");
-                    chainLightningEffect.GetComponent<ChainLightningScript>().damage = PlayerScript.instance.weaponSlot.lightningDmg;
-                    Instantiate(chainLightningEffect, collision.transform.position, Quaternion.identity);
-                }
-                else { collision.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower, false, false, false); }
+                        //Lightning
+                        if (PlayerScript.instance.weaponSlot.lightningChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.lightningChance - 1)
+                        {
+                            GameObject chainLightningEffect = Resources.Load<GameObject>("Prefabs/Chain Lightning");
+                            chainLightningEffect.GetComponent<ChainLightningScript>().damage = PlayerScript.instance.weaponSlot.lightningDmg;
+                            Instantiate(chainLightningEffect, collision.transform.position, Quaternion.identity);
+                        }
 
-                if (this.gunLifeStealMultiplier > 0)
+                        //Lifesteal
+                        if (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier - 1));
+                    }
+                    else if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
+                    {
+                        collision.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower * this.gunCritDamageMultiplier, true, false, false);
+                        //Bleed
+                        if (PlayerScript.instance.weaponSlot.gunBleedChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.gunBleedChance - 1)
+                        {
+                            collision.gameObject.GetComponent<EnemyScript>().StartCoroutine(collision.gameObject.GetComponent<EnemyScript>().Bleed(PlayerScript.instance.weaponSlot.gunBleedDmg));
+                        }
+
+                        //Lightning
+                        if (PlayerScript.instance.weaponSlot.lightningChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.lightningChance - 1)
+                        {
+                            GameObject chainLightningEffect = Resources.Load<GameObject>("Prefabs/Chain Lightning");
+                            chainLightningEffect.GetComponent<ChainLightningScript>().damage = PlayerScript.instance.weaponSlot.lightningDmg;
+                            Instantiate(chainLightningEffect, collision.transform.position, Quaternion.identity);
+                        }
+
+                        //Lifesteal
+                        if (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier - 1));
+                    }
+                    else
+                    {
+                        collision.gameObject.GetComponent<EnemyScript>().TakeDamage(this.attackPower);
+                        //Bleed
+                        if (PlayerScript.instance.weaponSlot.gunBleedChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.gunBleedChance - 1)
+                        {
+                            collision.gameObject.GetComponent<EnemyScript>().StartCoroutine(collision.gameObject.GetComponent<EnemyScript>().Bleed(PlayerScript.instance.weaponSlot.gunBleedDmg));
+                        }
+
+                        //Lightning
+                        if (PlayerScript.instance.weaponSlot.lightningChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.lightningChance - 1)
+                        {
+                            GameObject chainLightningEffect = Resources.Load<GameObject>("Prefabs/Chain Lightning");
+                            chainLightningEffect.GetComponent<ChainLightningScript>().damage = PlayerScript.instance.weaponSlot.lightningDmg;
+                            Instantiate(chainLightningEffect, collision.transform.position, Quaternion.identity);
+                        }
+
+                        //Lifesteal
+                        if (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier - 1));
+                    }
+                }
+                else if (collision.CompareTag("Boss"))
                 {
-                    PlayerScript.instance.UpdateHealth(this.attackPower * (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier - 1));
+                    Debug.Log("Boss");
+                    if (PlayerScript.instance.isCritEnabled)
+                    {
+                        collision.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower * 1.5f, true, false, false);
+                        //Bleed
+                        if (PlayerScript.instance.weaponSlot.gunBleedChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.gunBleedChance - 1)
+                        {
+                            collision.gameObject.GetComponent<MothershipScript>().StartCoroutine(collision.gameObject.GetComponent<MothershipScript>().Bleed(PlayerScript.instance.weaponSlot.gunBleedDmg));
+                        }
+
+                        //Lightning
+                        if (PlayerScript.instance.weaponSlot.lightningChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.lightningChance - 1)
+                        {
+                            GameObject chainLightningEffect = Resources.Load<GameObject>("Prefabs/Chain Lightning");
+                            chainLightningEffect.GetComponent<ChainLightningScript>().damage = PlayerScript.instance.weaponSlot.lightningDmg;
+                            Instantiate(chainLightningEffect, collision.transform.position, Quaternion.identity);
+                        }
+
+                        //Lifesteal
+                        if (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier - 1));
+                    }
+                    else if (this.gunCritChance > 0 && Random.Range(0, 1f) < this.gunCritChance - 1)
+                    {
+                        collision.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower * this.gunCritDamageMultiplier, true, false, false);
+                        //Bleed
+                        if (PlayerScript.instance.weaponSlot.gunBleedChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.gunBleedChance - 1)
+                        {
+                            collision.gameObject.GetComponent<MothershipScript>().StartCoroutine(collision.gameObject.GetComponent<MothershipScript>().Bleed(PlayerScript.instance.weaponSlot.gunBleedDmg));
+                        }
+
+                        //Lightning
+                        if (PlayerScript.instance.weaponSlot.lightningChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.lightningChance - 1)
+                        {
+                            GameObject chainLightningEffect = Resources.Load<GameObject>("Prefabs/Chain Lightning");
+                            chainLightningEffect.GetComponent<ChainLightningScript>().damage = PlayerScript.instance.weaponSlot.lightningDmg;
+                            Instantiate(chainLightningEffect, collision.transform.position, Quaternion.identity);
+                        }
+
+                        //Lifesteal
+                        if (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier - 1));
+                    }
+                    else
+                    {
+                        collision.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower);
+                        //Bleed
+                        if (PlayerScript.instance.weaponSlot.gunBleedChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.gunBleedChance - 1)
+                        {
+                            collision.gameObject.GetComponent<MothershipScript>().StartCoroutine(collision.gameObject.GetComponent<MothershipScript>().Bleed(PlayerScript.instance.weaponSlot.gunBleedDmg));
+                        }
+
+                        //Lightning
+                        if (PlayerScript.instance.weaponSlot.lightningChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.lightningChance - 1)
+                        {
+                            GameObject chainLightningEffect = Resources.Load<GameObject>("Prefabs/Chain Lightning");
+                            chainLightningEffect.GetComponent<ChainLightningScript>().damage = PlayerScript.instance.weaponSlot.lightningDmg;
+                            Instantiate(chainLightningEffect, collision.transform.position, Quaternion.identity);
+                        }
+
+                        //Lifesteal
+                        if (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier > 0) PlayerScript.instance.UpdateHealth(this.attackPower * (PlayerScript.instance.weaponSlot.gunLifeStealMultiplier - 1));
+                    }
                 }
             }
             --PlayerScript.instance.equippedWeapon.currentAmmoCount;

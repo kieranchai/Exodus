@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5909413950807671454}
   - component: {fileID: 6056715450722558632}
   - component: {fileID: 3434661467239581528}
+  - component: {fileID: 2679835564174399760}
   m_Layer: 0
   m_Name: Popup
   m_TagString: Untagged
@@ -206,3 +207,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!210 &2679835564174399760
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8624285807335311242}
+  m_Enabled: 1
+  m_SortingLayerID: 511315325
+  m_SortingLayer: 1
+  m_SortingOrder: 0
+  m_SortAtRoot: 0

@@ -642,7 +642,7 @@ public class PlayerScript : MonoBehaviour
             playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().material = flashMaterial;
             yield return null;
         }
-        playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().material = originalMaterial;
+        playerPanel.transform.Find("Health Bar").Find("Fill").GetComponent<Image>().material = playerPanel.transform.Find("Health Bar").GetComponent<HealthBar>().originalMaterial;
     }
 
     public void SetAnimation(AnimatorOverrideController overideController)

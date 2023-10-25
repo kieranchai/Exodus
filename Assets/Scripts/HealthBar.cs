@@ -13,7 +13,7 @@ public class HealthBar : MonoBehaviour
 
     private bool isFlashing = false;
 
-    private Material originalMaterial;
+    public Material originalMaterial;
     public Material flashMaterial;
 
     [SerializeField]
