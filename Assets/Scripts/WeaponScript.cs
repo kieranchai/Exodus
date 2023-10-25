@@ -542,7 +542,6 @@ public class WeaponScript : MonoBehaviour
                 }
                 else if (collision.CompareTag("Boss"))
                 {
-                    Debug.Log("Boss");
                     if (PlayerScript.instance.isCritEnabled)
                     {
                         collision.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower * 1.5f, true, false, false);
@@ -635,11 +634,9 @@ public class WeaponScript : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             colliders.Add(other);
-            Debug.Log("contact enemy");
         }
         else if (other.gameObject.CompareTag("Boss")) {
             colliders.Add(other);
-            Debug.Log("contact boss");
         }
     }
 
@@ -648,12 +645,10 @@ public class WeaponScript : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             colliders.Remove(other);
-            Debug.Log("leave enemy");
         }
         else if (other.gameObject.CompareTag("Boss"))
         {
             colliders.Remove(other);
-            Debug.Log("leave boss");
         }
 
     }
