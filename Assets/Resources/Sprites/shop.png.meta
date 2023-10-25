@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4e820eae0d2a8a84d978225952add3f1
+guid: 7bfc5672cd0f7244ca979a5cdbc03dbb
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: shop_0
+      name: shop 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8599e897b4d882b4db4b38ba3a4bde87
-      internalID: 133444097
+      spriteID: ba406061b4ca94540993f463b6bb56a2
+      internalID: -115727649
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: shop_1
+      name: shop 1_1
       rect:
         serializedVersion: 2
         x: 64
@@ -145,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e79d97ed325577345ba4ff466c63f3bd
-      internalID: 905337826
+      spriteID: ca93650af6a101741a0c14177efa937e
+      internalID: -137187463
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: shop_2
+      name: shop 1_2
       rect:
         serializedVersion: 2
         x: 0
@@ -166,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fa1eee8f11de64d438af43d2d551f573
-      internalID: -859281048
+      spriteID: 05ceec5ee9c99a14a8c50f3e7d49ca62
+      internalID: -1133982885
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: shop_3
+      name: shop 1_3
       rect:
         serializedVersion: 2
         x: 64
@@ -187,8 +187,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 13e1e4c37d45e4f43bdac2912359419e
-      internalID: -123644177
+      spriteID: 4e00d7eeb8d1e544fb81aac390d42be3
+      internalID: -833596491
       vertices: []
       indices: 
       edges: []
@@ -204,10 +204,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      shop_0: 133444097
-      shop_1: 905337826
-      shop_2: -859281048
-      shop_3: -123644177
+      shop 1_0: -115727649
+      shop 1_1: -137187463
+      shop 1_2: -1133982885
+      shop 1_3: -833596491
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
