@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Audio;
 
@@ -315,7 +314,7 @@ public class GameController : MonoBehaviour
     IEnumerator Typewriter(string text)
     {
         tutorialDialogue.GetComponent<TMP_Text>().text = "";
-        var waitTimer = new WaitForSeconds(.05f);
+        var waitTimer = new WaitForSeconds(.03f);
         foreach (char c in text)
         {
             tutorialDialogue.GetComponent<TMP_Text>().text += c;

@@ -7,7 +7,7 @@ public class AnnouncementScript : MonoBehaviour
     private TMP_Text textMesh;
 
     private float timer = 0;
-    private float duration = 1f;
+    private float duration = 0.8f;
     private Animator anim;
 
     private void Start()

@@ -174,8 +174,9 @@ public class BuffController : MonoBehaviour
             return;
         };
 
-        Debug.Log(buff.buffName);
-
+        GameObject announcement = Instantiate(Resources.Load<GameObject>("Prefabs/Announcement"), GameController.instance.announcementContainer);
+        announcement.GetComponent<AnnouncementScript>().SetText($"{buff.buffName}");
+        //PLAY SFX
         if (PlayerScript.instance.buffList.ContainsKey(buff))
         {
             PlayerScript.instance.buffList[buff]++;
