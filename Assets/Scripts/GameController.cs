@@ -23,6 +23,8 @@ public class GameController : MonoBehaviour
 
     public GAME_STATE currentState = GAME_STATE.PLAYING;
 
+    public Animator animator;
+
     [SerializeField]
     private GameObject tutorialDialogue;
 
@@ -284,6 +286,13 @@ public class GameController : MonoBehaviour
     public void Quit()
     {
         AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
+        StartCoroutine(LoadTransition());
+    }
+
+    IEnumerator LoadTransition()
+    {
+        animator.SetTrigger("Start");
+        yield return new WaitForSecondsRealtime(1f);
         AudioManager.instance.SetInitialMixerVol();
         SceneManager.LoadScene("MainMenu");
     }

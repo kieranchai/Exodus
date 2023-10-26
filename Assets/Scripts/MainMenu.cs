@@ -1,8 +1,10 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public Animator animator;
 
     [SerializeField]
     private GameObject mainMenu;
@@ -19,6 +21,13 @@ public class MainMenu : MonoBehaviour
     {
         Time.timeScale = 1.0f;
         AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
+        StartCoroutine(LoadTransition());
+    }
+
+    IEnumerator LoadTransition()
+    {
+        animator.SetTrigger("Start");
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("Game");
         AudioManager.instance.PlayBGM(AudioManager.instance.ambientMusic);
     }
@@ -40,9 +49,9 @@ public class MainMenu : MonoBehaviour
     public void Quit()
     {
         AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        #endif
+#endif
         Application.Quit();
     }
 }

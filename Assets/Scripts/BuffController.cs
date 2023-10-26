@@ -223,6 +223,7 @@ public class BuffController : MonoBehaviour
         rerollPriceUI.GetComponent<TMP_Text>().text = "$" + this.rerollPrice.ToString();
         AudioManager.instance.PlaySFX(AudioManager.instance.buffReroll);
         RandomiseBuffs();
+        HideBuffDetails();
     }
 
     private void UpdatePlayerBuffs()
