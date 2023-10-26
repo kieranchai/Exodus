@@ -84,7 +84,9 @@ public class PlayerScript : MonoBehaviour
     public AudioClip playerHit;
     public AudioClip playerDash;
     public AudioClip playerDeath;
-    public AudioClip playerHeal;
+
+    [Header("Equipment Audio Clips")]
+    public AudioClip potionUse;
 
     void Awake()
     {
@@ -382,9 +384,11 @@ public class PlayerScript : MonoBehaviour
         switch (equippedEquipment.type)
         {
             case "heal":
+                SFXSource.PlayOneShot(potionUse);
                 UpdateHealth(int.Parse(equippedEquipment.value));
                 break;
             case "speed":
+                SFXSource.PlayOneShot(potionUse);
                 StartCoroutine(Stim(equippedEquipment));
                 break;
             case "barrier":

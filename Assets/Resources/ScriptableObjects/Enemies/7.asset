@@ -22,4 +22,4 @@ MonoBehaviour:
   cashDrop: 10
   lootDrop: NULL
   spawnZone: UltraLowTierZone
-  spawnChance: 100
+  spawnChance: 95

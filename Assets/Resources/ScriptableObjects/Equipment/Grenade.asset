@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29308966cf669ba47bf20d392571cb18, type: 3}
   m_Name: Grenade
   m_EditorClassIdentifier: 
-  id: 7
+  id: 6
   equipmentName: Grenade
   description: Tosses a grenade that damages enemies.
   type: grenade

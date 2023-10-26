@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 11
   m_EditorClassIdentifier: 
   id: 11
-  buffName: Range Up
+  buffName: Take Aim
   description: +[value] weapon range.
   category: gun
   type: range

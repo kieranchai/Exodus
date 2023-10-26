@@ -1,13 +1,13 @@
-1,Health Up,+[value] maximum health.,player,maxHealth,20%,null,0.5
-2,Speed Up,+[value] movement speed.,player,movementSpeed,20%,null,0.5
-3,Evasion Up,+[value] chance to evade attacks.,player,evasion,5%,null,0.3
-4,Regeneration,+[value] health per second.,player,regeneration,1,null,0.3
-5,Faster Dodges,-[value] dodge cooldown.,player,dodgeCd,10%,null,0.3
+1,Hypertrophy,+[value] maximum health.,player,maxHealth,20%,null,0.5
+2,Empowering Haste,+[value] movement speed.,player,movementSpeed,20%,null,0.5
+3,Untouchable,+[value] chance to evade attacks.,player,evasion,5%,null,0.3
+4,Inner Vitality,+[value] health per second.,player,regeneration,1,null,0.3
+5,Blur,-[value] dodge cooldown.,player,dodgeCd,10%,null,0.3
 6,Hemorrhage,+[value] chance to bleed enemies.,gun,bleed,10%,10,0.4
-7,Crit Up,+[value] chance to crit for [secValue] damage.,gun,crit,25%,130%,0.4
+7,Critical Strike,+[value] chance to crit for [secValue] damage.,gun,crit,25%,130%,0.4
 8,Maelstrom,+[value] chance to create a lightning bolt that bounces to nearby enemies.,gun,lightning,10%,5,0.2
-9,Better Handling,+[value] chance to instantly reload.,gun,reload,5%,null,0.3
-10,Faster Fire Rate,+[value] weapon fire rate.,gun,fireRate,20%,null,0.5
-11,Range Up,+[value] weapon range.,gun,range,10%,null,0.5
+9,Sleight of Hand,+[value] chance to instantly reload.,gun,reload,5%,null,0.3
+10,Fervor,+[value] weapon fire rate.,gun,fireRate,20%,null,0.5
+11,Take Aim,+[value] weapon range.,gun,range,10%,null,0.5
 12,Hollow Point,+[value] chance to pierce enemies.,gun,pierce,30%,null,0.4
-13,Vampiric Essence,+[value] lifesteal.,gun,lifesteal,5%,null,0.3
+13,Feast,+[value] lifesteal.,gun,lifesteal,5%,null,0.3

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 3
   m_EditorClassIdentifier: 
   id: 3
-  buffName: Evasion Up
+  buffName: Untouchable
   description: +[value] chance to evade attacks.
   category: player
   type: evasion

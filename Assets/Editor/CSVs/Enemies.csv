@@ -1,17 +1,17 @@
-1,Grunt,15,4,Alien Mouth,10,10,30,NULL,LowTierZone,80
+1,Grunt,15,4,Alien Mouth,10,10,30,NULL,LowTierZone,75
 2,Hardened Grunt,20,3.5,Alien Mouth,15,15,50,NULL,LowTierZone,20
-3,Wraith,25,3.16,Alien Pistol,20,20,70,NULL,MidTierZone,60
+3,Wraith,25,3.16,Alien Pistol,20,20,70,NULL,MidTierZone,55
 4,Hardened Wraith,30,2.92,Alien Pistol,25,25,90,NULL,MidTierZone,10
-5,Banshee,45,2.5,Alien Rifle,30,30,110,NULL,HighTierZone,80
+5,Banshee,45,2.5,Alien Rifle,30,30,110,NULL,HighTierZone,65
 6,Hardened Banshee,50,2.41,Alien Rifle,35,35,130,NULL,HighTierZone,20
-7,Crab,6,3,Pincers,5,5,10,NULL,UltraLowTierZone,100
+7,Crab,6,3,Pincers,5,5,10,NULL,UltraLowTierZone,95
 8,Heretic,15,6,Suicide Bomb,20,20,30,NULL,MidTierZone,30
 9,Banshee Turret,60,0,Banshee Turret,50,40,100,NULL,NULL,0
-10,Magnet Head,50,2.41,Magnet,50,40,100,NULL,HighTierZone,20
+10,Magnet Head,50,2.41,Magnet,50,40,100,NULL,MidTierZone,20
 11,Splitter,20,5,Splitter Weapon,0,0,0,NULL,HighTierZone,10
 12,White Mini Splitter,10,6,Mini Splitter Weapon,10,20,100,NULL,HighTierZone,0
 13,Black Mini Splitter,10,6,Mini Splitter Weapon,10,20,100,NULL,HighTierZone,0
-14,Gold Crab,6,3,Pincers,5,5,10,Medkit/Stim,UltraLowTierZone,5
+14,Gold Crab,6,3,Pincers,5,5,10,Health Potion/Stim,UltraLowTierZone,5
 15,Gold Grunt ,15,4,Alien Mouth,10,10,30,Barrier/Overload,LowTierZone,5
 16,Gold Banshee,45,2.5,Alien Rifle,30,30,110,Grenade,HighTierZone,5
 17,Gold Wraith,25,3.16,Alien Pistol,20,20,70,Ocular HUD,MidTierZone,5

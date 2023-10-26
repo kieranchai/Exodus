@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 9
   m_EditorClassIdentifier: 
   id: 9
-  buffName: Better Handling
+  buffName: Sleight of Hand
   description: +[value] chance to instantly reload.
   category: gun
   type: reload

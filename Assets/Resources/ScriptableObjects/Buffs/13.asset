@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 13
   m_EditorClassIdentifier: 
   id: 13
-  buffName: Vampiric Essence
+  buffName: Feast
   description: +[value] lifesteal.
   category: gun
   type: lifesteal

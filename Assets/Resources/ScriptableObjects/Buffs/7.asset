@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 7
   m_EditorClassIdentifier: 
   id: 7
-  buffName: Crit Up
+  buffName: Critical Strike
   description: +[value] chance to crit for [secValue] damage.
   category: gun
   type: crit

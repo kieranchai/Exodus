@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 2
   m_EditorClassIdentifier: 
   id: 2
-  buffName: Speed Up
+  buffName: Empowering Haste
   description: +[value] movement speed.
   category: player
   type: movementSpeed

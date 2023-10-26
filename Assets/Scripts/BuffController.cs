@@ -12,6 +12,8 @@ public class BuffController : MonoBehaviour
     public Buff[] availableBuffs = new Buff[3];
     private GameObject[] slots;
 
+    private AudioSource audioSource;
+
     [SerializeField]
     private GameObject buffSelectionPanel;
     private GameObject upgradeTokens;
@@ -30,6 +32,7 @@ public class BuffController : MonoBehaviour
         }
         instance = this;
 
+        audioSource = GetComponent<AudioSource>();
         allBuffs = Resources.LoadAll<Buff>("ScriptableObjects/Buffs");
         slots = new GameObject[buffSelectionPanel.transform.Find("Buff List").Find("Buffs").childCount];
         for (int i = 0; i < buffSelectionPanel.transform.Find("Buff List").Find("Buffs").childCount; i++)
@@ -191,7 +194,11 @@ public class BuffController : MonoBehaviour
 
         GameObject announcement = Instantiate(Resources.Load<GameObject>("Prefabs/Announcement"), GameController.instance.announcementContainer);
         announcement.GetComponent<AnnouncementScript>().SetText($"{buff.buffName}");
-        //PLAY SFX
+
+        audioSource.Stop();
+        audioSource.clip = Resources.Load<AudioClip>($"Audio/{buff.buffName}");
+        audioSource.Play();
+
         if (PlayerScript.instance.buffList.ContainsKey(buff))
         {
             PlayerScript.instance.buffList[buff]++;
