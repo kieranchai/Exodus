@@ -31,10 +31,10 @@ public class BuffController : MonoBehaviour
         instance = this;
 
         allBuffs = Resources.LoadAll<Buff>("ScriptableObjects/Buffs");
-        slots = new GameObject[buffSelectionPanel.transform.Find("BuffList").Find("Buffs").childCount];
-        for (int i = 0; i < buffSelectionPanel.transform.Find("BuffList").Find("Buffs").childCount; i++)
+        slots = new GameObject[buffSelectionPanel.transform.Find("Buff List").Find("Buffs").childCount];
+        for (int i = 0; i < buffSelectionPanel.transform.Find("Buff List").Find("Buffs").childCount; i++)
         {
-            slots[i] = buffSelectionPanel.transform.Find("BuffList").Find("Buffs").GetChild(i).gameObject;
+            slots[i] = buffSelectionPanel.transform.Find("Buff List").Find("Buffs").GetChild(i).gameObject;
         }
 
         rerollPriceUI = buffSelectionPanel.transform.Find("Reroll").Find("Reroll Image").Find("Reroll Price").gameObject;
@@ -81,14 +81,29 @@ public class BuffController : MonoBehaviour
             slots[i].transform.GetComponent<Button>().onClick.RemoveAllListeners();
             int i2 = i;
             slots[i].transform.GetComponent<Button>().onClick.AddListener(() => SelectBuff(availableBuffs[i2]));
-            slots[i].transform.Find("Category").GetComponent<TMP_Text>().text = availableBuffs[i].category.ToUpper();
             slots[i].transform.Find("Name").GetComponent<TMP_Text>().text = availableBuffs[i].buffName.ToUpper();
-
-            string formattedDesc = FormatDescription(availableBuffs[i].description, availableBuffs[i]);
-            slots[i].transform.Find("Description").GetComponent<TMP_Text>().text = formattedDesc;
+            /*            slots[i].transform.Find("Image").GetComponent<Image>().sprite = availableBuffs[i].buffName.ToUpper();*/
         }
     }
 
+    public void DisplayBuffDetails(int buff)
+    {
+        buffSelectionPanel.transform.Find("Buff List").Find($"Buff {buff}").Find("Name").GetComponent<TMP_Text>().text = availableBuffs[buff].buffName.ToUpper(); ;
+        string formattedDesc = FormatDescription(availableBuffs[buff].description, availableBuffs[buff]);
+        buffSelectionPanel.transform.Find("Buff List").Find($"Buff {buff}").Find("Description").GetComponent<TMP_Text>().text = formattedDesc;
+        buffSelectionPanel.transform.Find("Buff List").Find($"Buff {buff}").gameObject.SetActive(true);
+    }
+
+    public void HideBuffDetails()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (buffSelectionPanel.transform.Find("Buff List").Find($"Buff {i}").gameObject)
+            {
+                buffSelectionPanel.transform.Find("Buff List").Find($"Buff {i}").gameObject.SetActive(false);
+            }
+        }
+    }
     private string FormatDescription(string desc, Buff buff)
     {
 
@@ -191,6 +206,7 @@ public class BuffController : MonoBehaviour
         AudioManager.instance.PlaySFX(AudioManager.instance.buttonPressed);
         UpdatePlayerBuffs();
         UpdatePlayerTokensDisplay();
+        HideBuffDetails();
         RandomiseBuffs();
     }
 

@@ -139,6 +139,7 @@ public class GameController : MonoBehaviour
         isBuffOpen = !isBuffOpen;
         buffSelectionPanel.SetActive(isBuffOpen);
         if (isBuffOpen == true) BuffController.instance.UpdatePlayerTokensDisplay();
+        if (isBuffOpen == false) BuffController.instance.HideBuffDetails();
     }
 
     public void ResumeGame()
