@@ -16,7 +16,25 @@ public class LootDrop : MonoBehaviour
     {
         loot = equipment;
         textBox.transform.Find("Loot Name").GetComponent<TMP_Text>().text = equipment.equipmentName;
-        textBox.transform.Find("Loot Desc").GetComponent<TMP_Text>().text = equipment.description;
+        string desc = equipment.description;
+        desc = desc.Replace("[value]", equipment.value);
+        desc = desc.Replace("[secValue]", equipment.secValue);
+        textBox.transform.Find("Loot Desc").GetComponent<TMP_Text>().text = desc;
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            textBox.gameObject.SetActive(true);
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                PlayerScript.instance.EquipEquipment(loot);
+                Destroy(gameObject);
+            }
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)

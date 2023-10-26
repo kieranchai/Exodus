@@ -203,7 +203,10 @@ public class AudioManager : MonoBehaviour
         while (t < 0.98f)
         {
             t = Mathf.Lerp(t, 1f, Time.deltaTime * 0.5f);
-            fadeOutSource.volume = Mathf.Lerp(v, 0f, t);
+            if(fadeOutSource)
+            {
+                fadeOutSource.volume = Mathf.Lerp(v, 0f, t);
+            }
             gameObject.transform.Find("BGM").gameObject.GetComponent<AudioSource>().volume = Mathf.Lerp(0f, volume, t);
             yield return null;
         }

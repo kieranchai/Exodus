@@ -80,14 +80,14 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator FlickerLED()
     {
         this.gameObject.transform.Find("Shop").Find("LED").GetComponent<Light2D>().intensity = 1f;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         this.gameObject.transform.Find("Shop").Find("LED").GetComponent<Light2D>().intensity = 0f;
-        yield return new WaitForSeconds(0.1f); 
+        yield return new WaitForSeconds(0.3f); 
         this.gameObject.transform.Find("Shop").Find("LED").GetComponent<Light2D>().intensity = 4f;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.3f);
         this.gameObject.transform.Find("Shop").Find("LED").GetComponent<Light2D>().intensity = 1f;
-        yield return new WaitForSeconds(0.1f);
-        this.gameObject.transform.Find("Shop").Find("LED").GetComponent<Light2D>().intensity = 7.46f;
+        yield return new WaitForSeconds(0.3f);
+        this.gameObject.transform.Find("Shop").Find("LED").GetComponent<Light2D>().intensity = 6f;
     }
 
     public void SpawnRandomEnemy()
