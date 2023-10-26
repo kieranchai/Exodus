@@ -4111,7 +4111,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minVertexDistance: 0.2
     textureMode: 0
-    textureScale: {x: 1, y: 1}
+    textureScale: {x: 0.5, y: 0.5}
     ribbonCount: 1
     shadowBias: 0.5
     worldSpace: 0
@@ -4896,8 +4896,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7ec2a7728f75b654d8e4fb941b9bdf2a, type: 2}
-  - {fileID: 2100000, guid: 7ec2a7728f75b654d8e4fb941b9bdf2a, type: 2}
+  - {fileID: 2100000, guid: 9c1a19cc5564e5b40a3f6652868ad693, type: 2}
+  - {fileID: 2100000, guid: 9c1a19cc5564e5b40a3f6652868ad693, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9902,8 +9902,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9c1a19cc5564e5b40a3f6652868ad693, type: 2}
+  - {fileID: 2100000, guid: 9c1a19cc5564e5b40a3f6652868ad693, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -5726,7 +5726,7 @@ MonoBehaviour:
   shotgunCount: 5
   flameOn: 0
   savedTimer: 0
-  FlameParticle: {fileID: 0}
+  FlameParticle: {fileID: 8233840719741422987}
   weaponReload: {fileID: 8300000, guid: 52a6b5d9cbf5ffb4eb0ae3cb2f0a7073, type: 3}
   weaponEquip: {fileID: 8300000, guid: 33cfd2115e9ff6c40b49df3900d16c85, type: 3}
   assaultRifleFire: {fileID: 8300000, guid: a9cd5d7452a21b249919facf3e23e532, type: 3}
