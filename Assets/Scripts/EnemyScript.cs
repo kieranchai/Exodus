@@ -43,6 +43,7 @@ public class EnemyScript : MonoBehaviour
 
     private bool hasSetSpawnZone = false;
     public EnemySpawner mySpawner;
+    public MothershipSpawnsScript mothershipSpawner;
 
     [SerializeField]
     private ParticleSystem spawnParticle;
@@ -396,7 +397,7 @@ public class EnemyScript : MonoBehaviour
         if (lootDrop != "NULL")
         {
             string[] loots = lootDrop.Split('/');
-            string spawnedloot = loots[Random.Range(0,loots.Length)];
+            string spawnedloot = loots[Random.Range(0, loots.Length)];
             float offset = Random.Range(-0.2f, 0.2f);
             Vector3 pos = new Vector3(transform.position.x + offset, transform.position.y + offset, transform.position.z);
             GameObject loot = Instantiate(Resources.Load<GameObject>("Prefabs/Loot Drop"), pos, Quaternion.identity);
@@ -411,10 +412,12 @@ public class EnemyScript : MonoBehaviour
             Vector3 offset = new Vector3(0.25f, 0, 0);
             GameObject whiteMini = Instantiate(Resources.Load("Prefabs/Enemies/White Mini Splitter", typeof(GameObject)), transform.position + offset, transform.rotation) as GameObject;
             GameObject blackMini = Instantiate(Resources.Load("Prefabs/Enemies/Black Mini Splitter", typeof(GameObject)), transform.position - offset, transform.rotation) as GameObject;
-            whiteMini.GetComponent<EnemyScript>().mySpawner = this.mySpawner;
+            if (this.mySpawner) whiteMini.GetComponent<EnemyScript>().mySpawner = this.mySpawner;
+            if (this.mothershipSpawner) whiteMini.GetComponent<EnemyScript>().mothershipSpawner = this.mothershipSpawner;
             whiteMini.GetComponent<EnemyScript>().spawnZone = this.spawnZone;
             whiteMini.GetComponent<EnemyScript>().hasSetSpawnZone = true;
-            blackMini.GetComponent<EnemyScript>().mySpawner = this.mySpawner;
+            if (this.mySpawner) blackMini.GetComponent<EnemyScript>().mySpawner = this.mySpawner;
+            if (this.mothershipSpawner) blackMini.GetComponent<EnemyScript>().mothershipSpawner = this.mothershipSpawner;
             blackMini.GetComponent<EnemyScript>().hasSetSpawnZone = true;
             blackMini.GetComponent<EnemyScript>().spawnZone = this.spawnZone;
         }
@@ -422,11 +425,13 @@ public class EnemyScript : MonoBehaviour
         {
             if (this.enemyName == "White Mini Splitter" || this.enemyName == "Black Mini Splitter")
             {
-                this.mySpawner.enemyCounter -= 0.5f;
+                if (this.mySpawner) this.mySpawner.enemyCounter -= 0.5f;
+                if (this.mothershipSpawner) this.mothershipSpawner.enemyCounter -= 0.5f;
             }
             else
             {
                 if (this.mySpawner) --this.mySpawner.enemyCounter;
+                if (this.mothershipSpawner) --this.mothershipSpawner.enemyCounter;
             }
         }
         // if (PlayerScript.instance.equippedWeapon.weaponType == "fire") {
@@ -461,7 +466,14 @@ public class EnemyScript : MonoBehaviour
     {
         if (!this.hasSetSpawnZone && collision.CompareTag(this.spawnZone))
         {
-            this.mySpawner = collision.gameObject.GetComponent<EnemySpawner>();
+            if (collision.gameObject.GetComponent<EnemySpawner>())
+            {
+                this.mySpawner = collision.gameObject.GetComponent<EnemySpawner>();
+            }
+            if (collision.gameObject.GetComponent<MothershipSpawnsScript>())
+            {
+                this.mothershipSpawner = collision.gameObject.GetComponent<MothershipSpawnsScript>();
+            }
             this.hasSetSpawnZone = true;
         }
 

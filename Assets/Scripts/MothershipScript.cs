@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MothershipScript : MonoBehaviour
 {
@@ -28,9 +29,19 @@ public class MothershipScript : MonoBehaviour
     public bool forceFieldUp = false;
     private float turretOffset = 0.1f;
     public bool victory = false;
-    private Material originalMaterial;
-    public Material flashMaterial;
     private Transform popupPrefab;
+
+    [SerializeField]
+    private GameObject mothershipHpBar;
+
+    [SerializeField]
+    private Material flashMaterial;
+
+    [SerializeField]
+    private Material originalMaterial;
+
+    [SerializeField]
+    private MothershipSpawnsScript mothershipSpawns;
 
     public enum BOSS_STATE
     {
@@ -46,6 +57,13 @@ public class MothershipScript : MonoBehaviour
     public bool hasStartedStage2 = false;
     public bool hasStartedPause = false;
 
+    private AudioSource SFXSource;
+    [Header("Mothership Audio Clips")]
+    public AudioClip motherShipHit;
+    public AudioClip motherShipDeath;
+    public AudioClip motherShipHeal;
+    public AudioClip forceFieldHit;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -60,6 +78,7 @@ public class MothershipScript : MonoBehaviour
     {
         maxHealth = 1000f;
         currentHealth = maxHealth;
+        SFXSource = GetComponent<AudioSource>();
         popupPrefab = Resources.Load<RectTransform>("Prefabs/Popup");
         motherShipSprite = GetComponent<SpriteRenderer>();
         initialLeftTurretPos = leftTurret.transform.position;
@@ -67,7 +86,6 @@ public class MothershipScript : MonoBehaviour
         newLeftTurretPos = initialLeftTurretPos;
         newRightTurretPos = initialRightTurretPos;
         currentState = BOSS_STATE.PAUSED;
-        originalMaterial = motherShipSprite.material;
     }
 
     void Update()
@@ -109,13 +127,16 @@ public class MothershipScript : MonoBehaviour
     public void Dead()
     {
         //Killed Boss
-        motherShipSprite.material = originalMaterial;
         victory = true;
     }
 
     public void TakeDamage(float damage, bool crit = false, bool explosion = false, bool lightning = false)
     {
-        if (forceFieldUp) return;
+        if (forceFieldUp)
+        {
+            SFXSource.PlayOneShot(forceFieldHit);
+            return;
+        };
         if (this.currentHealth <= 0) return;
 
         Transform dmgNumber = Instantiate(popupPrefab, transform.position, Quaternion.identity);
@@ -139,12 +160,26 @@ public class MothershipScript : MonoBehaviour
         if (this.currentHealth - damage > 0)
         {
             this.currentHealth -= damage;
-            /*SFXSource.PlayOneShot(enemyHit);*/
+            SFXSource.PlayOneShot(motherShipHit);
+            StartCoroutine(FlashHealthBar());
         }
         else
         {
+            SFXSource.PlayOneShot(motherShipDeath);
             currentState = BOSS_STATE.DEAD;
         }
+    }
+
+    IEnumerator FlashHealthBar()
+    {
+        float duration = 0.05f;
+        while (duration > 0)
+        {
+            duration -= Time.deltaTime;
+            mothershipHpBar.transform.Find("Fill").GetComponent<Image>().material = flashMaterial;
+            yield return null;
+        }
+        mothershipHpBar.transform.Find("Fill").GetComponent<Image>().material = originalMaterial;
     }
 
     private void Stage1()
@@ -159,7 +194,7 @@ public class MothershipScript : MonoBehaviour
         if (currentHealth <= maxHealth / 3)
         {
             StopAllCoroutines();
-            motherShipSprite.material = originalMaterial;
+            mothershipHpBar.transform.Find("Fill").GetComponent<Image>().material = originalMaterial;
             StartCoroutine(HealForceField(BOSS_STATE.STAGE2));
         }
     }
@@ -169,6 +204,8 @@ public class MothershipScript : MonoBehaviour
         if (!hasStartedStage2)
         {
             hasStartedStage2 = true;
+            StopAllCoroutines();
+            StartCoroutine(Stage2Cycle());
         }
     }
 
@@ -291,6 +328,113 @@ public class MothershipScript : MonoBehaviour
         yield return StartCoroutine(Stage1Cycle());
     }
 
+    IEnumerator Stage2Cycle()
+    {
+        //Spawn enemies
+        mothershipSpawns.SpawnMagnetHereticCombo(2);
+        yield return new WaitForSeconds(3f);
+
+        //Reset Turrets back to Initial Pos
+        float moveTime = 0;
+        float moveDuration = 1f;
+        while (moveTime < moveDuration)
+        {
+            moveTime += Time.deltaTime;
+            leftTurret.transform.position = Vector3.Lerp(newLeftTurretPos, initialLeftTurretPos, moveTime / moveDuration);
+            rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialRightTurretPos, moveTime / moveDuration);
+            yield return null;
+        }
+        newLeftTurretPos = initialLeftTurretPos;
+        newRightTurretPos = initialRightTurretPos;
+
+        //Stationary Attack
+        float targetTime = 0;
+        float targetDuration = 5f;
+        while (targetTime < targetDuration)
+        {
+            isTargeted = true;
+            targetTime += Time.deltaTime;
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.5f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.5f);
+            yield return null;
+        }
+        isTargeted = false;
+        newLeftTurretPos = initialLeftTurretPos;
+        newRightTurretPos = initialRightTurretPos;
+
+        //Spawn enemies
+        mothershipSpawns.SpawnSplitters(3);
+
+        //Stationary Attack
+        targetTime = 0;
+        targetDuration = 5f;
+        while (targetTime < targetDuration)
+        {
+            isTargeted = true;
+            targetTime += Time.deltaTime;
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.3f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.3f);
+            yield return null;
+        }
+        isTargeted = false;
+        newLeftTurretPos = initialLeftTurretPos;
+        newRightTurretPos = initialRightTurretPos;
+
+        //Stationary Attack
+        targetTime = 0;
+        targetDuration = 5f;
+        while (targetTime < targetDuration)
+        {
+            isTargeted = true;
+            targetTime += Time.deltaTime;
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.2f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.2f);
+            yield return null;
+        }
+        isTargeted = false;
+        newLeftTurretPos = initialLeftTurretPos;
+        newRightTurretPos = initialRightTurretPos;
+
+        //Spawn enemies
+        mothershipSpawns.SpawnRandomEnemies(7);
+        //Sweeping Attack LEFT->RIGHT RIGHT<-LEFT
+        float sweepTime = 0;
+        float sweepDuration = 3f;
+        while (sweepTime < sweepDuration)
+        {
+            sweepTime += Time.deltaTime;
+            leftTurret.transform.position = Vector3.Lerp(newLeftTurretPos, initialRightTurretPos, sweepTime / sweepDuration);
+            rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialLeftTurretPos, sweepTime / sweepDuration);
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.3f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.3f);
+            yield return null;
+        }
+        newLeftTurretPos = initialRightTurretPos;
+        newRightTurretPos = initialLeftTurretPos;
+
+        //Sweeping Attack RIGHT->LEFT LEFT<-RIGHT
+        sweepTime = 0;
+        sweepDuration = 3f;
+        while (sweepTime < sweepDuration)
+        {
+            sweepTime += Time.deltaTime;
+            leftTurret.transform.position = Vector3.Lerp(newLeftTurretPos, initialLeftTurretPos, sweepTime / sweepDuration);
+            rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialRightTurretPos, sweepTime / sweepDuration);
+            leftTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.3f);
+            rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.3f);
+            yield return null;
+        }
+        newLeftTurretPos = initialLeftTurretPos;
+        newRightTurretPos = initialRightTurretPos;
+        while (mothershipSpawns.enemyCounter > 0)
+        {
+            yield return null;
+        }
+
+        yield return StartCoroutine(Stage2Cycle());
+    }
+
+
     public IEnumerator PauseHeal()
     {
         isTargeted = false;
@@ -322,6 +466,9 @@ public class MothershipScript : MonoBehaviour
         isTargeted = false;
         float healTime = 0;
         float healDuration = 5f;
+        SFXSource.clip = motherShipHeal;
+        SFXSource.loop = true;
+        SFXSource.Play();
         while (healTime < healDuration)
         {
             forceFieldUp = true;
@@ -333,6 +480,9 @@ public class MothershipScript : MonoBehaviour
             rightTurret.transform.position = Vector3.Lerp(rightTurret.transform.position, initialRightTurretPos, healTime / healDuration);
             yield return null;
         }
+        SFXSource.clip = null;
+        SFXSource.loop = false;
+        SFXSource.Stop();
         if (currentHealth >= maxHealth) currentHealth = maxHealth;
         newLeftTurretPos = initialLeftTurretPos;
         newRightTurretPos = initialRightTurretPos;

@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class CameraController : MonoBehaviour
 {
@@ -25,6 +24,8 @@ public class CameraController : MonoBehaviour
 
     private float initialZoom;
 
+    private bool hasStarted = false;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -35,7 +36,8 @@ public class CameraController : MonoBehaviour
         instance = this;
     }
 
-    private void Start() {
+    private void Start()
+    {
         initialZoom = Camera.main.orthographicSize;
         animator = this.gameObject.transform.GetChild(0).GetComponent<Animator>();
         if (GameController.instance.currentState == GameController.GAME_STATE.PANNING) StartCoroutine(StartGame());
@@ -43,15 +45,15 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        if(GameController.instance.currentState == GameController.GAME_STATE.PANNING)
+        if (GameController.instance.currentState == GameController.GAME_STATE.PANNING)
         {
-            if (Input.GetKeyDown(KeyCode.Escape)) SkipPanning();
+            if (Input.GetKeyDown(KeyCode.Escape) && !hasStarted) SkipPanning();
         }
     }
 
     private void FixedUpdate()
     {
-        if(target)
+        if (target)
         {
             Vector3 targetPosition = target.position + positionOffset;
             targetPosition = new Vector3(Mathf.Clamp(targetPosition.x, xLimit.x, xLimit.y), Mathf.Clamp(targetPosition.y, yLimit.x, yLimit.y), -10);
@@ -88,10 +90,29 @@ public class CameraController : MonoBehaviour
 
     private void StartRealGame()
     {
+        PlayerScript.instance.rb.bodyType = RigidbodyType2D.Dynamic;
         GameController.instance.currentState = GameController.GAME_STATE.PLAYING;
-        PlayerScript.instance.playerPanel.gameObject.SetActive(true);
-        PlayerScript.instance.StartCoroutine(PlayerScript.instance.SpawnFlicker());
-        GameController.instance.StartTutorial();
+        if (!hasStarted)
+        {
+            PlayerScript.instance.playerPanel.gameObject.SetActive(true);
+            PlayerScript.instance.StartCoroutine(PlayerScript.instance.SpawnFlicker());
+            GameController.instance.StartTutorial();
+        }
+        hasStarted = true;
+    }
+
+    public IEnumerator PanToBoss()
+    {
+        PoisonGas.instance.StopAllCoroutines();
+        GameController.instance.currentState = GameController.GAME_STATE.PANNING;
+        PlayerScript.instance.rb.bodyType = RigidbodyType2D.Static;
+        smoothTime = introSmoothTime;
+        target = zonesTarget[0];
+        yield return new WaitForSeconds(2.5f);
+        target = playerTarget;
+        yield return new WaitForSeconds(0.5f);
+        smoothTime = playerSmoothTime;
+        StartRealGame();
     }
 
     IEnumerator ZoomInCamera()

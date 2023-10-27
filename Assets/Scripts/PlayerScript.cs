@@ -237,7 +237,7 @@ public class PlayerScript : MonoBehaviour
         switch (this.currentState)
         {
             case PLAYER_STATE.NORMAL:
-                this.rb.velocity = this.moveDir * (this.movementSpeed * this.moveSpeedMultiplier * this.stimBuff);
+                if(this.rb.bodyType == RigidbodyType2D.Dynamic) this.rb.velocity = this.moveDir * (this.movementSpeed * this.moveSpeedMultiplier * this.stimBuff);
                 break;
             case PLAYER_STATE.ROLLING:
                 this.rb.velocity = this.rollDir * this.rollSpeed;

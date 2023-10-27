@@ -191,7 +191,8 @@ public class EnemyWeaponScript : MonoBehaviour
 
         GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Heretic Explosion"), transform.position, Quaternion.identity);
         explosion.GetComponent<EnemyExplosionScript>().Initialise(attackPower, 4f);
-        transform.parent.GetComponent<EnemyScript>().mySpawner.enemyCounter--;
+        if(transform.parent.GetComponent<EnemyScript>().mySpawner) transform.parent.GetComponent<EnemyScript>().mySpawner.enemyCounter--;
+        if (transform.parent.GetComponent<EnemyScript>().mothershipSpawner) transform.parent.GetComponent<EnemyScript>().mothershipSpawner.enemyCounter--;
         limitAttack = false;
         AudioManager.instance.threatLevel--;
         Destroy(transform.parent.gameObject);

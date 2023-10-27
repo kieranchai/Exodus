@@ -10,6 +10,15 @@ public class MothershipTurretScript : MonoBehaviour
     public Sprite flash;
     public int framesToFlash = 2;
 
+    private AudioSource SFXSource;
+    [Header("Mothership Turret Audio Clips")]
+    public AudioClip gunAttack;
+
+    private void Awake()
+    {
+        SFXSource = GetComponent<AudioSource>();
+    }
+
     public void DoAttack(string attackType, float attackPower, float weaponRange, float cooldown)
     {
         if (!limitAttack)
@@ -34,7 +43,7 @@ public class MothershipTurretScript : MonoBehaviour
         limitAttack = true;
         GameObject bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Bullet"), transform.position, Quaternion.identity);
         bullet.GetComponent<EnemyBulletScript>().Initialise(attackPower, weaponRange);
-
+        SFXSource.PlayOneShot(gunAttack);
         bullet.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
         yield return new WaitForSeconds(cooldown);
         limitAttack = false;
@@ -46,19 +55,19 @@ public class MothershipTurretScript : MonoBehaviour
         limitAttack = true;
         GameObject bullet = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Bullet"), transform.position, Quaternion.identity);
         bullet.GetComponent<EnemyBulletScript>().Initialise(attackPower, weaponRange);
-
+        SFXSource.PlayOneShot(gunAttack);
         bullet.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
         StartCoroutine(FlashMuzzleFlash());
         yield return new WaitForSeconds(0.05f);
         GameObject bullet2 = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Bullet"), transform.position, Quaternion.identity);
         bullet2.GetComponent<EnemyBulletScript>().Initialise(attackPower, weaponRange);
-
+        SFXSource.PlayOneShot(gunAttack);
         bullet2.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
         StartCoroutine(FlashMuzzleFlash());
         yield return new WaitForSeconds(0.05f);
         GameObject bullet3 = Instantiate(Resources.Load<GameObject>("Prefabs/Enemy Bullet"), transform.position, Quaternion.identity);
         bullet3.GetComponent<EnemyBulletScript>().Initialise(attackPower, weaponRange);
-
+        SFXSource.PlayOneShot(gunAttack);
         bullet3.GetComponent<Rigidbody2D>().AddRelativeForce(transform.up * 600);
         StartCoroutine(FlashMuzzleFlash());
         yield return new WaitForSeconds(cooldown);
