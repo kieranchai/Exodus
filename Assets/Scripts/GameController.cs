@@ -124,13 +124,7 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            AudioManager.instance.SetInitialMixerVol();
             ResumeGame();
-            AudioManager.instance.musicSource.Play();
-            if (AudioManager.instance.GetComponent<AudioSource>())
-            {
-                AudioManager.instance.GetComponent<AudioSource>().Play();
-            }
             AudioManager.instance.PlaySFX(AudioManager.instance.menuClose);
         }
     }
@@ -146,6 +140,12 @@ public class GameController : MonoBehaviour
 
     public void ResumeGame()
     {
+        AudioManager.instance.SetInitialMixerVol();
+        AudioManager.instance.musicSource.Play();
+        if (AudioManager.instance.GetComponent<AudioSource>())
+        {
+            AudioManager.instance.GetComponent<AudioSource>().Play();
+        }
         CloseControls();
         pauseScreen.SetActive(false);
         Time.timeScale = 1.0f;
