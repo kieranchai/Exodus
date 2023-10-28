@@ -1,4 +1,4 @@
-typusing TMPro;
+using TMPro;
 using UnityEngine;
 
 public class LootDrop : MonoBehaviour
