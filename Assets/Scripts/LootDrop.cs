@@ -1,4 +1,4 @@
-using TMPro;
+typusing TMPro;
 using UnityEngine;
 
 public class LootDrop : MonoBehaviour
@@ -16,7 +16,7 @@ public class LootDrop : MonoBehaviour
     {
         loot = equipment;
         textBox.transform.Find("Loot Name").GetComponent<TMP_Text>().text = equipment.equipmentName;
-        textBox.transform.Find("Thumbnail").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>($"UISprites/{equipment.thumbnailPath}");
+        textBox.transform.Find("Thumbnail").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>($"{equipment.thumbnailPath}");
         string desc = equipment.description.Replace("[value]", equipment.value);
         string desc2 = desc.Replace("[secValue]", equipment.secValue);
         textBox.transform.Find("Loot Desc").GetComponent<TMP_Text>().text = desc2;
