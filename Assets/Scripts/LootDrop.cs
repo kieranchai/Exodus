@@ -16,11 +16,10 @@ public class LootDrop : MonoBehaviour
     {
         loot = equipment;
         textBox.transform.Find("Loot Name").GetComponent<TMP_Text>().text = equipment.equipmentName;
-        string desc = equipment.description;
-        desc = desc.Replace("[value]", equipment.value);
-        desc = desc.Replace("[secValue]", equipment.secValue);
-        textBox.transform.Find("Loot Desc").GetComponent<TMP_Text>().text = desc;
-
+        textBox.transform.Find("Thumbnail").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>($"UISprites/{equipment.thumbnailPath}");
+        string desc = equipment.description.Replace("[value]", equipment.value);
+        string desc2 = desc.Replace("[secValue]", equipment.secValue);
+        textBox.transform.Find("Loot Desc").GetComponent<TMP_Text>().text = desc2;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

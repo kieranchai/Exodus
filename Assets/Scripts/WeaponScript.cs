@@ -2,7 +2,8 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEditor.Experimental;
-
+using UnityEngine.UI;
+using TMPro;
 
 public class WeaponScript : MonoBehaviour
 {
@@ -241,11 +242,24 @@ public class WeaponScript : MonoBehaviour
 
         if (this.instaReloadChance > 0 && Random.Range(0, 1f) < this.instaReloadChance - 1)
         {
+            //Update reload UI
+            PlayerScript.instance.playerPanel.transform.Find("Equipped Weapon").Find("Weapon Reload").Find("Equipment Timer").GetComponent<TMP_Text>().text = 0.ToString();
+            PlayerScript.instance.playerPanel.transform.Find("Equipped Weapon").Find("Weapon Reload").GetComponent<Image>().fillAmount = 0;
+            PlayerScript.instance.SFXSource.PlayOneShot(PlayerScript.instance.techUse);
             yield return new WaitForSeconds(0);
         }
         else
         {
-            yield return new WaitForSeconds(this.reloadSpeed);
+            float countDown = this.reloadSpeed;
+            while (countDown > 0f)
+            {
+                yield return new WaitForEndOfFrame();
+                countDown -= Time.deltaTime;
+                //Update reload UI
+                PlayerScript.instance.playerPanel.transform.Find("Equipped Weapon").Find("Weapon Reload").Find("Equipment Timer").GetComponent<TMP_Text>().text = countDown.ToString("N0");
+                PlayerScript.instance.playerPanel.transform.Find("Equipped Weapon").Find("Weapon Reload").GetComponent<Image>().fillAmount = Mathf.Lerp(PlayerScript.instance.playerPanel.transform.Find("Equipped Weapon").Find("Weapon Reload").GetComponent<Image>().fillAmount,
+                    Mathf.Clamp01(countDown / this.reloadSpeed), 5f);
+            }
         }
         PlayerScript.instance.equippedWeapon.currentAmmoCount = this.clipSize;
         isReloading = false;
@@ -474,7 +488,7 @@ public class WeaponScript : MonoBehaviour
             foreach (Collider2D collision in colliders)
             {
                 if (collision == null) continue;
-          
+
 
                 if (collision.CompareTag("Enemy"))
                 {
@@ -635,7 +649,8 @@ public class WeaponScript : MonoBehaviour
         {
             colliders.Add(other);
         }
-        else if (other.gameObject.CompareTag("Boss")) {
+        else if (other.gameObject.CompareTag("Boss"))
+        {
             colliders.Add(other);
         }
     }

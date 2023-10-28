@@ -80,7 +80,7 @@ public class PlayerScript : MonoBehaviour
     private bool isBarrierEnabled = false;
     public bool isCritEnabled = false;
 
-    private AudioSource SFXSource;
+    public AudioSource SFXSource;
     [Header("Player Audio Clips")]
     public AudioClip playerHit;
     public AudioClip playerDash;
@@ -88,6 +88,10 @@ public class PlayerScript : MonoBehaviour
 
     [Header("Equipment Audio Clips")]
     public AudioClip potionUse;
+    public AudioClip techUse;
+    public AudioClip barrierUse;
+    public AudioClip grenadeToss;
+
 
     void Awake()
     {
@@ -238,7 +242,7 @@ public class PlayerScript : MonoBehaviour
         switch (this.currentState)
         {
             case PLAYER_STATE.NORMAL:
-                if(this.rb.bodyType == RigidbodyType2D.Dynamic) this.rb.velocity = this.moveDir * (this.movementSpeed * this.moveSpeedMultiplier * this.stimBuff);
+                if (this.rb.bodyType == RigidbodyType2D.Dynamic) this.rb.velocity = this.moveDir * (this.movementSpeed * this.moveSpeedMultiplier * this.stimBuff);
                 break;
             case PLAYER_STATE.ROLLING:
                 this.rb.velocity = this.rollDir * this.rollSpeed;
@@ -369,6 +373,8 @@ public class PlayerScript : MonoBehaviour
         //Replace with new equipment
         equippedEquipment = equipment;
 
+        HideEquipmentDetails();
+
         //Refresh HUD
         RefreshEquipmentUI();
     }
@@ -377,6 +383,29 @@ public class PlayerScript : MonoBehaviour
     {
         playerPanel.transform.Find("Equipment").Find("Equipment Image").GetComponent<Image>().sprite = Resources.Load<Sprite>(equippedEquipment.thumbnailPath);
         playerPanel.transform.Find("Equipment").Find("Equipment Name").GetComponent<TMP_Text>().text = equippedEquipment.equipmentName;
+    }
+
+    public void DisplayEquipmentDetails()
+    {
+        if (equippedEquipment)
+        {
+            playerPanel.transform.Find("Equipment").Find("Details").Find("Name").GetComponent<TMP_Text>().text = equippedEquipment.equipmentName;
+            playerPanel.transform.Find("Equipment").Find("Details").Find("Desc").GetComponent<TMP_Text>().text = equippedEquipment.description;
+        }
+        else
+        {
+            playerPanel.transform.Find("Equipment").Find("Details").Find("Name").GetComponent<TMP_Text>().text = "No equipment equipped";
+            playerPanel.transform.Find("Equipment").Find("Details").Find("Desc").GetComponent<TMP_Text>().text = null;
+        }
+
+        playerPanel.transform.Find("Equipment").Find("Details").gameObject.SetActive(true);
+    }
+
+    public void HideEquipmentDetails()
+    {
+        playerPanel.transform.Find("Equipment").Find("Details").Find("Name").GetComponent<TMP_Text>().text = null;
+        playerPanel.transform.Find("Equipment").Find("Details").Find("Desc").GetComponent<TMP_Text>().text = null;
+        playerPanel.transform.Find("Equipment").Find("Details").gameObject.SetActive(false);
     }
 
     public void UseEquipment()
@@ -393,15 +422,19 @@ public class PlayerScript : MonoBehaviour
                 StartCoroutine(Stim(equippedEquipment));
                 break;
             case "barrier":
+                SFXSource.PlayOneShot(barrierUse);
                 StartCoroutine(Barrier(equippedEquipment));
                 break;
             case "fireRate":
+                SFXSource.PlayOneShot(techUse);
                 StartCoroutine(FireRate(equippedEquipment));
                 break;
             case "critChance":
+                SFXSource.PlayOneShot(techUse);
                 StartCoroutine(Crit(equippedEquipment));
                 break;
             case "grenade":
+                SFXSource.PlayOneShot(grenadeToss);
                 ThrowGrenade(equippedEquipment);
                 break;
             default:
@@ -491,6 +524,7 @@ public class PlayerScript : MonoBehaviour
         equippedWeapon = Resources.Load<Weapon>("ScriptableObjects/Weapons/Fists");
         weaponNumber = -1;
 
+        HideWeaponDetails();
         RefreshEquippedUI();
         RefreshInventoryUI();
     }
@@ -502,6 +536,23 @@ public class PlayerScript : MonoBehaviour
         inventoryItem.GetComponent<InventoryItem>().Initialise(weaponData);
         UnequipWeapon();
         EquipWeapon(weaponData);
+    }
+    public void DisplayWeaponDetails()
+    {
+        playerPanel.transform.Find("Equipped Weapon").Find("Details").Find("Name").GetComponent<TMP_Text>().text = equippedWeapon.weaponName;
+        playerPanel.transform.Find("Equipped Weapon").Find("Details").Find("Range").GetComponent<TMP_Text>().text = equippedWeapon.weaponRange.ToString();
+        playerPanel.transform.Find("Equipped Weapon").Find("Details").Find("Firerate").GetComponent<TMP_Text>().text = equippedWeapon.cooldown + "/s" ;
+        playerPanel.transform.Find("Equipped Weapon").Find("Details").Find("Damage").GetComponent<TMP_Text>().text = equippedWeapon.attackPower.ToString();
+        playerPanel.transform.Find("Equipped Weapon").Find("Details").gameObject.SetActive(true);
+    }
+
+    public void HideWeaponDetails()
+    {
+        playerPanel.transform.Find("Equipped Weapon").Find("Details").Find("Name").GetComponent<TMP_Text>().text = null;
+        playerPanel.transform.Find("Equipped Weapon").Find("Details").Find("Range").GetComponent<TMP_Text>().text = null;
+        playerPanel.transform.Find("Equipped Weapon").Find("Details").Find("Firerate").GetComponent<TMP_Text>().text = null;
+        playerPanel.transform.Find("Equipped Weapon").Find("Details").Find("Damage").GetComponent<TMP_Text>().text = null;
+        playerPanel.transform.Find("Equipped Weapon").Find("Details").gameObject.SetActive(false);
     }
 
     public void RemoveFromInventory(Weapon weaponData)
@@ -544,6 +595,8 @@ public class PlayerScript : MonoBehaviour
         if (reload)
         {
             playerPanel.transform.Find("Equipped Weapon").Find("Current Ammo").GetComponent<TMP_Text>().text = "RELOADING";
+            playerPanel.transform.Find("Equipped Weapon").Find("Weapon Reload").Find("Equipment Timer").gameObject.SetActive(true);
+            playerPanel.transform.Find("Equipped Weapon").Find("Weapon Reload").GetComponent<Image>().fillAmount = 1;
             return;
         }
 
@@ -555,6 +608,8 @@ public class PlayerScript : MonoBehaviour
         {
             playerPanel.transform.Find("Equipped Weapon").Find("Current Ammo").GetComponent<TMP_Text>().text = equippedWeapon.currentAmmoCount.ToString();
         }
+        playerPanel.transform.Find("Equipped Weapon").Find("Weapon Reload").Find("Equipment Timer").gameObject.SetActive(false);
+        playerPanel.transform.Find("Equipped Weapon").Find("Weapon Reload").GetComponent<Image>().fillAmount = 0;
     }
 
     public void TurnOffAllViews()

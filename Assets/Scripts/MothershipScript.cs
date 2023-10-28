@@ -198,6 +198,7 @@ public class MothershipScript : MonoBehaviour
         {
             StopAllCoroutines();
             mothershipHpBar.transform.Find("Fill").GetComponent<Image>().material = originalMaterial;
+            motherShipSprite.sprite = Resources.Load<Sprite>("Sprites/Mothership_Stage2");
             StartCoroutine(HealForceField(BOSS_STATE.STAGE2));
         }
     }

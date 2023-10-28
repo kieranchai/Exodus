@@ -137,6 +137,8 @@ public class GameController : MonoBehaviour
         if (isBuffOpen == true) {
             BuffController.instance.UpdatePlayerTokensDisplay();
             PlayerScript.instance.playerPanel.transform.Find("Equipped Weapon").gameObject.SetActive(false);
+            PlayerScript.instance.playerPanel.transform.Find("Equipment").Find("Details").gameObject.SetActive(false);
+            PlayerScript.instance.playerPanel.transform.Find("Equipped Weapon").Find("Details").gameObject.SetActive(false);
             PlayerScript.instance.playerPanel.transform.Find("Equipment").gameObject.SetActive(false);
         }
         if (isBuffOpen == false) {
@@ -226,6 +228,7 @@ public class GameController : MonoBehaviour
                 if (PlayerScript.instance.weaponNumber < 0) PlayerScript.instance.weaponNumber = PlayerScript.instance.inventory.Count - 1;
             }
             PlayerScript.instance.EquipWeapon(PlayerScript.instance.inventory[PlayerScript.instance.weaponNumber]);
+            PlayerScript.instance.HideWeaponDetails();
             PlayerScript.instance.HideInventoryItemDetailUI();
         }
 
