@@ -5314,7 +5314,7 @@ MonoBehaviour:
   spawnChance: 0
   timer: 0
   returnDuration: 3
-  _data: {fileID: 11400000, guid: 0ef7d8dff2c520e48a5f6df82aaeb6f4, type: 2}
+  _data: {fileID: 11400000, guid: e75bf2cddcf83f24fbfebe10b2963fa2, type: 2}
   equippedWeapon: {fileID: 0}
   weaponSlot: {fileID: 0}
   wanderRadius: 10

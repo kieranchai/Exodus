@@ -101,7 +101,7 @@ public class CSVtoSO
             enemy.spawnZone = splitData[9];
             enemy.spawnChance = int.Parse(splitData[10]);
 
-            AssetDatabase.CreateAsset(enemy, $"Assets/Resources/ScriptableObjects/Enemies/{enemy.id}.asset");
+            AssetDatabase.CreateAsset(enemy, $"Assets/Resources/ScriptableObjects/Enemies/{enemy.enemyName}.asset");
         }
 
         AssetDatabase.SaveAssets();

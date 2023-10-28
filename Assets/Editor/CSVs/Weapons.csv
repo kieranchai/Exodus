@@ -17,4 +17,7 @@
 17,Flame Thrower,Flame on!,10,Sprites/Flame Thrower,UISprites/Flame Thrower,fire,0.2,0,40,3,2000,YES
 18,Silenced Pistol,Sneak up on your enemies,4,Sprites/Silenced Pistol,UISprites/Silenced Pistol,line,0.4,5,10,1,100,YES
 19,Crossbow,Good for deer but great for aliens,90,Sprites/Crossbow,UISprites/Crossbow,line,1,7,8,3,2000,YES
+20,Golden Pincers,NULL,2,NULL,NULL,melee,0.6,1,0,0,0,NO
+21,Grunt Turret,NULL,3.3,Sprites/Shop Keeper Turret,NULL,line,0.4,6.5,0,0,0,NO
+22,Wraith Turret,NULL,3.3,Sprites/Shop Keeper Turret,NULL,line,0.3,6.5,0,0,0,NO
 

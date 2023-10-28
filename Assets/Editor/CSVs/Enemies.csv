@@ -15,3 +15,5 @@
 15,Gold Grunt ,15,4,Alien Mouth,10,10,30,Barrier/Overload,LowTierZone,5
 16,Gold Banshee,45,2.5,Alien Rifle,30,30,110,Grenade,HighTierZone,5
 17,Gold Wraith,25,3.16,Alien Pistol,20,20,70,Ocular HUD,MidTierZone,5
+18,Grunt Turret,30,0,Grunt Turret,50,40,100,NULL,NULL,0
+19,Wraith Turret,40,0,Wraith Turret,50,40,100,NULL,NULL,0
