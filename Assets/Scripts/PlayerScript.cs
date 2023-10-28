@@ -53,7 +53,8 @@ public class PlayerScript : MonoBehaviour
     public float initialMovementSpeed;
     private Material originalMaterial;
     public Material flashMaterial;
-
+    [SerializeField]
+    private ParticleSystem hitParticle;
     public enum PLAYER_STATE
     {
         NORMAL,
@@ -292,7 +293,6 @@ public class PlayerScript : MonoBehaviour
 
         Transform dmgNumber = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
         dmgNumber.GetComponent<Popup>().SetPlayerDamage(damage, evaded, isBarrierEnabled);
-
         if (!evaded && !isBarrierEnabled)
         {
             StopCoroutine(HitFlicker());
@@ -302,6 +302,7 @@ public class PlayerScript : MonoBehaviour
             StartCoroutine(FlashHealthBar());
 
             CameraController.instance.animator.SetTrigger("CameraShake");
+            hitParticle.Play();
         }
 
         if (currentHealth <= 0)

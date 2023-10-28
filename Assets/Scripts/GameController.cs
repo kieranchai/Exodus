@@ -134,8 +134,16 @@ public class GameController : MonoBehaviour
         AudioManager.instance.PlaySFX(AudioManager.instance.menuOpen);
         isBuffOpen = !isBuffOpen;
         buffSelectionPanel.SetActive(isBuffOpen);
-        if (isBuffOpen == true) BuffController.instance.UpdatePlayerTokensDisplay();
-        if (isBuffOpen == false) BuffController.instance.HideBuffDetails();
+        if (isBuffOpen == true) {
+            BuffController.instance.UpdatePlayerTokensDisplay();
+            PlayerScript.instance.playerPanel.transform.Find("Equipped Weapon").gameObject.SetActive(false);
+            PlayerScript.instance.playerPanel.transform.Find("Equipment").gameObject.SetActive(false);
+        }
+        if (isBuffOpen == false) {
+            PlayerScript.instance.playerPanel.transform.Find("Equipped Weapon").gameObject.SetActive(true);
+            PlayerScript.instance.playerPanel.transform.Find("Equipment").gameObject.SetActive(true);
+            BuffController.instance.HideBuffDetails();
+        }
     }
 
     public void ResumeGame()

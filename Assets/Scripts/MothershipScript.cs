@@ -41,6 +41,9 @@ public class MothershipScript : MonoBehaviour
     private Material originalMaterial;
 
     [SerializeField]
+    private ParticleSystem hitParticle;
+
+    [SerializeField]
     private MothershipSpawnsScript mothershipSpawns;
 
     public enum BOSS_STATE
@@ -156,11 +159,11 @@ public class MothershipScript : MonoBehaviour
         {
             dmgNumber.GetComponent<Popup>().SetDamageNumber(damage);
         }
-
+        hitParticle.Play();
+        SFXSource.PlayOneShot(motherShipHit);
         if (this.currentHealth - damage > 0)
         {
             this.currentHealth -= damage;
-            SFXSource.PlayOneShot(motherShipHit);
             StartCoroutine(FlashHealthBar());
         }
         else
@@ -518,6 +521,8 @@ public class MothershipScript : MonoBehaviour
             {
                 this.currentHealth -= damage;
                 Transform bleedDmgNumber = Instantiate(popupPrefab, transform.position, Quaternion.identity);
+                hitParticle.Play();
+                StartCoroutine(FlashHealthBar());
                 bleedDmgNumber.GetComponent<Popup>().SetBleed(damage);
             }
             else

@@ -49,6 +49,9 @@ public class EnemyScript : MonoBehaviour
     private ParticleSystem spawnParticle;
 
     [SerializeField]
+    private ParticleSystem hitParticle;
+
+    [SerializeField]
     private GameObject healthOrbPrefab;
 
     [SerializeField]
@@ -355,11 +358,11 @@ public class EnemyScript : MonoBehaviour
         {
             dmgNumber.GetComponent<Popup>().SetDamageNumber(damage);
         }
-
+        hitParticle.Play();
+        SFXSource.PlayOneShot(enemyHit);
         if (this.currentHealth - damage > 0)
         {
             this.currentHealth -= damage;
-            SFXSource.PlayOneShot(enemyHit);
             if (this.isTurret) { this.currentState = ENEMY_STATE.ATTACK; return; }
             this.currentState = ENEMY_STATE.CHASE;
         }
@@ -495,13 +498,12 @@ public class EnemyScript : MonoBehaviour
 
     public IEnumerator Bleed(float damage)
     {
-        Debug.Log("Bleed applied");
         for (int i = 0; i < 5; i++)
         {
-            //TODO: Play particle/vfx etc
             if (this.currentHealth - damage > 0)
             {
                 this.currentHealth -= damage;
+                hitParticle.Play();
                 Transform bleedDmgNumber = Instantiate(popupPrefab, transform.position, Quaternion.identity);
                 bleedDmgNumber.GetComponent<Popup>().SetBleed(damage);
             }
@@ -509,10 +511,10 @@ public class EnemyScript : MonoBehaviour
             {
                 this.currentHealth -= damage;
                 DeathEvent();
+                break;
             }
             yield return new WaitForSeconds(1);
         }
-        Debug.Log("Bleed ended");
         yield return null;
     }
 }
