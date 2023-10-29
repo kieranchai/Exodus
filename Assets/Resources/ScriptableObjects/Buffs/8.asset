@@ -21,3 +21,4 @@ MonoBehaviour:
   value: 10%
   secValue: 5
   rollChance: 0.2
+  thumbnailPath: UISprites/Maelstrom

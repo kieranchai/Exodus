@@ -20,3 +20,4 @@ MonoBehaviour:
   value: 1
   secValue: null
   rollChance: 0.3
+  thumbnailPath: UISprites/Inner Vitality

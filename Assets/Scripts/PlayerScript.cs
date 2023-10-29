@@ -55,6 +55,10 @@ public class PlayerScript : MonoBehaviour
     public Material flashMaterial;
     [SerializeField]
     private ParticleSystem hitParticle;
+    [SerializeField]
+    private ParticleSystem barrierParticle;
+    [SerializeField]
+    private ParticleSystem techParticle;
     public enum PLAYER_STATE
     {
         NORMAL,
@@ -419,18 +423,22 @@ public class PlayerScript : MonoBehaviour
                 break;
             case "speed":
                 SFXSource.PlayOneShot(potionUse);
+                techParticle.Play();
                 StartCoroutine(Stim(equippedEquipment));
                 break;
             case "barrier":
                 SFXSource.PlayOneShot(barrierUse);
+                barrierParticle.Play();
                 StartCoroutine(Barrier(equippedEquipment));
                 break;
             case "fireRate":
                 SFXSource.PlayOneShot(techUse);
+                techParticle.Play();
                 StartCoroutine(FireRate(equippedEquipment));
                 break;
             case "critChance":
                 SFXSource.PlayOneShot(techUse);
+                techParticle.Play();
                 StartCoroutine(Crit(equippedEquipment));
                 break;
             case "grenade":

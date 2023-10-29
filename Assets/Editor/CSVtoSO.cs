@@ -116,7 +116,7 @@ public class CSVtoSO
         {
             string[] splitData = s.Split(',');
 
-            if (splitData.Length != 8)
+            if (splitData.Length != 9)
             {
                 return;
             }
@@ -130,6 +130,7 @@ public class CSVtoSO
             buff.value = splitData[5];
             buff.secValue = splitData[6];
             buff.rollChance = float.Parse(splitData[7]);
+            buff.thumbnailPath = splitData[8];
 
             AssetDatabase.CreateAsset(buff, $"Assets/Resources/ScriptableObjects/Buffs/{buff.id}.asset");
         }

@@ -20,3 +20,4 @@ MonoBehaviour:
   value: 5%
   secValue: null
   rollChance: 0.3
+  thumbnailPath: UISprites/Sleight of Hand

@@ -20,3 +20,4 @@ MonoBehaviour:
   value: 30%
   secValue: null
   rollChance: 0.4
+  thumbnailPath: UISprites/Hollow Point

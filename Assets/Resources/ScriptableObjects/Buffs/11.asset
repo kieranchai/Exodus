@@ -20,3 +20,4 @@ MonoBehaviour:
   value: 10%
   secValue: null
   rollChance: 0.5
+  thumbnailPath: UISprites/Take Aim

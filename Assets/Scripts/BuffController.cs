@@ -85,7 +85,7 @@ public class BuffController : MonoBehaviour
             int i2 = i;
             slots[i].transform.GetComponent<Button>().onClick.AddListener(() => SelectBuff(availableBuffs[i2]));
             slots[i].transform.Find("Name").GetComponent<TMP_Text>().text = availableBuffs[i].buffName.ToUpper();
-            /*            slots[i].transform.Find("Image").GetComponent<Image>().sprite = availableBuffs[i].buffName.ToUpper();*/
+            slots[i].transform.Find("Image").GetComponent<Image>().sprite = Resources.Load<Sprite>($"{availableBuffs[i].thumbnailPath}");
         }
     }
 
@@ -319,6 +319,21 @@ public class BuffController : MonoBehaviour
                 default:
                     break;
             }
+        }
+        UpdateBuffUI();
+    }
+
+    public void UpdateBuffUI()
+    {
+        foreach (Transform child in PlayerScript.instance.playerPanel.transform.Find("Current Upgrades"))
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (var buff in PlayerScript.instance.buffList)
+        {
+            GameObject buffUI = Instantiate(Resources.Load<GameObject>("Prefabs/Upgrade"), PlayerScript.instance.playerPanel.transform.Find("Current Upgrades"));
+            buffUI.GetComponent<UpgradeUI>().Initialise(buff.Key);
         }
     }
 }

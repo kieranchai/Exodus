@@ -20,3 +20,4 @@ MonoBehaviour:
   value: 10%
   secValue: null
   rollChance: 0.3
+  thumbnailPath: UISprites/Blur

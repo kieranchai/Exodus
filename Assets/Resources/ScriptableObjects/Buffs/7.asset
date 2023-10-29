@@ -20,3 +20,4 @@ MonoBehaviour:
   value: 25%
   secValue: 130%
   rollChance: 0.4
+  thumbnailPath: UISprites/Critical Strike

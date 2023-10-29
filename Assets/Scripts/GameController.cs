@@ -267,7 +267,22 @@ public class GameController : MonoBehaviour
         pauseScreen.transform.Find("Pause Menu").Find("Playtime").GetComponent<TMP_Text>().text = string.Format("{0:0}:{1:00}", minutes, seconds); ;
         pauseScreen.transform.Find("Pause Menu").Find("Level").GetComponent<TMP_Text>().text = PlayerScript.instance.level.ToString();
         pauseScreen.transform.Find("Pause Menu").Find("Kills").GetComponent<TMP_Text>().text = PlayerScript.instance.kills.ToString();
+        UpdateBuffUI();
         currentState = GAME_STATE.PAUSED;
+    }
+
+    public void UpdateBuffUI()
+    {
+        foreach (Transform child in pauseScreen.transform.Find("Pause Menu").Find("Upgrades"))
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (var buff in PlayerScript.instance.buffList)
+        {
+            GameObject buffUI = Instantiate(Resources.Load<GameObject>("Prefabs/Upgrade"), pauseScreen.transform.Find("Pause Menu").Find("Upgrades"));
+            buffUI.GetComponent<UpgradeUI>().Initialise(buff.Key);
+        }
     }
 
     private void Interact()
@@ -291,6 +306,7 @@ public class GameController : MonoBehaviour
         deathScreen.transform.Find("Playtime").GetComponent<TMP_Text>().text = string.Format("{0:0}:{1:00}", minutes, seconds); ;
         deathScreen.transform.Find("Level").GetComponent<TMP_Text>().text = PlayerScript.instance.level.ToString();
         deathScreen.transform.Find("Kills").GetComponent<TMP_Text>().text = PlayerScript.instance.kills.ToString();
+        UpdateBuffUI();
         deathScreen.SetActive(true);
     }
 

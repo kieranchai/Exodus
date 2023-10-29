@@ -7,9 +7,23 @@ public class LootDrop : MonoBehaviour
 
     private GameObject textBox;
 
+    private bool playerOnLoot = false;
+
     private void Awake()
     {
         textBox = transform.Find("Text Box").gameObject;
+    }
+
+    private void Update()
+    {
+        if (playerOnLoot)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                PlayerScript.instance.EquipEquipment(loot);
+                Destroy(gameObject);
+            }
+        }
     }
 
     public void Initialise(Equipment equipment)
@@ -27,12 +41,7 @@ public class LootDrop : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             textBox.gameObject.SetActive(true);
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                PlayerScript.instance.EquipEquipment(loot);
-                Destroy(gameObject);
-            }
+            playerOnLoot = true;
         }
     }
 
@@ -41,12 +50,7 @@ public class LootDrop : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             textBox.gameObject.SetActive(true);
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                PlayerScript.instance.EquipEquipment(loot);
-                Destroy(gameObject);
-            }
+            playerOnLoot = true;
         }
     }
 
@@ -54,6 +58,7 @@ public class LootDrop : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            playerOnLoot = false;
             textBox.gameObject.SetActive(false);
         }
     }
