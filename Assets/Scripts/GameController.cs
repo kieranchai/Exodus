@@ -205,7 +205,7 @@ public class GameController : MonoBehaviour
             PlayerScript.instance.UseEquipment();
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && PlayerScript.instance.weaponSlot.weaponType != "melee" && PlayerScript.instance.equippedWeapon.currentAmmoCount < PlayerScript.instance.weaponSlot.clipSize && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
+        if (Input.GetKeyDown(KeyCode.R) && PlayerScript.instance.weaponSlot.isReloading == false && PlayerScript.instance.weaponSlot.weaponType != "melee" && PlayerScript.instance.equippedWeapon.currentAmmoCount < PlayerScript.instance.weaponSlot.clipSize && PlayerScript.instance.currentState != PlayerScript.PLAYER_STATE.ROLLING)
         {
             PlayerScript.instance.weaponSlot.isReloading = true;
             PlayerScript.instance.weaponSlot.StartCoroutine(PlayerScript.instance.weaponSlot.Reload());

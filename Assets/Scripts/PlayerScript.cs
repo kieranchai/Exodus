@@ -394,7 +394,9 @@ public class PlayerScript : MonoBehaviour
         if (equippedEquipment)
         {
             playerPanel.transform.Find("Equipment").Find("Details").Find("Name").GetComponent<TMP_Text>().text = equippedEquipment.equipmentName;
-            playerPanel.transform.Find("Equipment").Find("Details").Find("Desc").GetComponent<TMP_Text>().text = equippedEquipment.description;
+            string desc = equippedEquipment.description.Replace("[value]", equippedEquipment.value);
+            string desc2 = desc.Replace("[secValue]", equippedEquipment.secValue);
+            playerPanel.transform.Find("Equipment").Find("Details").Find("Desc").GetComponent<TMP_Text>().text = desc2;
         }
         else
         {

@@ -112,6 +112,8 @@ public class EnemyWeaponScript : MonoBehaviour
             case "Alien Pistol":
                 SFXSource.PlayOneShot(alienPistolFire);
                 break;
+            case "Grunt Turret":
+            case "Wraith Turret":
             case "Banshee Turret":
                 SFXSource.PlayOneShot(shopTurretFire);
                 break;
