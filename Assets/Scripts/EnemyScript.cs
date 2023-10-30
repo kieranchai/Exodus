@@ -253,6 +253,8 @@ public class EnemyScript : MonoBehaviour
 
     public void Attack()
     {
+        if (GameController.instance.currentState == GameController.GAME_STATE.WIN) return;
+
         if (!PlayerInRange() || !PlayerInSight())
         {
             if (this.isTurret)

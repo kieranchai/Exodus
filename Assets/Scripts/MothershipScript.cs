@@ -65,6 +65,7 @@ public class MothershipScript : MonoBehaviour
     public AudioClip motherShipHit;
     public AudioClip motherShipDeath;
     public AudioClip turretsMoving;
+    public AudioClip motherShipDeathExplosions;
 
     void Awake()
     {
@@ -128,8 +129,40 @@ public class MothershipScript : MonoBehaviour
 
     public void Dead()
     {
-        //Killed Boss
-        victory = true;
+        if (!victory)
+        {
+            victory = true;
+            StopAllCoroutines();
+            StartCoroutine(DeathEvent());
+        }
+    }
+
+    public bool IsReversePitch()
+    {
+        return SFXSource.pitch < 0f;
+    }
+
+    public float GetClipRemainingTime()
+    {
+        float remainingTime = (SFXSource.clip.length - SFXSource.time) / SFXSource.pitch;
+        return IsReversePitch() ?
+            (SFXSource.clip.length + remainingTime) :
+            remainingTime;
+    }
+
+    private IEnumerator DeathEvent()
+    {
+        SFXSource.clip = motherShipDeath;
+        SFXSource.Play();
+        var waitForClipRemainingTime = new WaitForSeconds(GetClipRemainingTime());
+        yield return waitForClipRemainingTime;
+
+        SFXSource.clip = motherShipDeathExplosions;
+        SFXSource.Play();
+        waitForClipRemainingTime = new WaitForSeconds(GetClipRemainingTime());
+        yield return waitForClipRemainingTime;
+
+        //Load ending cutscene
     }
 
     public void TakeDamage(float damage, bool crit = false, bool explosion = false, bool lightning = false)
@@ -166,7 +199,6 @@ public class MothershipScript : MonoBehaviour
         }
         else
         {
-            SFXSource.PlayOneShot(motherShipDeath);
             currentState = BOSS_STATE.DEAD;
         }
     }
