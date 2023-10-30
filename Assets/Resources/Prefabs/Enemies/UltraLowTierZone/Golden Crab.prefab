@@ -5412,8 +5412,15 @@ MonoBehaviour:
   isMini: 0
   originalRotation: {x: 0, y: 0, z: 0}
   currentState: 0
-  enemyHit: {fileID: 0}
-  enemyDeath: {fileID: 0}
+  NormalenemyHit: []
+  NormalenemyDeath: []
+  CrabHit:
+  - {fileID: 8300000, guid: 87b54491c9d57dc4abb20641a2beacf0, type: 3}
+  CrabDeath:
+  - {fileID: 8300000, guid: 077d7dbf9050f474ea3f3a433cf380c0, type: 3}
+  - {fileID: 8300000, guid: d1b9497eef79d744e93f1739bf8aa214, type: 3}
+  - {fileID: 8300000, guid: cbc0ee6f37eb2fb4793243fa61cce95c, type: 3}
+  SplitPop: {fileID: 0}
 --- !u!212 &7865783603933936253
 SpriteRenderer:
   m_ObjectHideFlags: 0

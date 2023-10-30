@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
+using Unity.Profiling;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -74,9 +75,11 @@ public class EnemyScript : MonoBehaviour
 
     private AudioSource SFXSource;
     [Header("Enemy Audio Clips")]
-    public AudioClip enemyHit;
-    public AudioClip enemyDeath;
-
+    public AudioClip[] NormalenemyHit;
+    public AudioClip[] NormalenemyDeath;
+    public AudioClip[] CrabHit;
+    public AudioClip[] CrabDeath;
+    public AudioClip SplitPop;
     private bool isChasing = false;
 
     private void Start()
@@ -361,7 +364,15 @@ public class EnemyScript : MonoBehaviour
             dmgNumber.GetComponent<Popup>().SetDamageNumber(damage);
         }
         hitParticle.Play();
-        SFXSource.PlayOneShot(enemyHit);
+
+        if (this.enemyName == "Crab" || this.enemyName  =="Gold Crab") {
+            SFXSource.pitch = Random.Range(0.8f, 1.2f);
+            SFXSource.PlayOneShot(CrabHit[Random.Range(0,CrabHit.Length)]);
+        }else {
+            SFXSource.pitch = Random.Range(0.8f, 1.2f);
+            SFXSource.PlayOneShot(NormalenemyHit[Random.Range(0,NormalenemyHit.Length)]);
+        }
+
         if (this.currentHealth - damage > 0)
         {
             this.currentHealth -= damage;
@@ -425,6 +436,7 @@ public class EnemyScript : MonoBehaviour
             if (this.mothershipSpawner) blackMini.GetComponent<EnemyScript>().mothershipSpawner = this.mothershipSpawner;
             blackMini.GetComponent<EnemyScript>().hasSetSpawnZone = true;
             blackMini.GetComponent<EnemyScript>().spawnZone = this.spawnZone;
+            SFXSource.PlayOneShot(SplitPop);
         }
         else
         {
@@ -442,7 +454,11 @@ public class EnemyScript : MonoBehaviour
         // if (PlayerScript.instance.equippedWeapon.weaponType == "fire") {
         //     PlayerScript.instance.weaponSlot.GetComponent<WeaponScript>().colliders.Remove(GetComponent<Collider2D>());
         // }
-        SFXSource.PlayOneShot(enemyDeath);
+        if (this.enemyName == "Crab" || this.enemyName  =="Gold Crab") {
+            SFXSource.PlayOneShot(CrabDeath[Random.Range(0,CrabDeath.Length)]);
+        }else {
+            SFXSource.PlayOneShot(NormalenemyDeath[Random.Range(0,NormalenemyDeath.Length)]);
+        }
         PlayerScript.instance.kills++;
         this.currentState = ENEMY_STATE.DEAD;
         if (weaponSlot.magnetDamageActive) weaponSlot.MagnetDisable();
