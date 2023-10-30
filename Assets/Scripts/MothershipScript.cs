@@ -158,7 +158,10 @@ public class MothershipScript : MonoBehaviour
         if (this.currentHealth - damage > 0)
         {
             this.currentHealth -= damage;
+            float pitch = SFXSource.pitch;
+            SFXSource.pitch = Random.Range(0.8f, 1.2f);
             SFXSource.PlayOneShot(motherShipHit);
+            SFXSource.pitch = pitch;
             StartCoroutine(FlashHealthBar());
         }
         else

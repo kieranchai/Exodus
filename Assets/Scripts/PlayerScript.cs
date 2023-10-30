@@ -298,7 +298,11 @@ public class PlayerScript : MonoBehaviour
         }
 
         UpdateHealth(-damage);
+
+        float pitch = SFXSource.pitch;
+        SFXSource.pitch = Random.Range(0.8f, 1.2f);
         SFXSource.PlayOneShot(playerHit);
+        SFXSource.pitch = pitch;
 
         Transform dmgNumber = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
         dmgNumber.GetComponent<Popup>().SetPlayerDamage(damage, evaded, isBarrierEnabled);
