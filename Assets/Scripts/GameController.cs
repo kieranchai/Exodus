@@ -55,6 +55,9 @@ public class GameController : MonoBehaviour
     private float timer = 0;
     private int timePlayed = 0;
     public bool flameThrowerEquipped = false;
+    
+    private bool displayedBuffUIDeath = false;
+    
     void Awake()
     {
         if (instance != null && instance != this)
@@ -285,6 +288,20 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void UpdateBuffUIDeath()
+    {
+        foreach (Transform child in deathScreen.transform.Find("Upgrades"))
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (var buff in PlayerScript.instance.buffList)
+        {
+            GameObject buffUI = Instantiate(Resources.Load<GameObject>("Prefabs/Upgrade"), deathScreen.transform.Find("Upgrades"));
+            buffUI.GetComponent<UpgradeUI>().Initialise(buff.Key);
+        }
+    }
+
     private void Interact()
     {
         if (PlayerScript.instance.isInShop)
@@ -306,7 +323,10 @@ public class GameController : MonoBehaviour
         deathScreen.transform.Find("Playtime").GetComponent<TMP_Text>().text = string.Format("{0:0}:{1:00}", minutes, seconds); ;
         deathScreen.transform.Find("Level").GetComponent<TMP_Text>().text = PlayerScript.instance.level.ToString();
         deathScreen.transform.Find("Kills").GetComponent<TMP_Text>().text = PlayerScript.instance.kills.ToString();
-        UpdateBuffUI();
+        if(!displayedBuffUIDeath) {
+            displayedBuffUIDeath = true;
+            UpdateBuffUIDeath();
+        }
         deathScreen.SetActive(true);
     }
 
