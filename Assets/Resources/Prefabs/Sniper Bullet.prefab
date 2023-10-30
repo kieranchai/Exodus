@@ -213,6 +213,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemapImpact: {fileID: 8300000, guid: d216d55eb53f6594e960349948d9b7d4, type: 3}
   enemyImpact: {fileID: 8300000, guid: 77f0f6c660cf8b34d8addd993437a681, type: 3}
+  mothershipImpact: {fileID: 8300000, guid: 2540c7087f98f4d4bb6b3af4cf86cd53, type: 3}
+  forcefieldImpact: {fileID: 8300000, guid: 873095c46acbf334e85edd774fe1de53, type: 3}
 --- !u!70 &-7128063938578856003
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

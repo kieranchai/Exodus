@@ -5329,9 +5329,9 @@ MonoBehaviour:
   isInShop: 0
   initialMovementSpeed: 0
   flashMaterial: {fileID: 2100000, guid: 54eb3f04196ed4c4aae07011f48bd87d, type: 2}
-  hitParticle: {fileID: 0}
-  barrierParticle: {fileID: 0}
-  techParticle: {fileID: 0}
+  hitParticle: {fileID: 845981555321149688}
+  barrierParticle: {fileID: 7221592512305071560}
+  techParticle: {fileID: 7855321935483334960}
   currentState: 0
   weaponNumber: 0
   buffTokens: 0
@@ -5345,10 +5345,11 @@ MonoBehaviour:
   playerHit: {fileID: 0}
   playerDash: {fileID: 8300000, guid: dda392695dac3904ab2ca09114c25070, type: 3}
   playerDeath: {fileID: 0}
-  potionUse: {fileID: 0}
-  techUse: {fileID: 0}
-  barrierUse: {fileID: 0}
-  grenadeToss: {fileID: 0}
+  equipmentPickup: {fileID: 8300000, guid: 747f726e4f158d745b737b6a1566114d, type: 3}
+  potionUse: {fileID: 8300000, guid: 47b3201469e56d34e9b767f2f8d537fe, type: 3}
+  techUse: {fileID: 8300000, guid: 3b399a224d6d4724dba0d1f6041cb6c4, type: 3}
+  barrierUse: {fileID: 8300000, guid: a5e8937387a363c4799b0f69ad94998e, type: 3}
+  grenadeToss: {fileID: 8300000, guid: 0dc6b99f2316a0b408a0133f8d23c96e, type: 3}
 --- !u!95 &3076397973958977063
 Animator:
   serializedVersion: 5
