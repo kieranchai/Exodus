@@ -89,6 +89,7 @@ public class PlayerScript : MonoBehaviour
     public AudioClip playerHit;
     public AudioClip playerDash;
     public AudioClip playerDeath;
+    public AudioClip equipmentPickup;
 
     [Header("Equipment Audio Clips")]
     public AudioClip potionUse;
@@ -376,6 +377,7 @@ public class PlayerScript : MonoBehaviour
 
         //Replace with new equipment
         equippedEquipment = equipment;
+        SFXSource.PlayOneShot(equipmentPickup);
 
         HideEquipmentDetails();
 

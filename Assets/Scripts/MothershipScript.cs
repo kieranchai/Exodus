@@ -64,8 +64,7 @@ public class MothershipScript : MonoBehaviour
     [Header("Mothership Audio Clips")]
     public AudioClip motherShipHit;
     public AudioClip motherShipDeath;
-    public AudioClip motherShipHeal;
-    public AudioClip forceFieldHit;
+    public AudioClip turretsMoving;
 
     void Awake()
     {
@@ -135,11 +134,7 @@ public class MothershipScript : MonoBehaviour
 
     public void TakeDamage(float damage, bool crit = false, bool explosion = false, bool lightning = false)
     {
-        if (forceFieldUp)
-        {
-            SFXSource.PlayOneShot(forceFieldHit);
-            return;
-        };
+        if (forceFieldUp) return;
         if (this.currentHealth <= 0) return;
 
         Transform dmgNumber = Instantiate(popupPrefab, transform.position, Quaternion.identity);
@@ -160,10 +155,10 @@ public class MothershipScript : MonoBehaviour
             dmgNumber.GetComponent<Popup>().SetDamageNumber(damage);
         }
         hitParticle.Play();
-        SFXSource.PlayOneShot(motherShipHit);
         if (this.currentHealth - damage > 0)
         {
             this.currentHealth -= damage;
+            SFXSource.PlayOneShot(motherShipHit);
             StartCoroutine(FlashHealthBar());
         }
         else
@@ -243,6 +238,8 @@ public class MothershipScript : MonoBehaviour
         //Sweeping Attack LEFT->RIGHT RIGHT<-LEFT
         float sweepTime = 0;
         float sweepDuration = 3f;
+        SFXSource.clip = turretsMoving;
+        SFXSource.Play();
         while (sweepTime < sweepDuration)
         {
             sweepTime += Time.deltaTime;
@@ -252,12 +249,15 @@ public class MothershipScript : MonoBehaviour
             rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.3f);
             yield return null;
         }
+        SFXSource.Stop();
         newLeftTurretPos = initialRightTurretPos;
         newRightTurretPos = initialLeftTurretPos;
 
         //Sweeping Attack RIGHT->LEFT LEFT<-RIGHT
         sweepTime = 0;
         sweepDuration = 3f;
+        SFXSource.clip = turretsMoving;
+        SFXSource.Play();
         while (sweepTime < sweepDuration)
         {
             sweepTime += Time.deltaTime;
@@ -267,24 +267,30 @@ public class MothershipScript : MonoBehaviour
             rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.3f);
             yield return null;
         }
+        SFXSource.Stop();
         newLeftTurretPos = initialLeftTurretPos;
         newRightTurretPos = initialRightTurretPos;
 
         //Move Right Turret to be beside Left Turret + Offset
         float moveTime = 0;
         float moveDuration = 1f;
+        SFXSource.clip = turretsMoving;
+        SFXSource.Play();
         while (moveTime < moveDuration)
         {
             moveTime += Time.deltaTime;
             rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialLeftTurretPos + new Vector3(leftTurret.GetComponent<Collider2D>().bounds.size.x + turretOffset, 0), moveTime / moveDuration);
             yield return null;
         }
+        SFXSource.Stop();
         newRightTurretPos = initialLeftTurretPos + new Vector3((float)(leftTurret.GetComponent<Collider2D>().bounds.size.x + turretOffset), 0);
         newLeftTurretPos = initialLeftTurretPos;
 
         //Wave Burst Attack from Left to Right
         float waveTime = 0;
         float waveDuration = 5f;
+        SFXSource.clip = turretsMoving;
+        SFXSource.Play();
         while (waveTime < waveDuration)
         {
             isTargeted = true;
@@ -295,6 +301,7 @@ public class MothershipScript : MonoBehaviour
             rightTurret.GetComponent<MothershipTurretScript>().DoAttack("burst", 5, 10, 0.5f);
             yield return null;
         }
+        SFXSource.Stop();
         isTargeted = false;
         newLeftTurretPos = initialRightTurretPos - new Vector3(rightTurret.GetComponent<Collider2D>().bounds.size.x + turretOffset, 0);
         newRightTurretPos = initialRightTurretPos;
@@ -302,6 +309,8 @@ public class MothershipScript : MonoBehaviour
         //Wave Burst Attack from Right to Left
         waveTime = 0;
         waveDuration = 5f;
+        SFXSource.clip = turretsMoving;
+        SFXSource.Play();
         while (waveTime < waveDuration)
         {
             isTargeted = true;
@@ -312,6 +321,7 @@ public class MothershipScript : MonoBehaviour
             rightTurret.GetComponent<MothershipTurretScript>().DoAttack("burst", 5, 10, 0.3f);
             yield return null;
         }
+        SFXSource.Stop();
         isTargeted = false;
         newLeftTurretPos = initialLeftTurretPos;
         newRightTurretPos = initialLeftTurretPos + new Vector3(leftTurret.GetComponent<Collider2D>().bounds.size.x + turretOffset, 0);
@@ -319,6 +329,8 @@ public class MothershipScript : MonoBehaviour
         //Reset Turrets back to Initial Pos
         moveTime = 0;
         moveDuration = 1f;
+        SFXSource.clip = turretsMoving;
+        SFXSource.Play();
         while (moveTime < moveDuration)
         {
             moveTime += Time.deltaTime;
@@ -326,6 +338,7 @@ public class MothershipScript : MonoBehaviour
             rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialRightTurretPos, moveTime / moveDuration);
             yield return null;
         }
+        SFXSource.Stop();
         newLeftTurretPos = initialLeftTurretPos;
         newRightTurretPos = initialRightTurretPos;
 
@@ -341,6 +354,8 @@ public class MothershipScript : MonoBehaviour
         //Reset Turrets back to Initial Pos
         float moveTime = 0;
         float moveDuration = 1f;
+        SFXSource.clip = turretsMoving;
+        SFXSource.Play();
         while (moveTime < moveDuration)
         {
             moveTime += Time.deltaTime;
@@ -348,6 +363,7 @@ public class MothershipScript : MonoBehaviour
             rightTurret.transform.position = Vector3.Lerp(newRightTurretPos, initialRightTurretPos, moveTime / moveDuration);
             yield return null;
         }
+        SFXSource.Stop();
         newLeftTurretPos = initialLeftTurretPos;
         newRightTurretPos = initialRightTurretPos;
 
@@ -404,6 +420,8 @@ public class MothershipScript : MonoBehaviour
         //Sweeping Attack LEFT->RIGHT RIGHT<-LEFT
         float sweepTime = 0;
         float sweepDuration = 3f;
+        SFXSource.clip = turretsMoving;
+        SFXSource.Play();
         while (sweepTime < sweepDuration)
         {
             sweepTime += Time.deltaTime;
@@ -413,12 +431,15 @@ public class MothershipScript : MonoBehaviour
             rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.3f);
             yield return null;
         }
+        SFXSource.Stop();
         newLeftTurretPos = initialRightTurretPos;
         newRightTurretPos = initialLeftTurretPos;
 
         //Sweeping Attack RIGHT->LEFT LEFT<-RIGHT
         sweepTime = 0;
         sweepDuration = 3f;
+        SFXSource.clip = turretsMoving;
+        SFXSource.Play();
         while (sweepTime < sweepDuration)
         {
             sweepTime += Time.deltaTime;
@@ -428,6 +449,7 @@ public class MothershipScript : MonoBehaviour
             rightTurret.GetComponent<MothershipTurretScript>().DoAttack("normal", 5, 10, 0.3f);
             yield return null;
         }
+        SFXSource.Stop();
         newLeftTurretPos = initialLeftTurretPos;
         newRightTurretPos = initialRightTurretPos;
         while (mothershipSpawns.enemyCounter > 0)
@@ -470,9 +492,6 @@ public class MothershipScript : MonoBehaviour
         isTargeted = false;
         float healTime = 0;
         float healDuration = 5f;
-        SFXSource.clip = motherShipHeal;
-        SFXSource.loop = true;
-        SFXSource.Play();
         while (healTime < healDuration)
         {
             forceFieldUp = true;
@@ -484,9 +503,6 @@ public class MothershipScript : MonoBehaviour
             rightTurret.transform.position = Vector3.Lerp(rightTurret.transform.position, initialRightTurretPos, healTime / healDuration);
             yield return null;
         }
-        SFXSource.clip = null;
-        SFXSource.loop = false;
-        SFXSource.Stop();
         if (currentHealth >= maxHealth) currentHealth = maxHealth;
         newLeftTurretPos = initialLeftTurretPos;
         newRightTurretPos = initialRightTurretPos;

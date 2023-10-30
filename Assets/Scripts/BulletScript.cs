@@ -12,6 +12,8 @@ public class BulletScript : MonoBehaviour
     [Header("Bullet Audio Clips")]
     public AudioClip tilemapImpact;
     public AudioClip enemyImpact;
+    public AudioClip mothershipImpact;
+    public AudioClip forcefieldImpact;
 
     public void Initialise(float attackPower, float weaponRange, bool crit = false)
     {
@@ -60,14 +62,22 @@ public class BulletScript : MonoBehaviour
             if (!isPiercing) Destroy(gameObject);
         }
 
-        if (collision.gameObject.CompareTag("Tilemap Collider") || collision.gameObject.CompareTag("Forcefield"))
+        if (collision.gameObject.CompareTag("Tilemap Collider"))
         {
             AudioSource.PlayClipAtPoint(tilemapImpact, collision.transform.position);
             Destroy(gameObject);
         }
 
+        if (collision.gameObject.CompareTag("Forcefield"))
+        {
+            AudioSource.PlayClipAtPoint(forcefieldImpact, collision.transform.position);
+            Destroy(gameObject);
+        }
+
         if (collision.gameObject.CompareTag("Boss"))
         {
+            AudioSource.PlayClipAtPoint(mothershipImpact, collision.transform.position);
+
             collision.gameObject.GetComponent<MothershipScript>().TakeDamage(this.attackPower);
             //Bleed
             if (PlayerScript.instance.weaponSlot.gunBleedChance > 0 && Random.Range(0, 1f) < PlayerScript.instance.weaponSlot.gunBleedChance - 1)
