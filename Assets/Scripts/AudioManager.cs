@@ -22,6 +22,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip ambientMusic;
     public AudioClip mediumCombatMusic;
     public AudioClip endMediumCombat;
+    public AudioClip bossCombatMusic;
+    public AudioClip endBossCombat;
     public AudioClip menuOpen;
     public AudioClip menuClose;
     public AudioClip shopEntered;
@@ -109,7 +111,7 @@ public class AudioManager : MonoBehaviour
                     }
                 }
                 break;
-            case int n when (n >= 5):
+            case int n when (n >= 5 && n < 500):
                 threat = Threat.Active;
                 if (!isPlayingCombat)
                 {
@@ -117,6 +119,33 @@ public class AudioManager : MonoBehaviour
                     isPlayingSomething = true;
                     CrossFadeBGM(mediumCombatMusic);
                     isPlayingCombat = true;
+                }
+                break;
+            case int n when (n >= 800):
+                threat = Threat.Active;
+                if (!isPlayingCombat)
+                {
+                    timer = 0;
+                    isPlayingSomething = true;
+                    CrossFadeBGM(bossCombatMusic);
+                    isPlayingCombat = true;
+                }
+                break;
+            case int n when (n >= 500 && n < 900):
+                threat = Threat.None;
+                if (isPlayingCombat)
+                {
+                    timeTillNextBeat = musicSource.time % bps;
+                    if (timeTillNextBeat < 0.1f) timeTillNextBeat = 0;
+                    if (timeTillNextBeat == 0)
+                    {
+                        musicSource.Stop();
+                        musicSource.clip = null;
+                        musicSource.PlayOneShot(endBossCombat);
+                        isPlayingCombat = false;
+                        isPlayingSomething = false;
+                        timer = 20;
+                    }
                 }
                 break;
             default:
@@ -203,7 +232,7 @@ public class AudioManager : MonoBehaviour
         while (t < 0.98f)
         {
             t = Mathf.Lerp(t, 1f, Time.deltaTime * 0.5f);
-            if(fadeOutSource)
+            if (fadeOutSource)
             {
                 fadeOutSource.volume = Mathf.Lerp(v, 0f, t);
             }

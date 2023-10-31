@@ -115,6 +115,14 @@ public class CameraController : MonoBehaviour
         StartRealGame();
     }
 
+    public IEnumerator PanToBossDeath()
+    {
+        PlayerScript.instance.rb.bodyType = RigidbodyType2D.Static;
+        smoothTime = introSmoothTime;
+        target = zonesTarget[0];
+        yield return null;
+    }
+
     IEnumerator ZoomInCamera()
     {
         float elapsed = 0;

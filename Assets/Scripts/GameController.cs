@@ -108,8 +108,7 @@ public class GameController : MonoBehaviour
         PlayerScript.instance.coll.enabled = false;
         PlayerScript.instance.anim.SetBool("isWalking", false);
         PlayerScript.instance.currentState = PlayerScript.PLAYER_STATE.WIN;
-
-        Debug.Log("Win");
+        CameraController.instance.StartCoroutine(CameraController.instance.PanToBossDeath());
         hasLoadedEndCutscene = true;
         // Load Scene
     }
@@ -371,7 +370,7 @@ public class GameController : MonoBehaviour
     IEnumerator Typewriter(string text)
     {
         tutorialDialogue.GetComponent<TMP_Text>().text = "";
-        var waitTimer = new WaitForSeconds(.03f);
+        var waitTimer = new WaitForSeconds(.02f);
         foreach (char c in text)
         {
             tutorialDialogue.GetComponent<TMP_Text>().text += c;

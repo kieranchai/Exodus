@@ -365,12 +365,15 @@ public class EnemyScript : MonoBehaviour
         }
         hitParticle.Play();
 
-        if (this.enemyName == "Crab" || this.enemyName  =="Gold Crab") {
+        if (this.enemyName == "Crab" || this.enemyName == "Gold Crab")
+        {
             SFXSource.pitch = Random.Range(0.8f, 1.2f);
-            SFXSource.PlayOneShot(CrabHit[Random.Range(0,CrabHit.Length)]);
-        }else {
+            SFXSource.PlayOneShot(CrabHit[Random.Range(0, CrabHit.Length)]);
+        }
+        else
+        {
             SFXSource.pitch = Random.Range(0.8f, 1.2f);
-            SFXSource.PlayOneShot(NormalenemyHit[Random.Range(0,NormalenemyHit.Length)]);
+            SFXSource.PlayOneShot(NormalenemyHit[Random.Range(0, NormalenemyHit.Length)]);
         }
 
         if (this.currentHealth - damage > 0)
@@ -454,10 +457,13 @@ public class EnemyScript : MonoBehaviour
         // if (PlayerScript.instance.equippedWeapon.weaponType == "fire") {
         //     PlayerScript.instance.weaponSlot.GetComponent<WeaponScript>().colliders.Remove(GetComponent<Collider2D>());
         // }
-        if (this.enemyName == "Crab" || this.enemyName  =="Gold Crab") {
-            SFXSource.PlayOneShot(CrabDeath[Random.Range(0,CrabDeath.Length)]);
-        }else {
-            SFXSource.PlayOneShot(NormalenemyDeath[Random.Range(0,NormalenemyDeath.Length)]);
+        if (this.enemyName == "Crab" || this.enemyName == "Gold Crab")
+        {
+            SFXSource.PlayOneShot(CrabDeath[Random.Range(0, CrabDeath.Length)]);
+        }
+        else
+        {
+            SFXSource.PlayOneShot(NormalenemyDeath[Random.Range(0, NormalenemyDeath.Length)]);
         }
         PlayerScript.instance.kills++;
         this.currentState = ENEMY_STATE.DEAD;

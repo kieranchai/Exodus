@@ -133,6 +133,7 @@ public class MothershipScript : MonoBehaviour
         {
             victory = true;
             StopAllCoroutines();
+            AudioManager.instance.threatLevel -= 300;
             StartCoroutine(DeathEvent());
         }
     }
@@ -156,7 +157,6 @@ public class MothershipScript : MonoBehaviour
         SFXSource.Play();
         var waitForClipRemainingTime = new WaitForSeconds(GetClipRemainingTime());
         yield return waitForClipRemainingTime;
-
         SFXSource.clip = motherShipDeathExplosions;
         SFXSource.Play();
         waitForClipRemainingTime = new WaitForSeconds(GetClipRemainingTime());
