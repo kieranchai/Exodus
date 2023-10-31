@@ -48,7 +48,7 @@ public class MothershipFightController : MonoBehaviour
     IEnumerator StartFight()
     {
         forcefield.enabled = true;
-        forcefield.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        forcefield.gameObject.transform.Find("Particle System").gameObject.SetActive(true);
         yield return CameraController.instance.StartCoroutine(CameraController.instance.PanToBoss());
         PlayerScript.instance.rb.bodyType = RigidbodyType2D.Dynamic;
         motherShip.GetComponent<MothershipScript>().StopCoroutine(motherShip.GetComponent<MothershipScript>().PauseHeal());

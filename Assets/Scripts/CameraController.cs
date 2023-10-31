@@ -6,6 +6,7 @@ public class CameraController : MonoBehaviour
     public static CameraController instance { get; set; }
     public Transform playerTarget;
     public Transform[] zonesTarget;
+    public Transform tutorialPan;
 
     Vector3 velocity = Vector3.zero;
 
@@ -113,6 +114,21 @@ public class CameraController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         smoothTime = playerSmoothTime;
         StartRealGame();
+    }
+
+    public IEnumerator PanToCrabs()
+    {
+        PoisonGas.instance.StopAllCoroutines();
+        GameController.instance.currentState = GameController.GAME_STATE.PANNING;
+        PlayerScript.instance.rb.bodyType = RigidbodyType2D.Static;
+        smoothTime = introSmoothTime;
+        target = tutorialPan;
+        yield return new WaitForSeconds(2.5f);
+        target = playerTarget;
+        yield return new WaitForSeconds(0.5f);
+        smoothTime = playerSmoothTime;
+        PlayerScript.instance.rb.bodyType = RigidbodyType2D.Dynamic;
+        GameController.instance.currentState = GameController.GAME_STATE.PLAYING;
     }
 
     public IEnumerator PanToBossDeath()

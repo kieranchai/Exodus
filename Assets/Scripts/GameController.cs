@@ -412,11 +412,12 @@ public class GameController : MonoBehaviour
         yield return StartCoroutine(Typewriter("You can press SHIFT in conjunction with any directional key to dodge in that direction."));
         yield return StartCoroutine(Typewriter("If timed well, dodging allows you to avoid taking enemy damage."));
         yield return StartCoroutine(Typewriter("Proceed over to the bridge."));
-        tutorialBarrier1.enabled = false;
+        tutorialBarrier1.gameObject.SetActive(false);
         while (!tutorialFlag1)
         {
             yield return null;
         }
+        CameraController.instance.StartCoroutine(CameraController.instance.PanToCrabs());
         yield return StartCoroutine(Typewriter("The alien crabs on your left seem to be guarding a vending machine."));
         yield return StartCoroutine(Typewriter("You can attack them by pressing MOUSE1."));
         yield return StartCoroutine(Typewriter("Defeat the alien crabs in order to unlock access to the vending machine."));
@@ -453,7 +454,8 @@ public class GameController : MonoBehaviour
         yield return StartCoroutine(Typewriter("I estimate you only have about 10 minutes, so get going!"));
         GameObject announcement = Instantiate(Resources.Load<GameObject>("Prefabs/Announcement"), announcementContainer);
         announcement.GetComponent<AnnouncementScript>().SetText("GAME START!");
-        tutorialBarrier2.enabled = false;
+        AudioManager.instance.PlaySFX(AudioManager.instance.levelUp);
+        tutorialBarrier2.gameObject.SetActive(false);
         yield return new WaitForSeconds(1f);
         tutorialDialogue.SetActive(false);
         PoisonGas.instance.StartGas();
@@ -462,8 +464,8 @@ public class GameController : MonoBehaviour
     private void SkipTutorial()
     {
         StopCoroutine(Tutorial());
-        tutorialBarrier1.enabled = false;
-        tutorialBarrier2.enabled = false;
+        tutorialBarrier1.gameObject.SetActive(false);
+        tutorialBarrier2.gameObject.SetActive(false);
         tutorialDialogue.SetActive(false);
         PoisonGas.instance.StartGas();
     }
