@@ -33,7 +33,7 @@ public class ShopController : MonoBehaviour
 
     private void Start()
     {
-        Array.Sort(weaponsList, (a, b) => a.cost - b.cost);
+        if (weaponsList.Length > 0) Array.Sort(weaponsList, (a, b) => a.cost - b.cost);
     }
 
     private void Update()
