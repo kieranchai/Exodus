@@ -16,8 +16,8 @@ MonoBehaviour:
   equipmentName: Grenade
   description: Tosses a grenade that damages enemies.
   type: grenade
-  value: 30
+  value: 50
   secValue: null
-  cooldown: 45
+  cooldown: 30
   thumbnailPath: UISprites/Grenade
   currentCooldown: 0

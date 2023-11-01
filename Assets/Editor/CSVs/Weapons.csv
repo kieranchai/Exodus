@@ -10,14 +10,13 @@
 10,Alien Mouth,NULL,3,Sprites/Alien Mouth,NULL,melee,0.6,1,0,0,0,NO
 11,Banshee Turret,NULL,3.3,Sprites/Shop Keeper Turret,NULL,line,0.2,6.5,0,0,0,NO
 12,Shotgun,Standard issue pumpee. ,2,Sprites/Shotgun,UISprites/Shotgun,spread,1.5,4.5,8,2,300,YES
-13,Magnet,NULL,10,NULL,NULL,magnet,0,4,0,0,0,NO
+13,Magnet,NULL,8,NULL,NULL,magnet,0.2,2,0,0,0,NO
 14,Splitter Weapon,NULL,10,NULL,NULL,collision,0,0,0,0,0,NO
 15,Mini Splitter Weapon,NULL,5,NULL,NULL,collision,0,0,0,0,0,NO
-16,Machine Gun,High damage low accuracy,8,Sprites/Machine Gun,UISprites/Machine Gun,line,0.1,6.5,60,3,800,YES
-17,Flame Thrower,Flame on!,10,Sprites/Flame Thrower,UISprites/Flame Thrower,fire,0.2,0,40,3,2000,YES
-18,Silenced Pistol,Sneak up on your enemies,4,Sprites/Silenced Pistol,UISprites/Silenced Pistol,line,0.4,5,10,1,100,YES
-19,Crossbow,Good for deer but great for aliens,90,Sprites/Crossbow,UISprites/Crossbow,line,1,7,8,3,2000,YES
+16,Machine Gun,High damage low accuracy,6.6,Sprites/Machine Gun,UISprites/Machine Gun,line,0.1,6.5,60,3,800,YES
+17,Flame Thrower,Flame on!,6,Sprites/Flame Thrower,UISprites/Flame Thrower,fire,0.2,0,40,3,2000,YES
+18,Silenced Pistol,Sneak up on your enemies,4,Sprites/Silenced Pistol,UISprites/Silenced Pistol,line,0.4,5,10,1,50,YES
+19,Crossbow,Good for deer but great for aliens,40,Sprites/Crossbow,UISprites/Crossbow,line,1,7,8,3,2000,YES
 20,Golden Pincers,NULL,2,NULL,NULL,melee,0.6,1,0,0,0,NO
 21,Grunt Turret,NULL,3.3,Sprites/Shop Keeper Turret,NULL,line,0.4,6.5,0,0,0,NO
 22,Wraith Turret,NULL,3.3,Sprites/Shop Keeper Turret,NULL,line,0.3,6.5,0,0,0,NO
-

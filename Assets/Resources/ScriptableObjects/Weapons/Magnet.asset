@@ -15,12 +15,12 @@ MonoBehaviour:
   id: 13
   weaponName: Magnet
   description: NULL
-  attackPower: 10
+  attackPower: 8
   spritePath: NULL
   thumbnailPath: NULL
   weaponType: magnet
-  cooldown: 0
-  weaponRange: 4
+  cooldown: 0.2
+  weaponRange: 2
   clipSize: 0
   reloadSpeed: 0
   cost: 0

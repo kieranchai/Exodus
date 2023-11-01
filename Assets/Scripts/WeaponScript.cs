@@ -482,7 +482,7 @@ public class WeaponScript : MonoBehaviour
             SFXSource.Play();
         }
 
-        if ((Time.time - savedTimer) > this.cooldown)
+        if ((Time.time - savedTimer) > this.cooldown * this.gunFireRateMultiplier * PlayerScript.instance.fireRateBuff)
         {
             savedTimer = Time.time;
             foreach (Collider2D collision in colliders)

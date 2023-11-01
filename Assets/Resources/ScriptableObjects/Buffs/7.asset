@@ -17,7 +17,7 @@ MonoBehaviour:
   description: +[value] chance to crit for [secValue] damage.
   category: gun
   type: crit
-  value: 25%
+  value: 20%
   secValue: 130%
   rollChance: 0.4
   thumbnailPath: UISprites/Critical Strike

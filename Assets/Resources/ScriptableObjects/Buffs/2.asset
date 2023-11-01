@@ -17,7 +17,7 @@ MonoBehaviour:
   description: +[value] movement speed.
   category: player
   type: movementSpeed
-  value: 20%
+  value: 10%
   secValue: null
   rollChance: 0.5
   thumbnailPath: UISprites/Empowering Haste

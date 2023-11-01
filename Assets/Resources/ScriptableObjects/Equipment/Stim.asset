@@ -18,6 +18,6 @@ MonoBehaviour:
   type: speed
   value: 30%
   secValue: 5
-  cooldown: 45
+  cooldown: 30
   thumbnailPath: UISprites/Stim
   currentCooldown: 0

@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 16
   weaponName: Machine Gun
   description: High damage low accuracy
-  attackPower: 8
+  attackPower: 6.6
   spritePath: Sprites/Machine Gun
   thumbnailPath: UISprites/Machine Gun
   weaponType: line

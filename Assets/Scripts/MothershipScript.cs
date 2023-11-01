@@ -383,7 +383,10 @@ public class MothershipScript : MonoBehaviour
     IEnumerator Stage2Cycle()
     {
         //Spawn enemies
-        mothershipSpawns.SpawnMagnetHereticCombo(2);
+        mothershipSpawns.SpawnHeretic();
+        mothershipSpawns.SpawnHeretic();
+        mothershipSpawns.SpawnHeretic();
+        mothershipSpawns.SpawnMagnet();
         yield return new WaitForSeconds(3f);
 
         //Reset Turrets back to Initial Pos

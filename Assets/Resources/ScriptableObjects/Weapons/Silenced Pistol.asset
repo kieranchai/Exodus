@@ -23,6 +23,6 @@ MonoBehaviour:
   weaponRange: 5
   clipSize: 10
   reloadSpeed: 1
-  cost: 100
+  cost: 50
   currentAmmoCount: 10
   inShop: YES

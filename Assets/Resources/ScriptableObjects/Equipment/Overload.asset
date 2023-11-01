@@ -18,6 +18,6 @@ MonoBehaviour:
   type: fireRate
   value: 50%
   secValue: 5
-  cooldown: 60
+  cooldown: 30
   thumbnailPath: UISprites/Overload
   currentCooldown: 0

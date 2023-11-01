@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 13
   enemyName: Black Mini Splitter
   health: 10
-  movementSpeed: 6
+  movementSpeed: 5
   equippedWeapon: Mini Splitter Weapon
   hpDrop: 10
   xpDrop: 20

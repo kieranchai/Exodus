@@ -23,7 +23,6 @@ public class EnemyWeaponScript : MonoBehaviour
     private PointEffector2D PointEffector;
     public bool magnetDamageActive;
     private float savedTimer = 0;
-    private float magnetdamageInterval = 1f;
     private float collisiondamageInterval = 0.5f;    
     public ParticleSystem MagnetParticle;
 
@@ -228,7 +227,7 @@ public class EnemyWeaponScript : MonoBehaviour
             if (!magnetDamageActive) return;
             if (collision.gameObject.CompareTag("Player"))
             {
-                if ((Time.time - savedTimer) > magnetdamageInterval)
+                if ((Time.time - savedTimer) > this.cooldown)
                 {
                     savedTimer = Time.time;
                     collision.GetComponent<PlayerScript>().TakeDamage(this.attackPower, false);

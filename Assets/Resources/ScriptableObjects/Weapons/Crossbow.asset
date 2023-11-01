@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 19
   weaponName: Crossbow
   description: Good for deer but great for aliens
-  attackPower: 90
+  attackPower: 40
   spritePath: Sprites/Crossbow
   thumbnailPath: UISprites/Crossbow
   weaponType: line

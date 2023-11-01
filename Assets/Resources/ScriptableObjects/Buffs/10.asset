@@ -17,7 +17,7 @@ MonoBehaviour:
   description: +[value] weapon fire rate.
   category: gun
   type: fireRate
-  value: 20%
+  value: 15%
   secValue: null
   rollChance: 0.5
   thumbnailPath: UISprites/Fervor

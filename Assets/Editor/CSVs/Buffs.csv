@@ -1,13 +1,13 @@
 1,Hypertrophy,+[value] maximum health.,player,maxHealth,20%,null,0.5,UISprites/Hypertrophy
-2,Empowering Haste,+[value] movement speed.,player,movementSpeed,20%,null,0.5,UISprites/Empowering Haste
+2,Empowering Haste,+[value] movement speed.,player,movementSpeed,10%,null,0.5,UISprites/Empowering Haste
 3,Untouchable,+[value] chance to evade attacks.,player,evasion,5%,null,0.3,UISprites/Untouchable
 4,Inner Vitality,+[value] health per second.,player,regeneration,1,null,0.3,UISprites/Inner Vitality
 5,Blur,-[value] dodge cooldown.,player,dodgeCd,10%,null,0.3,UISprites/Blur
-6,Hemorrhage,+[value] chance to bleed enemies.,gun,bleed,10%,10,0.4,UISprites/Hemorrhage
-7,Critical Strike,+[value] chance to crit for [secValue] damage.,gun,crit,25%,130%,0.4,UISprites/Critical Strike
+6,Hemorrhage,+[value] chance to bleed enemies.,gun,bleed,10%,5,0.4,UISprites/Hemorrhage
+7,Critical Strike,+[value] chance to crit for [secValue] damage.,gun,crit,20%,130%,0.4,UISprites/Critical Strike
 8,Maelstrom,+[value] chance to create a lightning bolt that bounces to nearby enemies.,gun,lightning,10%,5,0.2,UISprites/Maelstrom
 9,Sleight of Hand,+[value] chance to instantly reload.,gun,reload,5%,null,0.3,UISprites/Sleight of Hand
-10,Fervor,+[value] weapon fire rate.,gun,fireRate,20%,null,0.5,UISprites/Fervor
+10,Fervor,+[value] weapon fire rate.,gun,fireRate,15%,null,0.5,UISprites/Fervor
 11,Take Aim,+[value] weapon range.,gun,range,10%,null,0.5,UISprites/Take Aim
 12,Hollow Point,+[value] chance to pierce enemies.,gun,pierce,30%,null,0.4,UISprites/Hollow Point
 13,Feast,+[value] lifesteal.,gun,lifesteal,5%,null,0.3,UISprites/Feast

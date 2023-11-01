@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 17
   weaponName: Flame Thrower
   description: Flame on!
-  attackPower: 10
+  attackPower: 6
   spritePath: Sprites/Flame Thrower
   thumbnailPath: UISprites/Flame Thrower
   weaponType: fire

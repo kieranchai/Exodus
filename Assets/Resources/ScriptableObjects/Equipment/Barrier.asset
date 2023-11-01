@@ -18,6 +18,6 @@ MonoBehaviour:
   type: barrier
   value: 5
   secValue: null
-  cooldown: 60
+  cooldown: 30
   thumbnailPath: UISprites/Barrier
   currentCooldown: 0

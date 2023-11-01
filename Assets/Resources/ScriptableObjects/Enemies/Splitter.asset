@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 11
   enemyName: Splitter
   health: 20
-  movementSpeed: 5
+  movementSpeed: 4
   equippedWeapon: Splitter Weapon
   hpDrop: 0
   xpDrop: 0

@@ -18,6 +18,6 @@ MonoBehaviour:
   category: gun
   type: bleed
   value: 10%
-  secValue: 10
+  secValue: 5
   rollChance: 0.4
   thumbnailPath: UISprites/Hemorrhage
