@@ -86,9 +86,8 @@ public class PlayerScript : MonoBehaviour
 
     public AudioSource SFXSource;
     [Header("Player Audio Clips")]
-    public AudioClip playerHit;
+    public AudioClip[] playerHit;
     public AudioClip playerDash;
-    public AudioClip playerDeath;
     public AudioClip equipmentPickup;
 
     [Header("Equipment Audio Clips")]
@@ -300,8 +299,11 @@ public class PlayerScript : MonoBehaviour
         UpdateHealth(-damage);
 
         float pitch = SFXSource.pitch;
+        SFXSource.Stop();
+        pitch = Random.Range(0.8f, 1.2f);
         SFXSource.pitch = Random.Range(0.8f, 1.2f);
-        SFXSource.PlayOneShot(playerHit);
+        SFXSource.clip = (playerHit[Random.Range(0, playerHit.Length)]);
+        SFXSource.Play();
         SFXSource.pitch = pitch;
 
         Transform dmgNumber = Instantiate(popUpPrefab, transform.position, Quaternion.identity);
@@ -320,7 +322,6 @@ public class PlayerScript : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            SFXSource.PlayOneShot(playerDeath);
             this.currentState = PLAYER_STATE.DEAD;
             GameController.instance.currentState = GameController.GAME_STATE.DEAD;
         }
