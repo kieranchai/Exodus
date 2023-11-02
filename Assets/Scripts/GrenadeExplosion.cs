@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GrenadeExplosion : MonoBehaviour
 {
-    private float splashRange = 6f;
+    private float splashRange = 8f;
     public float explosionRate;
     private float attackPower;
 
@@ -39,7 +39,7 @@ public class GrenadeExplosion : MonoBehaviour
             collision.gameObject.GetComponent<EnemyScript>().TakeDamage(attackPower, false, true);
         }
 
-        if (collision.gameObject.CompareTag("Boss"))
+        if (collision.gameObject.CompareTag("Boss") && MothershipScript.instance.currentState != MothershipScript.BOSS_STATE.DEAD)
         {
             collision.gameObject.GetComponent<MothershipScript>().TakeDamage(attackPower);
         }

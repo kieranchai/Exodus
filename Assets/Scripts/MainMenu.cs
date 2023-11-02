@@ -28,8 +28,8 @@ public class MainMenu : MonoBehaviour
     {
         animator.SetTrigger("Start");
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("Game");
-        AudioManager.instance.PlayBGM(AudioManager.instance.ambientMusic);
+        SceneManager.LoadScene("StartCutscene");
+        AudioManager.instance.musicSource.Pause();
     }
 
     public void ShowControls()

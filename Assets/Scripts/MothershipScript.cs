@@ -19,6 +19,15 @@ public class MothershipScript : MonoBehaviour
     [SerializeField]
     private GameObject forceField;
 
+    [SerializeField]
+    private Transform explode;
+
+    [SerializeField]
+    private Transform explode2;
+
+    [SerializeField]
+    private Transform explode3;
+
     private Vector3 initialLeftTurretPos;
     private Vector3 initialRightTurretPos;
 
@@ -65,7 +74,6 @@ public class MothershipScript : MonoBehaviour
     public AudioClip motherShipHit;
     public AudioClip motherShipDeath;
     public AudioClip turretsMoving;
-    public AudioClip motherShipDeathExplosions;
 
     void Awake()
     {
@@ -79,7 +87,7 @@ public class MothershipScript : MonoBehaviour
 
     private void Start()
     {
-        maxHealth = 1000f;
+        maxHealth = 30f;
         currentHealth = maxHealth;
         SFXSource = GetComponent<AudioSource>();
         popupPrefab = Resources.Load<RectTransform>("Prefabs/Popup");
@@ -157,12 +165,16 @@ public class MothershipScript : MonoBehaviour
         SFXSource.Play();
         var waitForClipRemainingTime = new WaitForSeconds(GetClipRemainingTime());
         yield return waitForClipRemainingTime;
-        SFXSource.clip = motherShipDeathExplosions;
-        SFXSource.Play();
-        waitForClipRemainingTime = new WaitForSeconds(GetClipRemainingTime());
-        yield return waitForClipRemainingTime;
-
-        //Load ending cutscene
+        GameObject explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Grenade Explosion"), explode.position, Quaternion.identity);
+        explosion.GetComponent<GrenadeExplosion>().Initialise(0);
+        yield return new WaitForSeconds(2f);
+        GameObject explosion2 = Instantiate(Resources.Load<GameObject>("Prefabs/Grenade Explosion"), explode2.position, Quaternion.identity);
+        explosion2.GetComponent<GrenadeExplosion>().Initialise(0);
+        yield return new WaitForSeconds(2f); 
+        GameObject explosion3 = Instantiate(Resources.Load<GameObject>("Prefabs/Grenade Explosion"), explode3.position, Quaternion.identity);
+        explosion3.GetComponent<GrenadeExplosion>().Initialise(0);
+        yield return new WaitForSeconds(2f);
+        GameController.instance.LoadEndCutscene();
     }
 
     public void TakeDamage(float damage, bool crit = false, bool explosion = false, bool lightning = false)

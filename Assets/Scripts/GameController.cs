@@ -55,9 +55,9 @@ public class GameController : MonoBehaviour
     private float timer = 0;
     private int timePlayed = 0;
     public bool flameThrowerEquipped = false;
-    
+
     private bool displayedBuffUIDeath = false;
-    
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -136,14 +136,16 @@ public class GameController : MonoBehaviour
         AudioManager.instance.PlaySFX(AudioManager.instance.menuOpen);
         isBuffOpen = !isBuffOpen;
         buffSelectionPanel.SetActive(isBuffOpen);
-        if (isBuffOpen == true) {
+        if (isBuffOpen == true)
+        {
             BuffController.instance.UpdatePlayerTokensDisplay();
             PlayerScript.instance.playerPanel.transform.Find("Equipped Weapon").gameObject.SetActive(false);
             PlayerScript.instance.playerPanel.transform.Find("Equipment").Find("Details").gameObject.SetActive(false);
             PlayerScript.instance.playerPanel.transform.Find("Equipped Weapon").Find("Details").gameObject.SetActive(false);
             PlayerScript.instance.playerPanel.transform.Find("Equipment").gameObject.SetActive(false);
         }
-        if (isBuffOpen == false) {
+        if (isBuffOpen == false)
+        {
             PlayerScript.instance.playerPanel.transform.Find("Equipped Weapon").gameObject.SetActive(true);
             PlayerScript.instance.playerPanel.transform.Find("Equipment").gameObject.SetActive(true);
             BuffController.instance.HideBuffDetails();
@@ -322,7 +324,8 @@ public class GameController : MonoBehaviour
         deathScreen.transform.Find("Playtime").GetComponent<TMP_Text>().text = string.Format("{0:0}:{1:00}", minutes, seconds); ;
         deathScreen.transform.Find("Level").GetComponent<TMP_Text>().text = PlayerScript.instance.level.ToString();
         deathScreen.transform.Find("Kills").GetComponent<TMP_Text>().text = PlayerScript.instance.kills.ToString();
-        if(!displayedBuffUIDeath) {
+        if (!displayedBuffUIDeath)
+        {
             displayedBuffUIDeath = true;
             UpdateBuffUIDeath();
         }
@@ -341,6 +344,20 @@ public class GameController : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
         AudioManager.instance.SetInitialMixerVol();
         SceneManager.LoadScene("MainMenu");
+    }
+
+    IEnumerator LoadEndTransition()
+    {
+        animator.SetTrigger("Start");
+        yield return new WaitForSeconds(1f);
+        AudioManager.instance.SetInitialMixerVol();
+        AudioManager.instance.musicSource.Pause();
+        SceneManager.LoadScene("EndCutscene");
+    }
+
+    public void LoadEndCutscene()
+    {
+        StartCoroutine(LoadEndTransition());
     }
 
     public void Retry()
@@ -411,7 +428,7 @@ public class GameController : MonoBehaviour
         tutorialDialogue.SetActive(true);
         yield return StartCoroutine(Typewriter("You can press SHIFT in conjunction with any directional key to dodge in that direction."));
         yield return StartCoroutine(Typewriter("If timed well, dodging allows you to avoid taking enemy damage."));
-        yield return StartCoroutine(Typewriter("Proceed over to the bridge."));
+        yield return StartCoroutine(Typewriter("You can proceed to cross the bridge."));
         tutorialBarrier1.gameObject.SetActive(false);
         while (!tutorialFlag1)
         {
@@ -451,7 +468,7 @@ public class GameController : MonoBehaviour
         yield return StartCoroutine(Typewriter("However, there are some things you have to know before you can proceed. Pay attention!"));
         yield return StartCoroutine(Typewriter("The alien mothership has been spreading a poisonous gas throughout the planet."));
         yield return StartCoroutine(Typewriter("Once this gas covers the entire planet, it's game over."));
-        yield return StartCoroutine(Typewriter("I estimate you only have about 10 minutes, so get going!"));
+        yield return StartCoroutine(Typewriter("I estimate you only have about 8 minutes, so get going!"));
         GameObject announcement = Instantiate(Resources.Load<GameObject>("Prefabs/Announcement"), announcementContainer);
         announcement.GetComponent<AnnouncementScript>().SetText("GAME START!");
         AudioManager.instance.PlaySFX(AudioManager.instance.levelUp);
