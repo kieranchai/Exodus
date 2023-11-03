@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 13
   weaponName: Magnet
   description: NULL
-  attackPower: 8
+  attackPower: 2
   spritePath: NULL
   thumbnailPath: NULL
   weaponType: magnet
