@@ -20,6 +20,10 @@ public class CutsceneController : MonoBehaviour
         video.loopPointReached += CheckOver;
     }
 
+    void Update()
+    {
+        AudioManager.instance.musicSource.Pause();
+    }
     void CheckOver(UnityEngine.Video.VideoPlayer vp)
     {
         if (startCutscene)

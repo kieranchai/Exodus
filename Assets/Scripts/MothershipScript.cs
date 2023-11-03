@@ -87,7 +87,7 @@ public class MothershipScript : MonoBehaviour
 
     private void Start()
     {
-        maxHealth = 30f;
+        maxHealth = 1000f;
         currentHealth = maxHealth;
         SFXSource = GetComponent<AudioSource>();
         popupPrefab = Resources.Load<RectTransform>("Prefabs/Popup");
