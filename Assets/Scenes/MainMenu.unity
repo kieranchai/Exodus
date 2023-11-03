@@ -1335,10 +1335,10 @@ MonoBehaviour:
   forestZoneMusic: {fileID: 8300000, guid: f555bf61ef4cda54d935efa6c4d67a23, type: 3}
   cityZoneMusic: {fileID: 8300000, guid: 6579e4e2981d77a4f8e965056d19a1cf, type: 3}
   ambientMusic: {fileID: 8300000, guid: 34d214f8ddc84ff499d66f027d313506, type: 3}
-  mediumCombatMusic: {fileID: 8300000, guid: 0e46a09f06755694da6840695eb82964, type: 3}
-  endMediumCombat: {fileID: 8300000, guid: 1754b35fd9e015e459097819e55807dc, type: 3}
-  bossCombatMusic: {fileID: 0}
-  endBossCombat: {fileID: 0}
+  mediumCombatMusic: {fileID: 8300000, guid: 6818f48a44429b04395fd6c6cae83467, type: 3}
+  endMediumCombat: {fileID: 8300000, guid: 77bba592aefd5c042bd0d8333f8e404c, type: 3}
+  bossCombatMusic: {fileID: 8300000, guid: 0e46a09f06755694da6840695eb82964, type: 3}
+  endBossCombat: {fileID: 8300000, guid: 1754b35fd9e015e459097819e55807dc, type: 3}
   menuOpen: {fileID: 8300000, guid: a9818472d514fb848b103da1d0d956c2, type: 3}
   menuClose: {fileID: 8300000, guid: 0a39eade20fa90b41b31f4eec6fbe323, type: 3}
   shopEntered: {fileID: 8300000, guid: dc799b7845e7e8440b5664a1f6709c37, type: 3}
@@ -1347,7 +1347,7 @@ MonoBehaviour:
   buttonPressed: {fileID: 8300000, guid: 049291f0e37419e48927bcbecda10e76, type: 3}
   buffReroll: {fileID: 8300000, guid: 7274ecfed8c446c40a3055ed6f7e916c, type: 3}
   actionFailed: {fileID: 8300000, guid: 56007c263eef402488e97aedeb417a8f, type: 3}
-  levelUp: {fileID: 0}
+  levelUp: {fileID: 8300000, guid: 9488f896e6829504b80f8b075b35b31f, type: 3}
   zoneUnlocked: {fileID: 8300000, guid: b52da60efe037d94b80fefe6a74897aa, type: 3}
   threatLevel: 0
   isPlayingCombat: 0
